@@ -1,0 +1,227 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.anno, .ocr {
+    position: absolute;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    border: 1px solid;
+    position: absolute;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.ocr {
+    border-color: rgba(0, 153, 0, 1.0);
+    box-shadow: 0 0 3px 2px rgba(0, 153, 0, 0.4);
+}
+    .anno.Redaction {
+        background-color: #666666;
+        border-color: #666666;
+    }
+
+    .anno.Highlight {
+        opacity: 0.4;
+        background-color: #CF0;
+        border-color: rgba(204,255,0, 0.4);
+    }
+
+    .anno.Text {
+        background-color: rgba(0, 0, 0, 0);
+        border-color: rgba(0,0,0, 0);
+        overflow: hidden;
+    }
+
+        .anno.Text > .anno-text-inner {
+            -ms-word-break: break-all;
+            word-break: break-all;
+        }
+
+/* Pan */
+html.pan-down * {
+    cursor: pointer !important;
+    cursor: url(../../Images/Cursor/closedhand.cur), move !important;
+    cursor: -moz-grabbing !important;
+    cursor: -webkit-grabbing !important;
+}
+
+#panel-viewer.pan-hover {
+    cursor: pointer !important;
+    cursor: url(../../Images/Cursor/openhand.cur), move !important;
+    cursor: -moz-grab !important;
+    cursor: -webkit-grab !important;
+}
+
+    #panel-viewer.pan-hover * {
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+/* Select */
+html.select * {
+    cursor: move !important;
+}
+
+.select.can-del-highlight .anno.Highlight:hover,
+.select.can-del-text .anno.Text:hover,
+.select .anno.Redaction:hover,
+.select .anno.new:hover,
+.select .anno.active {
+    cursor: move !important;
+    border-color: rgba(66, 133, 244, 1.0);
+    box-shadow: 0 0 3px 2px rgba(52, 152, 219, 0.4);
+}
+
+.select .anno.Redaction.ui-state-disabled,
+.select .anno.Text.ui-state-disabled {
+    opacity: 1 !important;
+}
+
+.select .Highlight.ui-state-disabled {
+    opacity: 0.4 !important;
+}
+
+.select.off-hover .anno:not(.active):hover {
+    box-shadow: none;
+}
+
+.select.off-hover .anno.Redaction:not(.active):hover {
+    border-color: #666666;
+}
+
+.select.off-hover .anno.Highlight:not(.active):hover {
+    border-color: rgba(204,255,0, 0.4);
+}
+
+.select.off-hover .anno.Text:not(.active):hover {
+    border-color: rgba(0,0,0, 0);
+}
+
+/* Text anno editor */
+.anno.edit {
+    border-color: rgba(66, 133, 244, 1.0);
+    box-shadow: 0 0 3px 2px rgba(52, 152, 219, 0.4);
+}
+
+.anno-text.jqte {
+    border: none;
+    -moz-transition: none;
+    -o-transition: none;
+    -webkit-transition: none;
+    transition: none;
+}
+
+.jqte_editor.anno-text {
+    resize: none !important;
+}
+
+.ui-resizable-n {
+    cursor: n-resize;
+    height: 7px;
+    width: 100%;
+    top: -5px;
+    left: 0;
+}
+
+.ui-resizable-s {
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+}
+
+.ui-resizable-e {
+    cursor: e-resize;
+    width: 7px;
+    right: -5px;
+    top: 0;
+    height: 100%;
+}
+
+.ui-resizable-w {
+    cursor: w-resize;
+    width: 7px;
+    left: -5px;
+    top: 0;
+    height: 100%;
+}
+
+.ui-resizable-se {
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    bottom: 1px;
+}
+
+.ui-resizable-sw {
+    cursor: sw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    bottom: -5px;
+}
+
+.ui-resizable-nw {
+    cursor: nw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    top: -5px;
+}
+
+.ui-resizable-ne {
+    cursor: ne-resize;
+    width: 9px;
+    height: 9px;
+    right: -5px;
+    top: -5px;
+}
+
+.ui-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    display: block;
+}
+
+/* Draw */
+html.draw * {
+    cursor: crosshair !important;
+}
+
+html.draw .anno:not(.active):not(.draw):not(.edit):hover {
+    border-color: rgba(0, 0, 0, 0) !important;
+    box-shadow: none !important;
+}
+
+.draw > .wrapper-image {
+    cursor: crosshair;
+}
+
+.draw .anno:not(.active):not(.draw):not(.edit):hover {
+    cursor: not-allowed;
+    border-color: rgba(192, 57, 43, 0.7);
+    box-shadow: 0 0 3px 2px rgba(192, 57, 43, 0.4);
+}
+
+.anno.draw {
+    border: 1px dashed blue;
+}
+
+.draw .anno.active,
+.draw .anno.edit {
+    cursor: move;
+    border-color: rgba(66, 133, 244, 1.0);
+    box-shadow: 0 0 3px 2px rgba(52, 152, 219, 0.4);
+}
+
+.draw .anno .jqte_editor {
+    cursor: text;
+}
+
+.draw .anno .jqte_toolbar {
+    cursor: default;
+}

@@ -1,0 +1,11 @@
+﻿<Window x:Class="Ecm.ImportData.ShowDetailDocType"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShowDetailDocType" Height="259.75" Width="343" WindowStartupLocation="CenterOwner" >
+    <Grid>
+        <DataGrid Name="Table" CanUserAddRows="True" Margin="10,50,10,10"/>
+        <Button Content="Erport Index file" Margin="0,10,10,0" VerticalAlignment="Top" Click="Button_Click" Height="35" HorizontalAlignment="Right" Width="115"/>
+        <CheckBox Content="Create New Document" Name="AddNewDoc" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.606,0.4" Checked="AddNewDoc_Checked"/>
+        <CheckBox Content="Delete old value in file [index]" Name="DeleteOldDataInIndexFile" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.606,0.4"/>
+    </Grid>
+</Window>

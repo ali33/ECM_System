@@ -1,0 +1,45 @@
+﻿#template-thumb-batch,
+#template-thumb-doc,
+#template-thumb-page,
+#template-view-page,
+#template-batch-index,
+#template-doc-index,
+#template-field-bool,
+#template-field-table,
+#template-field-picklist,
+#template-field-other {
+    display: none !important;
+}
+
+/*Create batch dialog */
+#create-batch-dialog .lbl-title {
+    font-size: large;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#txt-batch-name-new, #cbo-batch-type-id {
+    width: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+#chk-auto-create, #chk-reopen {
+    margin-left: 0;
+}
+
+#cbo-batch-type-id > option.hide {
+    display: none;
+}
+
+.menu_control {
+    padding-left: 10px;
+}
+
+    .menu_control > .menu_control_item {
+        list-style-type: none;
+        height: 32px;
+        width: 32px;
+    }

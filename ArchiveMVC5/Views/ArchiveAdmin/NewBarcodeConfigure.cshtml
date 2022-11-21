@@ -1,0 +1,60 @@
+﻿@model ArchiveMVC5.Models.DocumentTypeModel
+@{
+    ViewBag.Title = "NewBarcodeConfigure";
+}
+<div class="sub_properties_content col-md-12 col-sm-12 padding-3">
+    <div class="box box-success padding-1">
+        <div class="box-header with-border">
+            <h3>Barcode properties for @Model.Name</h3>
+        </div>
+        <div class="box-body padding-1">
+            <table id="barcode_table" class="table table-hover" data-barcode_document_id="@Model.Id">
+                <thead>
+                    <tr>
+                        <th>Barcode type</th>
+                        <th>Position</th>
+                        <th>Separate document</th>
+                        <th>Remove separator</th>
+                        <th>Copy value to field</th>
+                        <th>Do lookup</th>
+                    </tr>
+                </thead>
+                <tbody id="barcode_table_body">
+
+                </tbody>
+            </table>
+            <div class="btn-group pull-right">
+                <button type="button" id="button_add_barcode" class="btn bg-olive btn-flat btn-sm margin">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add</span>
+                </button>
+                <button type="button" id="button_delete_barcode" class="btn bg-olive btn-flat btn-sm margin">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete </span>
+                </button>
+                <button type="button" id="button_edit_barcode" class="btn bg-olive btn-flat btn-sm margin">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    <span>Edit </span>
+                </button>
+            </div>
+
+        </div>
+        <div class="box-footer padding-1">
+            <div class="btn-group pull-right">
+                <button type="button" id="button_save_barcode" class="btn bg-olive btn-flat margin">
+                    <i class="glyphicon glyphicon-save"></i>
+                    <span>Save </span>
+                </button>
+                <button type="button" id="button_cancel_barcode" class="btn bg-olive btn-flat margin">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    <span>Cancel </span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var lstFields =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Fields, Newtonsoft.Json.Formatting.Indented));
+</script>

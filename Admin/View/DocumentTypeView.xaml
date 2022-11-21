@@ -1,0 +1,313 @@
+﻿<UserControl x:Class="Ecm.Admin.View.DocumentTypeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:CustomControl="clr-namespace:Ecm.CustomControl;assembly=CustomControl" 
+             xmlns:cc="clr-namespace:Ecm.CustomControl;assembly=CustomControl"
+             Language="{UICulture}">
+    <UserControl.Resources>
+        <Style x:Key="ItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
+        </Style>
+        <DataTemplate x:Key="LookupCellTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource GridCellLinkButton}" Content="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnConfig.Text}" x:Name="btnConfigureLookup" Click="BtnConfigureLookupClick" Visibility="{Binding Path=., Converter={StaticResource HasLookupConverter}}"/>
+                <Button Style="{StaticResource GridCellLinkButton}" Content="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnDeleteConfig.Text}" x:Name="btnDeleteLookup" Click="BtnDeleteLookupClick"
+                        Visibility="{Binding Path=IsLookup, Mode=TwoWay, Converter={StaticResource VisibilityConverter}}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <ControlTemplate x:Key="EmptyCellTemplate">
+            <TextBlock/>
+        </ControlTemplate>
+        <ControlTemplate x:Key="DefaultDateValueCellTemplate">
+            <TextBlock Padding="0,0,10,0">{Use current date}</TextBlock>
+        </ControlTemplate>
+        <ControlTemplate x:Key="DefaultValueCellTemplate">
+            <TextBlock Padding="0,0,10,0" Text="{Binding Path=DefaultValue}"/>
+        </ControlTemplate>
+        <DataTemplate x:Key="CellDefaultValueTemplate">
+            <Control x:Name="control" Focusable="False" Template="{StaticResource DefaultValueCellTemplate}" />
+            <DataTemplate.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=DataType, Converter={StaticResource IndexDataTypeConverter}}" Value="Date"/>
+                        <Condition Binding="{Binding Path=UseCurrentDate}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="control" Property="Template" Value="{StaticResource DefaultDateValueCellTemplate}"></Setter>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=DataType, Converter={StaticResource IndexDataTypeConverter}}" Value="Date"/>
+                        <Condition Binding="{Binding Path=UseCurrentDate}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="control" Property="Template" Value="{StaticResource EmptyCellTemplate}"></Setter>
+                </MultiDataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+        <DataTemplate x:Key="DocTypeItemTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding Path=Icon,Converter={StaticResource ImageSourceBinaryConverter}}" Margin="0,0,10,0" Width="24" Height="24"/>
+                    <TextBlock Text="{Binding Path=Name}" FontSize="15" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="1" Margin="24,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=lblOCRTemplate.Text}" Margin="10,0,0,0"></TextBlock>
+                    <Button Grid.Column="1" Style="{StaticResource GridCellLinkButton}" 
+                            Content="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnConfig.Text}" 
+                            Margin="5,0,0,0" Tag="{Binding Path=.}"
+                            Click="ConfigureOCRButtonClick"></Button>
+                    <Button Grid.Column="2" Style="{StaticResource GridCellLinkButton}"
+                            Content="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnDelete.Text}" 
+                            Tag="{Binding Path=.}" 
+                            Visibility="{Binding Path=HasOCRTemplateDefined, Converter={StaticResource VisibilityConverter}}" Margin="20,0,0,0"
+                            Click="DeleteOCRButtonClick"></Button>
+                    <TextBlock Grid.Row="1" Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=lblBarcode.Text}" Margin="10,0,0,0"></TextBlock>
+                    <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource GridCellLinkButton}" 
+                            Content="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnConfig.Text}" 
+                            Margin="5,0,0,0" Tag="{Binding Path=.}"
+                            Click="ConfigBarcodeButtonClick"></Button>
+                    <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource GridCellLinkButton}" 
+                            Content="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnDelete.Text}"
+                            Tag="{Binding Path=.}" Margin="20,0,0,0"
+                            Visibility="{Binding Path=HasBarcodeConfigurations, Converter={StaticResource VisibilityConverter}}"
+                            Click="DeleteBarcodeButtonClick"></Button>
+                    <!--<TextBlock Grid.Row="2" Text="Workflow" Margin="10,0,0,0"></TextBlock>
+                    <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource GridCellLinkButton}" 
+                            Content="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnConfig.Text}" 
+                            Margin="5,0,0,0" Tag="{Binding Path=.}"
+                            Click="ConfigWorkflowButtonClick"></Button>-->
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
+            <Grid DockPanel.Dock="Left" Margin="10,10,10,10" Width="360" MaxWidth="500" MinWidth="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                        Background="{StaticResource BackgroundBrush}" Height="40"
+                        BorderThickness="1" Margin="0,0,0,10" BorderBrush="{StaticResource BorderBrush}">
+                    <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=tbViewText.Text}" Style="{StaticResource DisplayViewHeaderText}"/>
+                </Border>
+                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                             ItemsSource="{Binding Path=DocumentTypes}"
+                             SelectedItem="{Binding Path=DocType, Mode=TwoWay}"
+                             BorderThickness="0"
+                             ItemContainerStyle="{StaticResource GoldenListBoxItemStyle}"
+                             ItemTemplate="{StaticResource DocTypeItemTemplate}"
+                             Margin="0,0,0,20" Name="ListBoxBatch"/>
+                    <Border Style="{StaticResource Separator}" Grid.Row="1"/>
+                    <StackPanel Grid.Row ="2" Width="Auto" Height="Auto" Orientation="Horizontal"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button Width="Auto" Command="{Binding Path=AddDocTypeCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/add.png" VerticalAlignment="Center" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Grid.Column="1" Text="{Resx ResxName=Ecm.Admin.UserView,Key=btnAdd.Text}" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button Width="Auto" Margin="10,0,0,0" Command="{Binding Path=DeleteDocTypeCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/delete.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Grid.Column="1" Text="{Resx ResxName=Ecm.Admin.UserView,Key=btnDelete.Text}" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <CustomControl:Splitter Style="{StaticResource VerticalSpitter}" VerticalAlignment="Stretch" Height="Auto" DockPanel.Dock="Left"/>
+            <Grid Style="{StaticResource EditorViewStyle}" Margin="10,10,10,10" Width="Auto" Name="EditPanel"
+                  IsVisibleChanged="EditPanel_IsVisibleChanged"
+                  Visibility="{Binding Path=EditPanelVisibled, Mode=TwoWay,Converter={StaticResource VisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                        Background="{StaticResource BackgroundBrush}" 
+                        BorderThickness="1" Margin="0,0,0,10" Height="40"
+                        BorderBrush="{StaticResource BorderBrush}">
+                    <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=tbType.Text}" Style="{StaticResource DisplayViewHeaderText}"/>
+                </Border>
+                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=tbTypeName.Text}"/>
+                    <TextBox Grid.Row="1" x:Name="txtDocTypeName" MaxLength="250" Text="{Binding Path=EditDocType.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" TabIndex="0" Margin="0,3,0,0"/>
+                    <CheckBox Grid.Row="2" Margin="0,10,0,0" IsChecked="{Binding Path=EditDocType.IsOutlook}" Content="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=tbApplyForImport.Text}"/>
+                    <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=tbIcon.Text}" x:Name="tbIcon" Grid.Row="3" Margin="0,10,0,0"/>
+                    <Grid Grid.Row="4" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox IsReadOnly="True" Text="{Binding Path=IconFilePath,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0,3,10,0" HorizontalAlignment="Stretch"/>
+                        <Button Content="..." Height="21" Command="{Binding Path=BrowseCommand}" Width="30" Grid.Column="1"/>
+                    </Grid>
+                    <cc:SortableListView ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                         ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                         ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                         Grid.Row="5" Margin="0,10,0,0" x:Name="lvField"
+                                         ItemsSource="{Binding Path=Fields,Mode=TwoWay,NotifyOnTargetUpdated=True}"
+                                         ItemContainerStyle="{StaticResource ItemStyle}"
+                                         SelectionChanged="LvlFieldSelectionChanged"
+                                         MouseDoubleClick="LvlFieldMouseDoubleClick"
+                                         SelectedItem="{Binding Path=SelectedField,Mode=TwoWay}"
+                                         SelectionMode="Single"
+                                         TargetUpdated="LvlFieldTargetUpdated"
+                                         cc:ListViewLayoutManager.Enabled="True"
+                                         EndSortingProcess="LvlFieldEndSortingProcess">
+                        <cc:SortableListView.View>
+                            <GridView KeyboardNavigation.TabNavigation="Continue">
+                                <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.Admin.DocumentTypeView, Key=gcFieldNameHeader.Header}" 
+                                                           x:Name="gcFieldNameHeader" Width="150" 
+                                                           DisplayMemberBinding="{Binding Path=Name}" 
+                                                           SortPropertyName="Name"/>
+                                <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.Admin.DocumentTypeView, Key=gcFieldTypeHeader.Header}" x:Name="gcFieldTypeHeader" Width="100" DisplayMemberBinding="{Binding Path=DataType}" SortPropertyName="DataType"/>
+                                <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.Admin.DocumentTypeView, Key=gcFieldRequiredHeader.Header}" x:Name="gcFieldRequiredHeader" Width="100" DisplayMemberBinding="{Binding Path=IsRequired, Converter={StaticResource YesNoConverter}}" SortPropertyName="IsRequired"/>
+                                <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.Admin.DocumentTypeView, Key=gcFieldRestrictedHeader.Header}" x:Name="gcFieldRestrictedHeader" Width="100" DisplayMemberBinding="{Binding Path=IsRestricted,Converter={StaticResource YesNoConverter}}" SortPropertyName="IsRestricted"/>
+                                <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.Admin.DocumentTypeView, Key=gcHasLookupHeader.Header}" x:Name="gcHasLookupHeader" Width="100" DisplayMemberBinding="{Binding Path=IsLookup, Converter={StaticResource YesNoConverter}}" SortPropertyName="IsLookup"/>
+                                <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.Admin.DocumentTypeView, Key=gcDefaultValueHeader.Header}" x:Name="gcDefaultValueHeader" Width="Auto" CellTemplate="{StaticResource CellDefaultValueTemplate}" SortPropertyName="DefaultValue"/>
+                                <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.Admin.DocumentTypeView, Key=gcMaxLenghtHeader.Header}" x:Name="gcMaxLenghtHeader" Width="Auto" DisplayMemberBinding="{Binding Path=MaxLength}" SortPropertyName="MaxLength"/>
+                                <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.Admin.DocumentTypeView, Key=gcLookupHeader.Header}" 
+                                                           x:Name="gcLookupHeader" 
+                                                           CellTemplate="{StaticResource LookupCellTemplate}" 
+                                                           Width="Auto"
+                                                           cc:RangeColumn.MinWidth="200"
+                                                           cc:RangeColumn.IsFillColumn="True"/>
+                            </GridView>
+                        </cc:SortableListView.View>
+                    </cc:SortableListView>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                Grid.Row="6" Height="Auto" Width="Auto" Margin="0,10,0,0">
+                        <Button Margin="0,0,5,0" Command="{Binding Path=AddFieldCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/add.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnAddField.Text}" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button  Margin="5,0,5,0" Command="{Binding Path=EditFieldCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/edit.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnEdit.Text}" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button Margin="5,0,5,0" Command="{Binding Path=DeleteFieldCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/delete.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnDeleteField.Text}" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Border Style="{StaticResource Separator}" Grid.Row="2"/>
+                <StackPanel Height="Auto" Orientation="Horizontal" 
+                            HorizontalAlignment="Right" VerticalAlignment="Center" 
+                            Grid.Row="3" Margin="0,0,0,0">
+                    <Button Command="{Binding Path=SaveCommand}" VerticalContentAlignment="Center">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/save.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnSave.Text}" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                    <Button Margin="10,0,0,0" Command="{Binding Path=CancelCommand}" VerticalContentAlignment="Center">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/cancel.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.Admin.DocumentTypeView,Key=btnCancel.Text}" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+        <cc:LoadingAnimation x:Name="waitingControl" Margin="0,250,0,0"  Visibility="{Binding Path=IsProcessing,Converter={StaticResource VisibilityConverter}}"/>
+    </Grid>
+</UserControl>

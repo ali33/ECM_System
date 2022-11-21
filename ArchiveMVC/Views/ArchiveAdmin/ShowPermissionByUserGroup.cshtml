@@ -1,0 +1,60 @@
+﻿@model ArchiveMVC.Models.ArchiveAdminModel
+@{
+    ViewBag.Title = "ShowPermissionByUserGroup";
+}
+<div class="admin_sub_menu_content">
+    
+    <div class="admin_sub_menu_button">
+        <div class="add_button permission_view_by_contenttype_button">
+            <button type="button" id="permission_view_contenttype" class="archive_button permission_button" data-value="bycontent">
+                <span>By content type</span>
+            </button>
+        </div>
+
+        <div class="delete_button permission_view_by_group_button">
+            <button type="button" id="permission_view_usergroup" class="archive_button permission_button selected" data-value="byusergroup">
+                <span>By group</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="admin_sub_menu_items">
+    @{
+        var userGroupNumber = 1;
+        foreach(var userGroupItem in Model.ListUserGroup)
+        {
+            <div class="sub_menu_item" id="@userGroupItem.Id">
+                    <div class="permission_menu_item" title="@userGroupItem.Name">
+                        <span>@userGroupItem.Name</span>
+                    </div>
+            </div>
+            <div class="permission_sub_menu" style="display:none">
+                @{ 
+                   foreach (var docTypeItem in Model.ListDocTypeModel)
+                   {
+                       <div class="permission_sub_menu_item sub_menu_item_by_user_group" id="@docTypeItem.Id">
+                           <div class="content data">
+                               <div class="data_content" title="@docTypeItem.Name">
+                                   @docTypeItem.Name
+                               </div>
+                           </div>
+                       </div>
+                   }
+                }
+            </div>
+            userGroupNumber++;
+        } 
+    }
+    </div>
+</div>
+@*<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Nunc tincidunt</a></li>   
+  </ul>
+  <div id="tabs-1">
+    <p><strong>Click this tab again to close the content pane.</strong></p>
+    <p>Dòng 1</p>
+    <p>Dòng 2</p>
+    <p>Dòng 3</p>
+  </div>  
+</div> *@

@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="Ecm.Admin.View.SupportInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Mvvm="clr-namespace:Ecm.Mvvm;assembly=Mvvm" Name="myInfo"
+             mc:Ignorable="d">
+    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{StaticResource BackgroundBrush}" 
+                        BorderThickness="1" Margin="0,0,0,10" Height="40" BorderBrush="{StaticResource BorderBrush}">
+                <TextBlock Style="{StaticResource DisplayViewHeaderText}" Text="Resources"/>
+            </Border>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="/Resources/Images/ArchiveAdmin.jpg" Width="100" Height="56"/>
+                <Button Style="{StaticResource LinkButton}" Content="{Resx ResxName=Ecm.Admin.SupportInfoView,Key=tbArchiveAdmin}" Command="{Binding DownloadCommand}" Grid.Column="1" Margin="20,0,0,0">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Download Archive Admin user guide" Command="{Binding DownloadCommand}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Resources/Images/down.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Image Source="/Resources/Images/ArchiveScreen.jpg" Grid.Row="1" Margin="0,20,0,0" Width="100" Height="56"/>
+                <Button Style="{StaticResource LinkButton}" Content="{Resx ResxName=Ecm.Admin.SupportInfoView,Key=tbArchive}" Command="{Binding DownloadCommand}" Grid.Row="1" Grid.Column="1" Margin="20,20,0,0">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Download Archive Client user guide" Command="{Binding DownloadCommand}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Resources/Images/down.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Image Source="/Resources/Images/capture_admin.jpg" Grid.Row="2" Margin="0,20,0,0" Width="100" Height="56"/>
+                <Button Style="{StaticResource LinkButton}" Content="{Resx ResxName=Ecm.Admin.SupportInfoView,Key=tbCaptureAdmin}" Command="{Binding DownloadCommand}" Grid.Row="2" Grid.Column="1" Margin="20,20,0,0">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Download Capture Admin user guide" Command="{Binding DownloadCommand}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Resources/Images/down.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Image Source="/Resources/Images/capture.jpg" Grid.Row="3" Margin="0,20,0,0" Width="100" Height="56"/>
+                <Button Style="{StaticResource LinkButton}" Content="{Resx ResxName=Ecm.Admin.SupportInfoView,Key=tbCapture}" Command="{Binding DownloadCommand}" Grid.Row="3" Grid.Column="1" Margin="20,20,0,0">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Download Capture Admin user guide" Command="{Binding DownloadCommand}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Resources/Images/down.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{StaticResource BackgroundBrush}" 
+                        BorderThickness="1" Margin="0,0,0,10" Height="40" BorderBrush="{StaticResource BorderBrush}">
+                <TextBlock Style="{StaticResource DisplayViewHeaderText}" Text="Location"/>
+            </Border>
+            <Grid Grid.Row="1">
+                <WebBrowser Mvvm:WebBrowserUtility.BindableSource="{Binding Path=FilePath}"></WebBrowser>
+            </Grid>
+        </Grid>
+        <GroupBox DockPanel.Dock="Right" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="300">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="ECM Solutions Ltd"/>
+                <TextBlock>
+                    <Run Text="393, 13th National Highways, Hiep Binh Phuoc Ward Thu Duc Dist"/>
+                    <Run Text=" Ho Chi Minh City Vietnam"/>
+                    <Run Text="Phone : +84 08 6275889"/>
+                    <Run Text="Mobile : +84 983617941 - +84 983317974"/>
+                    <Run Text="Email : support@edocpro.net"/>
+                    <Run Text="zipcode : 70000"/>
+                    <Run Text="website : www.edocpro.net"/>
+                </TextBlock>
+            </Grid>
+        </GroupBox>
+    </DockPanel>
+</UserControl>

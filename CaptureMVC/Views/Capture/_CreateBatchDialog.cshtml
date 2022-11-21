@@ -1,0 +1,25 @@
+﻿@using CaptureMVC.Resources;
+@using Ecm.CaptureDomain;
+
+@model List<BatchType>
+
+<div id="create-batch-dialog" data-title="@CaptureViewerResources.DlgCreate_TitleDialog" data-action="">
+    <div id="panel-create-batch-name">
+        <div class="lbl-title">@CaptureViewerResources.DlgCreate_LblBatchName</div>
+        <input id="txt-batch-name-new" type="text" value="" maxlength="250" />
+    </div>
+    <div id="panel-create-batch-type">
+        <div class="lbl-title">@CaptureViewerResources.DlgCreate_LblBatchTypeSelection</div>
+        <select id="cbo-batch-type-id" size="5">
+            @foreach (var batchType in Model.OrderBy(h => h.Name))
+            {
+                <option value="@batchType.Id">@batchType.Name</option>
+            }
+        </select>
+    </div>
+    <div id="panel-create-batch-option">
+        <input id="chk-auto-create" type="checkbox" />@CaptureViewerResources.DlgCreate_LblAutoCreateAnother
+        <br />
+        <input id="chk-reopen" type="checkbox" />@CaptureViewerResources.DlgCreate_LblReopenDialog
+    </div>
+</div>

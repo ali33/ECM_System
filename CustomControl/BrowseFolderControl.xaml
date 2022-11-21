@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="Ecm.CustomControl.BrowseFolderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Name="myBrowseFolder">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="27" />
+        </Grid.ColumnDefinitions>
+        <TextBox Text="{Binding Path=Folder, ElementName=myBrowseFolder, Mode=TwoWay}" HorizontalAlignment="Stretch" IsReadOnly="True" Background="#fafafa"></TextBox>
+        <Button Content="..." Grid.Column="1" Height="25" Width="25" Click="ButtonClick" HorizontalAlignment="Right"></Button>
+    </Grid>
+</UserControl>

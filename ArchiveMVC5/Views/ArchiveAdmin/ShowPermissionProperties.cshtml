@@ -1,0 +1,176 @@
+﻿@model ArchiveMVC5.Models.ArchiveAdminModel
+@{
+    ViewBag.Title = "ShowPermissionProperties";
+}
+<style>
+    /*h1, .h1, h2, .h2, h3, .h3, h4,.h4, h5, .h5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}*/
+    .container {
+    padding-right: 1px !important;
+    padding-left: 1px !important;
+    width:100% !important;
+}
+
+#content-type-list > .box-footer {
+    padding:1px !important;
+}
+
+</style>
+<div class="sub_properties_content">
+    <div class="box box-success padding-1">
+        <div class="box-header padding-1">
+            <h4>Document</h4>
+        </div>
+        <div class="box-body padding-1 permission_document_id" id="@Model.DocTypePermission.Id">
+            <table class="table permission_table">
+                <tr>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_capture" @{if (@Model.DocTypePermission.AllowedCapture) { Write("checked"); }}/><span> Capture </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_search" @{if (@Model.DocTypePermission.AllowedSearch) { Write("checked"); }}/><span> Search </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_update"@{if (@Model.DocTypePermission.AllowedUpdateFieldValue) { Write("checked"); }} /><span> Update field value </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_view" @{if (@Model.DocTypePermission.AllowedSeeRetrictedField) { Write("checked"); }} /><span> View restricted field </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_append" @{if (@Model.DocTypePermission.AllowedAppendPage) { Write("checked"); }}/><span> Append page </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_replace"@{if (@Model.DocTypePermission.AllowedReplacePage) { Write("checked"); }}/><span> Replace page </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_rotate" @{if (@Model.DocTypePermission.AllowedRotatePage) { Write("checked"); }}/><span> Rotate page </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_delete"@{if (@Model.DocTypePermission.AllowedDeletePage) { Write("checked"); }} /><span></span> Delete page </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_hide"@{if (@Model.DocTypePermission.AllowedHideAllAnnotation) { Write("checked"); }} /><span> Hide all annotations </span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_export" @{if (@Model.DocTypePermission.AllowedExportFieldValue) { Write("checked"); }}/><span> Export field value </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_send"@{if (@Model.DocTypePermission.AllowedEmailDocument) { Write("checked"); }}/><span> Send mail </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_docment_print" @{if (@Model.DocTypePermission.AlowedPrintDocument) { Write("checked"); }}/><span> Print </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="box box-success padding-1">
+        <div class="box-header padding-1">
+            <h4>Annotation</h4>
+        </div>
+        <div class="box-body padding-1 permission_annotation_id" id="@Model.AnnotationPermission.Id">
+            <table class="table permission_table">
+                <tr>
+                    <td>
+                        <b>Redaction</b>
+                    </td>
+                    <td>
+                        <b>Hightlight</b>
+                    </td>
+                    <td>
+                        <b>Text</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_redaction_add"@{if (@Model.AnnotationPermission.AllowedAddRedaction) { Write("checked"); }} />
+                        <span>Add </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_highlight_add"@{if (@Model.AnnotationPermission.AllowedAddHighlight) { Write("checked"); }}  /><span> Add </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_text_add"@{if (@Model.AnnotationPermission.AllowedAddText) { Write("checked"); }} /><span> Add </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_redaction_delete" @{if (@Model.AnnotationPermission.AllowedDeleteRedaction) { Write("checked"); }} /><span> Delete </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_highlight_delete"@{if (@Model.AnnotationPermission.AllowedDeleteHighlight) { Write("checked"); }} /><span> Delete </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_text_delete"@{if (@Model.AnnotationPermission.AllowedDeleteText) { Write("checked"); }} /><span> Delete </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_highlight_view"@{if (@Model.AnnotationPermission.AllowedSeeHighlight) { Write("checked"); }} /><span> View </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_text_view"@{if (@Model.AnnotationPermission.AllowedSeeText) { Write("checked"); }} /><span> View </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="box box-success padding-1">
+        <div class="box-header padding-1">
+            <h4>Audit</h4>
+        </div>
+        <div class="box-body padding-1 permission_audit_id" id="@Model.AuditPermission.Id">
+            <table class="table permission_table">
+                <tr>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit"@{if (@Model.AuditPermission.AllowedAudit) { Write("checked"); }} /><span> Audit </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit_viewlog"@{if (@Model.AuditPermission.AllowedViewLog) { Write("checked"); }}/><span> View log </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit_delte"@{if (@Model.AuditPermission.AllowedDeleteLog) { Write("checked"); }}/><span> Delete log </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit_view"@{if (@Model.AuditPermission.AllowedViewReport) { Write("checked"); }}/><span> View report </span>
+                    </td>
+                    <td>
+                        <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit_restore"@{if (@Model.AuditPermission.AllowedRestoreDocument) { Write("checked"); }}/><span> Restore document </span>
+                    </td>
+                    <td>&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="box no-padding">
+        <div class="box-footer no-padding">
+            <div class="btn-group pull-right">
+                <button type="button" id="permission_button_save" class="btn btn-flat bg-olive margin-7">
+                    <i class="glyphicon glyphicon-save"></i>
+                    <span>Save </span>
+                </button>
+                <button type="button" id="permission_button_close" class="btn btn-flat bg-olive margin-7">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    <span>Close </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+

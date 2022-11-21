@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DateTimeFormat" xml:space="preserve">
+    <value>dd/MM/yyyy hh:mm:ss tt</value>
+  </data>
+  <data name="logDeleteDocument" xml:space="preserve">
+    <value>Người dùng '{0}' xóa tài liệu: '{1}'</value>
+  </data>
+  <data name="logEmailDocument" xml:space="preserve">
+    <value>Người dùng '{0}' gởi thư điện tử kèm theo tài liệu: '{1}'</value>
+  </data>
+  <data name="logExportIndexData" xml:space="preserve">
+    <value>Người dùng '{0}' xuất giá trị trường của tài liệu: '{1}'</value>
+  </data>
+  <data name="logModifyIndex" xml:space="preserve">
+    <value>Người dùng '{0}' thay đổi giá trị trường trên tài liệu '{1}' theo: {2}</value>
+  </data>
+  <data name="logPrintDocument" xml:space="preserve">
+    <value>Người dùng '{0}' in tài liệu: '{1}'</value>
+  </data>
+  <data name="logUpdateDocumentType" xml:space="preserve">
+    <value>Cập nhật loại tài liệu thành công.</value>
+  </data>
+  <data name="LongDateTimeFormat" xml:space="preserve">
+    <value>dd/MM/yyyy hh:mm tt</value>
+  </data>
+  <data name="MaxDate" xml:space="preserve">
+    <value>9999-12-31</value>
+  </data>
+  <data name="MinDate" xml:space="preserve">
+    <value>1753-1-1</value>
+  </data>
+  <data name="ShortDateTimeFormat" xml:space="preserve">
+    <value>dd/MM/yyyy</value>
+  </data>
+  <data name="TimeFormat" xml:space="preserve">
+    <value>h:mm:ss tt</value>
+  </data>
+  <data name="uiAboutText" xml:space="preserve">
+    <value>Warning:  This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe criminal penalties, and will be prosecuted to the maximum extent possible under the law.</value>
+  </data>
+  <data name="uiAccessDenied" xml:space="preserve">
+    <value>Truy cập bị từ chối.</value>
+  </data>
+  <data name="uiDocumentTypeExisted" xml:space="preserve">
+    <value>Loại tài liệu đã tồn tại trong hệt thống.</value>
+  </data>
+  <data name="uiCacheDataRefreshSuccessful" xml:space="preserve">
+    <value>Dữ liệu đã được truy lục lại thành công.</value>
+  </data>
+  <data name="uiConfirmDelete" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xoá (những) đối tượng đang được chọn khỏi hệ thống?</value>
+  </data>
+  <data name="uiConnectFail" xml:space="preserve">
+    <value>Máy chủ hiện tại không thể truy cập. Vui lòng liên hệ người quản trị hệ thống để được hỗ trợ!</value>
+  </data>
+  <data name="uiCopyright" xml:space="preserve">
+    <value>Giữ toàn bộ bản quyền.</value>
+  </data>
+  <data name="uiCopyrightWithYear" xml:space="preserve">
+    <value>Bản quyền © {0}</value>
+  </data>
+  <data name="uiDataInvalid" xml:space="preserve">
+    <value>Dữ liệu không hợp lệ. Vui lòng kiểm tra.</value>
+  </data>
+  <data name="uiDeviceNotFound" xml:space="preserve">
+    <value>Máy quét bị lỗi. Thiết bị có thể chưa được cài đặt hoạc cài đặt không đúng.</value>
+  </data>
+  <data name="uiDocumentDoesNotExist" xml:space="preserve">
+    <value>Tài liệu mã số = {0} không tồn tại trong hệ thống.</value>
+  </data>
+  <data name="uiEnterValidValue" xml:space="preserve">
+    <value>Vui lòng nhập giá trị {0} hợp lệ cho {1}.</value>
+  </data>
+  <data name="uiFieldNameExisted" xml:space="preserve">
+    <value>Tên trường đã tồn tại trong hệ thống.</value>
+  </data>
+  <data name="uiFieldRequired" xml:space="preserve">
+    <value>{0} là trường đuơc yêu cầu có giá trị.</value>
+  </data>
+  <data name="uiFolderNotFound" xml:space="preserve">
+    <value>Thư mục đươc lựa chọn không tồn tại.</value>
+  </data>
+  <data name="uiGeneralError" xml:space="preserve">
+    <value>Lỗi ngoài ý muốn đang xảy ra. Vui lòng liên hệ người quản trị hệ thống để được hỗ trợ!</value>
+  </data>
+  <data name="uiImportDocumentCompleted" xml:space="preserve">
+    <value>Tiến trình nhập tài liệu đã hoàn thành.</value>
+  </data>
+  <data name="uiIndexValueInvalid" xml:space="preserve">
+    <value>Dữ liệu không hợp lệ theo những đối tượng:</value>
+  </data>
+  <data name="uiInvalidDateMessage" xml:space="preserve">
+    <value>Ngày giờ có giá trị là giữa 1/1/1753 và 31/12/9999</value>
+  </data>
+  <data name="uiInvalidMaxValue" xml:space="preserve">
+    <value>Giá trị {0} phải lớn hơn {1}.</value>
+  </data>
+  <data name="uiInvalidMinValue" xml:space="preserve">
+    <value>Giá trị {0} phải lớn hơn {1}.</value>
+  </data>
+  <data name="uiInvalueValueRange" xml:space="preserve">
+    <value>Giá trị {0} phải nhỏ hơn {1} và lớn hơn {2}.</value>
+  </data>
+  <data name="uiLoginFail" xml:space="preserve">
+    <value>Tên đăng nhập hoạc mật khẩu không đúng. Vui lòng thử lại.</value>
+  </data>
+  <data name="uiMappingRequired" xml:space="preserve">
+    <value>Trường được yêu cầu “{0}” phải được liên kết.</value>
+  </data>
+  <data name="uiNotMatchPassword" xml:space="preserve">
+    <value>Chứng thực mật khẩu không đúng.</value>
+  </data>
+  <data name="uiPasswordChangeSuccessful" xml:space="preserve">
+    <value>Thay đổi mật khẩu thành công.</value>
+  </data>
+  <data name="uiRequiredValueMessage" xml:space="preserve">
+    <value>Giá trị của trường {0} được yêu cầu.</value>
+  </data>
+  <data name="uiSaveCompleted" xml:space="preserve">
+    <value>Sự thay đổi đã được lưu.</value>
+  </data>
+  <data name="uiSaveConfirmation" xml:space="preserve">
+    <value>Bạn có muốn lưu những thay đổi trên {0}?</value>
+  </data>
+  <data name="uiScanDocumentReleased" xml:space="preserve">
+    <value>Tài liệu được quét đã được chuyển.</value>
+  </data>
+  <data name="uiSelectInvalidFolder" xml:space="preserve">
+    <value>Vui lòng nhập thư mục {0} có giá trị.</value>
+  </data>
+  <data name="uiSettingsSaveCompleted" xml:space="preserve">
+    <value>Thay đổi đã được lưu.</value>
+  </data>
+  <data name="uiTiffFormatInvalid" xml:space="preserve">
+    <value>Định dạng của tập tin bạn đang cố gắng mở không hđược hỗ trợ trong phiên bản này. Vui lòng lưu tập tin trên máy tính và xem chúng bằng ứng dụng phù hợp khác đã cài đặt trên máy tính.</value>
+  </data>
+  <data name="uiTryLoginFail" xml:space="preserve">
+    <value>Thử đăng nhập lại sau khi thay đổi mật khẩu nhưng không thành công. Tên đăng nhập {0}</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Phân quyền</value>
+  </data>
+  <data name="uiTestConnectionFail" xml:space="preserve">
+    <value>Kiểm tra kết nối cơ sở dữ liệu không thành công!</value>
+  </data>
+  <data name="uiTestConnectionSuccessfully" xml:space="preserve">
+    <value>Kiểm tra kết nối cơ sở dữ liệu thành công!</value>
+  </data>
+  <data name="uiEmailInvalid" xml:space="preserve">
+    <value>Địa chỉ thư điện tử không hợp lệ.</value>
+  </data>
+  <data name="uiUserGroupExisted" xml:space="preserve">
+    <value>Nhóm người dùng đã tồn tại.</value>
+  </data>
+  <data name="uiUsernameExisted" xml:space="preserve">
+    <value>Tên người dùng đã tồn tại.</value>
+  </data>
+  <data name="uiPicklistValueExisted" xml:space="preserve">
+    <value>Picklist đã tồn tại.</value>
+  </data>
+  <data name="uiInvalidDecimalValue" xml:space="preserve">
+    <value>Giá trị số thập phân không hợp lệ.</value>
+  </data>
+  <data name="uiInvalidIntegerValue" xml:space="preserve">
+    <value>Giá trị số nguyên không hợp lệ.</value>
+  </data>
+  <data name="uiNotAdminUser" xml:space="preserve">
+    <value>Tên đăng nhập không có quyền quản trị hệ thống. Vui lòng đăng nhập với tên phù hợp.</value>
+  </data>
+  <data name="uiConfirmDeleteOCRTemplate" xml:space="preserve">
+    <value>Bạn có chắc chắn xóa OCR template cho loại tài liệu này không?</value>
+  </data>
+  <data name="uiConfirmDeleteBarcode" xml:space="preserve">
+    <value>Bạn có chắc chắn xóa cấu hình barcode cho loại tài liệu này không?</value>
+  </data>
+  <data name="uiAddPictureContent" xml:space="preserve">
+    <value>Thêm hình</value>
+  </data>
+  <data name="uiEditPictureContent" xml:space="preserve">
+    <value>Thay đổi hình</value>
+  </data>
+  <data name="uiDocFound" xml:space="preserve">
+    <value>tài liệu được tìm thấy</value>
+  </data>
+  <data name="uiMustBeBoolean" xml:space="preserve">
+    <value>Kiểu dữ liệu đích phải là kiểu logic</value>
+  </data>
+  <data name="uiNoDocumentMatch" xml:space="preserve">
+    <value>Không tìm thấy tài liệu thoả mãn điều kiện.</value>
+  </data>
+  <data name="uiSearchFor" xml:space="preserve">
+    <value>Tìm kiếm cho </value>
+  </data>
+  <data name="uiShowMore" xml:space="preserve">
+    <value>Xem thêm kết quả.</value>
+  </data>
+  <data name="uiConfirmDeleteDocument" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa tài liệu đang chọn?</value>
+  </data>
+  <data name="uiConfirmDeleteQuery" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa truy vấn?</value>
+  </data>
+  <data name="uiEmailBody" xml:space="preserve">
+    <value>To view a task, copy and paste the link below into the browser address and hit the Enter key.</value>
+  </data>
+  <data name="uiEmailSubject" xml:space="preserve">
+    <value>Cloud ECM Task Links</value>
+  </data>
+  <data name="ResetPasswordTitle" xml:space="preserve">
+    <value>Đổi mật khẩu</value>
+  </data>
+  <data name="uiChangePasswordSuccessfully" xml:space="preserve">
+    <value>Đổi mật khẩu thành công</value>
+  </data>
+  <data name="uiDeleteBatchConfirmMsg" xml:space="preserve">
+    <value>Bạn không có quyền xoá trên các gói {0}. Bạn có muốn xoá các gói còn lại?</value>
+  </data>
+  <data name="uiUnlockBatchConfirmMsg" xml:space="preserve">
+    <value>Bạn không có quyền mở khoá các gói {0}. Bạn có muốn mở khoá các gói còn lại?</value>
+  </data>
+  <data name="LooseDocNameFormat" xml:space="preserve">
+    <value>Tài liệu tự do {0} - {1}</value>
+  </data>
+  <data name="uiNoWorkitemFound" xml:space="preserve">
+    <value>Không tìm thấy dữ liệu</value>
+  </data>
+  <data name="uiShowMoreResults" xml:space="preserve">
+    <value>Xem thêm kết quả</value>
+  </data>
+</root>

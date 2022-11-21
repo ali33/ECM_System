@@ -1,0 +1,255 @@
+﻿/* ==========================================================
+ * CaptureAdmin.css
+ * Copyright (C) 2014 MIA Solution. All Rights Reserved	
+ * History:
+ * DateTime             Updater             Description
+ * 08/10/2014           Hai.Hoang           Create
+ * ========================================================== */
+
+/* CSS Style Capture Admin Navigation*/
+.float-left {
+    float:left!important;
+}
+.float-right {
+    float:right!important;
+}
+#nav-container {
+    background:#FFF;
+}
+    #nav-container .nav-title {
+        background-color: #E5E5E5;
+        border-bottom: 2px solid #fff;
+    }
+        #nav-container .nav-title h2 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #004040;
+            text-align: center;
+            margin:0px;
+        }
+         #nav-container nav .icon  {
+            display: inline-block;
+            float: left;
+        }
+        #nav-container nav .icon img{
+            width: 55px;
+            height: 55px;
+            position:absolute;
+            top:1px;
+        }
+    #nav-container nav > div {
+        position: relative;
+        display: block;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        border-bottom: solid 2px #fff;
+        background-color: #004040;
+        padding: 8% 0%;
+    }
+        #nav-container nav > div > span {
+            padding-left: 60px;
+            color: #B0BBC7;
+        }
+    #nav-container nav > div:link,
+    #nav-container nav > div:visited {
+      color: #B0BBC7;
+      text-decoration: none;
+    }
+    #nav-container nav > div:hover,
+    #nav-container nav > div:focus,
+    #nav-container nav > div:active {
+      background: none repeat scroll 0 0 #00bfbf;
+    }
+    #nav-container nav > div.selected {
+      color: #FFF;
+    }
+    #nav-container nav > div.selected:after {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      top: 30%;
+      right: 0;
+      border-style: solid;
+      border-width: 0.75rem 0.75rem 0.75rem 0;
+      border-color: transparent #DDD transparent transparent;
+    }
+
+/*Left Nav*/
+#nav-container .nav-title .bnt-nav-closable{
+    margin-top:-35px;
+    margin-right:5px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+    #nav-container .nav-title .bnt-nav-closable > i {
+        font-size:2em;
+        color:#00bfbf;
+        -webkit-transition: all 250ms ease-out;
+        -o-transition: all 250ms ease-out;
+        transition: all 250ms ease-out;
+    }
+ #nav-container .nav-title .bnt-nav-closable > i:hover {
+        -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+}
+/*End Left Nav*/
+
+/* END CSS Style Capture Admin Navigation*/
+
+/* CSS Style Capture Admin Left Container*/
+#left-container {
+    width:100%;
+    height:100%;
+    margin:0 auto;
+}
+    #left-container .left-container-child {
+        width:100%;
+        height:100%;
+        background-color: #e5e5e5;
+    }
+    #left-container .left-container-child .user_list{
+        background:#fff;
+        padding:5px 10px;
+        height:90%;
+    }
+    #left-container .left-csontainer-child .user-button {
+        height:10%;
+    }
+/* END CSS Style Capsture Admin Left Container*/
+.profile-avatar {
+    background: #fff;
+    border-radius: 10px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    float:left;
+}
+    .profile-avatar img {
+         border-radius: 10px 10px 0px 0px;
+    }
+.profile-avatar div.change_img ,.thumbnail div.change_img{
+    background: none repeat scroll 0 0 #007f7f;
+    border-radius: 0 0 4px 4px;
+    color: white;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0;
+    opacity: 0.8;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    bottom:-4px!important;
+    left:-4px!important;
+    right:-4px!important;
+}
+    .profile-avatar form {
+        margin:0px !important;
+    }
+.hidden {
+    display:none;
+}
+/* End Users Properties */
+
+
+/* Style OCR Template */
+#main-button {
+   height:30px;
+}
+#ocrtemplate-wrapper {
+   background:#fff;
+}
+#ocr_template_panel {
+   
+    background:#fff;
+}
+.admin_sub_menu_items {
+    height: calc(100% - 37px)!important;
+}
+.panel_button {
+    height:37px!important;
+    padding:5px!important;
+    background:#DDD!important;
+}
+.ocrtemplate-content {
+    height: calc(615px - 35px)!important;
+}
+.ocrtemplate-button {
+    padding-top:5px;
+    height:35px!important;
+}
+/* OCR Template Left Page*/
+.left-ocrtemplate{
+    height:100%;
+    width:250px;
+    border: 2px solid #007f7f;
+    float:left;
+}
+    .left-ocrtemplate .ocrtemplate_root {
+        background:#004040;
+        min-height:76px;
+        max-height:100px;
+        color:#FFF;
+        
+    }
+.left-ocrtemplate .ocrtemplate_root .ocrimage{
+    float:left;
+    margin-right:5px;
+    height:76px;
+    width:76px;
+}
+    .left-ocrtemplate .ocrtemplate_root .ocrtemplate_title{
+        font-weight:700;
+        padding: 10px 0px 0px 10px;
+    }
+        .left-ocrtemplate .ocrtemplate_root .ocrdoctype {
+             padding: 0px 0px 10px 10px;
+        }
+
+.toolbar-ocrtemplate {
+    float:right;
+    height:100%;
+    width:50px;
+    position:relative;
+    top:-100%;
+}
+.main-ocrtemplate {
+    height:100%;
+    width:calc(100% - 315px);
+    border: 2px solid #007f7f;
+    margin-left: 255px;
+    margin-right: 5px;
+    color:#929393
+}
+
+/* OCR Status*/
+.ocrStatus > div {
+    float:left;
+    padding-right:10px;
+}
+    .ocrStatus > div > div {
+       height:16px;
+       width:16px;
+       margin:5px;
+       float:left;
+    }
+        .ocrStatus > div > span {
+            font-family: 'Segoe UI';
+            font-size: 0.8em;
+            font-weight: 800;
+        }
+    .ocrStatus > div .red {
+        background:red;
+    }
+    .ocrStatus > div .brown {
+        background:brown;
+    }
+    .ocrStatus > div .green {
+        background:green;
+    }
+/* END Style OCR Template */

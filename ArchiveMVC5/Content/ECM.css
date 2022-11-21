@@ -1,0 +1,17 @@
+@import url('global.css');
+
+@import url('Login.css');
+
+@import url('Search.css');
+
+@import url('Search_1200.css') (max-width:1200px);
+
+@import url('Search_992.css') (max-width:992px);
+
+@import url('Search_800.css') (max-width:800px);
+
+@import url('Capture.css');
+
+@import url('popup.css');
+
+/*@import url('load.css');*/

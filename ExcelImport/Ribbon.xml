@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+  <ribbon>
+    <officeMenu>
+      <button id="btnSendToArchive1"
+              label="Send to Archive"
+              tag="SendToArchive1"
+              onAction="btnSendToArchive_Click"
+              getImage="GetImage"/>
+    </officeMenu>
+    <tabs>
+      <tab idMso="TabAddIns" label="Ecm Archive">
+        <group id="ArchiveGroup" label="Archive">
+          <button id="btnSendToArchive"
+                  label="Send to Archive"
+                  size="large"
+                  tag="SendToArchive"
+                  getImage="GetImage"
+                  onAction="btnSendToArchive_Click"/>
+        </group>
+        <group id="Document" label="Document">
+          <button id="btnOpenView"
+                  label="Open"
+                  size="large"
+                  tag="Open"
+                  getImage="GetImage"
+                  onAction="btnOpen_Click"/>
+          <button id="btnSave"
+                  label="Save"
+                  size="large"
+                  tag="Save"
+                  getEnabled="SaveEnable"
+                  getImage="GetImage"
+                  onAction="btnSave_Click"/>
+          <button id="btnSaveAs"
+                  label="Save As"
+                  size="large"
+                  getEnabled="SaveAsEnable"
+                  tag="SaveAs"
+                  getImage="GetImage"
+                  onAction="btnSaveAs_Click"/>
+
+        </group>
+        <group id="Info" label="Information">
+          <button id="btnInfo"
+                  label="Dashboard"
+                  size="large"
+                  tag="info"
+                  getEnabled="DashboardEnable"
+                  getImage="GetImage"
+                  onAction="btnDashboard_Click"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>

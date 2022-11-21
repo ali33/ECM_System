@@ -1,0 +1,15 @@
+﻿<script>function DynamicJsFunction() {
+    document.writeln("executing dynamic JS from: @Request.RawUrl...")
+    @if (Model != null)
+    {
+        @: { document.writeln("Message passed to Model"); }
+    }
+    @if (Request.QueryString.HasKeys())
+    {
+        foreach (string key in Request.QueryString.Keys)
+        {
+            @:{ document.writeln("Query string parameter. Key: @key , Value: @Request.QueryString[key]"); }
+        }
+    }
+}
+</script>

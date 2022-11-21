@@ -1,0 +1,47 @@
+﻿<!DOCTYPE>
+<html>
+   <head>
+          <title>Twain OCX</title>
+<object id="twain" 
+        TYPE="application/x-itst-activex"
+        clsid="{1EFCF932-9826-4DF5-BB20-4ECBE8A47078}"
+        progid="TwainActiveX.TwainActiveX"
+        event_OnReadyStateChange="OnReady" ></object>
+ 
+	    <script type="text/javascript">
+	        function onload() {
+	            txtText.value = "hello";
+	        }
+
+	        function ScanX(isShowDialog) {
+	            try {
+	                //var obj = new ActiveXObject("TwainActiveX.TwainActiveX");
+
+	                //if (obj) {
+
+	                twain.Scan(isShowDialog);
+	                //}
+	            }
+	            catch (ex) {
+	                alert(ex.Description);
+	            }
+	        }
+
+	        function handleEvent(agrs) {
+	            alert(agrs);
+	        }
+        </script>
+   </head>
+   <body onload="onload();">
+        <div>
+            <textarea id="txtText" rows="5" cols="10"></textarea>
+            <button onclick="ScanX(true);" value="Scan"/>
+        </div>
+        <script for="twain" event="ScanPageEvent(args)" language="javascript">
+            //alert(args);
+            function twain::ScanPageEvent(args) {
+                alert(args);
+            }
+        </script>
+   </body>
+</html>

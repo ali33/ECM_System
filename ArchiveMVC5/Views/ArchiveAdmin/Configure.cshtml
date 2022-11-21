@@ -1,0 +1,183 @@
+﻿@model ArchiveMVC5.Models.DocumentTypeModel
+@{
+    ViewBag.Title = "Ocr Template Configuration";
+    Layout = "~/Views/Shared/_OcrTemplate.cshtml";
+
+}
+<style>
+    .text-brown {
+  color: brown !important;
+}
+
+.container {
+    padding-right: 1px !important;
+    padding-left: 1px !important;
+    width:100% !important;
+}
+
+#ocr_thumbnail > div > div >.info-box {
+    margin-bottom: 0px !important;
+    margin-top: 1px !important;
+    border-bottom:solid #ff5200 1px !important;
+    border-left:solid 3px transparent !important;
+    background-color:#3d9970 !important;
+}
+
+#ocr_thumbnail > div > div .info-box:hover, #content-type-list > div > div .info-box.active {
+    border-left:solid 3px #ff5200 !important;
+}
+
+#ocr_thumbnail > div > div > div > .info-box-content {
+    padding: 10px;
+    margin-left: 90px;
+    background-color: #FFF;
+    height:90px;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4,.h4, h5, .h5 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+#ocr_thumbnail > .box-body {
+    padding:1px !important;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+
+#ocr_thumbnail > .box-footer {
+    padding:1px !important;
+}
+
+</style>
+<div style="position:relative; height:auto; width:100%">
+    <div style="position:relative; height:auto; width:100%">
+        @if(Model.OCRTemplate!=null)
+        {
+            <div class="ocr_template" data-id="@Model.OCRTemplate.DocTypeId">
+                @if(Model.OCRTemplate.OCRTemplatePages!=null)
+                {
+                    foreach(var p in Model.OCRTemplate.OCRTemplatePages)
+                    {
+                
+                        var f = ArchiveMVC5.Utility.CacheFileResult.CacheImage(p.Binary, "image/jpeg", string.Empty);
+                        var dpi = (int)p.DPI;
+                        var pageWidth = p.Width;
+                        var pageHeight = p.Height;
+                        var rotateAngle = p.RotateAngle;
+                        var fileExtension = p.FileExtension;
+                            
+                        <div class="ocr_template_page" data-id="@f.KeyCache" data-dpi="@dpi"
+                            data-width="@pageWidth" data-height="@pageHeight" data-rotateangle="@rotateAngle" data-fileextension="@fileExtension">
+                            @if(p.OCRTemplateZones!= null)
+                            {
+                                foreach(var oz in p.OCRTemplateZones)
+                                {
+                                    var left = ArchiveMVC5.Utility.ProcessImages.ToPixel(oz.Left, p.DPI);
+                                    var top = ArchiveMVC5.Utility.ProcessImages.ToPixel(oz.Top, p.DPI);
+                                    var width = ArchiveMVC5.Utility.ProcessImages.ToPixel(oz.Width, p.DPI);
+                                    var height = ArchiveMVC5.Utility.ProcessImages.ToPixel(oz.Height, p.DPI);
+                                    var field = Model.Fields.SingleOrDefault(z=>z.Id == oz.FieldMetaDataId);
+                                    <div class="ocr_template_zone" data-id="@oz.FieldMetaDataId"
+                                        data-left="@left"
+                                        data-top="@top"
+                                        data-width="@width"
+                                        data-height="@height"
+                                        data-name="@field.Name">
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        }
+        <input class="doc_type_id" value="@Model.Id.ToString()" type="hidden" />
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-md-12 col-sm-12 h80">
+        <div class="col-md-3 col-sm-3">
+            <div id="ocr_thumbnail">
+                <div class="info-box">
+                    <span class="info-box-icon bg-olive" ><i class="fa fa-file-o"  style="padding-top:20px"></i></span>
+                    <div class="info-box-content">
+                        <div class="info-box-text"><h4>OCR Template</h4></div>
+                        <div class="info-box-text"><h5>Content Type: @Model.Name</h5></div>
+                    </div>
+                </div>
+                <div class="ocr_pages">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8">
+            <div id="docViewer">
+            </div>
+        </div>
+        <div class="col-md-1 col-sm-1">
+            <div class="ocr_template_tool" style="display: none">
+                <ul class="menu_control">
+                    <li id="pan" class="menu_control_item control_pan" title="Pan"></li>
+                    <li id="draw" class="menu_control_item control_highlight" title="Draw"></li>
+                    <li id="zoom_in" class="menu_control_item control_zoomin" title="Zoom in"></li>
+                    <li id="zoom_out" class="menu_control_item control_zoomout" title="Zoom out"></li>
+                    <li id="rotate_left" class="menu_control_item control_rotationleft" title="Rotate left"></li>
+                    <li id="rotate_right" class="menu_control_item control_rotationright" title="Rotate right"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <div class="col-md-4 col-sm-4">
+            <div class="col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <i class="fa fa-square large text-red"></i>
+                    <span>Field Duplicated</span>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <i class="fa fa-square large text-brown"></i>
+                    <span>No mapping field</span>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <i class="fa fa-square large text-green"></i>
+                    <span>Valid</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4"></div>
+        <div class="col-md-4 col-sm-4">
+            <div class="col-md-12 col-sm-12">
+                <div class="col-md-6 col-sm-6">
+                    <select name="language" class="form-control input-sm">
+                        @{
+                            var lstLanguages = (List<ArchiveMVC5.Models.LanguageModel>)ViewData["Languages"];
+                            foreach(var item in lstLanguages){
+                                if(Model.HasOCRTemplateDefined){
+                                    if(item.Id.Equals(Model.OCRTemplate.Language.Id)){
+                                        <option value="@item.Id" selected="selected">@item.Name</option>
+                                    }else{
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }else{
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                    <button type="button" id="ocr_save_button" class="btn bg-olive pull-right">
+                        <i class="glyphicon glyphicon-save"></i>
+                        <span>Save</span>
+                    </button>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                    <button type="button" id="ocr_close_button" class="btn bg-olive pull-right">
+                        <i class="glyphicon glyphicon-remove"></i>
+                        <span>Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

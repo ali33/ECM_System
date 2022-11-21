@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{933FF008-8F83-415D-875B-07BBEF5A2566}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.Workflow.Activities.HumanStepPermissionDesigner</RootNamespace>
+    <AssemblyName>HumanStepPermissionDesigner</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\CaptureAdmin\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Workflow\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU'">
+    <OutputPath>bin\Release Obfuscated\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Ecm.Workflow.Activities.HumanStepPermissionDesigner.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converter\LeftMarginMultiplierConverter.cs" />
+    <Compile Include="Converter\NegativeVisibilityConverter.cs" />
+    <Compile Include="Converter\VisibilityConverter.cs" />
+    <Compile Include="Helper\TreeViewItemExtensions.cs" />
+    <Compile Include="HumanStepPermissionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HumanStepPermissionForm.Designer.cs">
+      <DependentUpon>HumanStepPermissionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PermissionDesigner.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\AnnotationPermissionViewModel.cs" />
+    <Compile Include="ViewModel\DocumentFieldPermissionViewModel.cs" />
+    <Compile Include="ViewModel\FieldPermissionViewModel.cs" />
+    <Compile Include="ViewModel\HumanStepPermissionViewModel.cs" />
+    <Compile Include="ViewModel\UserGroupPermissionViewModel.cs" />
+    <Compile Include="View\AnnotationPermissionView.xaml.cs">
+      <DependentUpon>AnnotationPermissionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DialogViewer.Designer.cs">
+      <DependentUpon>DialogViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FieldPermissionView.xaml.cs">
+      <DependentUpon>FieldPermissionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HumanStepPermissionView.xaml.cs">
+      <DependentUpon>HumanStepPermissionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserGroupPermissionView.xaml.cs">
+      <DependentUpon>UserGroupPermissionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserGroupSelectionView.xaml.cs">
+      <DependentUpon>UserGroupSelectionView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HumanStepPermissionView.vi-VN.resx" />
+    <EmbeddedResource Include="HumanStepPermissionForm.resx">
+      <DependentUpon>HumanStepPermissionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HumanStepPermissionView.resx" />
+    <EmbeddedResource Include="View\DialogViewer.resx">
+      <DependentUpon>DialogViewer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CaptureDomain\CaptureDomain.csproj">
+      <Project>{1faff4db-a95f-44f8-bee6-5d6903f37fdf}</Project>
+      <Name>CaptureDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomActivityDomain\CustomActivityDomain.csproj">
+      <Project>{fb5197ab-1699-4b35-b49c-1fb64e5ce59e}</Project>
+      <Name>CustomActivityDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomActivityModel\CustomActivityModel.csproj">
+      <Project>{FF9B3DF2-7410-4348-BF67-3A051754D1BD}</Project>
+      <Name>CustomActivityModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomControl\CustomControl.csproj">
+      <Project>{DAD3886B-C8C6-463A-A07D-ED08C85F8D08}</Project>
+      <Name>CustomControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{e3d700d5-bdfb-4777-8e9c-53e8f943ac58}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mvvm\Mvvm.csproj">
+      <Project>{81D27875-F5C9-423F-BD44-509D7A8F951C}</Project>
+      <Name>Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{f5b8f368-604c-4cfd-95e6-6cb7f2bcb832}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AnnotationPermissionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FieldPermissionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HumanStepPermissionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserGroupPermissionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserGroupSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="signAssemblyKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\cancel.png" />
+    <Resource Include="Themes\Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\index_icon.png" />
+    <Resource Include="Themes\Images\text.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)CaptureAdmin\bin\$(ConfigurationName)" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release Obfuscated" ("%25ProgramFiles%25\RustemSoft\Skater .NET Obfuscator\skater.exe" -SOURCE="$(TargetPath)" -OUTPUT="$(TargetPath)" -KEY="$(ProjectDir)signAssemblyKey.snk" -CONCEALSTRINGS -FLOW -METHOD=0 -WRITELOG)</PostBuildEvent>
+  </PropertyGroup>
+</Project>

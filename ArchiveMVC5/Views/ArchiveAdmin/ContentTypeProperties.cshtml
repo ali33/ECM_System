@@ -1,0 +1,242 @@
+﻿@model ArchiveMVC5.Models.ArchiveAdminModel
+@{
+    ViewBag.Title = "ContentTypeProperties";
+    
+}
+@section AddToHead
+    {
+       <script>
+           var DataType = @(Html.Raw(@Model.TableValue))
+       </script>
+    }
+<style>
+        h1, .h1, h2, .h2, h3, .h3, h4,.h4, h5, .h5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+</style>
+<div class="sub_properties_content">
+    <div class="box box-success padding-3">
+        <div class="box-header with-border">
+            <h4>Content type properties</h4>
+        </div>
+        <div class="box-body padding-1 h80">
+            <div class="form-group">
+                @Html.LabelFor(model => Model.ArchiveDocTypeModel.Name, new { @class = "label-control" })<span class="required">*</span>
+                @Html.TextBoxFor(model => model.ArchiveDocTypeModel.Name, new {autofocus="", id = "content_name", @class = "form-control input-sm validate" })
+            </div>
+            <div class="form-group">
+                @Html.CheckBoxFor(model => model.ArchiveDocTypeModel.IsOutlook, new { id = "outlook_import" })
+                @Html.LabelFor(model => Model.ArchiveDocTypeModel.IsOutlook, new { @class = "label-control" })
+            </div>
+            <table id="table_fields" class="table table-hover">
+                <caption><h4>Index fields</h4></caption>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Restricted</th>
+                        <th>Has lookup</th>
+                        <th>Default value</th>
+                        <th>Max length</th>
+                        <th>Lookup</th>
+                        <th class="hidden"></th>
+                        <th class="hidden"></th>
+                    </tr>
+                </thead>
+                <tbody id="table_fields_body">
+                    @{ foreach (var field_item in @Model.ArchiveDocTypeModel.Fields)
+                        {
+                            if (field_item.IsSystemField == false)
+                            {
+                        <tr id="@field_item.Id" class="row_field">
+                            <td class="td_field_name">@field_item.Name</td>
+                            <td class="td_data_type">@field_item.DataType.ToString()</td>
+                            @if (field_item.IsRequired == false)
+                            {
+                                <td class="td_required" data-isrequired="@field_item.IsRequired.ToString()" >No</td> 
+                                    }
+                            else
+                            {
+                                <td class="td_required" data-isrequired="@field_item.IsRequired.ToString()">Yes</td>
+                                    }
+
+                            @if (field_item.IsRestricted == false)
+                            {
+                                <td class="td_restricted" data-isrestricted="@field_item.IsRestricted.ToString()">No</td> 
+                                    }
+                            else
+                            {
+                                <td class="td_restricted" data-isrestricted="@field_item.IsRestricted.ToString()">Yes</td>
+                                    }
+
+                            @if (field_item.IsLookup == false)
+                            {
+                                <td class="td_haslookup" data-haslookup="@field_item.IsLookup.ToString()">No</td> 
+                                    }
+                            else
+                            {
+                                <td class="td_haslookup" data-haslookup="@field_item.IsLookup.ToString()">Yes</td>
+                                    }
+
+                            @if (field_item.UseCurrentDate == true)
+                            {
+                                <td class="td_default_value">{Use current date}</td>
+                                    }
+                            else
+                            {
+                                <td class="td_default_value">@field_item.DefaultValue</td>
+                                    }
+
+                            <td class="td_maxlength">@field_item.MaxLength</td>
+
+                            @if (@field_item.DataType == Ecm.Domain.FieldDataType.String
+                                                    || @field_item.DataType == Ecm.Domain.FieldDataType.Integer
+                                                    || @field_item.DataType == Ecm.Domain.FieldDataType.Decimal)
+                            {
+                                <td class="td_lookup text-center">
+                                    <i class="config_lookup fa fa-cog midle hand"></i>
+                                    @if (field_item.IsLookup == true)
+                                    { <span> | </span><i class="delete_lookup glyphicon glyphicon-trash midle hand"></i>}
+                                </td>
+                                    }
+                            else
+                            {
+                                <td class="td_lookup" data-sortable="false"></td>
+                                    }
+
+                            @{
+                            string str = "";
+                            foreach (var picklist_item in field_item.Picklists)
+                            {
+                                str = str + picklist_item.Value + "\n";
+                            }
+                               
+                                <td class="td_picklist hidden">@str</td>
+                               
+                            }
+
+                            <td class="td_table hidden"></td>
+                        </tr>
+                                    }
+                                }
+                    }
+
+                </tbody>
+            </table>
+            <div class="btn-group pull-right">
+                <button type="button" id="button_add_field" class="btn bg-olive btn-sm margin-5">
+                    <i class="glyphicon glyphicon-plus" />
+                    <span>Add  </span>
+                </button>
+                <button type="button" id="button_edit_field" class="btn bg-olive btn-sm margin-5">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    <span>Edit  </span>
+                </button>
+                <button type="button" id="button_delete_field" class="btn bg-olive btn-sm margin-5">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete  </span>
+                </button>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="btn-group pull-right">
+                <button type="button" id="button_save_content" class="btn bg-olive btn-flat margin-5">
+                    <i class="glyphicon glyphicon-save"></i>
+                    <span>Save  </span>
+                </button>
+                <button type="button" id="button_cancel_content" class="btn bg-olive btn-flat margin-5">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    <span>Close  </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#content_name").focus();
+
+    @{ 
+    foreach (var field_item in @Model.ArchiveDocTypeModel.Fields){
+        if(field_item.DataType == Ecm.Domain.FieldDataType.Picklist)
+        {
+            foreach(ArchiveMVC5.Models.PicklistModel item in field_item.Picklists)
+            {
+            <text>
+                var pick = {Id: '@item.Id', FieldId: '@item.FieldId', Value: '@item.Value'};
+                pickLists.push(pick);
+            </text>
+            }
+        }
+        
+        if (field_item.IsLookup)
+        {
+            <text>
+                var connectionInfo = 
+                    {
+                        "DatabaseType":'@field_item.LookupInfo.ConnectionInfo.DatabaseType',
+                        "DatabaseName":'@field_item.LookupInfo.ConnectionInfo.DatabaseName',
+                        "Host":'@field_item.LookupInfo.ConnectionInfo.Host',
+                        "Username":'@field_item.LookupInfo.ConnectionInfo.Username',
+                        "Password":'@field_item.LookupInfo.ConnectionInfo.Password',
+                        "Schema":'@field_item.LookupInfo.ConnectionInfo.Schema',
+                        "ProviderType":'@field_item.LookupInfo.ConnectionInfo.ProviderType',
+                        "Port":'@field_item.LookupInfo.ConnectionInfo.Port'
+                    };
+    
+                var parameters = [];
+
+                @foreach(ArchiveMVC5.Models.ParameterModel para in field_item.LookupInfo.Parameters)
+                {
+                    <text>
+                        var p = 
+                            {
+                                "ParameterName": '@para.ParameterName', 
+                                "ParameterValue":'@para.ParameterValue',
+                                "ParameterType":'@para.ParameterType',
+                                "Mode":'@para.Mode',
+                                "OrderIndex":'@para.OrderIndex'
+                            };
+                    
+                        parameters.push(p);
+                    </text>
+                }
+                
+                var fieldMaps = [];
+                @foreach(ArchiveMVC5.Models.LookupMapModel map in field_item.LookupInfo.FieldMappings)
+                {
+                    <text>
+                        var m = 
+                            {
+                                "ArchiveFieldId": '@map.ArchiveFieldId', 
+                                "DataColumn":'@map.DataColumn',
+                                "Name":'@map.Name',
+                                "FieldId":'@map.FieldId'
+                            };
+                    
+                        fieldMaps.push(m);
+                    </text>
+                }                
+                var info = 
+                    {
+                        "FieldId":'@field_item.Id', 
+                        "LookupType": parseInt(@field_item.LookupInfo.LookupType),
+                        "SqlCommand": '@field_item.LookupInfo.SqlCommand',
+                        "MaxLookupRow": parseInt(@field_item.LookupInfo.MaxLookupRow),
+                        "MinPrefixLength":parseInt(@field_item.LookupInfo.MinPrefixLength),
+                        "SourceName":'@field_item.LookupInfo.SourceName',
+                        "LookupColumn":'@field_item.LookupInfo.LookupColumn',
+                        "LookupOperator":'@field_item.LookupInfo.LookupOperator',
+                        "ConnectionInfo":connectionInfo,
+                        "Parameters":parameters,
+                        "FieldMappings":fieldMaps
+                    };
+
+                lookupInfos.push(info);
+            </text>
+        }
+    }
+}
+</script>

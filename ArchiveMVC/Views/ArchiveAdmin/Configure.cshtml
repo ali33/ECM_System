@@ -1,0 +1,122 @@
+﻿@model ArchiveMVC.Models.DocumentTypeModel
+@{
+    ViewBag.Title = "Configure";
+}
+@RenderPage("~/Views/Capture/FormUpload.cshtml")
+<div class="between_and_right">
+    <div style="position:relative; height:auto; width:100%">
+        <div style="position:relative; height:auto; width:100%">
+            @if(Model.OCRTemplate!=null)
+            {
+                <div class="ocr_template" data-id="@Model.OCRTemplate.DocTypeId">
+                    @if(Model.OCRTemplate.OCRTemplatePages!=null)
+                    {
+                        foreach(var p in Model.OCRTemplate.OCRTemplatePages)
+                        {
+                
+                            var f = ArchiveMVC.Utility.CacheFileResult.CacheImage(p.Binary, "image/jpeg", string.Empty);
+                            var dpi = (int)p.DPI;
+                            var pageWidth = p.Width;
+                            var pageHeight = p.Height;
+                            var rotateAngle = p.RotateAngle;
+                            var fileExtension = p.FileExtension;
+                            
+                            <div class="ocr_template_page" data-id="@f.KeyCache" data-dpi="@dpi"
+                                data-width="@pageWidth" data-height="@pageHeight" data-rotateangle="@rotateAngle" data-fileextension="@fileExtension">
+                                @if(p.OCRTemplateZones!= null)
+                                {
+                                    foreach(var oz in p.OCRTemplateZones)
+                                    {
+                                        var left = ArchiveMVC.Utility.ProcessImages.ToPixel(oz.Left, p.DPI);
+                                        var top = ArchiveMVC.Utility.ProcessImages.ToPixel(oz.Top, p.DPI);
+                                        var width = ArchiveMVC.Utility.ProcessImages.ToPixel(oz.Width, p.DPI);
+                                        var height = ArchiveMVC.Utility.ProcessImages.ToPixel(oz.Height, p.DPI);
+                                        var field = Model.Fields.SingleOrDefault(z=>z.Id == oz.FieldMetaDataId);
+                                        <div class="ocr_template_zone" data-id="@oz.FieldMetaDataId"
+                                            data-left="@left"
+                                            data-top="@top"
+                                            data-width="@width"
+                                            data-height="@height"
+                                            data-name="@field.Name">
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            <input class="doc_type_id" value="@Model.Id.ToString()" type="hidden" />
+            <div id="ocr_thumbnail">
+                <div class="ocrtemplate_root">
+                    <div class="ocrimage"><img src="/Images/appbar.cabinet.files.png" alt="" /></div>
+                    <div class="ocrtemplate_title">OCR Template</div>
+                    <div class="ocrdoctype">Content Type: @Model.Name</div>
+                </div>
+                <div class="ocr_pages">
+                </div>
+            </div>
+            <div id="docViewer">
+            </div>
+            <div class="ocr_template_tool" style="display: none">
+                <ul class="menu_control">
+                    <li id="pan" class="menu_control_item control_pan" title="Pan"></li>
+                    <li id="draw" class="menu_control_item control_highlight" title="Draw"></li>
+                    <li id="zoom_in" class="menu_control_item control_zoomin" title="Zoom in"></li>
+                    <li id="zoom_out" class="menu_control_item control_zoomout" title="Zoom out"></li>
+                    <li id="rotate_left" class="menu_control_item control_rotationleft" title="Rotate left"></li>
+                    <li id="rotate_right" class="menu_control_item control_rotationright" title="Rotate right"></li>
+                </ul>
+            </div>
+            @*</fieldset>*@
+        </div>
+        <div style="height:30px">
+            <div class="main_button">
+                <div class="save_button">
+                    <button type="button" id="ocr_save_button" class="archive_button archive_admin_button">
+                        <span>Save</span>
+                        <img src="~/Images/button/appbar.save.32.png" />
+                    </button>
+                </div>
+                <div class="close_button">
+                    <button type="button" id="ocr_close_button" class="archive_button archive_admin_button">
+                        <span>Close</span>
+                        <img src="~/Images/button/appbar.cancel.png" />
+                    </button>
+                </div>
+            </div>
+            <div class="ocrlanguagepanel">
+                <select name="language" class="archive_select ocr_language">
+                    @{
+                        var lstLanguages = (List<ArchiveMVC.Models.LanguageModel>)ViewData["Languages"];
+                        foreach(var item in lstLanguages){
+                            if(Model.HasOCRTemplateDefined){
+                                if(item.Id.Equals(Model.OCRTemplate.Language.Id)){
+                                    <option value="@item.Id" selected="selected">@item.Name</option>
+                                }else{
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }else{
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="ocrStatus">
+                <div>
+                    <div class="red"></div>
+                    <span>Field Duplicated</span>
+                </div>
+                <div>
+                    <div class="brown"></div>
+                    <span>No mapping field</span>
+                </div>
+                <div>
+                    <div class="green"></div>
+                    <span>Valid</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

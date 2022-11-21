@@ -1,0 +1,82 @@
+﻿@model IEnumerable<ArchiveMVC5.Models.SearchResultModel>
+
+@{
+    ViewBag.Title = "RunSearch";
+}
+
+@if (Model == null)
+{
+    <h2>Can't not found</h2>
+    @Html.ActionLink("Back", "Index","Search");
+}
+else
+{
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DocumentTypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResultCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSelected)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsChecked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PageIndex)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasMoreResult)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GlobalSearchText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsGlobalSearch)
+            </th>
+            <th></th>
+        </tr>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocumentTypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ResultCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsSelected)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsChecked)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PageIndex)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HasMoreResult)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GlobalSearchText)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsGlobalSearch)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+    </table>
+}

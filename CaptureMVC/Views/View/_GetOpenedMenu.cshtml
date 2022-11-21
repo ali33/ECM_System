@@ -1,0 +1,12 @@
+﻿@model string
+
+@if (!"[]".Equals(Model))
+{
+    <div id="opened-batch-menu" class="main-menu-item main_menu_item search_item" data-opened-batches="@Model">
+        <a href="#">@CaptureMVC.Resources.MainMenuResources.View</a>
+
+        
+    </div>
+}
+
+

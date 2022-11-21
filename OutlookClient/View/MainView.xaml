@@ -1,0 +1,40 @@
+﻿<Window x:Class="Ecm.OutlookClient.View.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:ContentViewer="clr-namespace:Ecm.DocViewer;assembly=DocViewer"
+        mc:Ignorable="d" 
+        WindowState="Maximized"
+        Icon="../Resources/Logo.ico"
+        Title="Ecm Outlook Import"
+        ShowInTaskbar="True"
+        d:DesignHeight="300" d:DesignWidth="300">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Silver.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <ContentViewer:ViewerContainer x:Name="ViewerContainer"
+                                       HorizontalAlignment="Stretch" 
+                                       VerticalAlignment="Stretch" 
+                                       AppName="ECM"
+                                       IsProcessing="{Binding Path=IsProcessing, Mode=TwoWay}"
+                                       UserName="{Binding Path=UserName}"
+                                       BatchTypes="{Binding Path=BatchTypes}"
+                                       Items="{Binding Path=Items}" 
+                                       DocViewerMode="LightCapture">
+            <ContentViewer:ViewerContainer.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../Resources/Silver.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </ContentViewer:ViewerContainer.Resources>
+        </ContentViewer:ViewerContainer>
+
+    </Grid>
+</Window>

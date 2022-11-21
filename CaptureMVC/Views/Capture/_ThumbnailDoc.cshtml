@@ -1,0 +1,34 @@
+﻿@model CaptureMVC.Models.CaptureDocumentModel
+
+<li id="@Model.Id"
+    class="li-doc @(Model.IsLooseItem ? "loose-item" : string.Empty) @(Model.Pages.Count > 0 ? string.Empty : "empty")"
+    data-type-id="@Model.TypeId"
+    data-scale="10">
+
+    @if (!Model.IsLooseItem)
+    {
+        <div class="item-content expand">
+            <div class="item-icon"></div>
+            <div class="item-image doc"></div>
+            <div class="item-text">
+                <div class="item-title">
+                    <span class="item-doc-index">@Model.DocNumber</span>.&nbsp;<span class="item-doc-title" data-doc-name="">@Model.TypeName</span>
+                </div>
+                <div>
+                    Page(s):&nbsp;<span class="item-doc-count">@Model.Pages.Count</span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="item-children">
+        <ul class="tree-item ul-page @(Model.IsLooseItem ? "loose-item" : string.Empty)">
+            @{ var pageIndex = 0;}
+            @foreach (var pageItem in Model.Pages)
+            {
+                pageItem.PageNumber = ++pageIndex;
+                @Html.Partial("_ThumbnailPage", pageItem)
+            }
+        </ul>
+    </div>
+</li>

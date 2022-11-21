@@ -1,0 +1,807 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1EDA7E0E-B133-482E-85D0-2BE8881848D1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.Admin</RootNamespace>
+    <AssemblyName>Admin</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <EnableSecurityDebugging>true</EnableSecurityDebugging>
+    <StartAction>URL</StartAction>
+    <HostInBrowser>true</HostInBrowser>
+    <TargetZone>Internet</TargetZone>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>True</SignManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <PublishUrl>D:\ECM\Build\Admin\</PublishUrl>
+    <Install>false</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>CloudECM</ProductName>
+    <SuiteName>Admin</SuiteName>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>false</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converter\Converter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="ViewModel\AmbiguousDefinitionViewModel.cs" />
+    <Compile Include="ViewModel\ConfigOCRTemplateViewModel.cs" />
+    <Compile Include="ViewModel\ConfigBarcodeViewModel.cs" />
+    <Compile Include="ViewModel\HelpViewModel.cs" />
+    <Compile Include="ViewModel\PicklistViewModel.cs" />
+    <Compile Include="ViewModel\SupportViewModel.cs" />
+    <Compile Include="ViewModel\TestLookupViewModel.cs" />
+    <Compile Include="View\ConfigBarcodeView.xaml.cs">
+      <DependentUpon>ConfigBarcodeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigOCRTemplateView.xaml.cs">
+      <DependentUpon>ConfigOCRTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CreateFieldView.xaml.cs">
+      <DependentUpon>CreateFieldView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogBaseView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DialogBaseView.Designer.cs">
+      <DependentUpon>DialogBaseView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogChildView.cs" />
+    <Compile Include="View\AmbiguousDefinitionView.xaml.cs">
+      <DependentUpon>AmbiguousDefinitionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ForgotPasswordView.xaml.cs">
+      <DependentUpon>ForgotPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HelpView.xaml.cs">
+      <DependentUpon>HelpView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LookupConfigurationView.xaml.cs">
+      <DependentUpon>LookupConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PicklistView.xaml.cs">
+      <DependentUpon>PicklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SupportInfoView.xaml.cs">
+      <DependentUpon>SupportInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TableConfigurationView.xaml.cs">
+      <DependentUpon>TableConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectionUserGroupView.xaml.cs">
+      <DependentUpon>SelectionUserGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectionUserView.xaml.cs">
+      <DependentUpon>SelectionUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateSelector\AddEditButtonTemplateSelector.cs" />
+    <Compile Include="TemplateSelector\CaptureEditorTemplateSelector.cs" />
+    <Compile Include="TemplateSelector\IndexEditorTemplateSelector.cs" />
+    <Compile Include="TemplateSelector\ParameterEditorTemplateSelector.cs" />
+    <Compile Include="ViewModel\AboutViewModel.cs" />
+    <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModel\DocumentTypeViewModel.cs" />
+    <Compile Include="ViewModel\FieldListViewModel.cs" />
+    <Compile Include="ViewModel\FieldViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\LookupViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\TableColumnViewModel.cs" />
+    <Compile Include="ViewModel\TableConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\PermissionViewModel.cs" />
+    <Compile Include="ViewModel\ProcessHelper.cs" />
+    <Compile Include="ViewModel\SettingViewModel.cs" />
+    <Compile Include="ViewModel\UserGroupViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
+    <Compile Include="View\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FieldList.xaml.cs">
+      <DependentUpon>FieldList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DocumentTypeView.xaml.cs">
+      <DependentUpon>DocumentTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HeaderView.xaml.cs">
+      <DependentUpon>HeaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PermissionView.xaml.cs">
+      <DependentUpon>PermissionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingView.xaml.cs">
+      <DependentUpon>SettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestLookupView.xaml.cs">
+      <DependentUpon>TestLookupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserGroupView.xaml.cs">
+      <DependentUpon>UserGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Resources\DatePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ConfigBarcodeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigOCRTemplateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateFieldView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AmbiguousDefinitionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ForgotPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HelpView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LookupConfigurationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PicklistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SupportInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TableConfigurationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SelectionUserGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectionUserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources\ViewModel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FieldList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DocumentTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HeaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PermissionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestLookupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\UserGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Silver.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\SilverBrush.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="AmbiguousDefinitionView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AmbiguousDefinitionView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigBarcodeView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigBarcodeView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="SupportInfoView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportInfoView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableConfigurationView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableConfigurationView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PicklistView.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PicklistView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PicklistView.vi-VN.resx" />
+    <EmbeddedResource Include="SettingView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectionUserGroupView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectionUserGroupView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectionUserView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectionUserView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookupConfigurationView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookupConfigurationView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PermissionView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PermissionView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateFieldView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateFieldView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentTypeView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentTypeView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserGroupView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserGroupView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources.vi-VN.resx" />
+    <EmbeddedResource Include="UserView.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginView.vi-VN.resx">
+      <LastGenOutput>LoginView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginView.resx">
+      <LastGenOutput>LoginView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainView.resx">
+      <LastGenOutput>MainView.vn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainView.vi-VN.resx">
+      <LastGenOutput>MainView.vn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserView.vi-VN.resx">
+      <CustomToolNamespace>Ecm.Admin.View</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DialogBaseView.resx">
+      <DependentUpon>DialogBaseView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+      <TransformOnBuild>true</TransformOnBuild>
+    </None>
+    <None Include="Obfuscation.targets" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\app.manifest" />
+    <AppDesigner Include="Properties\" />
+    <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
+    <None Include="signAssemblyKey.snk" />
+    <None Include="signClickOnceKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\usergroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Logo35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppHelper\AppHelper.csproj">
+      <Project>{3966C325-0164-47A7-B526-D19ECDF04180}</Project>
+      <Name>AppHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomControl\CustomControl.csproj">
+      <Project>{DAD3886B-C8C6-463A-A07D-ED08C85F8D08}</Project>
+      <Name>CustomControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DocViewer\DocViewer.csproj">
+      <Project>{64DD82F2-6C87-4211-A1C3-103E35AC7DD8}</Project>
+      <Name>DocViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{855C2210-6121-4C67-8162-F1D14B34C035}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{E3D700D5-BDFB-4777-8E9C-53E8F943AC58}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{856D7D25-0BE2-455D-AE92-052C3CE82EA3}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mvvm\Mvvm.csproj">
+      <Project>{81D27875-F5C9-423F-BD44-509D7A8F951C}</Project>
+      <Name>Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service.Contract\Service.Contract.csproj">
+      <Project>{CC2AE1F7-17EE-4FA5-A9BC-B3CC38526CAB}</Project>
+      <Name>Service.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{F5B8F368-604C-4CFD-95E6-6CB7F2BCB832}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\add.png" />
+    <Resource Include="Resources\Images\delete.png" />
+    <Resource Include="Resources\Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\cancel.png" />
+    <Resource Include="Resources\Images\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\security.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\database.png" />
+    <Resource Include="Resources\Images\mapdata.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\configuration.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\advancedsettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\command.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\HeaderBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\key.png" />
+    <Resource Include="Resources\Images\optionfolder.png" />
+    <Resource Include="Resources\Images\people.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\cloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\cloud_admin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\en\" />
+    <Folder Include="Resources\vi-VN\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\configOCR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="favicon.ico" />
+    <Content Include="Map.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Images\option.png" />
+    <Resource Include="Resources\Images\autocorrect.png" />
+    <None Include="Resources\FolderOpen20.png" />
+    <Resource Include="Resources\Images\mail.png" />
+    <Resource Include="Resources\Images\printer.png" />
+    <Content Include="Help.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Images\help32.png" />
+    <Resource Include="Resources\Images\Information32.png" />
+    <Content Include="Help_files\image001.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image002.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image003.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image004.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image005.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image007.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image009.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image010.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image011.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image012.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image013.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image014.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image015.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image016.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image017.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image018.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image019.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image020.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image021.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image022.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image023.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image024.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image025.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image026.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image027.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image028.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image029.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image030.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image031.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image032.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image033.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image034.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image035.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image036.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image037.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help_files\image038.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Images\logo1.png" />
+    <Resource Include="Resources\Images\Archive.png" />
+    <Resource Include="Resources\Images\delete16.png" />
+    <Resource Include="Resources\Images\exit22.png" />
+    <Resource Include="Resources\Images\help22.png" />
+    <Resource Include="Resources\Images\info22.png" />
+    <Resource Include="Resources\Images\ArchiveAdmin.jpg" />
+    <Resource Include="Resources\Images\ArchiveScreen.jpg" />
+    <Resource Include="Resources\Images\capture.jpg" />
+    <Resource Include="Resources\Images\capture_admin.jpg" />
+    <Resource Include="Resources\Images\down.png" />
+    <Resource Include="Resources\Images\connect.png" />
+    <Content Include="vic32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="vicfx.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="vicstats.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="victw32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <StartArguments />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>signClickOnceKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>767EF0F20321B43B2D17C9E12C93FDC7F18CFB90</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release Obfuscated\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Admin.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Optimize>true</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Label="SlowCheetah">
+    <SlowCheetahToolsPath>$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\..\packages\SlowCheetah.2.5.14\tools\))</SlowCheetahToolsPath>
+    <SlowCheetah_EnableImportFromNuGet Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='' ">true</SlowCheetah_EnableImportFromNuGet>
+    <SlowCheetah_NuGetImportPath Condition=" '$(SlowCheetah_NuGetImportPath)'=='' ">$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\Properties\SlowCheetah\SlowCheetah.Transforms.targets ))</SlowCheetah_NuGetImportPath>
+    <SlowCheetahTargets Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='true' and Exists('$(SlowCheetah_NuGetImportPath)') ">$(SlowCheetah_NuGetImportPath)</SlowCheetahTargets>
+  </PropertyGroup>
+  <Target Name="BeforeBuild" Condition=" '$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU' ">
+    <CreateProperty Value="true">
+      <Output TaskParameter="Value" PropertyName="Obfuscate" />
+    </CreateProperty>
+    <CreateProperty Value="false">
+      <Output TaskParameter="Value" PropertyName="ShouldMergeAssemblies" />
+    </CreateProperty>
+  </Target>
+  <Import Project="$(MSBuildProjectDirectory)\Obfuscation.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

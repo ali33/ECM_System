@@ -1,0 +1,50 @@
+﻿@model ArchiveMVC.Models.SettingModel
+@{
+    ViewBag.Title = "ShowSettings";
+}
+<div class="sub_properties_content">
+    <div class="sub_properties_between">
+        <div class="between_content">
+    <fieldset class="parent_fieldset setting_fieldset">
+        <legend>General Information</legend>
+        <div class="between_content_info">
+            <div class="between_content_data">
+                <div class="label">Number of rows per search result</div>
+                <div class="field setting_input_field">
+                    <input type="text" id="archive_admin_setting_numofrow" class="archive_input" value="@Model.MaxSearchRows">
+                </div>
+            </div>
+
+            <div class="between_content_data">
+                <div class="label">Server working folder</div>
+                <div class="field setting_input_field">
+                    <input type="text" id="archive_admin_setting_server_folder" class="archive_input" value="@Model.ServerWorkingFolder">
+                </div>
+            </div>
+
+            <div class="between_content_data">
+                <div class="label">Lucene search folder</div>
+                <div class="field setting_input_field">
+                    <input type="text" id="archive_admin_setting_lucene_folder" class="archive_input">
+                </div>
+            </div>
+        </div>
+        
+    </fieldset>
+            </div>
+        </div>
+    <div class="main_button">
+        <div class="save_button">
+            <button type="button" id="archive_admin_setting_configure" class="archive_button archive_admin_button">
+                <span>Configure</span>
+                <img src="~/Images/button/option.png" />
+            </button>
+        </div>
+        <div class="close_button">
+            <button type="button" id="archive_admin_setting_save" class="archive_button archive_admin_button">
+                <span>Save</span>
+                <img src="~/Images/button/appbar.save.32.png" />
+            </button>
+        </div>
+    </div>
+</div>

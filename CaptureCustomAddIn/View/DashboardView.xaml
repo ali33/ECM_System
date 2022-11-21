@@ -1,0 +1,428 @@
+﻿<UserControl x:Class="Ecm.CaptureCustomAddIn.View.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:st="clr-namespace:Ecm.CaptureCustomAddin.TemplateSelector"
+             xmlns:atcp="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+             xmlns:view="clr-namespace:Ecm.CaptureCustomAddIn.View"
+             xmlns:cc="clr-namespace:Ecm.CustomControl;assembly=CustomControl"
+             xmlns:comment="clr-namespace:Ecm.CaptureViewer.Controls;assembly=CaptureViewer"
+             Height="Auto" Width="450" MinWidth="200">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Silver.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="ItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+                <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
+            </Style>
+            <DataTemplate x:Key="CommentListItem">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <Border BorderBrush="{DynamicResource NormalBrush}" BorderThickness="1" Margin="5,0,10,0">
+                        <Image Source="{Binding Path=User.Picture,Converter={StaticResource ImageSourceBinaryConverter}}" Width="60" Height="70"/>
+                    </Border>
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Path=User.Username}"
+                               Margin="5,0,0,0"
+                               HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Path=CreatedDate,Converter={StaticResource ShortDateTimeConverter}}" 
+                               Margin="5,0,0,0" 
+                               Grid.Row="1"
+                               VerticalAlignment="Center"/>
+                        <comment:CommentTool Grid.Row="2" EnableConvertUrl="True" FontSize="16" 
+                                             XamlContent="{Binding Path=Note, Mode=OneWay}" Margin="4,4,4,4" 
+                                             VerticalAlignment="Stretch" AllowTextSelection="True" ShowReadOnlyMode="True" 
+                                             HorizontalAlignment="Stretch" NewMinHeight="0"/>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="StringEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeVisibilityConverter}}">
+                    <Grid Margin="0,10,0,3" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                    </Grid>
+                    <TextBox Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Height="25" 
+                             IsTabStop="True" HorizontalAlignment="Stretch"
+                             MaxLength="{Binding Path=MaxLength}"
+                             IsEnabled="{Binding Path=IsWrite}"
+                             IsReadOnly="{Binding Path=IsReadOnly}"
+                             cc:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                             Style="{DynamicResource TextboxFocusIndexField}" Tag="{Binding Path=.}"/>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="DecimalEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeVisibilityConverter}}">
+                    <Grid Margin="0,10,0,3" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                    </Grid>
+                    <TextBox cc:NumericTextBoxBehavior.Mask="Decimal" 
+                             cc:NumericTextBoxBehavior.DecimalPoint="{Binding Path=DecimalScale}"
+                             MaxLength="15" Height="25" 
+                             Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                             IsTabStop="True" HorizontalAlignment="Stretch"
+                             IsEnabled="{Binding Path=IsWrite}"
+                             IsReadOnly="{Binding Path=IsReadOnly}"
+                             cc:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                             Style="{DynamicResource TextboxFocusIndexField}" Tag="{Binding Path=.}"/>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="IntegerEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeVisibilityConverter}}">
+                    <Grid Margin="0,10,0,3" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                    </Grid>
+                    <TextBox cc:NumericTextBoxBehavior.Mask="Integer" Height="25" 
+                             cc:NumericTextBoxBehavior.MinimumValue="-2147483648"
+                             cc:NumericTextBoxBehavior.MaximumValue="2147483647"
+                             Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                             IsTabStop="True" HorizontalAlignment="Stretch"
+                             IsEnabled="{Binding Path=IsWrite}"
+                             IsReadOnly="{Binding Path=IsReadOnly}"
+                             cc:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                             Style="{DynamicResource TextboxFocusIndexField}" Tag="{Binding Path=.}"/>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="DateTimeEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeVisibilityConverter}}">
+                    <Grid Margin="0,10,0,3" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                    </Grid>
+                    <DatePicker Height="25" 
+                                HorizontalAlignment="Stretch" 
+                                Padding="2"  
+                                VerticalAlignment="Center" 
+                                Text="{Binding Path=Value, Converter={StaticResource ShortDateTimeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                                IsTabStop="True" 
+                                SelectedDateFormat="Short"
+                                IsEnabled="{Binding Path=IsWrite}"
+                                cc:SelectTextOnFocus.Active="True" x:Name="editorControl" Tag="{Binding Path=.}">
+                    </DatePicker>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="PickListEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeVisibilityConverter}}">
+                    <Grid Margin="0,10,0,3" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                    </Grid>
+                    <ComboBox ItemsSource="{Binding Path=PickListValues, Mode=OneWay}"
+                              SelectedItem="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                              IsEnabled="{Binding Path=IsWrite}"
+                              IsReadOnly="{Binding Path=IsReadOnly}"
+                              x:Name="editorControl"
+                              Tag="{Binding Path=.}">
+                    </ComboBox>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="BooleanEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeVisibilityConverter}}">
+                    <CheckBox Content="{Binding Path=Field.Name}"
+                              IsEnabled="{Binding Path=IsWrite}"
+                              IsChecked="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="FolderEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeVisibilityConverter}}">
+                    <Grid Margin="0,10,0,3" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                    </Grid>
+                    <cc:BrowseFolderControl Folder="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Height="25"
+                                            IsTabStop="True" HorizontalAlignment="Stretch" 
+                                            IsEnabled="{Binding Path=AllowToEditIndex}">
+
+                    </cc:BrowseFolderControl>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="TableEditorTemplate">
+                <StackPanel Width="Auto"
+                            HorizontalAlignment="Stretch" 
+                            Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeVisibilityConverter}}"
+                            MouseLeave="StackPanel_MouseLeave"
+                            ToolTip="Click here to show table detail"
+                            MouseEnter="StackPanel_MouseEnter">
+                    <Grid  Margin="0,10,0,3" HorizontalAlignment="Stretch" Width="Auto">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="0"/>
+                        <Button Style="{StaticResource LinkButton}" Grid.Column="1" IsEnabled="{Binding Path=AllowToEditIndex}" 
+                                HorizontalAlignment="Right" 
+                                Content="Show table detail" 
+                                x:Name="btnShowDetail" 
+                                Click="btnShowDetail_Click" 
+                                Padding="2"/>
+                        <Popup IsOpen="{Binding Path=IsShowTableDetail, ElementName=Me, Mode=TwoWay}" 
+                               Width="Auto" Height="Auto" MinWidth="300"
+                               AllowsTransparency="True"
+                               VerticalOffset="-100" 
+                               HorizontalOffset="50">
+                            <view:TableColumnPopupView />
+                        </Popup>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="LookupStringEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeBoolVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                        <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                        <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource BoolVisibilityConverter}}" />
+                    </StackPanel>
+                    <Grid IsEnabled="{Binding Path=AllowToEditIndex}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <atcp:AutoCompleteBox Height="25" ToolTip="Lookup field"
+                                              IsEnabled="{Binding Path=IsWrite}"
+                                              HorizontalAlignment="Stretch"
+                                              FilterMode="Custom"
+                                              Loaded="AutoCompleteBoxLoaded"
+                                              SelectedItem="{Binding Path=SelectedLookupItem}"
+                                              Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              SelectionChanged="AutoCompleteBoxSelectionChanged"
+                                              TextChanged="AutoCompleteBoxTextChanged" 
+                                              PreviewKeyDown="AutoCompleteBoxPreviewKeyDown"
+                                              cc:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                                              TextBoxStyle="{DynamicResource TextboxFocusIndexField}" 
+                                              Tag="{Binding Path=.}"/>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="LookupDecimalEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeBoolVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                        <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                        <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource BoolVisibilityConverter}}" />
+                    </StackPanel>
+                    <Grid IsEnabled="{Binding Path=AllowToEditIndex}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <atcp:AutoCompleteBox Height="25" ToolTip="Lookup field"
+                                              HorizontalAlignment="Stretch" 
+                                              FilterMode="Custom"
+                                              IsEnabled="{Binding Path=IsWrite}"
+                                              Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              Loaded="AutoCompleteBoxLoaded"
+                                              SelectedItem="{Binding Path=SelectedLookupItem}"
+                                              cc:NumericAutoComplateBoxBehavior.Mask="Decimal"
+                                              SelectionChanged="AutoCompleteBoxSelectionChanged"
+                                              TextChanged="AutoCompleteBoxTextChanged"
+                                              PreviewKeyDown="AutoCompleteBoxPreviewKeyDown"
+                                              cc:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                                              TextBoxStyle="{DynamicResource TextboxFocusIndexField}"
+                                              Tag="{Binding Path=.}"/>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="LookupIntegerEditorTemplate">
+                <StackPanel Visibility="{Binding IsHidden, Mode=TwoWay, Converter={StaticResource NegativeBoolVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                        <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                        <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource BoolVisibilityConverter}}" />
+                    </StackPanel>
+                    <Grid IsEnabled="{Binding Path=AllowToEditIndex}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <atcp:AutoCompleteBox HorizontalAlignment="Stretch" 
+                                              FilterMode="Custom"
+                                              IsEnabled="{Binding Path=IsWrite}"
+                                              Loaded="AutoCompleteBoxLoaded"
+                                              SelectedItem="{Binding Path=SelectedLookupItem}"
+                                              Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              cc:NumericAutoComplateBoxBehavior.Mask="Integer" 
+                                              cc:NumericAutoComplateBoxBehavior.MaximumValue="2147483647" 
+                                              cc:NumericAutoComplateBoxBehavior.MinimumValue="-2147483648"
+                                              SelectionChanged="AutoCompleteBoxSelectionChanged"
+                                              TextChanged="AutoCompleteBoxTextChanged"
+                                              PreviewKeyDown="AutoCompleteBoxPreviewKeyDown"
+                                              Height="25" ToolTip="Lookup field"
+                                              cc:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                                              TextBoxStyle="{DynamicResource TextboxFocusIndexField}"
+                                              Tag="{Binding Path=.}"/>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
+            <st:FieldEditorTemplateSelector x:Key="IndexEditorTemplateSelector"
+                                            DateTimeEditorTemplate="{StaticResource DateTimeEditorTemplate}" 
+                                            DecimalEditorTemplate="{StaticResource DecimalEditorTemplate}" 
+                                            IntegerEditorTemplate="{StaticResource IntegerEditorTemplate}" 
+                                            StringEditorTemplate="{StaticResource StringEditorTemplate}" 
+                                            PickListEditorTemplate="{StaticResource PickListEditorTemplate}"
+                                            BooleanEditorTemplate="{StaticResource BooleanEditorTemplate}"
+                                            LookupDecimalEditorTemplate="{StaticResource LookupDecimalEditorTemplate}"
+                                            LookupIntegerEditorTemplate="{StaticResource LookupIntegerEditorTemplate}"
+                                            LookupStringEditorTemplate="{StaticResource LookupStringEditorTemplate}" 
+                                            FolderEditorTemplate="{StaticResource FolderEditorTemplate}" 
+                                            TableEditorTemplate="{StaticResource TableEditorTemplate}"
+                                            />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TabItem>
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Height="32" Width="110">
+                            <Image Height="22" Width="22" Source="../Resources/Images/package.png" />
+                            <TextBlock Text="Batch Index" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <cc:KeyLessScrollViewer FocusVisualStyle="{x:Null}" VerticalScrollBarVisibility="Auto" FlowDirection="LeftToRight" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ContentControl HorizontalAlignment="Stretch" 
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        BorderBrush="Transparent" 
+                                        FlowDirection="LeftToRight"
+                                        Background="Transparent"
+                                        KeyboardNavigation.ControlTabNavigation="Continue"
+                                        ScrollViewer.CanContentScroll="False" 
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}" Margin="20,0,20,10">
+                            <ItemsControl ItemsSource="{Binding Path=BatchFieldValues}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          ItemTemplateSelector="{StaticResource IndexEditorTemplateSelector}" 
+                                          FocusVisualStyle="{x:Null}">
+                                <ItemsControl.Template>
+                                    <ControlTemplate>
+                                        <Border BorderThickness="0" BorderBrush="Transparent" SnapsToDevicePixels="True">
+                                            <ItemsPresenter SnapsToDevicePixels="True" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+                            </ItemsControl>
+                        </ContentControl>
+                    </cc:KeyLessScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Height="32" Width="110">
+                            <Image Height="22" Width="22" Source="../Resources/Images/document_index.png" />
+                            <TextBlock Text="Content Index" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <cc:KeyLessScrollViewer FocusVisualStyle="{x:Null}" VerticalScrollBarVisibility="Auto" FlowDirection="LeftToRight">
+                        <ContentControl HorizontalAlignment="Stretch"
+                                        BorderBrush="Transparent" 
+                                        FlowDirection="LeftToRight"
+                                        Background="Transparent"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        KeyboardNavigation.ControlTabNavigation="Continue"
+                                        ScrollViewer.CanContentScroll="False" 
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}" Margin="20,0,20,10">
+                            <ItemsControl ItemsSource="{Binding Path=FieldValues}"
+                                          ItemTemplateSelector="{StaticResource IndexEditorTemplateSelector}" 
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          FocusVisualStyle="{x:Null}">
+                                <ItemsControl.Template>
+                                    <ControlTemplate>
+                                        <Border BorderThickness="0" BorderBrush="Transparent" SnapsToDevicePixels="True">
+                                            <ItemsPresenter SnapsToDevicePixels="True" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+                            </ItemsControl>
+                        </ContentControl>
+                    </cc:KeyLessScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Height="32" Width="110">
+                            <Image Height="22" Width="22" Source="../Resources/Images/comments.png" />
+                            <TextBlock Text="Discussion(s)" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListBox ItemsSource="{Binding Path=Comments,Mode=TwoWay}"
+                             ItemTemplate="{StaticResource CommentListItem}"
+                             VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch"
+                             HorizontalContentAlignment="Stretch"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

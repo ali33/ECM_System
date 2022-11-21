@@ -1,0 +1,29 @@
+﻿@model  IEnumerable<ArchiveMVC5.Models.SearchQueryModel>
+@{
+    ViewBag.Title = "GetSavedQuery";
+}
+
+<h2>GetSavedQuery</h2>
+@foreach (var item in Model)
+{
+    <p>File này chỉ dùng để thử nghiệm, có thể xóa bỏ Create by Triet</p>
+    <p>==========     @item.Name;    ================</p>
+    
+    <br />
+    foreach(var expression in item.SearchQueryExpressions)
+    {
+        <p>
+        @expression.Condition;"  "
+        @expression.Field.Name;" "
+        @expression.Operator;" "
+        @expression.Value1;" "
+        @expression.Value2;   
+    
+        </p>
+    }
+        
+        
+    <br />
+  
+   
+}

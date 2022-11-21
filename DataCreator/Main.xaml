@@ -1,0 +1,167 @@
+﻿<Window x:Class="Ecm.DataCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:password="clr-namespace:Ecm.Utility;assembly=Utility"
+        Title="Cloud ECM - Data Creator" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        WindowStartupLocation="CenterScreen"
+        Height="Auto" Width="Auto" Icon="Logo.ico" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Grid HorizontalAlignment="Stretch" Width="600" Height="Auto" VerticalAlignment="Stretch" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
+            <Border.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Resources/Images/HeaderBackground.jpg"></ImageBrush>
+            </Border.Background>
+            <Image Source="Resources/Images/cloud_data.png" HorizontalAlignment="Left"/>
+        </Border>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Server name" Margin="2,5,0,0"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,5,0,0" Height="22"
+                     Text="{Binding Path=ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="1" Text="User name"  Margin="2,2,0,0"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Height="22" Margin="2,2,0,0"
+                     Text="{Binding Path=Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="2" Text="Password" Margin="2,2,0,0"/>
+            <PasswordBox Grid.Row="2" Grid.Column="1" Margin="2,2,0,0"
+                         password:BoundPasswordBox.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="22"/>
+            <Button Grid.Row="3" Grid.Column="1" Width="100" Height="25" Margin="0,5,0,5" VerticalContentAlignment="Center"
+                    Content="Test connection" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Command="{Binding Path=TestConnectionCommand}"/>
+            <Border Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource Separator}" />
+            <TextBlock Grid.Row="5" Text="Option" Margin="2,2,0,0"/>
+            <ComboBox Grid.Row="5" Grid.Column="1" Height="22"
+                      Name="cboOption"
+                      IsEnabled="{Binding Path=IsTestConnectionSuccess, Mode=OneWay}"
+                      SelectionChanged="cboOption_SelectionChanged">
+                <ComboBoxItem>Create new Archive</ComboBoxItem>
+                <ComboBoxItem>Create new Capture</ComboBoxItem>
+                <ComboBoxItem>Create new Archive and Capture</ComboBoxItem>
+                <ComboBoxItem>Already have Archive => Include new Capture</ComboBoxItem>
+                <ComboBoxItem>Already have Capture => Include new Archive</ComboBoxItem>
+            </ComboBox>
+            <TextBlock Grid.Row="6" Text="Primary database name" Margin="2,2,0,0"/>
+            <ComboBox Grid.Row="6" Grid.Column="1" Height="22"
+                      SelectedItem="{Binding Path=PrimaryDatabaseName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                      PreviewMouseDown="cboDatabase_PreviewMouseDown" 
+                      x:Name="cboPrimaryDatabase" Margin="2,2,0,0"
+                      ItemsSource="{Binding Path=DatabaseNames, Mode=TwoWay}"
+                      IsEnabled="{Binding Path=EnablePrimaryDatabase, Mode=OneWay}"/>
+            <TextBlock Grid.Row="7" Text="Archive database name" Margin="2,2,0,0"/>
+            <ComboBox Grid.Row="7" Grid.Column="1" Height="22"
+                      SelectedItem="{Binding Path=ArchiveDatabaseName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      PreviewMouseDown="cboDatabase_PreviewMouseDown" 
+                      x:Name="cboArchiveDatabase" Margin="2,2,0,0"
+                      ItemsSource="{Binding Path=DatabaseNames,Mode=TwoWay}"
+                      IsEnabled="{Binding Path=EnableArchiveDatabase, Mode=OneWay}"/>
+            <TextBlock Grid.Row="8" Text="Capture database name" Margin="2,2,0,0"/>
+            <ComboBox Grid.Row="8" Grid.Column="1" Height="22"
+                      SelectedItem="{Binding Path=CaptureDatabaseName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      PreviewMouseDown="cboDatabase_PreviewMouseDown" 
+                      x:Name="cboCaptureDatabase" Margin="2,2,0,0"
+                      ItemsSource="{Binding Path=DatabaseNames,Mode=TwoWay}"
+                      IsEnabled="{Binding Path=EnableCaptureDatabase, Mode=OneWay}"/>
+            <Border Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource Separator}" />
+            <Grid Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  IsEnabled="{Binding Path=IsAdminPanelEnabled, Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Admin user name"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,0,0"
+                         Text="{Binding Path=AdminUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Row="1" Text="Admin password" Margin="2,2,0,0"/>
+                <PasswordBox Grid.Row="1" Grid.Column="1" Margin="2,2,0,0" Height="22"
+                             password:BoundPasswordBox.BoundPassword="{Binding Path=AdminPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Row="2" Text="Confirm password" Margin="2,2,0,0"/>
+                <PasswordBox Grid.Row="2" Grid.Column="1" Margin="2,2,0,0" Height="22"
+                             password:BoundPasswordBox.BoundPassword="{Binding Path=ConfirmAdminPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Row="3" Text="Admin email" Margin="2,2,0,0"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="2,2,0,0"
+                         Text="{Binding Path=AdminEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                <CheckBox Grid.Row="4" Grid.Column="1" 
+                          Content="Create sample data" 
+                          IsChecked="{Binding Path=IsCreateSample, Mode=TwoWay}"
+                          Margin="2,2,0,0"/>
+                <TextBlock Grid.Row="5" Text="Temporary working folder" Margin="2,2,0,0"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Margin="2,2,0,0"
+                         Text="{Binding Path=WorkingFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                <TextBlock Grid.Row="6" Text="Save content in folder" Margin="2,2,0,0"/>
+                <CheckBox Grid.Row="6" Grid.Column="1" 
+                          Content="" 
+                          IsChecked="{Binding Path=IsSaveFileInFolder, Mode=TwoWay}"
+                          Margin="2,2,0,0"/>
+                <TextBlock Grid.Row="7" Text="Content directory path" Margin="2,2,0,0"/>
+                <TextBox Grid.Row="7" Grid.Column="1" Margin="2,2,0,0"
+                         Text="{Binding Path=LocationSaveFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+            </Grid>
+            <Border Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource Separator}"/>
+            <CheckBox Grid.Row="12" Grid.ColumnSpan="2" Content="Enable active directory"
+                      IsChecked="{Binding Path=IsAdEnabled, Mode=TwoWay}"/>
+            <Grid Grid.Row="13" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  IsEnabled="{Binding Path=IsAdEnabled, Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="AD user name"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,0,0" Text="{Binding Path=AdUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="AD password" Grid.Row="1" Margin="2,2,0,0"/>
+                <PasswordBox Grid.Row="1" Grid.Column="1" Margin="2,2,0,0" Height="22"
+                             password:BoundPasswordBox.BoundPassword="{Binding Path=AdPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Row="2" Text="Confirm AD password" Margin="2,2,0,0"/>
+                <PasswordBox Grid.Row="2" Grid.Column="1" Margin="2,2,0,0" Height="22"
+                             password:BoundPasswordBox.BoundPassword="{Binding Path=ConfirmationAdPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Row="3" Text="AD user email" Margin="2,2,0,0"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="2,2,0,0"
+                         Text="{Binding Path=AdEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+            </Grid>
+            <Border Grid.Row="14" Grid.ColumnSpan="2" Style="{StaticResource Separator}"/>
+            <StackPanel Grid.Row="15" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Height="35">
+                <Button ContentTemplate="{StaticResource OkButton}" Margin="5,0,5,0" Command="{Binding Path=OkCommand}"/>
+                <Button ContentTemplate="{StaticResource CancelButton}" Margin="5,0,0,0" Command="{Binding Path=CancelCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

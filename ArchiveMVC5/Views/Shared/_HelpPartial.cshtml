@@ -1,0 +1,40 @@
+﻿@{
+    var product = ArchiveMVC5.Utility.Utilities.ProductVersion;
+}
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-life-saver"></i>
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <a href="#">
+                <div>
+                    <h4><i class="fa fa-question-circle"></i><span> Help </span></h4>
+                </div>
+            </a>
+        </li>
+        <li>
+            <div class="box help-box margin">
+                <div class="box-header">
+                    <h4><i class="glyphicon glyphicon-info-sign"></i><span> About </span></h4>
+                </div>
+                <div class="box-body" style="width:500px">
+                    <div><h2>Cloud ECM - Archive</h2></div>
+                    <div>
+                        <label class="control-label">Version: @product.Version</label>
+                    </div>
+                    <div>
+                        <label class="control-label">Copy right <i class='fa fa-copyright'></i> @product.CopyRight</label>
+                    </div>
+                    <div class="form-group">
+                        Warning:  This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe criminal penalties, and will be prosecuted to the maximum extent possible under the law.
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button class="btn btn-flat bg-olive margin"><i class="glyphicon glyphicon-earphone"></i> Support </button>
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>

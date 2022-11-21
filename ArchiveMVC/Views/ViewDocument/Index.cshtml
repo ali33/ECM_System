@@ -1,0 +1,227 @@
+﻿@model ArchiveMVC.Models.DocumentModel
+@{
+    ViewBag.Title = "View Document";
+}
+@section AddToHead{
+    @*@Styles.Render("~/Content/Pages/Capture.css")*@
+    @*@Styles.Render("~/Content/bootstrap.min.css")*@
+    @*@Styles.Render("~/Content/modern.css")*@
+    @*@Styles.Render("~/Content/ECM_v1.css")*@
+    @Scripts.Render("~/Scripts/multisortable.js")
+    @Scripts.Render("~/Scripts/Pages/Capture.js")
+    @Scripts.Render("~/Scripts/printThis.js")
+    @*@Scripts.Render("~/Scripts/effect.js")*@
+    <style>
+        .ui-state-highlight { width: 290px; height: 96px; border:3px solid #F7BE81 }
+        .demo-selected {
+          background: red;
+          cursor: move;
+        }
+        .selected {
+            border:3px solid #F7BE81
+        }
+        .content{
+            border: 2px solid #999999;
+            -moz-box-shadow: 0px 0px 20px #000000;
+            -webkit-box-shadow: 0px 0px 20px #000000;
+            box-shadow: 0px 0px 20px #000000;
+            /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+        }
+    </style>
+    <link href="~/Content/ECM.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/effect.js"></script>
+    <script>
+        var urlScanIcon = '/Images/Scan-icon.png',
+            urlImportIcon = '/Images/file-import-icon.png',
+            urlPostImage = '@Url.Action("UpLoadFile", "ImageProcessing")',
+        $image = $("#filePath"),
+        url = '@Url.Action("ID", "ImageProcessing")',
+        urlGetIcon = '@Url.Action("GetIcon", "ImageProcessing")',
+        $content = $('.content'),
+        draw,
+        itemsCount = 0,
+        imagesSrc = [],
+        $pages = [],
+        draws = [],
+        settings = [];
+        var urlGetDocType = '@Url.Action("GetDocType", "Capture")';
+        var currentId;
+        $(document).load(function () {
+            
+        });
+        var _linkCSS = "/Content/SelectionArea/imgareaselect-default.css";
+
+</script>
+}
+@using (Html.BeginForm("UpLoadFile", "ImageProcessing", FormMethod.Post,
+                new { enctype = "multipart/form-data", id = "formUpload" }))
+{
+    <input type="file" style="display:none;" name="file" id="filePath"/>
+    <input type="hidden" name="docTypeId" id="docTypeId" value="1" />
+}
+    <!-- body here -->
+    <section class="body archive body_capture">
+        <!-- capture_sitebar nav -->
+		<div class="left_column capture_sitebar open">
+            <!-- nav resize button -->
+            <span class="nav_resize"></span>
+            <!-- capture_leftbar -->
+            <div class="capture_leftbar">
+                <div class="leftbar_lable thumbnails leftbar_lable_focus">
+                    <img src="@Url.Content("~/Images/view_list.png")" />
+                    <span>Thumbnails</span>
+                </div>
+                <div class="leftbar_lable indexs" id="index">
+                    <img src="@Url.Content("~/Images/view_incident.png")" />
+                    <span>Indexs</span>
+                </div>
+            </div>
+            <!-- capture_mainbar -->
+            <div class="capture_mainbar capture_thumbnails">
+                <div class="capture_header">
+                    <div class="capture_header_feature scan_feature" title="Scan">
+                        <span class="bt_images"></span>
+                        <div class="span_show">
+                            <ul class="capture-dropdown-menu">
+                                <li><a href="#">Test One</a></li>
+                                <li><a href="#">Test Two</a></li>
+                                <li><a href="#">Test Theree</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="capture_header_feature upload_feature"  title="Import document from file system">
+                        <span class="bt_images"></span>
+                        <div class="span_show">
+                            <ul class="capture-dropdown-menu">
+                                <li><a href="#">Sample document type</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="capture_header_feature webcam_feature" title="Take a photo/video from camera">
+                        <span class="bt_images"></span>
+                        <!-- Dropdown menu -->
+                        <div class="span_show">
+                            <ul class="capture-dropdown-menu">
+                                <li><a href="#">Sample document type</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="capture_header_feature capture_option" title="Options"></div>
+                </div>
+                <div class="capture_main_content thumbnails">
+                    <!-- treeview thumbnails -->
+                    <div class="treeview">
+                        <ul class="treeview_first">
+                            <li>
+                                <span class="treeview_title treeview_open" id="openFile">
+                                    <span class="treeview_icon glyphicon glyphicon-play"></span>
+                                    <a href="#">
+                                        <img src="@Url.Content("~/Images/appbar.page.file.pdf.tag.png")" />
+                                        <span>
+                                            <strong>Default batch</strong>
+                                            <span>Create on: 
+                                                <time id="create-date" datetime="@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")" >@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")</time>
+
+                                            </span>
+                                            <span>Create by: <span>@((string)ArchiveMVC.Utility.Utilities.GetSession(ArchiveMVC.Models.Constant.UserName)) 
+                                                <input id="create-by" value="@((string)ArchiveMVC.Utility.Utilities.GetSession(ArchiveMVC.Models.Constant.UserName))" type="hidden" />
+                                            </span></span>
+                                        </span>
+                                    </a>
+                                </span>
+                                
+                                @{
+                                    var key = ArchiveMVC.Utility.ProcessCache.Cache(Model.DocumentType.Icon);
+                                    }
+
+                                 <ul class="treeview_second">
+                                     <!-- block treeview -->
+                                    <li>
+                                       
+                                                <span class="treeview_title treeview_open" id="openFile">
+                                                    <span class="treeview_icon glyphicon glyphicon-play"></span>
+                                                    <a href="#">
+                                                        <img src="@Url.Action("GetIcon","ImageProcessing")/?key=@key" />
+                                                        <span>
+                                                            <strong>1</strong>
+                                                            <span>96 dpi</span>
+                                                        </span>
+                                                    </a>
+                                                </span>
+                                                <ul class="treeview_three">
+                                                @foreach (Ecm.Model.PageModel page in Model.Pages)
+                                                  {
+                                                      ArchiveMVC.Utility.CacheFile cache = new ArchiveMVC.Utility.CacheFile
+                                                      {
+                                                          ContentType = page.FileExtension,
+                                                          FileBinaries = page.FileBinaries
+
+                                                      };
+                                                      var keyPage = ArchiveMVC.Utility.ProcessCache.Cache(cache);
+                                          
+                                                        <li id="pageid">
+                                                            <span class="treeview_title" id="@keyPage">
+                                                                <a href="#">
+                                                                    <img  src="@Url.Action("ID","ImageProcessing")/?key=@keyPage&amp;rote=0" />
+                                                                    <span>
+                                                                        <strong>1</strong>
+                                                                        <span>96 dpi</span>
+                                                                    </span>
+                                                                </a>
+                                                            </span>
+                                                        </li>
+                                                        }
+                                                 </ul>
+                                                                                  
+                                    </li>
+                                    <!-- block treeview -->
+                                      
+                                </ul>
+                                
+
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- index -->
+                    <div class="current_content">
+                        
+                    </div>
+                    <div class="button_mainbar">
+                        <button class="capture_sitebar_submit"  id="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- capture -->
+        <div class="right_column capture">
+            <div class="capture_content right" id="page">
+                <img class="content"/>
+            </div>
+            <div class="capture_content_menu">
+                <ul class="menu_control">
+                    <li class="menu_control_item control_print" title="Print"></li>
+                    <li class="menu_control_item control_mail" title="Sent mail"></li>
+                    <li class="menu_control_item control_save" title="Save"></li>
+                    <li class="menu_control_item control_pan" title="Pan"></li>
+                    <li class="menu_control_item control_select" title="Select"></li>
+                    <li class="menu_control_item control_hide" title="Hide all annotation"></li>
+                    <li class="menu_control_item control_hightlight" title="Add Hightlight"></li>
+                    <li class="menu_control_item control_redaction" title="Add Redaction"></li>
+                    <li class="menu_control_item control_comment" title=" Add Text"></li>
+                    <li class="menu_control_item control_zoomin" title="Zoom in"></li>
+                    <li class="menu_control_item control_zoomout" title="Zoom out"></li>
+                    <li class="menu_control_item control_resetzoom" title="Fit to viewer"></li>
+                    <li class="menu_control_item control_rotationleft" title="Rotation left"></li>
+                    <li class="menu_control_item control_rolationright" title="Rotation right"></li>
+                    <li class="menu_control_item control_navigationup" title="Navigation up"></li>
+                    <li class="menu_control_item control_navigaiondown" title="Navigation down"></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+<script>
+    
+    
+</script>

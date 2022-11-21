@@ -1,0 +1,101 @@
+﻿@using CaptureMVC.Resources;
+@using CaptureMVC.Utility;
+@using CaptureMVC.Models;
+@using System.Globalization;
+
+@model ViewBatchModel
+
+<!-- batch index -->
+<div id="comment-@Model.Id" class="div-comments">
+    <div id="div-total-comments">
+        <span>@Model.Comments.Count</span> @LeftBarResources.CommentTitle
+    </div>
+    <table id="tb-comments">
+        @foreach (var comment in Model.Comments.OrderByDescending(h => h.CreatedDate))
+        {
+            <tr>
+                <td class="td-comment-create">
+                    <div>@comment.CreatedBy</div>
+                    <div class="comment-create-on">
+                        @comment.CreatedDate.ToString(DateTimeFormatInfo.CurrentInfo.FullDateTimePattern)
+                    </div>
+                </td>
+                <td class="td-comment-note">
+                    <div class="bubble me">
+                        @if (comment.Note.StartsWith(Constant.SECTION_TEXT_PREFIX) &&
+                            comment.Note.EndsWith(Constant.SECTION_TEXT_SUFFIX))
+                        {
+                            var xmlDoc = new System.Xml.XmlDocument();
+                            xmlDoc.LoadXml(comment.Note);
+
+                            var root = xmlDoc.DocumentElement;
+                            var rootColor = root.Attributes["Foreground"] == null
+                                            ? "rgb(0, 0, 0)"
+                                            : "rgb("
+                                            + Convert.ToInt32(root.Attributes["Foreground"].Value.Substring(3, 2), 16)
+                                            + ", "
+                                            + Convert.ToInt32(root.Attributes["Foreground"].Value.Substring(5, 2), 16)
+                                            + ", "
+                                            + Convert.ToInt32(root.Attributes["Foreground"].Value.Substring(7, 2), 16)
+                                            + ")";
+                            var rootFontSize = root.Attributes["FontSize"] == null
+                                               ? "12px"
+                                               : root.Attributes["FontSize"].Value + "px";
+                            var rootFontWeight = root.Attributes["FontWeight"] == null
+                                                 ? "normal" : root.Attributes["FontWeight"].Value.ToLower();
+                            var rootFontStyle = root.Attributes["FontStyle"] == null
+                                                ? "normal" : root.Attributes["FontStyle"].Value.ToLower();
+
+                            foreach (System.Xml.XmlNode paragraph in root.ChildNodes)
+                            {
+                                foreach (System.Xml.XmlNode run in paragraph.ChildNodes)
+                                {
+                                    var color =
+                                        run.Attributes["Foreground"] == null
+                                        ? rootColor
+                                        : "rgb("
+                                        + Convert.ToInt32(run.Attributes["Foreground"].Value.Substring(3, 2), 16)
+                                        + ", "
+                                        + Convert.ToInt32(run.Attributes["Foreground"].Value.Substring(5, 2), 16)
+                                        + ", "
+                                        + Convert.ToInt32(run.Attributes["Foreground"].Value.Substring(7, 2), 16)
+                                        + ")";
+                                    var fontSize = run.Attributes["FontSize"] == null
+                                                   ? rootFontSize : run.Attributes["FontSize"].Value + "px";
+                                    var fontWeight = run.Attributes["FontWeight"] == null
+                                                     ? rootFontWeight : run.Attributes["FontWeight"].Value.ToLower();
+                                    var fontStyle = run.Attributes["FontStyle"] == null
+                                                    ? rootFontStyle : run.Attributes["FontStyle"].Value.ToLower();
+                                    var textDecorations = run.Attributes["TextDecorations"] == null
+                                                          ? "italic"
+                                                          : run.Attributes["TextDecorations"].Value.ToLower();
+                                    var textStyle = string.Format(Constant.TEXT_STYLE_TEMPLATE,
+                                                                  color, fontSize, fontWeight, fontStyle,
+                                                                  textDecorations);
+
+                            <span style="@textStyle">@run.InnerText</span>
+                                }
+                            <br />
+                            }
+                        }
+                        else
+                        {
+                            @comment.Note;
+                        }
+                    </div>
+                </td>
+            </tr>  
+        }
+        <!-- Template comment -->
+        <tr class="tr-template-comment" style="display: none">
+            <td class="td-comment-create">
+                <div>@Utilities.UserName</div>
+                <div class="comment-create-on">@DateTimeFormatInfo.CurrentInfo.FullDateTimePattern</div>
+            </td>
+            <td class="td-comment-note">
+                <div class="bubble me">
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

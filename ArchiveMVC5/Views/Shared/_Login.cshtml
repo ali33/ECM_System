@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-ico">
+    <link rel="icon" href="~/favicon.ico" type="image/ico">
+    <link href="@Url.Content("~/Content/Pages/archive_ui.css")" rel="stylesheet" type="text/css" />
+
+    @Styles.Render("~/plugins/css")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/jquery-2.1.4.js")
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.js")
+    @Scripts.Render("~/Scripts/SelectionArea/selectionarea.js")
+    @Scripts.Render("~/Scripts/JsonHelper.js")
+    @Scripts.Render("~/Scripts/EcmValidate.js")
+    @Scripts.Render("~/plugins/datatables/jquery.dataTables.js")
+    @Scripts.Render("~/bundles/plugins")
+    @Scripts.Render("~/bundles/scripts") 
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        #version {
+            font-size: 10px;
+            position: absolute;
+            left: 141px;
+            top: 36px;
+        }
+        .hl {
+            background-color:#808080;
+            height:500px;
+            width:1px;
+            float:right;
+            margin-top:-30px;
+        }
+        .left-banner {
+            background-color:#f4f4f4;
+            background-repeat:no-repeat;
+            margin:40px 0px 10px 70px;
+            padding:50px 0px 10px 0px;
+            height:548px;
+            width:548px;
+        }
+    </style>
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+
+    <meta name="description" content="ECM System" charset="utf-8" lang="en-us" />
+    <meta name="author" content="MIA Solutions" />
+</head>
+<body class="login-page">
+    <div class="col-md-12 col-xs-12" style="background-color:#FFF">
+        <div class="col-md-7 col-xs-7">
+            <div class="left-banner col-md-12 col-xs-12">
+                <div class="ecm-image col-md-12 col-xs-12">
+                    <img src="~/Images/Login/MobileCapture_Android_Fone1.png" alt="" class="col-md-6 col-xs-6"/>
+                    <img src="~/Images/Login/MobileCapture_IPhone_5.png" alt="" class="col-md-6 col-xs-6"/>
+                </div>
+                <div class="ecm-intro col-md-12 col-xs-12">
+                    <h3> GET ARCHIVE APP ON YOUR MOBILE FOR FREE </h3>
+                    <h5>Content here</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 col-xs-5">
+            <div class="login-box pull-left">
+                <div class="login-logo">
+                     Archive
+                </div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="col-md-12 col-xs-12 padding-5">
+            <div class="col-md-4 col-xs-4"></div>
+            <div class="col-md-7">
+                <div class="col-md-12 col-xs-12">
+                    <div class="col-md-2 col-xs-2 padding-3"></div>
+                    <div class="col-md-2 col-xs-2 padding-3"></div>
+                    <div class="col-md-2 col-xs-2 padding-3"></div>
+                    <div class="col-md-2 col-xs-2 padding-3"></div>
+                    <div class="col-md-4 col-xs-4 padding-3">
+                        <img src="~/Images/Login/logo.png" alt="" class="pull-right"/>
+                    </div>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <div class="col-md-3 col-xs-3 padding-3"></div>
+                    <div class="col-md-2 col-xs-2 padding-3"><a href="http://www.miasolutioninc.com/contact-us" class="pull-right">Contact Us</a></div>
+                    <div class="col-md-2 col-xs-2 padding-3"><a href="#" class="pull-right">Terms of Use</a></div>
+                    <div class="col-md-2 col-xs-2 padding-3"><a href="#" class="pull-right">Privacy & Cookies</a></div>
+                    <div class="col-md-3 col-xs-3 padding-3"><p class="pull-right">&copy; @DateTime.Now.Year - <a href="http://miasolutioninc.com">MIA Solutions</a></p></div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%'
+            });
+        });
+    </script>
+</body>
+
+</html>

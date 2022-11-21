@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Ecm.DocViewer.SendMailOptionView"
+             Language="{UICulture}"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             Name="SendMailOption"
+             mc:Ignorable="d" Height="Auto" Width="500">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/DocViewer;component/Themes/Brushes.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/DocViewer;component/Themes/Style.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Attachment File Options" Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <RadioButton GroupName="fileOption" Command="{Binding Path=OptionCommand, ElementName=SendMailOption}" CommandParameter="XPS" Content="{Binding Path=XPSLable, Mode=TwoWay, ElementName=SendMailOption}" IsChecked="True"/>
+                <RadioButton Margin="70,0,0,0" GroupName="fileOption" Command="{Binding Path=OptionCommand, ElementName=SendMailOption}" CommandParameter="Original" Content="{Binding Path=TiffLable, Mode=TwoWay, ElementName=SendMailOption}"/>
+            </StackPanel>
+        </GroupBox>
+        <Grid Margin="10" Background="White" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="251*" />
+                <ColumnDefinition Width="229*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Margin="10" Grid.ColumnSpan="2"><Bold><TextBlock Text="{Resx ResxName=Ecm.DocViewer.PageRange,Key=tbPageRange}"/></Bold></TextBlock>
+            <RadioButton Grid.Row="1" Margin="10,5,10,0" x:Name="rbAll" Content="{Resx ResxName=Ecm.DocViewer.PageRange,Key=rdbAll}" GroupName="rbRange" IsChecked="True" Focusable="False" Grid.ColumnSpan="2" />
+            <RadioButton Grid.Row="2" Margin="10,10,10,0" x:Name="rbPages" Content="{Resx ResxName=Ecm.DocViewer.PageRange,Key=rdbPages}" GroupName="rbRange" Focusable="False" Grid.ColumnSpan="2" />
+            <TextBox Grid.Row="3" Margin="10,5,10,0" x:Name="txtCustomRange" Height="24" HorizontalAlignment="Stretch" 
+                     IsEnabled="{Binding Path=IsChecked, ElementName=rbPages}" 
+                     PreviewKeyDown="TxtCustomRangePreviewKeyDown" Grid.ColumnSpan="2" />
+            <TextBlock Grid.Row="4" Margin="10,5,10,0" TextWrapping="Wrap" Height="40" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Italic>
+                    <TextBlock Text="{Resx ResxName=Ecm.DocViewer.PageRange,Key=tbDescription}"/>
+                </Italic>
+            </TextBlock>
+            <Border Style="{DynamicResource SeparatorBar}" Grid.Row="5" Margin="10,5,10,0" Grid.ColumnSpan="2"></Border>
+            <Grid Grid.Row="6" Margin="0,10,10,0" HorizontalAlignment="Right" Height="Auto" VerticalAlignment="Top" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" x:Name="btnRangeOk" 
+                        Width="75" Height="22" Content="{Resx ResxName=Ecm.DocViewer.PageRange,Key=btnOK}" />
+                <Button Grid.Column="1" x:Name="btnRangeCancel"
+                        Width="75" Height="22" Content="{Resx ResxName=Ecm.DocViewer.PageRange,Key=btnCancel}" Margin="5,0,0,0" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

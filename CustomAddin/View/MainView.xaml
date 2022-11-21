@@ -1,0 +1,328 @@
+﻿<Window x:Class="Ecm.CustomAddin.View.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:CustomControl="clr-namespace:Ecm.CustomControl;assembly=CustomControl"
+        xmlns:cv="clr-namespace:Ecm.CustomAddin.Converter"
+        xmlns:st="clr-namespace:Ecm.CustomAddin.TemplateSelector"
+        xmlns:atcp="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+        mc:Ignorable="d" 
+        WindowStartupLocation="CenterScreen"
+        Icon="../Resources/Logo.ico"
+        Title="Ecm MS Excel Import"
+        ShowInTaskbar="True"
+        Height="600" Width="600" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Silver.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="DateTimeTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2,2,0,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=Field.IsRequired, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <DatePicker Text="{Binding Path=Value, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"   
+                            Grid.Row="1"
+                            IsEnabled="{Binding Path=AllowToEditIndex}"
+                            HorizontalAlignment="Stretch" Height="Auto" VerticalContentAlignment="Center" 
+                            KeyboardNavigation.TabNavigation="Continue"
+                            IsTabStop="True"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="IntegerTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2,2,0,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=Field.IsRequired, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <TextBox Text="{Binding Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                         Grid.Row="1"
+                         HorizontalAlignment="Stretch" IsTabStop="True"
+                         KeyboardNavigation.TabNavigation="Continue"
+                         IsEnabled="{Binding Path=AllowToEditIndex}"
+                         CustomControl:NumericTextBoxBehavior.Mask="Integer"
+                         CustomControl:NumericTextBoxBehavior.MinimumValue="-2147483648"
+                         CustomControl:NumericTextBoxBehavior.MaximumValue="2147483647"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DecimalTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2,2,0,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=Field.IsRequired, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <TextBox Text="{Binding Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                         IsTabStop="True"
+                         Grid.Row="1"
+                         IsEnabled="{Binding Path=AllowToEditIndex}"
+                         KeyboardNavigation.TabNavigation="Continue"
+                         CustomControl:NumericTextBoxBehavior.Mask="Decimal" 
+                         MaxLength="15" HorizontalAlignment="Stretch"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StringTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2,2,0,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=Field.IsRequired, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <TextBox Text="{Binding Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                         IsEnabled="{Binding Path=AllowToEditIndex}"
+                         Grid.Row="1"
+                         KeyboardNavigation.TabNavigation="Continue"
+                         HorizontalAlignment="Stretch" IsTabStop="True"/>
+            </Grid>
+        </DataTemplate>
+            
+        <DataTemplate x:Key="PickListTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2,2,0,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=Field.IsRequired, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <ComboBox ItemsSource="{Binding Path=PickListValues, Mode=OneWay}" Grid.Row="1" HorizontalAlignment="Stretch"
+                                SelectedItem="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                IsEnabled="{Binding Path=AllowToEditIndex}" x:Name="editorControl"
+                                Style="{DynamicResource ComboboxFocusIndexField}" Tag="{Binding Path=.}">
+                </ComboBox>
+            </Grid>
+        </DataTemplate>
+            
+        <DataTemplate x:Key="BooleanTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2,2,0,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=Field.IsRequired, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <CheckBox IsEnabled="{Binding Path=AllowToEditIndex}" Grid.Row="1"
+                          IsChecked="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></CheckBox>
+            </Grid>
+        </DataTemplate>
+            
+        <DataTemplate x:Key="FolderTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2,2,0,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=Field.IsRequired, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <CustomControl:BrowseFolderControl Folder="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                                                   Height="25"
+                                                   Grid.Row="1"
+                                                   IsTabStop="True" HorizontalAlignment="Stretch" 
+                                                   IsEnabled="{Binding Path=AllowToEditIndex}"></CustomControl:BrowseFolderControl>
+            </Grid>
+        </DataTemplate>
+            
+        <ControlTemplate x:Key="EmptyTemplate">
+            <TextBox/>
+        </ControlTemplate>
+
+        <DataTemplate x:Key="LookupStringEditorTemplate">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <Grid IsEnabled="{Binding Path=AllowToEditIndex}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <atcp:AutoCompleteBox Height="25" ToolTip="Lookup field"
+                                              HorizontalAlignment="Stretch"
+                                              FilterMode="Custom"
+                                              Loaded="AutoCompleteBoxLoaded"
+                                              SelectedItem="{Binding Path=SelectedLookupItem}"
+                                              Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              SelectionChanged="AutoCompleteBoxSelectionChanged"
+                                              TextChanged="AutoCompleteBoxTextChanged" 
+                                              PreviewKeyDown="AutoCompleteBoxPreviewKeyDown"
+                                              CustomControl:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                                              TextBoxStyle="{DynamicResource TextboxFocusIndexField}" 
+                                              Tag="{Binding Path=.}" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+            
+        <DataTemplate x:Key="LookupDecimalEditorTemplate">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <CheckBox IsChecked="{Binding Path=MultipleUpdate}" Margin="0,0,4,0" Visibility="{Binding Path=ShowMultipleUpdate, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Center"></CheckBox>
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <Grid IsEnabled="{Binding Path=AllowToEditIndex}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <atcp:AutoCompleteBox Height="25" ToolTip="Lookup field"
+                                              HorizontalAlignment="Stretch" 
+                                              FilterMode="Custom"
+                                              Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              Loaded="AutoCompleteBoxLoaded"
+                                              SelectedItem="{Binding Path=SelectedLookupItem}"
+                                              CustomControl:NumericAutoComplateBoxBehavior.Mask="Decimal"
+                                              SelectionChanged="AutoCompleteBoxSelectionChanged"
+                                              TextChanged="AutoCompleteBoxTextChanged"
+                                              PreviewKeyDown="AutoCompleteBoxPreviewKeyDown"
+                                              CustomControl:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                                              TextBoxStyle="{DynamicResource TextboxFocusIndexField}"
+                                              Tag="{Binding Path=.}"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+            
+        <DataTemplate x:Key="LookupIntegerEditorTemplate">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,3">
+                    <CheckBox IsChecked="{Binding Path=MultipleUpdate}" Margin="0,0,4,0" Visibility="{Binding Path=ShowMultipleUpdate, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Center"></CheckBox>
+                    <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="*" Padding="2" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding Path=ShowRequiredNotification, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+                <Grid IsEnabled="{Binding Path=AllowToEditIndex}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <atcp:AutoCompleteBox HorizontalAlignment="Stretch" 
+                                              FilterMode="Custom"
+                                              Loaded="AutoCompleteBoxLoaded"
+                                              SelectedItem="{Binding Path=SelectedLookupItem}"
+                                              Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              CustomControl:NumericAutoComplateBoxBehavior.Mask="Integer" 
+                                              CustomControl:NumericAutoComplateBoxBehavior.MaximumValue="2147483647" 
+                                              CustomControl:NumericAutoComplateBoxBehavior.MinimumValue="-2147483648"
+                                              SelectionChanged="AutoCompleteBoxSelectionChanged"
+                                              TextChanged="AutoCompleteBoxTextChanged"
+                                              PreviewKeyDown="AutoCompleteBoxPreviewKeyDown"
+                                              Height="25" ToolTip="Lookup field"
+                                              CustomControl:SelectTextOnFocus.Active="True" x:Name="editorControl"
+                                              TextBoxStyle="{DynamicResource TextboxFocusIndexField}"
+                                              Tag="{Binding Path=.}"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TableEditorTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding Path=Field.Name}" Padding="2" VerticalAlignment="Center"/>
+                <Button Style="{StaticResource LinkButton}" IsEnabled="{Binding Path=AllowToEditIndex}" HorizontalAlignment="Right" Content="Click to show detail" x:Name="btnShowDetail" Click="btnShowDetail_Click" Padding="2,2,2,5"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <st:FieldEditorTemplateSelector x:Key="FieldEditorTemplateSelector"
+                                        DateTimeEditorTemplate="{StaticResource DateTimeTemplate}" 
+                                        DecimalEditorTemplate="{StaticResource DecimalTemplate}" 
+                                        IntegerEditorTemplate="{StaticResource IntegerTemplate}" 
+                                        StringEditorTemplate="{StaticResource StringTemplate}" 
+                                        PickListEditorTemplate="{StaticResource PickListTemplate}"
+                                        BooleanEditorTemplate="{StaticResource BooleanTemplate}"
+                                        FolderEditorTemplate="{StaticResource FolderTemplate}" 
+                                        TableEditorTemplate="{StaticResource TableEditorTemplate}"
+                                        LookupDecimalEditorTemplate="{StaticResource LookupDecimalEditorTemplate}"
+                                        LookupIntegerEditorTemplate="{StaticResource LookupIntegerEditorTemplate}"
+                                        LookupStringEditorTemplate="{StaticResource LookupStringEditorTemplate}"/>
+        <DataTemplate x:Key="SaveButton">
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="../Resources/Images/save.png" Width="20" Height="20" Margin="5,0,5,0"/>
+                <TextBlock Text="Save" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+            </Grid>
+
+        </DataTemplate>
+        <DataTemplate x:Key="CancelButton">
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="../Resources/Images/cancel.png" Width="20" Height="20" Margin="5,0,5,0"/>
+                <TextBlock Text="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+            </Grid>
+        </DataTemplate>
+    </ResourceDictionary>
+    </Window.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Import data information" Style="{StaticResource DisplayViewText}" Margin="5,5,0,5"/>
+        <Border Grid.Row="1" Style="{StaticResource Separator}"/>
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,2,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Document type"/>
+            <ComboBox Grid.Column="1" HorizontalAlignment="Left"
+                      ItemsSource="{Binding Path=DocumentTypes,Mode=TwoWay}"
+                      SelectedItem="{Binding Path=DocumentType}"
+                      DisplayMemberPath="Name" Width="300"/>
+        </Grid>
+        <CustomControl:KeyLessScrollViewer FocusVisualStyle="{x:Null}" VerticalScrollBarVisibility="Auto" Grid.Row="3" Margin="2,2,0,0">
+            <ContentControl HorizontalAlignment="Stretch" BorderBrush="Transparent"
+                            Background="Transparent"
+                            KeyboardNavigation.ControlTabNavigation="Continue"
+                            ScrollViewer.CanContentScroll="False" 
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}">
+                <ItemsControl ItemsSource="{Binding Path=FieldValues}"
+                              ItemTemplateSelector="{StaticResource FieldEditorTemplateSelector}" 
+                              FocusVisualStyle="{x:Null}"
+                              IsEnabled="{Binding Path=AllowToEditIndex}">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <Border BorderThickness="0" BorderBrush="Transparent" SnapsToDevicePixels="True">
+                                <ItemsPresenter SnapsToDevicePixels="True" />
+                            </Border>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                </ItemsControl>
+            </ContentControl>
+        </CustomControl:KeyLessScrollViewer>
+        <Border Style="{StaticResource Separator}" Grid.Row="4"/>
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <Button ContentTemplate="{StaticResource SaveButton}" Margin="5,0,0,0" Command="{Binding Path=SaveCommand}"/>
+            <Button ContentTemplate="{StaticResource CancelButton}" Margin="5,0,0,0" Command="{Binding Path=CancelCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

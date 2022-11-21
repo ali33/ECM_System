@@ -1,0 +1,171 @@
+﻿@model ArchiveMVC5.Models.CaptureModel
+<style>
+    h4, .h4, h5, .h5, h6, .h6 {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+</style>
+<div class="container">
+    <div class="left-col">
+        <div class="tabbable tabs-vertical tabs-left">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#thumbnail" data-toggle="tab" class="bg-olive"><span class="glyphicon glyphicon-list"></span>Thumbnail </a>
+                </li>
+                <li>
+                    <a href="#indexs" data-toggle="tab" class="bg-olive" id="index"><span class="glyphicon glyphicon-th"></span>Indexs </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="thumbnail">
+                    <script src="~/Scripts/jquery-ui.js" type="text/javascript"></script>
+                    <link rel="stylesheet" href="~/plugins/jQueryUI/jquery-ui.min.js" type="text/css" />
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-capture" id="scan_none_classify">
+                                <i class="glyphicon glyphicon-camera col-md-12"></i>
+                                <span class="col-md-12">Scan</span>
+                            </button>
+                            <button type="button" class="btn btn-capture-dropdown dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="caret"></i>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <input type="hidden" value="" id="current_page_per_doc" />
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#">Scanning pages per content</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a><i class="fa fa-check-square-o"></i><span> Not set</span></a>
+                                        </li>
+                                        @for (int i = 0; i < 10; i++)
+                                        {
+                                            var page = "page"; 
+                                            <li class="page_per_content" data-page-per-doc="@(i+1)">
+                                                @if(i>0)
+                                                {
+                                                    page = "pages";
+                                                }
+                                                <a><i class="fa fa-square-o"></i><span>@(i+1) @page</span></a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li class="divider"></li>
+                                @foreach(var documentType in Model.CaptureDocumentTypes)
+                                {
+                                <li><a class="scan_documentType" id="@documentType.Id">@documentType.Name</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-capture" id="import_none_classify">
+                                <i class="glyphicon glyphicon-hdd col-md-12"></i>
+                                <span class="col-md-12">Browse</span>
+                            </button>
+                            <button type="button" class="btn btn-capture-dropdown dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach (var documentType in Model.CaptureDocumentTypes)
+                                {
+                                <li><a class="import_documentType" id="@documentType.Id">@documentType.Name</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-capture" id="camera_none_classify">
+                                <i class="glyphicon glyphicon-facetime-video col-md-12"></i><span class="col-md-12">Record</span>
+                            </button>
+                            <button type="button" class="btn btn-capture-dropdown dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach (var documentType in Model.CaptureDocumentTypes)
+                                {
+                                <li><a class="camera_documentType" id="@documentType.Id">@documentType.Name</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-capture dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-gears col-md-12"></i><span class=" col-md-12">Option</span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><i class="fa fa-camera"></i>Choose default scanner </a></li>
+                                <li><a href="#"><i class="fa fa-video-camera"></i>Choose default camera </a></li>
+                                <li><a href="#"><i class="fa fa-microphone"></i>Choose default microphone </a></li>
+                                <li><a href="#"><i class="fa fa-cog"></i>Show scanner dialog before scan </a></li>
+                            </ul>
+                        </div>
+                    <ul class="thumbnail_menu">
+                        <li>
+                            <div class="col-md-12 header" id="openFile">
+                                <div class="col-md-5">
+                                    <img src="@Url.Content("~/Images/appbar.cabinet.files.png")" />
+                                </div>
+                                <div class="col-md-7 no-margin">
+                                    <h4 class="pull-left"><strong>Default batch</strong></h4>
+                                    <h5 class="pull-left"><small>Create on: <time id="create-date" datetime="@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")" >@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")</time></small></h5>
+                                    <h5 class="pull-left"><small>Create by: @ArchiveMVC5.Utility.Utilities.UserName</small></h5>
+                                    <input id="create-by" value="@ArchiveMVC5.Utility.Utilities.UserName" type="hidden" />
+                                </div>
+                            </div>
+                        </li>
+                        <li class="active">
+                            <ul class="treeview-menu treeview_second thumb">
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="indexs">
+                    <div class="current_content_header h3">
+                    </div>
+                    <div class="current_content_fields">
+                    </div>
+                    <div id="croppedImage" class="cropped-image">
+                    </div>
+                    <div id="navigation_index" class="box-footer clearfix margin button_navigation">
+                        <button class="btn btn-primary bg-olive btn-sm navigation_back"><i class="glyphicon glyphicon-step-backward"></i>Back </button>
+                        <button class="btn btn-primary bg-olive btn-sm navigation_next"><i class="glyphicon glyphicon-step-forward"></i>Next </button>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group no-padding pull-right ">
+                <button class="btn btn-flat bg-olive pull-right" id="submit">
+                    <i class="glyphicon glyphicon-cloud-upload"></i>
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="mid-col">
+        <div class="documentViewer" id="documentViewer">
+        </div>
+    </div>
+    <div class="capture_content_menu right-col">
+    </div>
+</div>
+
+
+<OBJECT id="TwainX" 
+    clsid="{1EFCF932-9826-4DF5-BB20-4ECBE8A47078}"  
+    codebaseurl = "@Url.Content("~/OCX/TwainOcxInstaller.cab")"
+    progid  ="TwainActiveX.TwainActiveX"
+    TYPE="application/x-itst-activex"
+    event_OnReadyStateChange="OnReady"
+    width="0" height="0"
+
+        >
+</object>
+<!-- IE
+  
+  -->
+
+<OBJECT id="TwainXIE" name="TwainXIE" 
+  classid="clsid:1EFCF932-9826-4DF5-BB20-4ECBE8A47078"  
+  codebase="@Url.Content("~/OCX/TwainOcxInstaller.cab")"
+  width="0" height="0">
+</object>

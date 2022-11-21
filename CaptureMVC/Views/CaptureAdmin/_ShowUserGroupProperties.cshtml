@@ -1,0 +1,63 @@
+﻿@model Ecm.CaptureDomain.UserGroup
+@{
+    ViewBag.Title = "ShowUserGroupProperties";
+}
+
+<div class="sub_properties_content container-fluid">
+    <div class="row">
+       <fieldset>
+            <legend>General Information</legend>
+            <div class="col-md-2"></div>
+            <div class="col-md-8 form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="name">Group name</label>
+                    <div class="controls">
+                        <input type="text" id="usergroup_name" class="form-control" value="@Model.Name">
+                        <input type="text" id="usergroup_type" class="archive_input" value="@Model.Type" style="display:none" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <fieldset>
+            <legend>Members</legend>
+            <div id="usergroup_member" class="list-group well-while">
+                @{
+                    foreach (var userItem in Model.Users)
+                    {
+
+                        <a class="list-group-item usergroup_user_row" id="@userItem.Id">@userItem.UserName</a>
+
+                    }
+                }
+            </div>
+
+            <div class="span2">
+                <button type="button" id="usergroup_button_adduser" class="btn-small btn-primary pull-left">
+                    <span>Add</span>
+                    <i class="glyphicon glyphicon-plus"></i>
+                </button>
+                <button type="button" id="usergroup_button_deleteuser" class="btn-small btn-primary pull-right">
+                    <span>Delete</span>
+                    <i class="glyphicon glyphicon-trash"></i>
+                </button>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <div class="span3 pull-right">
+            <button type="button" id="usergroup_button_save" class="btn btn-primary pull-left">
+                <span>Save</span>
+                <i class="glyphicon glyphicon-floppy-disk"></i>
+            </button>
+            <button type="button" id="usergroup_button_cancel" class="btn btn-primary pull-right">
+                <span>Close</span>
+                <i class="glyphicon glyphicon-ban-circle"></i>
+            </button>
+        </div>
+    </div>
+</div>

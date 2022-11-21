@@ -1,0 +1,532 @@
+@using ArchiveMVC5.Utility
+@using ArchiveMVC5.Models
+@using ArchiveMVC5.Models.DataProvider
+@using Newtonsoft.Json
+@{
+    if (!ViewContext.RouteData.GetRequiredString("controller").Equals("Login")
+        && (Utilities.UserName == null || Utilities.Password == null))
+    {
+        var login = new LoginModel { ReturnUrl = Request.Url.AbsoluteUri };
+    <meta http-equiv="refresh" content="0;url='@Url.Action("Index", "Login", login)'" />
+    }
+}
+<html>
+<head>
+    @*<meta charset="utf-8" />*@
+    @*<meta name="viewport" content="width=device-width" />*@
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-ico">
+    <link rel="icon" href="~/favicon.ico" type="image/ico">
+    <link href="@Url.Content("~/Content/ContextMenu/jquery.contextMenu.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/MessageBox/MessageBox.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Pages/archive_ui.css")" rel="stylesheet" type="text/css" />
+
+    @Styles.Render("~/Content/Capture.css")
+    @Styles.Render("~/plugins/css")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/jquery-2.1.4.js")
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.js")
+    @Scripts.Render("~/Scripts/SelectionArea/selectionarea.js")
+    @Scripts.Render("~/Scripts/jquery-sortable.js")
+    @Scripts.Render("~/Scripts/ContextMenu.js")
+    @Scripts.Render("~/Scripts/SelectionArea/selectionarea.js")
+    @Scripts.Render("~/Scripts/resource.js")
+    @Scripts.Render("~/Scripts/JsonHelper.js")
+    @Scripts.Render("~/Scripts/MessageBox.js")
+    @Scripts.Render("~/Scripts/EcmDialog.js")
+    @Scripts.Render("~/Scripts/Ecm.js")
+    @Scripts.Render("~/Scripts/EcmValidate.js")
+    @Scripts.Render("~/bundles/plugins")
+    @Scripts.Render("~/bundles/scripts")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        #version {
+            font-size: 10px;
+            position: absolute;
+            left: 141px;
+            top: 36px;
+        }
+
+        #webcam {
+			float:left;
+		}
+		#volumeMeter {
+			background-image:url('/Images/Cam/ledsbg.png');
+			width:19px;
+			height:133px;
+			padding-top:5px;
+		}
+		#volumeMeter img {
+			padding-left:4px;
+			padding-top:1px;
+			display:block;
+		}
+		.ui-slider {
+			background:none;
+			background-image:url('/Images/Cam/trackslider.png');
+			border:0;
+			height:107px;
+		}
+		.ui-slider .ui-slider-handle {
+			width:14px;
+			height:32px;
+			margin-left:7px;
+			margin-bottom:-16px;
+			background:url(/Images/Cam/volumeslider.png) no-repeat; 
+		}
+		#volumePanel {
+			-moz-border-radius: 0px 5px 5px 0px;
+			border-radius: 0px 5px 5px 0px;
+			background-color:#4B4B4B;
+			width:55px;
+			height:160px;
+			-moz-box-shadow: 0px 3px 3px #333333;
+			-webkit-box-shadow: 0px 3px 3px  #333333;
+			shadow: 0px 3px 3px #333333;
+		}
+		#setupPanel {
+			width:400px;
+			height:30px;
+			margin:5px;
+		}
+    </style>
+    @*@Scripts.Render("~/Scripts/ECM.js")*@
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+    <script>
+        @{
+            var settings = new JsonSerializerSettings();
+            settings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            if (Utilities.CaptureDocumentTypes != null && Utilities.UserName != null && Utilities.Password != null)
+            {
+            <text>
+        var permission = { documentType: {}, annotation: {}};
+        permission.documentType = @Html.Raw(Utilities.DocumentTypeCapturePermissionJson());
+                permission.annotation = @Html.Raw(Utilities.DocumentTypeCapturePermissionJson());
+            </text>
+            }
+        }
+        var AppDomainAppVirtualPath = "@HttpRuntime.AppDomainAppVirtualPath";
+        var URL_SendMail = '@Url.Action("SendMail", "Capture")';
+        var URL_SaveLocal = '@Url.Action("SaveLocal", "Capture")';
+        var URL_Get = '@Url.Action("Get", "Capture")';
+        var URL_CACHE_CAPTURE = '@Url.Action("PersitCaptureDocument", "Capture")';
+    </script>
+
+    <meta name="description" content="ECM System" charset="utf-8" lang="en-us" />
+    <meta name="author" content="MIA Solutions" />
+</head>
+<body class="skin-green layout-top-nav">
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="@Url.Action("Index", "Search")" class="logo">
+                <div class="pull-left image">
+                    <img height="36" src="~/Images/archive_logo.png" class="img" alt="Archive" style="z-index: 11000;" />
+                </div>
+            </a>
+            <!-- Sidebar toggle button-->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="@Html.Raw(ViewContext.RouteData.Values["controller"].Equals("Search") ? "active" : "")"><a href="@Url.Action("Index", "Search")">Search</a></li>
+                        <li class="@Html.Raw(ViewContext.RouteData.Values["controller"].Equals("Capture") ? "active" : "")"><a href="@Url.Action("Index", "Capture")">Capture</a></li>
+                        <li class="@Html.Raw(ViewContext.RouteData.Values["controller"].Equals("ArchiveAdmin") ? "active" : "")"><a href="@Url.Action("Index", "ArchiveAdmin")">Administation</a></li>
+                        @if (Utilities.OpenedDocuments.Count > 0)
+                        {
+                            <li class="dropdown @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("View") ? "active" : "")">
+                                <a class="dropdown-toggle" aria-expanded="false" href="#" data-toggle="dropdown">Contents <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" style="width: 350px;">
+                                    @if (Utilities.OpenedDocuments.Count > 1)
+                                    {
+                                        <li><a href="@Url.Action("CloseAllContentItem", "View")">Close all contents</a></li>
+                                        <li><a href="@Url.Action("CloseOtherContentItem", "View")">Close other contents</a></li>
+                                        <li class="divider"></li>
+                                    }
+                                    @foreach (var doc in Utilities.OpenedDocuments)
+                                    {
+                                        <li>
+                                            <div class="col-md-12 margin-3">
+                                                <div class="col-md-1">
+                                                    <a href="@Url.Action("CloseContentItem", "View")?id=@doc.Id">
+                                                        <i title="Remove selected content" class="glyphicon glyphicon-remove hand removeRowImg"></i></a>
+                                                </div>
+                                                @if (Utilities.OpenningDocument.Id == doc.Id)
+                                                {
+                                                    <div class="col-md-9"><strong>@(doc.DocumentType.Name + "-" + doc.CreatedBy + "-" + doc.CreatedDate)</strong></div>
+                                                    <div class="col-md-1"><i class="glyphicon glyphicon-folder-open" title="Opened"></i></div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-md-9"><a href="@Url.Action("Index", "View")?id=@doc.Id"><strong>@(doc.DocumentType.Name + "-" + doc.CreatedBy + "-" + doc.CreatedDate)</strong></a></div>
+                                                    <div class="col-md-1"><i class="glyphicon glyphicon-folder-close" title="Inactive"></i></div>
+                                                }
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="@Html.Raw(ViewContext.RouteData.Values["controller"].Equals("View") ? "active" : "")"></li>
+                        }
+                    </ul>
+                </div>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        @Html.Partial("_LoginPartial")
+                        @Html.Partial("_HelpPartial")
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0
+            </div>
+            <strong>Copyright &copy; @DateTime.Now.Year - <a href="http://miasolutioninc.com">MIA Solutions</a>.</strong> All rights reserved.
+        </footer>
+
+    </div>
+    <!-- ./wrapper -->
+
+    @RenderSection("scripts", required: false)
+    @Html.RenderScripts()
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <div id="dialog_change_password" style="display: none;">
+        <fieldset class="dialog_fieldset" style="height: 50px">
+            <legend>User information</legend>
+            <div class="div_content">
+                <label class="dialog_label change_password_label">User name</label>
+                <input type="text" class="archive_input dialog_input" value="@((String)Utilities.GetSession(Constant.UserName))" disabled="disabled">
+            </div>
+        </fieldset>
+        <fieldset class="dialog_fieldset" style="height: 125px;">
+            <legend>Change password</legend>
+            <div class="div_content">
+                <label class="dialog_label change_password_label">Current password</label>
+                <input type="password" id="current_password" class="archive_input dialog_input" placeholder="Current password">
+            </div>
+
+            <div class="div_content">
+                <label class="dialog_label change_password_label">New password</label>
+                <input type="password" id="new_password" class="archive_input dialog_input" placeholder="New password">
+            </div>
+
+            <div class="div_content">
+                <label class="dialog_label change_password_label">Confirm password</label>
+                <input type="password" id="confirm_password" class="archive_input dialog_input" placeholder="Confirm new password">
+            </div>
+
+        </fieldset>
+    </div>
+    <div class="modal" id="camera_dialog" data-controls-modal="dialog_lookup" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Cammera</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="camera" class="col-md-12"></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button class="btn bg-olive btn-sm margin" type="button" data-dismiss="modal" id="btncancel_camera"><i class="glyphicon glyphicon-remove"></i>Cancel </button>
+                        <button class="btn bg-olive btn-sm margin" type="button" id="btnok_camera"><i class="glyphicon glyphicon-floppy-save"></i>Capture </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var $current_pass = $("#current_password");
+        var $new_pass = $("#new_password");
+        var $confirm_pass = $("#confirm_password");
+
+        var ResetAllFields = function(){
+            $("#current_password").val("");
+            $("#new_password").val("");
+            $("#confirm_password").val("");
+        };
+
+        var URL_ChangePassword = "@Url.Action("ChangePassword", "Login")";
+
+        var data;
+        function ChangePassword(){
+            JsonHelper.helper.post(
+                URL_ChangePassword,
+                JSON.stringify(data),
+                ChangePassword_Sucess,
+                ChangePassword_Error
+            );
+        };
+
+        function ChangePassword_Sucess(data){
+            if(data=="Old_password_is_not_match"){
+                ErrorDialog($("#current_password"), "Current password is not match!");
+            }
+            if(data=="Change_password_success"){
+                ResetAllFields();
+                ErrorDialog("Password change success!");
+                $("#dialog_change_password").dialog("close");
+            }
+        };
+
+        function ChangePassword_Error(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR + "-" + textStatus + "-" + errorThrown);
+        };
+
+        var dialog_change_password_ok_function = function(){
+            
+            if(CheckPassword($current_pass, "Current password", 0)){
+                if(CheckPassword($new_pass, "New password", 6)){
+                    if(CheckConfirmPassword($new_pass, $confirm_pass)){
+                        data = {
+                            oldPassword: $current_pass.val(),
+                            newPassword: $new_pass.val()
+                        };
+                        ChangePassword();
+                    }
+                }
+            }
+        };
+
+        var dialog_change_password_cancel_function = function(){
+            
+            ResetAllFields();
+            $(this).dialog('close');
+        };
+
+        $(document).on("click", "#change_password", function(){
+            $.EcmDialog({
+                title: "Change password",
+                width: 580,
+                dialog_data: $('#dialog_change_password'),
+                type: 'Ok_Cancel',
+                Ok_Button: dialog_change_password_ok_function,
+                Cancel_Button: dialog_change_password_cancel_function
+            });
+        });
+
+        $(document).on('click', '.main_menu_item.search_item', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.document_menu li', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.main_menu_item.archiveadmin_item', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.main_menu_item.capture_item', function () {
+            PersitCapturedData();
+        });
+
+        function PersitCapturedData()
+        {
+            var docElements = $('.treeview_second > li');
+
+            if (docElements && docElements.length > 0) {
+                data = GetDocumentData(docElements);
+
+                if(data!=undefined)
+                {
+
+                    $.ajax({
+                        url: URL_CACHE_CAPTURE,
+                        async: false,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR + "-" + textStatus + "-" + errorThrown);
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            if (data.Code == 1 && global_Page == "Capture") {
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        function GetDocumentData(docElements) {
+            var data = { Documents: [] };
+            //var docElements = $('.treeview_second > li');
+            for (i = 0; i < docElements.length; i++) {
+                var docTypeId = $(docElements[i]).children('.docTypeId').val();
+                var id = $(docElements[i]).data('doc-id');
+
+                if(id != undefined)
+                {
+                    return undefined;
+                }
+
+                var tempid = $(docElements[i]).data('temp_id');
+                var pageElements = $(docElements[i]).find('.treeview_three > li');
+                var fieldValueElements = $(docElements[i]).find('div.fieldValues > div.fieldValueElement');
+
+                data.Documents[i] = {
+                    DocumentTypeId: docTypeId,
+                    DocumentId: id,
+                    Pages: [], FieldValues: [], TempId:tempid
+                };
+
+                for (j = 0; j < pageElements.length; j++) {
+                    var _ImgKey = $(pageElements[j]).children('span.treeview_title').attr('id');
+                    var _LangCode = $(pageElements[j]).find('.language').val();
+                    var _PageId = $(pageElements[j]).data('page-id');
+                    var _annotations = {};
+                    var angle = 0;
+                    if (draws[_ImgKey] != undefined) {
+                        _annotations = draws[_ImgKey].getAnnotations();
+                        angle = draws[_ImgKey].rotateAngle();
+                    }
+                    data.Documents[i].Pages[j] = {
+                        ImgKey: _ImgKey, Annotations: _annotations, LanguageCode: _LangCode,
+                        PageWidth: $("#page_" + _ImgKey).width(), PageHeight: $("#page_" + _ImgKey).height(),
+                        RotateAngle: angle * -1,
+                        PageId: _PageId
+                    };
+                }
+
+                for (k = 0; k < fieldValueElements.length - 1; k++) {
+                    var _Id = $(fieldValueElements[k]).attr('data-field_id');
+                    var _Value = $(fieldValueElements[k]).val();
+
+                    if (_Id) {
+                        data.Documents[i].FieldValues[k] = { Id: _Id.toString(), Value: _Value, TableFieldValues: [] };
+                    }
+
+                    var $tableValues = $(fieldValueElements[k]).find('div.tableFieldValue > div.rowIndex');
+
+                    if ($tableValues != undefined && $tableValues.length > 0) {
+
+                        $.each($tableValues, function (n) {
+                            var rowIndex = $(this).data('row_id');
+                            var $tableFieldEement = $(this).find("input[type=hidden]");
+
+                            $.each($tableFieldEement, function (m) {
+                                var tableValue = $(this).val();
+                                var tableValueId = $(this).data('column_id');
+
+                                data.Documents[i].FieldValues[k].TableFieldValues.push({ FieldId: tableValueId, RowIndex: rowIndex, Value: tableValue });
+                            });
+                        });
+                    }
+
+                }
+            }
+
+            return data;
+        }
+
+
+    </script>
+
+</body>
+
+</html>
+
+
+@*                    <div id="message"></div>
+                    <div id="recorder" class="col-md-12">
+                        <div id="webcam" class="box-body col-md-9">
+                        </div>
+                        <div id="volumePanel" class="col-md-3">
+                            <div class="col-md-12">
+                                <div id="volumeMeter" class="col-md-6">
+                                    <img id="LedBar32" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar31" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar30" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar29" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar28" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar27" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar26" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar25" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar24" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar23" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar22" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar21" src="~/Images/Cam/ledred.png">
+                                    <img id="LedBar20" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar19" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar18" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar17" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar16" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar15" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar14" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar13" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar12" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar11" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar10" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar9" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar8" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar7" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar6" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar5" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar4" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar3" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar2" src="~/Images/Cam/ledgreen.png">
+                                    <img id="LedBar1" src="~/Images/Cam/ledgreen.png">
+                                </div>
+                                <div id="slider" class="col-md-6"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="setupPanel" class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <i class="fa fa-video-camera col-md-2"></i>
+                                <div class="col-md-10">
+                                    <select id="cameraNames" size="1" onchange="changeCamera()" class="form-control input-sm"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <i class="fa fa-microphone col-md-2"></i>
+                                <div class="col-md-10">
+                                    <select id="microphoneNames" size="1" onchange="changeMicrophone()"   class="form-control input-sm"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-control">Time left:</label>
+                                <div class="input-group">
+                                    <input type="text" id="timeLeft" class="form-control input-sm"/>
+                                    <span class="input-group-addon add-on"><i class="fa fa-hourglass-half"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button id="recordPauseResumeButton" class="btn btn-small" onclick="pauseResumeCamera()" disabled>Pause Recording</button>
+                                <button id="recordStopButton" class="btn btn-small" onclick="closeCamera()" disabled>Stop Recording</button>
+                                <button id="recordStartButton" class="btn btn-small" onclick="startRecording()" disabled>Start Recording</button>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div id="mediaplayer" style="display: none;"></div>*@

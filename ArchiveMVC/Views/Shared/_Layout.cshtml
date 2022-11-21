@@ -1,0 +1,410 @@
+@using ArchiveMVC.Utility
+@using ArchiveMVC.Models
+@using ArchiveMVC.Models.DataProvider
+@using Newtonsoft.Json
+@{
+    if(!ViewContext.RouteData.GetRequiredString("controller").Equals("Login") 
+        && (Utilities.UserName == null || Utilities.Password == null))
+    {
+        var login = new LoginModel { ReturnUrl = Request.Url.AbsoluteUri };
+        <meta http-equiv="refresh" content="0;url='@Url.Action("Index", "Login", login)'" />        
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>    
+    @*<meta charset="utf-8" />*@
+    @*<meta name="viewport" content="width=device-width" />*@
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-ico">
+    <link rel="icon" href="~/favicon.ico" type="image/ico">
+    <link href="@Url.Content("~/Content/Pages/archive_ui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/ArchiveAdmin.css")" rel="stylesheet" type="text/css" />
+
+    @Styles.Render("~/Content/ContextMenu/jquery.contextMenu.css")
+    @*@Styles.Render("~/Content/SelectionArea/imgareaselect-default.css")*@
+    @Styles.Render("~/Content/jQuery-UI/jquery.ui.all.css")
+    @Styles.Render("~/Content/MessageBox/MessageBox.css")
+    
+    @Scripts.Render("~/Scripts/jquery-1.8.2.js")
+    @Scripts.Render("~/Scripts/ContextMenu/jquery.contextMenu.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.js")    
+    @Scripts.Render("~/Scripts/ContextMenu/jquery.ui.position.js")
+    @Scripts.Render("~/Scripts/SelectionArea/selectionarea.js")        
+    @Scripts.Render("~/Scripts/resource.js")
+    @Scripts.Render("~/Scripts/JsonHelper.js")
+    @Scripts.Render("~/Scripts/MessageBox.js")
+    @Scripts.Render("~/Scripts/EcmDialog.js")
+    @Scripts.Render("~/Scripts/EcmValidate.js")
+
+    <style>
+        #version {
+            font-size: 10px;
+            position: absolute;
+            left: 141px;
+            top: 36px;
+        }
+    </style>
+    @*@Scripts.Render("~/Scripts/ECM.js")*@
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+    <script>
+        @{
+            var settings = new JsonSerializerSettings();
+            settings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            if (Utilities.CaptureDocumentTypes != null && Utilities.UserName != null && Utilities.Password!=null)
+            {
+                <text>
+                var permission = { documentType: {}, annotation: {}};
+                permission.documentType = @Html.Raw(Utilities.DocumentTypeCapturePermissionJson());
+                permission.annotation = @Html.Raw(Utilities.DocumentTypeCapturePermissionJson());
+                </text>
+                //@:var docTypexx = @Html.Raw(Utilities.DocumentTypeResultJson());
+            }
+            
+            
+        }
+        var AppDomainAppVirtualPath = "@HttpRuntime.AppDomainAppVirtualPath";
+        var URL_SendMail = '@Url.Action("SendMail", "Capture")';
+        var URL_SaveLocal = '@Url.Action("SaveLocal", "Capture")';
+        var URL_Get = '@Url.Action("Get", "Capture")';
+        var URL_CACHE_CAPTURE = '@Url.Action("PersitCaptureDocument", "Capture")';
+    </script>
+    
+    <meta name="description" content="ECM System" charset="utf-8"  lang="en-us"/>
+    <meta name="author" content="MIA Solutions" />
+</head>
+<body @*oncontextmenu="return false;"*@>
+        @* Neu page la Login thi khong can kiem tra username *@
+        @if (!ViewContext.RouteData.GetRequiredString("controller").Equals("Login"))
+        {
+            @* Neu username khac rong (Da dang nhap) hoac la NO_USER thi khong hien thi thong tin dang nhap
+               nguoc lai thi chuyen ve trang Login
+            *@
+            if (!String.IsNullOrEmpty((string)Utilities.GetSession(Constant.UserName)))
+            {              
+                <!-- header here -->
+                <header class="archive_header">
+                    <!-- logo -->
+                    <div class="logo logo_content">
+                        @*<div class="title">ARCHIVE</div>*@
+                    </div>
+                    <!-- menu archive  -->
+                    <div class="main_menu">
+                        <div class="main_menu_content">
+                            <div class="main_menu_item search_item @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("Search") ? "active" : "")">
+                                <a href="@Url.Action("Index", "Search")">Search</a>
+                            </div>
+
+                            <div class="main_menu_item capture_item @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("Capture") ? "active" : "")">
+                                <a href="@Url.Action("Index", "Capture")">Capture</a>
+                            </div>
+
+                            @if(Utilities.IsAdmin){
+                                <div class="main_menu_item archiveadmin_item @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("ArchiveAdmin") ? "active" : "")">
+                                    <a href="@Url.Action("Index", "ArchiveAdmin")">Admin</a>
+                                </div>
+                            }
+
+                            <div class="main_menu_item document_item @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("View") ? "active" : "")">
+                                <span>Contents</span>
+                                <ul class="document_menu">
+                                    @if(Utilities.OpenedDocuments.Count > 1)
+                                    {
+                                        <li><div><a href="@Url.Action("CloseAllContentItem","View")">Close all contents</a></div></li>
+                                        <li><div><a href="@Url.Action("CloseOtherContentItem","View")">Close other contents</a></div></li>
+                                        <li class="separator"></li>
+                                    }
+                                    @foreach(var doc in Utilities.OpenedDocuments)
+                                    {
+                                        <li>
+                                            <div>
+                                                <div><a href="@Url.Action("CloseContentItem","View")?id=@doc.Id"><img src="@Url.Content("~/Images/appbar.delete.png")" alt="Remove selected content" class="removeRowImg" /></a></div>
+                                                @if(Utilities.OpenningDocument.Id == doc.Id)
+                                                {
+                                                    <div>@doc.Id</div>
+                                                    <div style="float:right; position:relative; display:inline-block"><img src="@Url.Content("~/Images/appbar.book.open.png")" alt="@doc.Id" style="width:16px; height:16px; margin:2px"/></div>
+                                                }
+                                                else
+                                                {
+                                                    <div><a href="@Url.Action("Index", "View")?id=@doc.Id">@doc.Id</a></div>
+                                                }
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="main_menu_item help_item">
+                                <a href="#">Help</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="global_search">
+                        <div class="search_form">
+                            <input type="text" maxlength="255" class="archive_input globalsearch_text" autocomplete="off" placeholder="Search documents"/>
+                            <span class="searchglobal_button" title="Search global"></span>
+                        </div>
+                    </div>
+                    <div class="user_login">
+                        @if (Session["KEY_CACHE_USER_PROFILE"] != null)
+                        {
+                            <img src="~/ImageProcessing/GetIcon?key=@Session["KEY_CACHE_USER_PROFILE"]"/>
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/Resources/icon_user_profile.png")"/>
+                        }
+                        <ul class="accounts_menu">
+                            <li>
+                                <a href="#">@((string)Utilities.GetSession(Constant.UserName))</a>
+                            </li>
+                            <li>
+                                <a id="change_password">Change password</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Login")">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                </header>
+            <!--Ket thuc header -->
+            }
+            else
+            {
+                var login = new LoginModel { ReturnUrl = Request.Url.AbsoluteUri };
+                <meta http-equiv="refresh" content="0;url='@Url.Action("Index", "Login", login)'" />
+            }
+            @*<h4>
+            @Html.ActionLink("Search", "Index", "Search") |
+            @Html.ActionLink("Document", "Index","Document") |
+            @Html.ActionLink("Capture", "Index","Capture")
+            </h4>*@
+            
+        }
+        else
+        {
+
+        }
+    @RenderBody()        
+    <div id="dialog_change_password" style="display:none;">
+        <fieldset class="dialog_fieldset" style="height: 50px">
+            <legend>User information</legend>
+            <div class="div_content">
+                <label class="dialog_label change_password_label">User name</label>
+                <input type="text" class="archive_input dialog_input" value="@((String)Utilities.GetSession(Constant.UserName))" disabled="disabled">
+            </div>
+        </fieldset>
+
+        <fieldset class="dialog_fieldset" style="height: 125px;">
+            <legend>Change password</legend>
+            <div class="div_content">
+                <label class="dialog_label change_password_label">Current password</label>
+                <input type="password" id="current_password" class="archive_input dialog_input" placeholder="Current password">
+            </div>    
+        
+            <div class="div_content">
+                <label class="dialog_label change_password_label">New password</label>
+                <input type="password" id="new_password" class="archive_input dialog_input" placeholder="New password">
+            </div> 
+        
+            <div class="div_content">
+                <label class="dialog_label change_password_label">Confirm password</label>
+                <input type="password" id="confirm_password" class="archive_input dialog_input" placeholder="Confirm new password">
+            </div> 
+
+        </fieldset>
+    </div>
+
+    <script type="text/javascript">
+
+        var $current_pass = $("#current_password");
+        var $new_pass = $("#new_password");
+        var $confirm_pass = $("#confirm_password");
+
+        var ResetAllFields = function(){
+            $("#current_password").val("");
+            $("#new_password").val("");
+            $("#confirm_password").val("");
+        };
+
+        var URL_ChangePassword = "@Url.Action("ChangePassword", "Login")";
+
+        var data;
+        function ChangePassword(){
+            JsonHelper.helper.post(
+                URL_ChangePassword,
+                JSON.stringify(data),
+                ChangePassword_Sucess,
+                ChangePassword_Error
+            );
+        };
+
+        function ChangePassword_Sucess(data){
+            if(data=="Old_password_is_not_match"){
+                ErrorDialog($("#current_password"), "Current password is not match!");
+            }
+            if(data=="Change_password_success"){
+                ResetAllFields();
+                ErrorDialog("Password change success!");
+                $("#dialog_change_password").dialog("close");
+            }
+        };
+
+        function ChangePassword_Error(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR + "-" + textStatus + "-" + errorThrown);
+        };
+
+        var dialog_change_password_ok_function = function(){
+            
+            if(CheckPassword($current_pass, "Current password", 0)){
+                if(CheckPassword($new_pass, "New password", 6)){
+                    if(CheckConfirmPassword($new_pass, $confirm_pass)){
+                        data = {
+                            oldPassword: $current_pass.val(),
+                            newPassword: $new_pass.val()
+                        };
+                        ChangePassword();
+                    }
+                }
+            }
+        };
+
+        var dialog_change_password_cancel_function = function(){
+            
+            ResetAllFields();
+            $(this).dialog('close');
+        };
+
+        $(document).on("click", "#change_password", function(){
+            $.EcmDialog({
+                title: "Change password",
+                width: 580,
+                dialog_data: $('#dialog_change_password'),
+                type: 'Ok_Cancel',
+                Ok_Button: dialog_change_password_ok_function,
+                Cancel_Button: dialog_change_password_cancel_function
+            });
+        });
+
+        $(document).on('click', '.main_menu_item.search_item', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.document_menu li', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.main_menu_item.archiveadmin_item', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.main_menu_item.capture_item', function () {
+            PersitCapturedData();
+        });
+
+        function PersitCapturedData()
+        {
+            var docElements = $('.treeview_second > li');
+
+            if (docElements && docElements.length > 0) {
+                data = GetDocumentData(docElements);
+
+                if(data!=undefined)
+                {
+
+                    $.ajax({
+                        url: URL_CACHE_CAPTURE,
+                        async: false,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR + "-" + textStatus + "-" + errorThrown);
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            if (data.Code == 1 && global_Page == "Capture") {
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        function GetDocumentData(docElements) {
+            var data = { Documents: [] };
+            //var docElements = $('.treeview_second > li');
+            for (i = 0; i < docElements.length; i++) {
+                var docTypeId = $(docElements[i]).children('.docTypeId').val();
+                var id = $(docElements[i]).data('doc-id');
+
+                if(id != undefined)
+                {
+                    return undefined;
+                }
+
+                var tempid = $(docElements[i]).data('temp_id');
+                var pageElements = $(docElements[i]).find('.treeview_three > li');
+                var fieldValueElements = $(docElements[i]).find('div.fieldValues > div.fieldValueElement');
+
+                data.Documents[i] = {
+                    DocumentTypeId: docTypeId,
+                    DocumentId: id,
+                    Pages: [], FieldValues: [], TempId:tempid
+                };
+
+                for (j = 0; j < pageElements.length; j++) {
+                    var _ImgKey = $(pageElements[j]).children('span.treeview_title').attr('id');
+                    var _LangCode = $(pageElements[j]).find('.language').val();
+                    var _PageId = $(pageElements[j]).data('page-id');
+                    var _annotations = {};
+                    var angle = 0;
+                    if (draws[_ImgKey] != undefined) {
+                        _annotations = draws[_ImgKey].getAnnotations();
+                        angle = draws[_ImgKey].rotateAngle();
+                    }
+                    data.Documents[i].Pages[j] = {
+                        ImgKey: _ImgKey, Annotations: _annotations, LanguageCode: _LangCode,
+                        PageWidth: $("#page_" + _ImgKey).width(), PageHeight: $("#page_" + _ImgKey).height(),
+                        RotateAngle: angle * -1,
+                        PageId: _PageId
+                    };
+                }
+
+                for (k = 0; k < fieldValueElements.length - 1; k++) {
+                    var _Id = $(fieldValueElements[k]).attr('data-field_id');
+                    var _Value = $(fieldValueElements[k]).val();
+
+                    if (_Id) {
+                        data.Documents[i].FieldValues[k] = { Id: _Id.toString(), Value: _Value, TableFieldValues: [] };
+                    }
+
+                    var $tableValues = $(fieldValueElements[k]).find('div.tableFieldValue > div.rowIndex');
+
+                    if ($tableValues != undefined && $tableValues.length > 0) {
+
+                        $.each($tableValues, function (n) {
+                            var rowIndex = $(this).data('row_id');
+                            var $tableFieldEement = $(this).find("input[type=hidden]");
+
+                            $.each($tableFieldEement, function (m) {
+                                var tableValue = $(this).val();
+                                var tableValueId = $(this).data('column_id');
+
+                                data.Documents[i].FieldValues[k].TableFieldValues.push({ FieldId: tableValueId, RowIndex: rowIndex, Value: tableValue });
+                            });
+                        });
+                    }
+
+                }
+            }
+
+            return data;
+        }
+    </script>
+</body>
+</html>

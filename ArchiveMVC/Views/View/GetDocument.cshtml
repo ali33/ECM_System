@@ -1,0 +1,8 @@
+﻿    @if(ViewData["PATH"] != null)
+    {
+        if (ViewData["FILE_TYPE"]=="PDF"){
+            <iframe src="~/View/ViewPdf?path=@ViewData["PATH"].ToString()" style="width:100%;height:99%"></iframe>
+        }else{
+            <iframe src="@Url.Content(ViewData["PATH"].ToString())" style="width:100%;height:99%"></iframe>    
+        }
+    }

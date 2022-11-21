@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ArchiveMVC5.Models.TableColumnModel>
+
+@if (Model != null)
+{
+    var colCount = Model.Count();
+    
+    <table class="table tableValue">
+        <thead>
+            <tr>
+                <th></th>
+                @foreach (var column in Model)
+                {
+                    <th>@column.ColumnName</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="removeRow"><i class="glyphicon glyphicon-trash vcenter hand"></i></td>
+                @foreach (var column in Model)
+                {
+                    var inputClass = "";
+                    
+                    if (column.DataType == Ecm.Domain.FieldDataType.Date)
+                    {
+                        inputClass = "date";
+                    }
+                    else if (column.DataType == Ecm.Domain.FieldDataType.Integer)
+                    {
+                        inputClass = "allownumericwithoutdecimal";
+                    }
+                    else if (column.DataType == Ecm.Domain.FieldDataType.Decimal)
+                    {
+                        inputClass = "allownumericwithdecimal";
+                    }
+                    
+                    <td>
+                        <div class="content_fields_input">
+                            <input type="text" value="@column.DefaultValue" class="form-control input-sm @inputClass"/>
+                            <input type="hidden" value="@column.FieldId" id="tableFieldId" />
+                        </div></td>
+                }
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="fakeRow">
+                <td colspan='@(colCount + 1)' onclick='addTableRow(@Html.Raw(Json.Encode(Model)));'>
+                    <span class="textButton">Add more row</span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}

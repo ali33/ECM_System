@@ -1,0 +1,180 @@
+﻿<Window x:Class="Ecm.CaptureCustomAddIn.View.AssignedTaskView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:cc="clr-namespace:Ecm.CustomControl;assembly=CustomControl"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        WindowState="Maximized"
+        Icon="/CaptureCustomAddIn;component/Resources/Logo.ico" Title="Assigned Tasks">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Silver.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="ItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+                <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Assigned Tasks" Style="{StaticResource DisplayViewText}"/>
+        <Border Style="{StaticResource Separator}" Grid.Row="1"/>
+        <TextBlock Text="Batch type" Grid.Row="2"/>
+        <ComboBox ItemsSource="{Binding Path=BatchTypes}" 
+                  HorizontalAlignment="Left"
+                  Grid.Row="3"
+                  Width="400"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding Path=SelectedBatchType, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Grid.Row="4" Style="{StaticResource Separator}"/>
+        <TextBlock Text="Workitems" Grid.Row="5"/>
+        <cc:SortableListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                             Margin="0,10,0,0"
+                             Grid.Row="6"
+                             Name="lvTask"
+                             ItemContainerStyle="{StaticResource ItemStyle}"
+                             ItemsSource="{Binding Path=Workitems,Mode=TwoWay}"
+                             ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                             ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                             ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                             cc:ListViewLayoutManager.Enabled="True"
+                             SelectionMode="Single"
+                             SelectedItem="{Binding Path=Workitem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <cc:SortableListView.View>
+                <GridView>
+                    <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=BatchName}" SortPropertyName="BatchName" Header="Batch name" Width="150"/>
+                    <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=CreatedDate}" SortPropertyName="CreatedDate" Header="Created date" Width="100"/>
+                    <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=CreatedBy}" SortPropertyName="CreatedBy" Header="Created by" Width="Auto"/>
+                    <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=LockedBy}" SortPropertyName="LockedBy" Header="Locked by" Width="Auto"/>
+                    <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=BlockingActivityName}" SortPropertyName="BlockingActivityName" Header="Activity name" Width="Auto"/>
+                    <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=DelegatedBy}" SortPropertyName="DelegatedBy" Header="Delegated by" Width="Auto"/>
+                    <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=HasError, Converter={StaticResource YesNoConverter}}" 
+                                               SortPropertyName="HasError" Header="HasError" Width="Auto"/>
+                    <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=StatusMsg}" 
+                                               SortPropertyName="StatusMsg" Header="Status message"
+                                               cc:RangeColumn.MinWidth="200"
+                                               cc:RangeColumn.IsFillColumn="True"/>
+                </GridView>
+            </cc:SortableListView.View>
+        </cc:SortableListView>
+        <Border Grid.Row="7" Style="{StaticResource Separator}"/>
+        <TextBlock Text="Office content(s) (MS Excel, MS Word, MS Power Point)" Grid.Row="8"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="9" Width="Auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Contents" Grid.ColumnSpan="2" Background="{StaticResource BackgroundBrush}"/>
+                <Border Style="{StaticResource Separator}" Grid.Row="1" Grid.ColumnSpan="2"/>
+                <cc:SortableListView HorizontalAlignment="Stretch" 
+                                     VerticalAlignment="Stretch"
+                                     Grid.Row="2"
+                                     Margin="3"
+                                     Name="lvdocument"
+                                     ItemContainerStyle="{StaticResource ItemStyle}"
+                                     ItemsSource="{Binding Path=Workitem.Documents,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                     ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                     ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                     cc:ListViewLayoutManager.Enabled="True"
+                                     SelectionMode="Single"
+                                     SelectedItem="{Binding Path=SelectedContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
+                    <cc:SortableListView.View>
+                        <GridView>
+                            <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=DocumentType.Name}" SortPropertyName="DocumentType.Name" Header="Content type" Width="150"/>
+                            <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=CreatedDate}" SortPropertyName="CreatedDate" Header="Created date" Width="100"/>
+                            <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=CreatedBy}" SortPropertyName="CreatedBy" Header="Created by" Width="Auto"/>
+                            <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=ModifiedDate}" SortPropertyName="ModifiedDate" Header="Modified date" Width="100"/>
+                            <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=ModifiedBy}" 
+                                                       SortPropertyName="ModifiedBy" 
+                                                       Header="Modified by" 
+                                                       Width="Auto"
+                                                       cc:RangeColumn.MinWidth="100"
+                                                       cc:RangeColumn.IsFillColumn="True"/>
+                        </GridView>
+                    </cc:SortableListView.View>
+                </cc:SortableListView>
+            </Grid>
+            <GridSplitter Grid.Column="1" 
+                          ResizeDirection="Columns" 
+                          Height="Auto" 
+                          ResizeBehavior="BasedOnAlignment"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Stretch"
+                          Style="{StaticResource VerticalGridSpitter}"></GridSplitter>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Width="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Office files" Grid.ColumnSpan="2" Background="{StaticResource BackgroundBrush}"/>
+                <Border Style="{StaticResource Separator}" Grid.Row="1" Grid.ColumnSpan="2"/>
+                <cc:SortableListView HorizontalAlignment="Stretch" 
+                                     VerticalAlignment="Stretch"
+                                     Grid.Row="2"
+                                     Margin="3"
+                                     Name="lvPage"
+                                     ItemsSource="{Binding Path=SelectedContent.Pages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                     ItemContainerStyle="{StaticResource ItemStyle}"
+                                     ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                     ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                     ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                     cc:ListViewLayoutManager.Enabled="True"
+                                     SelectionMode="Single"
+                                     MouseDoubleClick="lvPage_MouseDoubleClick"
+                                     SelectedItem="{Binding Path=SelectedPage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <cc:SortableListView.View>
+                        <GridView>
+                            <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=OriginalFileName}" SortPropertyName="OriginalFileName" Header="Original file name" Width="150"/>
+                            <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=FilePath}" SortPropertyName="FilePath" Header="File path" Width="100"/>
+                            <cc:SortableGridViewColumn DisplayMemberBinding="{Binding Path=FileExtension}" 
+                                                   SortPropertyName="FileExtension" 
+                                                   Header="File extension" 
+                                                   cc:RangeColumn.MinWidth="100"
+                                                   cc:RangeColumn.IsFillColumn="True"/>
+                        </GridView>
+                    </cc:SortableListView.View>
+                </cc:SortableListView>
+            </Grid>
+        </Grid>
+        <Border Grid.Row="10" Style="{StaticResource Separator}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="11">
+            <Button Command="{Binding Path=CloseCommand}">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="../Resources/Images/close.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                            <TextBlock Text="Close" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                        </Grid>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0CC16394-BB90-4495-B393-70B555BC939A}</ProjectGuid>
+    <ProjectTypeGuids>{32f31d43-81cc-4c15-9de6-3fc5453562b6};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.Workflow.Activities.ReleaseToArchive</RootNamespace>
+    <AssemblyName>ReleaseToArchive</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\CaptureAdmin\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Workflow\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU'">
+    <OutputPath>..\bin\Workflow\Release Obfuscated\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ThirdParty\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataProvider\ArchiveProvider.cs" />
+    <Compile Include="DataProvider\OneTimeBinding.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReleaseToArchiveDesigner.xaml.cs">
+      <DependentUpon>ReleaseToArchiveDesigner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReleaseToArchive.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CaptureCore\CaptureCore.csproj">
+      <Project>{E9CC17D0-862A-40A2-9C1C-0C8380E3C636}</Project>
+      <Name>CaptureCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptureDomain\CaptureDomain.csproj">
+      <Project>{1FAFF4DB-A95F-44F8-BEE6-5D6903F37FDF}</Project>
+      <Name>CaptureDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomActivityDomain\CustomActivityDomain.csproj">
+      <Project>{FB5197AB-1699-4B35-B49C-1FB64E5CE59E}</Project>
+      <Name>CustomActivityDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomActivityModel\CustomActivityModel.csproj">
+      <Project>{FF9B3DF2-7410-4348-BF67-3A051754D1BD}</Project>
+      <Name>CustomActivityModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{855C2210-6121-4C67-8162-F1D14B34C035}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{856d7d25-0be2-455d-ae92-052c3ce82ea3}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReleaseToArchiveConfiguration\ReleaseToArchiveConfiguration.csproj">
+      <Project>{1D3F8427-7AED-4081-9AF9-5A3A9EE06B9C}</Project>
+      <Name>ReleaseToArchiveConfiguration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service.Contract\Service.Contract.csproj">
+      <Project>{CC2AE1F7-17EE-4FA5-A9BC-B3CC38526CAB}</Project>
+      <Name>Service.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{F5B8F368-604C-4CFD-95E6-6CB7F2BCB832}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorkflowActivityContract\Contract.csproj">
+      <Project>{05FA0828-058A-4674-B656-B456CED0C005}</Project>
+      <Name>Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorkflowExtension\WorkflowExtension.csproj">
+      <Project>{0d8e1fc0-1c4b-48a0-be4f-c74b7e2ed8fa}</Project>
+      <Name>WorkflowExtension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ReleaseToArchiveDesigner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ReleaseToArchive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="signAssemblyKey.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)CaptureAdmin\bin\$(ConfigurationName)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)Service.Web\bin" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release Obfuscated" ("%25ProgramFiles%25\RustemSoft\Skater .NET Obfuscator\skater.exe" -SOURCE="$(TargetPath)" -OUTPUT="$(TargetPath)" -KEY="$(ProjectDir)signAssemblyKey.snk" -CONCEALSTRINGS -FLOW -METHOD=0 -WRITELOG)</PostBuildEvent>
+  </PropertyGroup>
+</Project>

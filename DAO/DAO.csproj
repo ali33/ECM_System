@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{85710D47-A1A0-48B7-AC67-1E4A55915FD9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.DAO</RootNamespace>
+    <AssemblyName>DAO</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release Obfuscated\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\ECM.Data.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionLogDao.cs" />
+    <Compile Include="AmbiguousDefinitionDao.cs" />
+    <Compile Include="AnnotationDao.cs" />
+    <Compile Include="AnnotationPermissionDao.cs" />
+    <Compile Include="AnnotationVersionDao.cs" />
+    <Compile Include="AuditPermissionDao.cs" />
+    <Compile Include="BarcodeConfigurationDao.cs" />
+    <Compile Include="DocumentFieldVersionDao.cs" />
+    <Compile Include="DocumentDao.cs" />
+    <Compile Include="DocumentTypePermissionDao.cs" />
+    <Compile Include="DocumentTypeVersionDao.cs" />
+    <Compile Include="DocumentVersionDao.cs" />
+    <Compile Include="FieldMetaDataDao.cs" />
+    <Compile Include="FieldMetaDataVersionDao.cs" />
+    <Compile Include="FieldValueDao.cs" />
+    <Compile Include="LinkDocumentDao.cs" />
+    <Compile Include="LookupDao.cs" />
+    <Compile Include="OCRTemplatePageDao.cs" />
+    <Compile Include="OCRTemplateZoneDao.cs" />
+    <Compile Include="OCRTemplateDao.cs" />
+    <Compile Include="OutlookPictureDao.cs" />
+    <Compile Include="PageDao.cs" />
+    <Compile Include="PageVersionDao.cs" />
+    <Compile Include="PicklistDao.cs" />
+    <Compile Include="SearchQueryExpressionDao.cs" />
+    <Compile Include="SearchQueryDao.cs" />
+    <Compile Include="SettingDao.cs" />
+    <Compile Include="TableFieldValueDao.cs" />
+    <Compile Include="Dapper\DapperExtensions.cs" />
+    <Compile Include="Dapper\SqlMapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Context\DapperContext.cs" />
+    <Compile Include="DocTypeDao.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="signAssemblyKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{855C2210-6121-4C67-8162-F1D14B34C035}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{f5b8f368-604c-4cfd-95e6-6cb7f2bcb832}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release Obfuscated" ("%25ProgramFiles%25\RustemSoft\Skater .NET Obfuscator\skater.exe" -SOURCE="$(TargetPath)" -OUTPUT="$(TargetPath)" -KEY="$(ProjectDir)signAssemblyKey.snk" -CONCEALSTRINGS -FLOW -METHOD=0 -WRITELOG)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

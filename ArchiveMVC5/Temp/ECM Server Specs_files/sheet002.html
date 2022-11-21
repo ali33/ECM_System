@@ -1,0 +1,350 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 14">
+<link id=Main-File rel=Main-File href="../ECM%20Server%20Specs.html">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(1);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../ECM%20Server%20Specs.html");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link=blue vlink=purple>
+
+<table border=0 cellpadding=0 cellspacing=0 width=1593 style='border-collapse:
+ collapse;table-layout:fixed;width:1196pt'>
+ <col width=244 style='mso-width-source:userset;mso-width-alt:8923;width:183pt'>
+ <col width=278 style='mso-width-source:userset;mso-width-alt:10166;width:209pt'>
+ <col width=327 style='mso-width-source:userset;mso-width-alt:11958;width:245pt'>
+ <col width=64 span=2 style='width:48pt'>
+ <col width=218 style='mso-width-source:userset;mso-width-alt:7972;width:164pt'>
+ <col width=193 style='mso-width-source:userset;mso-width-alt:7058;width:145pt'>
+ <col width=205 style='mso-width-source:userset;mso-width-alt:7497;width:154pt'>
+ <tr class=xl65 height=34 style='mso-height-source:userset;height:25.9pt'>
+  <td colspan=8 height=34 class=xl80 width=1593 style='height:25.9pt;
+  width:1196pt'>Capture Application Server and Microsoft IIS Server</td>
+ </tr>
+ <tr class=xl65 height=64 style='mso-height-source:userset;height:48.6pt'>
+  <td colspan=3 height=64 class=xl72 width=849 style='height:48.6pt;width:637pt'>ECM
+  Solutions recommends the specifications indicated in the right column.
+  Specifications in the “Minimum” column should be sufficient for low to
+  low/medium system activity environments but are not recommended in a high
+  volume activity environment.</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=64 style='mso-height-source:userset;height:48.6pt'>
+  <td height=64 class=xl72 width=244 style='height:48.6pt;width:183pt'></td>
+  <td class=xl65 width=278 style='width:209pt'></td>
+  <td class=xl65 width=327 style='width:245pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=36 style='height:27.0pt'>
+  <td colspan=3 height=36 class=xl81 width=849 style='height:27.0pt;width:637pt'>Hardware</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=24 style='mso-height-source:userset;height:18.0pt'>
+  <td height=24 class=xl68 width=244 style='height:18.0pt;border-top:none;
+  width:183pt'>Component</td>
+  <td class=xl69 width=278 style='border-top:none;width:209pt'>Minimum</td>
+  <td class=xl69 width=327 style='border-top:none;width:245pt'>Strongly
+  Recommended</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=26 style='mso-height-source:userset;height:19.9pt'>
+  <td height=26 class=xl70 width=244 style='height:19.9pt;width:183pt'>Server</td>
+  <td class=xl71 width=278 style='width:209pt'>32 bit server</td>
+  <td class=xl71 width=327 style='width:245pt'>64 bit server</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=20 style='height:15.0pt'>
+  <td rowspan=2 height=47 class=xl73 width=244 style='border-bottom:.5pt dotted white;
+  height:35.45pt;border-top:none;width:183pt'>Processor</td>
+  <td class=xl67 width=278 style='width:209pt'>One Dual-Core Intel Xeon</td>
+  <td class=xl67 width=327 style='width:245pt'>One Quad-Core Intel Xeon
+  processor</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=27 style='mso-height-source:userset;height:20.45pt'>
+  <td height=27 class=xl66 width=278 style='height:20.45pt;width:209pt'>2.6 GHz
+  – 5150 processor or higher</td>
+  <td class=xl66 width=327 style='width:245pt'>2.66 GHz – E5430 processor or
+  higher</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=24 style='mso-height-source:userset;height:18.6pt'>
+  <td height=24 class=xl70 width=244 style='height:18.6pt;width:183pt'>RAM</td>
+  <td class=xl71 width=278 style='width:209pt'>4&nbsp;GB</td>
+  <td class=xl71 width=327 style='width:245pt'>8&nbsp;GB or more recommended</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=26 style='mso-height-source:userset;height:19.9pt'>
+  <td height=26 class=xl70 width=244 style='height:19.9pt;width:183pt'>Disk
+  Space</td>
+  <td class=xl71 width=278 style='width:209pt'>100 gigabytes</td>
+  <td class=xl71 width=327 style='width:245pt'>200+ gigabytes</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=20 style='height:15.0pt'>
+  <td rowspan=5 height=115 class=xl73 width=244 style='border-bottom:.5pt dotted white;
+  height:86.25pt;border-top:none;width:183pt'>Disk Storage</td>
+  <td class=xl67 width=278 style='width:209pt'>Main Unit -</td>
+  <td class=xl67 width=327 style='width:245pt'>Main Unit -</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=35 style='height:26.25pt'>
+  <td height=35 class=xl67 width=278 style='height:26.25pt;width:209pt'>15K RPM
+  SAS drives connected to a dedicated RAID Controller</td>
+  <td class=xl67 width=327 style='width:245pt'>15K RPM SAS drives connected to
+  a dedicated RAID Controller</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=20 style='height:15.0pt'>
+  <td height=20 class=xl67 width=278 style='height:15.0pt;width:209pt'>RAID 1
+  36GB x2 – OS &amp; Apps</td>
+  <td class=xl67 width=327 style='width:245pt'>RAID 1 36GB x2 – OS &amp; Apps</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=20 style='height:15.0pt'>
+  <td height=20 class=xl67 width=278 style='height:15.0pt;width:209pt'>RAID 5
+  36GB x3 – Data processing</td>
+  <td class=xl67 width=327 style='width:245pt'>RAID 5 36GB x4 – Data processing</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=20 style='height:15.0pt'>
+  <td height=20 class=xl66 width=278 style='height:15.0pt;width:209pt'>36GB Hot
+  Spare</td>
+  <td class=xl66 width=327 style='width:245pt'>36GB Hot Spare</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr class=xl65 height=52 style='height:39.0pt'>
+  <td height=52 class=xl70 width=244 style='height:39.0pt;width:183pt'>Network</td>
+  <td class=xl66 width=278 style='width:209pt'>For connections between
+  computers in your server farm or LAN, 100&nbsp;megabits per second (Mbps)
+  connection</td>
+  <td class=xl66 width=327 style='width:245pt'>For connections between
+  computers in your server farm or LAN, 1&nbsp;gigabit per second (Gbps)
+  connection</td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=64 style='width:48pt'></td>
+  <td class=xl65 width=218 style='width:164pt'></td>
+  <td class=xl65 width=193 style='width:145pt'></td>
+  <td class=xl65 width=205 style='width:154pt'></td>
+ </tr>
+ <tr height=35 style='height:26.25pt'>
+  <td height=35 class=xl70 width=244 style='height:26.25pt;width:183pt'>Scanner</td>
+  <td class=xl66 width=278 style='width:209pt'>Fujitsu Workgroup scanner
+  fi-6130z or Cannon DR2580C</td>
+  <td class=xl66 width=327 style='width:245pt'>Fujitsu Production scanner
+  fi-6670 or Cannon DR4010C</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=80 style='height:60.0pt;mso-xlrowspan:4'>
+  <td height=80 colspan=8 style='height:60.0pt;mso-ignore:colspan'></td>
+ </tr>
+ <tr height=42 style='height:31.5pt'>
+  <td colspan=3 height=42 class=xl82 width=849 style='height:31.5pt;width:637pt'>Software
+  and Framework</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl68 width=244 style='height:15.0pt;border-top:none;
+  width:183pt'>Software</td>
+  <td class=xl68 width=278 style='border-top:none;border-left:none;width:209pt'>Minimum</td>
+  <td class=xl68 width=327 style='border-top:none;border-left:none;width:245pt'>Recommended</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl70 width=244 style='height:15.0pt;width:183pt'>Operating
+  Systems</td>
+  <td class=xl71 width=278 style='width:209pt'>Microsoft Windows Server 2003</td>
+  <td class=xl71 width=327 style='width:245pt'>Microsoft Windows Server 2008 R2</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td rowspan=4 height=80 class=xl73 width=244 style='border-bottom:.5pt dotted white;
+  height:60.0pt;border-top:none;width:183pt'>MS SQL Server</td>
+  <td class=xl76 width=278 style='border-top:none;border-left:none;width:209pt'>MS
+  SQL Server R2 Express Edition</td>
+  <td class=xl76 width=327 style='border-top:none;border-left:none;width:245pt'>MS
+  SQL Server 2005 Standard Edition or higher</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl77 width=278 style='height:15.0pt;border-left:none;
+  width:209pt'>only 1 CPU</td>
+  <td class=xl77 width=327 style='border-left:none;width:245pt'>&nbsp;</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl77 width=278 style='height:15.0pt;border-left:none;
+  width:209pt'>can use max of 1 GB of RAM</td>
+  <td class=xl77 width=327 style='border-left:none;width:245pt'>&nbsp;</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl78 width=278 style='height:15.0pt;border-left:none;
+  width:209pt'>is limited to 10 GB of database size</td>
+  <td class=xl78 width=327 style='border-left:none;width:245pt'>&nbsp;</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl70 width=244 style='height:15.0pt;width:183pt'>.NET
+  Framework</td>
+  <td class=xl71 width=278 style='width:209pt'>.NET Framework 4.0 or higher</td>
+  <td class=xl71 width=327 style='width:245pt'>.NET Framework 4.5</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl70 width=244 style='height:15.0pt;width:183pt'>.NET
+  Framework in Client Machines</td>
+  <td class=xl71 width=278 style='width:209pt'>.NET Framework 4.5 Client
+  Profile</td>
+  <td class=xl71 width=327 style='width:245pt'>.NET Framework 4.5</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl70 width=244 style='height:15.0pt;width:183pt'>MS
+  Office on Client Machines</td>
+  <td class=xl71 width=278 style='width:209pt'>Office 2010</td>
+  <td class=xl71 width=327 style='width:245pt'>MS Office 2010 Professional or
+  higher</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 class=xl70 width=244 style='height:15.0pt;width:183pt'>Scanning
+  Protocal for Client Machine</td>
+  <td class=xl71 width=278 style='width:209pt'>WIA</td>
+  <td class=xl71 width=327 style='width:245pt'>TWAIN</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=68 style='height:51.0pt'>
+  <td rowspan=2 height=102 class=xl73 width=244 style='height:76.5pt;
+  border-top:none;width:183pt'>Softek Barcode</td>
+  <td class=xl79 width=278 style='width:209pt'>Server Run-Time License without
+  PDF Extension. Read more in http://www.softeksoftware.co.uk/en/purchase.html</td>
+  <td class=xl79 width=327 style='width:245pt'>Server Run-Time License with PDF
+  Extension or Unlimited Distribution License</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=34 style='height:25.5pt'>
+  <td height=34 class=xl75 width=278 style='height:25.5pt;width:209pt'>This is
+  optional. Only apply when user include barcode extractor feature</td>
+  <td class=xl75 width=327 style='width:245pt'>This is optional. Only apply
+  when user include barcode extractor feature</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=51 style='height:38.25pt'>
+  <td height=51 class=xl73 width=244 style='height:38.25pt;width:183pt'>OCR<span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl71 width=278 style='width:209pt'>Tesseract (Open Source)</td>
+  <td class=xl75 width=327 style='width:245pt'>ABBYY Recognition Server 3.0.
+  Read more in http://www.abbyy.com.vn/san-pham-so-hoa# or
+  http://www.abbyy.com/flexicapture_engine/</td>
+  <td colspan=5 style='mso-ignore:colspan'></td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=244 style='width:183pt'></td>
+  <td width=278 style='width:209pt'></td>
+  <td width=327 style='width:245pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=218 style='width:164pt'></td>
+  <td width=193 style='width:145pt'></td>
+  <td width=205 style='width:154pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

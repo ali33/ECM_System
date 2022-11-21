@@ -1,0 +1,49 @@
+﻿@model CaptureMVC.Models.CaptureAdminModel
+@{  
+        foreach (var field_item in @Model.CaptureDocTypeModel.Fields)
+        {
+            if (field_item.IsSystemField == false)
+            {
+                <tr id="@field_item.Id" class="row_field">
+
+                    <td class="td_field_name">@field_item.Name</td>
+
+                    <td class="td_data_type">@field_item.DataType.ToString()</td>
+
+                    @if (field_item.IsRequired == false)
+            {
+                        <td class="td_required">No</td>
+            }
+            else
+            {
+                        <td class="td_required">Yes</td>
+            }
+
+                    @if (field_item.IsRestricted == false)
+            {
+                        <td class="td_restricted">No</td>
+            }
+            else
+            {
+                        <td class="td_restricted">Yes</td>
+            }
+
+                    @*<td class="td_haslookup">No</td>*@
+
+                    @if (field_item.UseCurrentDate == true)
+            {
+                        <td class="td_default_value">{Use current date}</td>
+            }
+            else
+            {
+                        <td class="td_default_value">@field_item.DefaultValue</td>
+            }
+
+                    <td class="td_maxlength">@field_item.MaxLength</td>
+                    <td class="td_picklist hidden">@*@field_item.Picklists*@</td>
+                    <td class="td_valida_script hidden">@field_item.ValidationScript</td>
+                    <td class="td_valida_pattern hidden">@field_item.ValidationPattern</td>
+                </tr>
+            }
+        }
+ }

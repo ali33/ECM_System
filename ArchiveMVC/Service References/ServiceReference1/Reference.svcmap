@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="30b3756e-9f11-4f36-bbf3-56660298ad40" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://tfs-pc/eDocServices/Archive.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Archive1.disco" MetadataType="Disco" ID="c12fada4-290a-45ea-9ce9-46f82ef75a90" SourceId="1" SourceUrl="http://tfs-pc/eDocServices/Archive.svc?disco" />
+    <MetadataFile FileName="Archive5.xsd" MetadataType="Schema" ID="467c83b7-79f5-4c8c-b64e-76c7cd78e713" SourceId="1" SourceUrl="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd2" />
+    <MetadataFile FileName="Archive51.xsd" MetadataType="Schema" ID="06644766-c07e-4a96-b73d-c134ad9428c8" SourceId="1" SourceUrl="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd4" />
+    <MetadataFile FileName="Archive52.xsd" MetadataType="Schema" ID="bd4b8078-aa93-4832-9b43-1a9728eafd86" SourceId="1" SourceUrl="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd1" />
+    <MetadataFile FileName="Archive53.xsd" MetadataType="Schema" ID="4a762475-546e-4c03-9685-8d8a66fbf97a" SourceId="1" SourceUrl="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd0" />
+    <MetadataFile FileName="Archive1.wsdl" MetadataType="Wsdl" ID="32cdc4dc-b4b2-4727-b6d3-3bfb1d8efb5b" SourceId="1" SourceUrl="http://tfs-pc/eDocServices/Archive.svc?wsdl" />
+    <MetadataFile FileName="Archive54.xsd" MetadataType="Schema" ID="293eb992-c31b-4278-88ab-3da78eaaa118" SourceId="1" SourceUrl="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd3" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

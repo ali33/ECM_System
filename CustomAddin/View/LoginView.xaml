@@ -1,0 +1,46 @@
+﻿<Window x:Class="Ecm.CustomAddin.View.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:password="clr-namespace:Ecm.Utility;assembly=Utility"
+        xmlns:mvvm="clr-namespace:Ecm.Mvvm;assembly=Mvvm"
+        ShowInTaskbar="True" 
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="Ecm MS Excel Import"
+        mc:Ignorable="d" Width="350" Height="150" Icon="../Resources/Logo.ico">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Silver.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Username" Margin="2,2,0,0"/>
+        <TextBox Text="{Binding Path=User.Username,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnableLogin}" Margin="2,2,0,0" Grid.Column="1" TabIndex="0" x:Name="txtUsername"/>
+        <TextBlock Text="Password" Margin="2,2,0,0" Grid.Row="1"/>
+        <PasswordBox  Grid.Row="1" Grid.Column="1" Margin="2,2,0,0" IsEnabled="{Binding Path=IsEnableLogin}" password:BoundPasswordBox.BoundPassword="{mvvm:FocusBinding Path=User.Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TabIndex="1"/>
+        <CheckBox Content="Auto sign-on?" Grid.Row="2" Grid.Column="1" IsChecked="{Binding Path=IsAutoSignIn,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Style="{StaticResource Separator}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3"/>
+        <Button ContentTemplate="{StaticResource SigningButton}"
+                IsDefault="True"
+                IsEnabled="{Binding Path=IsEnableLogin}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left" 
+                Grid.Column="1" 
+                Grid.Row="4" Command="{Binding Path=SigningCommand}"/>
+    </Grid>
+</Window>

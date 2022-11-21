@@ -1,0 +1,670 @@
+﻿@model  ArchiveMVC.Models.ArchiveAdminModel
+@{
+    ViewBag.Title = "Archive Admin";
+}
+@section AddToHead
+    {
+  
+    
+   
+    @* Được thêm mới bởi Triết *@
+    @*Styles.Render("~/Content/jquery-ui.css") *@                
+    @*@Styles.Render("~/Content/themes/base/jquery-ui.css")*@
+    <link rel="icon" href="~/Content/themes/base/images" type="image/png"/>
+    
+    
+     
+    <script type="text/javascript" src="@Url.Content("~/Scripts/load.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Annotations/annotation.V1.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdmin.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdminPermission.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdminUser.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdminUserGroup.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdminSettings.js"></script>
+    <script type="text/javascript" src="~/Scripts/Annotations/scrollTo.js"></script>
+    <script type="text/javascript" src="~/Scripts/Camera/jquery.webcam.js"></script>
+
+    @* Loc Ngo *@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/OcrTemplateMenu.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/Thumb.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/effect.js")"></script>
+    @* End Loc Ngo *@
+    <link href="@Url.Content("~/Content/ECM.css")" rel="stylesheet" type="text/css" />
+     @*///THODINH*@
+    <link href="~/Content/Annotations/annotation.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/Annotations/annotation.V1.js" type="text/javascript"></script>
+    <link href="~/Scripts/Annotations/tip/tip-yellowsimple/tip-yellowsimple.css" rel="stylesheet">
+    <script src="~/Scripts/Annotations/tip/jquery.poshytip.js"></script>
+
+    <link href="~/Scripts/Annotations/jquery-editable/css/jquery-editable.css" rel="stylesheet"/>
+    <script src="~/Scripts/Annotations/jquery-editable/js/jquery-editable-poshytip.js"></script>  
+    @*///END*@
+    @* Loc Ngo *@
+    <link href="@Url.Content("~/Content/tablesorter/style.css")" rel="stylesheet" type="text/css" />
+    @* End Loc Ngo *@
+    <script>
+        var URL_Recycle = '@Url.Content("~/Images/recycle-bin.png")';
+        var URL_ShowListContentType = "@Url.Action("ShowListContentType","ArchiveAdmin")";
+        var URL_ContentTypeProperties = "@Url.Action("ContentTypeProperties","ArchiveAdmin")";
+        var URL_DeleteContentType = "@Url.Action("DeleteContentType","ArchiveAdmin")";
+        var URL_SaveContentType = "@Url.Action("SaveContentType","ArchiveAdmin")";
+        var URL_DeleteFields = "@Url.Action("DeleteFields","ArchiveAdmin")";
+        var URL_GetPicklistValue = "@Url.Action("GetPicklistValue","ArchiveAdmin")";
+        var URL_GetTableValue = "@Url.Action("GetTableValue","ArchiveAdmin")";
+        var URL_LoadTableConfigure = "@Url.Action("LoadTableConfigure","ArchiveAdmin")";
+        var URL_EditTableConfigure = "@Url.Action("EditTableConfigure","ArchiveAdmin")";
+        var URL_TestConnection = "@Url.Action("TestConnection","ArchiveAdmin")";
+        var URL_GetDataSource = "@Url.Action("GetDataSource","ArchiveAdmin")";
+        var URL_GetColumns = "@Url.Action("GetColumns","ArchiveAdmin")";
+        var URL_GetOperators = "@Url.Action("GetOperators","ArchiveAdmin")";
+        var URL_GetOperatorsFormStored = "@Url.Action("GetOperatorsFromStored","ArchiveAdmin")";
+        var URL_GetParameters = "@Url.Action("LoadParameters","ArchiveAdmin")";
+        var URL_BuildCommandText = "@Url.Action("BuildCommandText","ArchiveAdmin")";
+        var URL_BuildExecuteCommand = "@Url.Action("BuildExecuteCommand","ArchiveAdmin")";
+        var URL_BuildWhereClause = "@Url.Action("BuildWhereClause","ArchiveAdmin")";
+        var URL_GetLookupData = "@Url.Action("TestLookup","ArchiveAdmin")";
+        var URL_ShowPermissionProperties = "@Url.Action("ShowPermissionProperties","ArchiveAdmin")";
+        var URL_ShowUser = "@Url.Action("ShowUser","ArchiveAdmin")";
+        var URL_ShowPermission = "@Url.Action("ShowPermission","ArchiveAdmin")";
+        var URL_ShowUserProperties = "@Url.Action("ShowUserProperties","ArchiveAdmin")";
+        var URL_DeleteUser = "@Url.Action("DeleteUser","ArchiveAdmin")";
+        var URL_SaveUser = "@Url.Action("SaveUser","ArchiveAdmin")";
+        var URL_ShowListUserGroup = "@Url.Action("ShowListUserGroup","ArchiveAdmin")";
+        var URL_LoadUserGroups = "@Url.Action("LoadUserGroups","ArchiveAdmin")";
+        var URL_DeleteUserGroup = "@Url.Action("DeleteUserGroup","ArchiveAdmin")";
+        var URL_ShowUserGroupProperties = "@Url.Action("ShowUserGroupProperties","ArchiveAdmin")";
+        var URL_SaveUserGroup = "@Url.Action("SaveUserGroup","ArchiveAdmin")";
+        var URL_SearchUser = "@Url.Action("SearchUser","ArchiveAdmin")";
+        var URL_SavePermissions = "@Url.Action("SavePermissions","ArchiveAdmin")";
+        var URL_DeleteOcrTemplate = "@Url.Action("DeleteOcrTemplate", "ArchiveAdmin")";
+        var URL_DeleteBarcode = "@Url.Action("DeleteBarcode", "ArchiveAdmin")";
+        var URL_ShowSettings = "@Url.Action("ShowSettings","ArchiveAdmin")";
+        //LocNgo
+        var URL_ContentTypeIcon = "@Url.Action("UploadContentTypeIcon", "ArchiveAdmin")";
+        var URL_SettingConfigure = "@Url.Action("ShowSettingConfigure","ArchiveAdmin")";
+        var URL_SettingConfigureLanguages = "@Url.Action("ShowSettingConfigureLanguages", "ArchiveAdmin")";
+        var URL_ShowSettingConfigureDetails = "@Url.Action("ShowSettingConfigureDetail", "ArchiveAdmin")";
+        var URL_SaveSettingConfigireDetails = "@Url.Action("SaveSettingConfigureMapping", "ArchiveAdmin")";
+        var URL_DeleteSettingConfigureDetails = "@Url.Action("DeleteSettingConfigureMapping", "ArchiveAdmin")";
+        var URL_SaveSetting = "@Url.Action("SaveSetting", "ArchiveAdmin")";
+        var URL_MappingIcon = "@Url.Content("~/Images/archive_admin_icon/appbar.dial.svg")";
+        var URL_UploadProfilePic = "@Url.Action("UploadProfilePic", "ArchiveAdmin")";
+        var URL_GetImageFromCache = "@Url.Action("GetImageFromCacheByKey", "ArchiveAdmin")";
+        var URL_ShowBarcodeConfigure = "@Url.Action("ShowBarcodeConfigure", "ArchiveAdmin")";
+        var URL_SaveBarcodeFields = "@Url.Action("SaveBarcode", "ArchiveAdmin")";
+        //For content type
+        var URL_OcrConfigure = "@Url.Action("Configure", "ArchiveAdmin")";
+        var URL_GetIcon = "@Url.Action("GetIcon", "ImageProcessing")";
+        var URL_UserGroupIcon = "@Url.Content("~/Images/archive_admin_icon/appbar.group.minus.svg")";
+        var URL_TableConfigure = "@Url.Content("~/Resources/table_configure_delete_icon.png")";
+        //End Loc Ngo
+        ///THODINH
+        var URL_RemoveRowIcon = '@Url.Content("~/Images/appbar.delete.png")';
+        var URL_ScanIcon = '@Url.Content("~/Images/Scan-icon.png")';
+        var URL_ImportIcon = '@Url.Content("~/Images/file-import-icon.png")';
+        var URL_CameraIcon = '@Url.Content("~/Images/webcam.png")';
+        var URL_UploadFile = "@Url.Action("UploadFile","ImageProcessing")";
+        var URL_LoadImage = "@Url.Action("ID", "ImageProcessing")";
+        var URL_SaveOCRTemplate = "@Url.Action("SaveOCRTemplate", "ArchiveAdmin")";
+        var URL_GetFieldMetaData = "@Url.Action("GetFieldMetaData", "ArchiveAdmin")";
+        var URL_Camera = '@Url.Content("~/Scripts/Camera/jscam.swf")';
+        var URL_PostImage = '@Url.Action("UploadFile", "ImageProcessing")';
+
+        var lookupInfo;
+        var lookupInfos = [];
+        var pickList;
+        var pickLists = [];
+        ///END
+
+    </script>
+    <style>
+        .ui-state-highlight { width: 100%; height: 100%; border:3px solid #F7BE81 }
+    </style>
+
+    }
+<section class="body archive body_archive_admin">
+    <div class="left_column archive_admin_menu">
+        <div class="admin_menu_title">
+            <div class="title_content">Admin Menu</div>
+        </div>
+        <div id="content_types" class="admin_menu_item selected">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.debug.step.into.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">Content types</div>    
+            </div>
+        </div>
+
+        <div id ="permissions" class="admin_menu_item">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.key.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">Permissions</div> 
+            </div>
+        </div>
+        
+        <div id="users" class="admin_menu_item">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.user.minus.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">Users</div>
+            </div>
+        </div>
+        
+        <div id="user_groups" class="admin_menu_item">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.group.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">User Groups</div>
+            </div>
+        </div>
+        
+        <div id="settings" class="admin_menu_item">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.settings.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">Settings</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="right_column archive_admin_container">
+        <div class="admin_sub_menu"></div>
+        <div class="sub_properties"></div>
+    </div>
+    <div class="ocr_template_panel"></div>
+</section>
+
+<div id="dialog_add_field" style="display:none;">
+
+    <fieldset class="dialog_fieldset" style="height: 120px;">
+        <legend>Fields</legend>
+        <div class="div_content">
+            <div class="dialog_label">Field name</div>
+            <input type="text" id="field_name" class="archive_input dialog_input" placeholder="Enter field name...">
+        </div>    
+        
+        <div class="div_content">
+            <div class="dialog_label">Data type</div>
+            <select name="data_type" id="dataType" class="dialog_select">
+            @foreach (Ecm.Domain.FieldDataType dataType in Enum.GetValues(typeof(Ecm.Domain.FieldDataType)))
+            {
+                <option value="@dataType.ToString()">@dataType.ToString()</option>
+            }                
+            </select>
+        </div>
+        
+    </fieldset>
+
+    <fieldset class="dialog_fieldset" style="height: 200px;">
+        <legend>Fields configure</legend>
+
+        <div class="div_content" style="height:25px;">
+            <div class="div_content_other">
+                <input id="required" type="checkbox" value="fasle" /> Is required                
+                <input id="restricted" type="checkbox" value="false" /> Is restricted
+            </div>
+
+        </div>
+        <div class="div_content">
+            <div class="div_content_button">
+                <div class="hidden archive_button dialog_button" id="configure_table" style="display: none">
+                    <span style="width: 70px; margin-top:5px">Configure column</span>
+                </div>
+            </div>
+            
+            <div  class="div_content_button">
+                <div class="hidden archive_button dialog_button" id="configure_picklist" style="display: none">
+                    <span style="width: 70px; margin-top:5px">Configure picklist</span>
+                </div>
+            </div>
+        </div>
+        <div class="div_content">
+            <div class="dialog_label">Max length</div>
+            <input type="text" name="max_length" id="max_length" class="archive_input dialog_input" value="0"/>
+        </div>
+
+        <div class="div_content">
+            <div class="dialog_label">Default value</div>
+            @* ------------ *@
+            <input type="text" name="default_value" id="default_value" class="archive_input dialog_input" />
+            @* ------------ *@
+            <div class="div_content_other current_date" style="display: none;">
+                <input id="use_current_date" type="checkbox" value="false"/> Use current date   
+            </div>
+            @* ------------ *@
+            <select id="select_true_false" class="dialog_select" style="display: none;">
+                <option value="True">True</option>  
+                <option value="Fasle">Fasle</option>                        
+            </select>
+        </div>
+    </fieldset>
+
+</div>
+<!-- Dialog picklist -->
+<div id="picklist_value_dialog" style="display: none;">
+  <fieldset class="dialog_fieldset">
+      <legend>Picklist value</legend>
+      <textarea name="picklist_value" id="picklist_value" cols="25" rows="10"></textarea>
+  </fieldset>
+  
+ 
+</div>
+<!-- Dialog configure table -->
+<div id="dialog_table_configure" style="display: none;">
+  @*<h2>Table columns configuration</h2>*@
+    <div class="table_dialog_configuration">
+        <div class="table">
+            <table id="table_configuration" class="archive_table tablesorter">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Column name</th>
+                        <th>Data type</th>
+                        <th>Max length</th>
+                        <th>Default value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table_configure_row first_row">
+                        <td id="first_delete_column">
+                            <img class="dialog_table_icon" src="~/Resources/table_configure_delete_icon.png">
+                        </td>
+                        <td class="table_td_name">
+                            <input type="text" class="archive_input dialog_table_input table_name_value" placeholder="New column">
+                        @*</td>*@
+                        <td class="table_td_type">
+                            <select class="archive_select table_data_type">
+                                <option value="String" selected>String</option>
+                                <option value="Integer">Integer</option>
+                                <option value="Decimal">Decimal</option>
+                                <option value="Date">Date</option>
+                            </select>
+                        </td>
+                        <td class="table_td_maxlength">
+                            <input type="text" class="archive_input dialog_table_input table_maxlength" value="0">
+                        </td>
+                        <td class="table_td_default_value">
+                            <input type="text" class="archive_input dialog_table_input table_default_value">
+                            <div class="dialog_table_checkbox table_use_current_date_contain hidden">
+                                <input type="checkbox" class="table_check_use_current_date" value="false"/>
+                                <a>Use current date</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="add_conlumn_button">
+            <div id="add_new_column" class="archive_button dialog_button add_new_column">
+                <span>Click here to add a new column</span>
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+<!-- Dialog configure table -->
+
+<div id="dialog_lookup" style="display: none;">
+    <div id="dialog_lookup_content">
+        <ul>
+              <li><a href="#tabs-ServerInfo">Server info</a></li>
+              <li><a href="#tabs-MappingInfo">Mapping info</a></li>
+              <li><a href="#tabs-CommandInfo" id="commandInfo">Command info</a></li>
+        </ul>
+        <div id="tabs-ServerInfo" class="tab_padding">
+            <fieldset class="dialog_fieldset" style="height: 450px">
+                <legend>Data sources</legend>
+                <div class="div_content">
+                    <div class="dialog_label">Server name</div>
+                    <input type="text" id="server_name" class="archive_input dialog_input" placeholder="Enter server name...">
+                </div>
+
+                <div class="div_content">
+                    <div class="dialog_label">Database type</div>
+                    <select id="database_type_select" class="dialog_select">
+                        <option value="0">MS SQL Server</option>
+                        <option value="2">Oracle Database</option>
+                        <option value="4">IBM DB2</option>
+                        <option value="1">My SQL</option>
+                        <option value="3">Postgre SQL</option>
+                    </select>
+                </div>
+                
+                <div class="div_content">
+                    <div class="div_content">Data provider</div>
+                    <select id="data_provider_select" class="dialog_select">
+                        <option value="2">ADO.NET provider</option>
+                        <option value="1">Oledb provider</option>
+                    </select>
+                </div>
+
+                <div class="div_content">
+                    <div class="dialog_label">Port number</div>
+                    <input type="text" id="port_number" class="archive_input dialog_input" placeholder="Enter port number...">
+                </div>
+
+                <div class="div_content">
+                    <div class="dialog_label">User name</div>
+                    <input type="text" id="user_name" class="archive_input dialog_input" placeholder="Enter user name...">
+                </div>
+
+                <div class="div_content">
+                    <div class="dialog_label">Password</div>
+                    <input type="password" id="pass_word" class="archive_input dialog_input">
+                </div>
+
+                <div class="div_content">
+                    <div class="dialog_label">Database</div>
+                    <select id="select_database" class="dialog_select">
+                        <option>Empty</option>
+                    </select>
+                </div>
+
+                <div class="div_content">
+                    <div class="dialog_label">Schema</div>
+                    <select id="select_schema" class="dialog_select">
+                        <option>Empty</option>
+                    </select>
+                </div>
+
+                <div class="div_content">
+                    <button type="button" id="button_test_connection" class="archive_button dialog_button">
+                        <span>Test connection</span>
+                        <img src="~/Images/button/uploader.png" />
+                    </button>
+                </div>
+
+            </fieldset>
+        </div>
+
+        <div id="tabs-MappingInfo" class="tab_padding">
+            <fieldset class="dialog_fieldset" style="height: 450px">
+                <legend>Mapping info</legend>
+                <div class="div_content">
+                    <div class="dialog_label">Select data source type</div>
+                    <input type="radio" id="display_table" name="data_source" value="Table" checked="checked">Display table
+                    <input type="radio" id="display_view" name="data_source" value="View">Display views
+                    <input type="radio" id="display_procedure" name="data_source" value="StoredProcedure">Display stored procedures
+                </div>
+                <div class="div_content">
+                    <div class="dialog_label">Data source</div>
+                    <select class="dialog_select" id="select_data_source">
+                        <option id="Empty">Empty</option>
+                    </select>
+                </div>
+                <div class="div_content">
+                    <div class="dialog_label">Maximum number of lookup rows returned</div>
+                    <input type="text" id="number_of_lookup_rows" class="archive_input dialog_input"/>
+                </div>
+                <div class="contain_table_look_data">
+                    <table id="table_look_data" class="archive_table tablesorter">
+                        <thead>
+                            <tr>
+                                <th>Archive client</th>
+                                <th>Lookup data source</th>
+                            </tr>                    
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+
+        <div id="tabs-CommandInfo" class="tab_padding">
+            <div id="commandtext">            
+                <fieldset class="dialog_fieldset">
+                    <legend>Build Sql command</legend>
+                    <div class="div_content">
+                        <div class="dialog_label">Database field</div>
+                        <select id="select_database_field" class="dialog_select">
+                        </select>
+                    </div>
+                    <div class="div_content">
+                        <div class="dialog_label">Operator</div>
+                        <select id="select_operator" class="dialog_select">
+                            <option>Empty</option>
+                        </select>
+                    </div>
+                    <div class="div_content" style="margin: 10px 0px -15px 0px;">
+                        <label class="dialog_label"></label>
+                        <button type="button" id="button_add_condition" class="archive_button dialog_button">
+                            <span>Add Condition</span>
+                            <img src="~/Images/button/appbar.add.32.png" />
+                        </button>
+                        <button type="button" id="button_clear_condition" class="archive_button dialog_button">
+                            <span>Clear Condition</span>
+                            <img src="~/Images/button/appbar.reset.32.png" />
+                        </button>
+                    </div>
+                </fieldset>
+            </div>
+            <div id="commandstore" style="display:none">
+                <fieldset class="dialog_fieldset">
+                    <legend>Lookup data</legend>
+                    <div class="div_content">
+                        <div class="dialog_label">Database field</div>
+                        <select id="select_database_field_stored" class="dialog_select">
+                        </select>
+                    </div>
+                    <div class="div_content">
+                        <div class="dialog_label">Operator</div>
+                        <select id="select_operator_stored" class="dialog_select">
+                            <option>Empty</option>
+                        </select>
+                    </div>
+                </fieldset>
+                <fieldset class="dialog_fieldset">
+                    <legend>Stored procedure Sql command</legend>
+                    <div id="storeparameter" class="div_parameter"></div>
+                    <div style="float:right">
+                        <button type="button" id="build_execute_command" class="archive_button dialog_button" style="float:right">
+                            <span>Build Command</span>
+                            <img src="~/Images/button/appbar.add.32.png" />
+                        </button>
+                    </div>
+                </fieldset>
+            </div>
+
+            <fieldset class="dialog_fieldset" id="text_sql">
+                <legend>Sql command</legend>
+                <div style="float:left; width:400px;height:100px">
+                    <textarea name="text_area_condition" id="sql_command" class="dialog_textarea"></textarea>
+                </div>
+                <div style="float:right">
+                    <button type="button" id="test_lookup_data" class="archive_button dialog_button">
+                        <span>Test SQL</span>
+                        <img src="~/Images/button/uploader.png" />
+                    </button>
+                </div>
+            </fieldset>
+
+            <fieldset class="dialog_fieldset" id="stored_sql" style="display:none">
+                <legend>Sql command</legend>
+                <div style="float:left; width:400px">
+                    <textarea name="text_area_condition" id="sql_command" class="dialog_textarea"></textarea>
+                </div>
+                <div style="float:right">
+                    <button type="button" id="test_lookup_data" class="archive_button dialog_button">
+                        <span>Test SQL</span>
+                        <img src="~/Images/button/uploader.png" />
+                    </button>
+                </div>
+            </fieldset>
+
+            <fieldset class="dialog_fieldset">
+                <legend>Test lookup data results</legend>
+                <div id="lookup_data_result" style="height:80px; overflow-x:hidden;overflow-y:auto"></div>
+            </fieldset>
+        </div>
+
+    </div>
+</div>
+
+<!-- Test lookup dialog-->
+
+<div id="dialog_test_lookup" style="display: none;">
+    <fieldset class="dialog_fieldset">
+        <legend>Test lookup</legend>
+        <div class="div_content">
+            <div class="dialog_label">Lookup value</div>
+            <input type="text" class="archive_input dialog_input" id="lookup_value"/>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Dialog barcode configure - Loc Ngo-->
+<div id="dialog_barcode_configure" style="display: none;">
+    <fieldset class="dialog_fieldset" style="height: 90px;">
+        <legend>Barcode information</legend>
+        <div class="div_content">
+            <label class="dialog_label barcode_dialog_label">Barcode type</label>
+            <select name="barcode_type" id="barcode_type" class="dialog_select"> 
+            @foreach (ArchiveMVC.Models.BarcodeTypeModel barcodetype in Enum.GetValues(typeof(ArchiveMVC.Models.BarcodeTypeModel)))
+            {
+                <option value="@barcodetype">@barcodetype</option>
+            }        
+            </select>
+        </div>
+
+        <div class="div_content">
+            <label class="dialog_label barcode_dialog_label">Barcode position</label>
+            <input type="text" id="barcode_position" class="archive_input dialog_input" value="0">
+        </div> 
+        
+    </fieldset>
+    <fieldset class="dialog_fieldset">
+        <legend>Barcode configuration</legend>
+        <div class="div_content">
+            <label class="dialog_label barcode_dialog_label"></label>
+            <div class="div_content_other">
+                <input id="document_separator" type="checkbox">Document separator
+                <input id="remove_separator_page" type="checkbox">Remove separator page
+            </div>
+        </div>
+        
+        <div class="div_content">
+            <label class="dialog_label barcode_dialog_label">Field</label>
+            <select id="barcode_fields" class="dialog_select">
+            </select>
+        </div>
+
+        <div class="div_content">
+            <label class="dialog_label barcode_dialog_label"></label>
+            <div class="div_content_other">
+                <input id="do_lookup" type="checkbox" >Do lookup
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+
+<!-- Dialog Yes/ No when Delete Content type-->
+<div id="dialog_delete_contenttype" style="display: none;">
+   <p>Are you sure you want to delete selection</p>
+</div>
+
+<!-- Dialog Yes/ No when Delete User-->
+<div id="dialog_delete_user" style="display: none;">
+   <p>Are you sure you want to delete selection</p>
+</div>
+<!-- Dialog Yes/ No when Delete Getting Mapping-->
+<div id="dialog_delete_mapping" style="display: none;">
+   <p>Are you sure you want to delete selection</p>
+</div>
+<!-- Dialog Yes/ No when Delete UserGroup-->
+<div id="dialog_delete_usergroup" style="display: none;">
+   <p>Are you sure you want to delete selection</p>
+</div>
+
+<!-- Dialog select user group -->
+<div id="dialog_user_select_group" style="display: none;">
+
+    <fieldset class="dialog_fieldset" style="height: 40px;">
+        <legend>Search user groups</legend>
+            <input type="text" id="user_name_search" class="archive_input dialog_input" placeholder="Enter group name...">
+            <button type="button" id="user_search_usergroup" class="archive_button dialog_button">
+                <span>Search</span>
+                <img src="~/Images/button/globalsearch_bt_.png" />
+            </button>
+    </fieldset>
+
+    <fieldset class="dialog_fieldset" style="height: 200px;">
+        <legend>User groups</legend>
+        <div class="fieldset_data">
+            <table id="user_table_user_group" class="archive_table tablesorter">
+                <tr class="row_title">
+                    <th style="width: 25px">&nbsp;</th>
+                    <th>Group Name</th>
+                </tr>         
+            </table>
+        </div>
+    </fieldset>
+    
+</div>
+
+<!-- Dialog select users  -->
+<div id="dialog_usergroup_select_user" style="display: none;">
+    
+    <fieldset class="dialog_fieldset" style="height: 40px;">
+        <legend>Search users</legend>
+            <input type="text" id="usergroup_name_search" class="archive_input dialog_input" placeholder="Enter user name...">
+            <button type="button" id="usergroup_search_user" class="archive_button dialog_button">
+                <span>Search</span>
+                <img src="~/Images/button/globalsearch_bt_.png" />
+            </button>
+    </fieldset>
+
+    <fieldset class="dialog_fieldset" style="height: 200px;">
+        <legend>Users</legend>
+        <div class="fieldset_data">
+            <table id="usergroup_table_user" class="archive_table tablesorter">
+                <tr class="row_title">
+                    <th style="width: 25px">&nbsp;</th>
+                    <th>User name</th>
+                </tr>         
+            </table>
+        </div>
+    </fieldset>
+
+</div>
+
+<!-- Dialog ask question save or no when checkbox was change -->
+<div id="dialog_ask_question_permission" style="display: none;">
+    <p>Do you want to save changes made to Permission?</p>
+</div>
+
+<!--Loc Ngo-->
+<!--Dialog change icon of content type-->
+<div class="dialog_content_icon"  style="display: none;">
+    <div class="left_icon">
+        <fieldset class="dialog_fieldset icon_fieldset">
+            <legend>Content icon</legend>
+            <img id="dialog_image_icon" src="#" data-keycache="" />
+        </fieldset>
+    </div>
+    
+    <div class="right_lst_icon">
+        <fieldset class="dialog_fieldset lst_icon_fieldset">
+            <legend>Choose icon</legend>
+            @if (ViewData["DocumentTypeIcon"] != null){
+                foreach (var imageIcon in (IEnumerable<String>)ViewData["DocumentTypeIcon"])
+                {
+                    <img id="sub_image_icon"  data-icon-path="@imageIcon" src="@Url.Content(imageIcon)" />
+                }
+            }
+        </fieldset>
+    </div>
+</div>
+<!--End dialog change icon of content type-->
+
+
+

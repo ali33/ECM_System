@@ -1,0 +1,48 @@
+﻿@{
+    var annotationPermission = (ArchiveMVC5.Models.AnnotationPermissionModel)ViewData[ArchiveMVC5.Models.Constant.KEY_ANOTATION_PERMISSION];
+    var doctypePermission = (ArchiveMVC5.Models.DocumentTypePermissionModel)ViewData[ArchiveMVC5.Models.Constant.KEY_DOCTYPE_PERMISSION];
+}
+<div class="btn-group-vertical">
+    @if (doctypePermission != null && doctypePermission.AlowedPrintDocument)
+    {
+        <button type="button" class="btn btn-deafault bg-olive control_print" title="Print"><i class="fa fa-print large"></i></button>
+        }
+    @if (doctypePermission != null && doctypePermission.AllowedEmailDocument)
+    {
+        <button type="button" class="btn btn-deafault btn-flat bg-olive control_mail" title="Sent mail"><i class="fa fa-envelope large"></i></button>
+        }
+    @if (doctypePermission != null && doctypePermission.AllowedDownloadOffline)
+    {
+        <button type="button" class="btn btn-deafault btn-sm bg-olive control_save" title="Save to file"><i class="fa fa-save large"></i></button>
+        }
+    <a href="#" class="btn btn-deafault btn-flat bg-olive control_pan" title="Pan"><i class="fa fa-arrows large"></i></a>
+    <a href="#" class="btn btn-deafault btn-flat bg-olive control_select" title="Select"><i class="glyphicon glyphicon-hand-up large"></i></a>
+    @if (annotationPermission != null && annotationPermission.AllowedHideRedaction == true)
+    {
+        <button type="button" class="btn btn-deafault btn-flat bg-olive control_hide" title="Hide all annotations"><i class="glyphicon glyphicon-eye-close large"></i></button>
+        }
+    @if (annotationPermission != null && annotationPermission.AllowedAddHighlight == true)
+    {
+        <button type="button" class="btn btn-deafault btn-flat btn-sm bg-olive control_highlight" title="Highlight"><i class="fa fa-square-o large"></i></button>
+        }
+    @if (annotationPermission != null && annotationPermission.AllowedAddRedaction == true)
+    {
+        <button type="button" class="btn btn-deafault btn-flat btn-sm bg-olive control_redaction" title="Redaction"><i class="fa fa-square large"></i></button>
+        }
+    @if (annotationPermission != null && annotationPermission.AllowedAddText == true)
+    {
+        <button type="button" class="btn btn-deafault btn-flat bg-olive control_comment" title="Comment"><i class="fa fa-edit large"></i></button>
+        }
+    <button type="button" class="btn btn-deafault btn-flat bg-olive control_zoomin" title="Zoom-in"><i class="glyphicon glyphicon-zoom-in large"></i></button>
+    <button type="button" class="btn btn-deafault btn-flat bg-olive control_zoomout" title="Zoom-out"><i class="glyphicon glyphicon-zoom-out large"></i></button>
+    <button type="button" class="btn btn-deafault btn-flat bg-olive control_fitwidth" title="Fit width"><i class="glyphicon glyphicon-resize-horizontal large"></i></button>
+    <button type="button" class="btn btn-deafault btn-flat bg-olive control_fitheight" title="Fit height"><i class="glyphicon glyphicon-resize-vertical large"></i></button>
+    @if (doctypePermission != null && doctypePermission.AllowedRotatePage)
+    {
+        <button type="button" class="btn btn-deafault btn-flat bg-olive control_rotationright" title="Rotate right"><i class="fa fa-rotate-right large"></i></button>
+        <button type="button" class="btn btn-deafault btn-flat bg-olive control_rotationleft" title="Rotate left"><i class="fa fa-rotate-left large"></i></button>
+        }
+    <button type="button" class="btn btn-deafault btn-flat bg-olive control_navigationup" title="Up"><i class="glyphicon glyphicon-arrow-up large"></i></button>
+    <button type="button" class="btn btn-deafault btn-flat bg-olive control_navigationdown" title="Down"><i class="glyphicon glyphicon-arrow-down large"></i></button>
+
+</div>

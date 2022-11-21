@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load">
+  <ribbon>
+    <tabs>
+      <tab idMso="TabAddIns" label="Cloud ECM">
+        <group id="CaptureGroup" label="Capture" getVisible="CaptureVisible">
+          <button id="btnSendToCapture"
+                  label="Send to Capture"
+                  size="large"
+                  tag="SendToCapture"
+                  getImage="GetImage"
+                  onAction="btnSendToCapture_Click"/>
+        </group>
+        <group id="Content" label="Content">
+          <button id="btnOpenAssignedTask"
+                  label="Assigned Task"
+                  size="large"
+                  tag="AssignedTask"
+                  getImage="GetImage"
+                  onAction="btnOpenAssignedTask_Click"/>
+          <button id="btnSaveWorkitem"
+                  label="Save"
+                  size="large"
+                  tag="SaveWorkitem"
+                  getEnabled="SaveWorkitemEnable"
+                  getImage="GetImage"
+                  onAction="btnSaveWorkitem_Click"/>
+          <button id="btnApprove"
+                  label="Approve"
+                  size="large"
+                  getEnabled="ApproveEnable"
+                  tag="Approve"
+                  getImage="GetImage"
+                  onAction="btnApprove_Click"/>
+          <button id="btnReject"
+                  label="Reject"
+                  size="large"
+                  getEnabled="RejectEnable"
+                  tag="Reject"
+                  getImage="GetImage"
+                  onAction="btnReject_Click"/>
+        </group>
+        <group id="CaptureInfo" label="Capture info">
+          <button id="btnCaptureInfo"
+                  label="Capture Dashboard"
+                  size="large"
+                  tag="CaptureInfo"
+                  getEnabled="CaptureDashboardEnable"
+                  getImage="GetImage"
+                  onAction="btnCaptureInfo_Click"/>
+        </group>
+        <group id="Logout" label="Logout">
+          <button id="btnLogout"
+                  label="Logout to Capture"
+                  size="large"
+                  tag="Logout"
+                  getEnabled="LogoutEnable"
+                  getImage="GetImage"
+                  onAction="btnLogout_Click"/>          
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
+

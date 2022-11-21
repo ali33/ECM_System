@@ -1,0 +1,14 @@
+﻿@model IList<ArchiveMVC5.Models.UserModel>
+@{
+    ViewBag.Title = "SearchUser";
+}
+
+@{
+    foreach(var userItem in Model)
+    {
+        <tr class="usergroup_row_user" id ="@userItem.Id">
+            <td><input type="checkbox" class="usergroup_checkbox_select_user item-check"></td>
+            <td class="td_user_name">@userItem.Username</td>
+        </tr>
+    }
+}

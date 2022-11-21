@@ -1,0 +1,92 @@
+﻿@model ArchiveMVC.Models.FieldValueModel
+
+@if (Model != null)
+{
+    var rows = (Model.TableValues == null || Model.TableValues.Count() == 0) ? -1 : Model.TableValues.Max(p => p.RowNumber);
+    var colCount = Model.Field.Children.Count;
+    var inputClass = "";
+  
+    <table class="tableValue">
+        <thead>
+            <tr>
+                <td></td>
+                @foreach (var column in Model.Field.Children)
+                {
+                    <td>@column.Field.Name</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (rows == -1)
+            {
+                <tr>
+                    <td class="removeRow"><img src="@Url.Content("~/Images/appbar.delete.png")" alt="Remove table row values" /></td>
+                    @foreach (var column in Model.Field.Children)
+                    {
+                        inputClass = "";
+                        if (column.DataType == Ecm.Domain.FieldDataType.Date)
+                        {
+                            inputClass = "dateField";
+                        }
+                        else if (column.DataType == Ecm.Domain.FieldDataType.Integer)
+                        {
+                            inputClass = "allownumericwithoutdecimal";
+                        }
+                        else if (column.DataType == Ecm.Domain.FieldDataType.Decimal)
+                        {
+                            inputClass = "allownumericwithdecimal";
+                        }                        
+                        
+                        <td>
+                            <div class="content_fields_input input-control text">
+                                <input type="text" class="@inputClass" value="@column.DefaultValue" /><button class="close" tabindex="-1">×</button>
+                                <input type="hidden" value="@column.FieldId" id="tableFieldId" />
+                           </div>
+                        </td>
+                    }
+                </tr>
+            }
+            else
+            {
+                for (var i = 0; i <= rows; i++)
+                {
+                    var fieldValues = Model.TableValues.Where(p => p.RowNumber == i).ToList();
+                
+                    <tr>
+                        <td class="removeRow"><img src="@Url.Content("~/Images/Delete_Row-26.png")" alt="Remove table row values" class="removeRowImg"/></td>
+                        @foreach (var column in fieldValues)
+                        {
+                            inputClass = "";
+                            if (column.Field.DataType == Ecm.Domain.FieldDataType.Date)
+                            {
+                                inputClass = "dateField";
+                            }
+                            else if (column.Field.DataType == Ecm.Domain.FieldDataType.Integer)
+                            {
+                                inputClass = "allownumericwithdecimal";
+                            }
+                            else if (column.Field.DataType == Ecm.Domain.FieldDataType.Decimal)
+                            {
+                                inputClass = "allownumericwithoutdecimal";
+                            }           
+                                         
+                            <td>
+                                <div class="content_fields_input input-control text">
+                                    <input type="text" class="@inputClass" value="@(column == null ? "" : column.Value)" /><button class="close" tabindex="-1">×</button>
+                                    <input type="hidden" value="@column.FieldId" id="tableFieldId" />
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr class="fakeRow">
+                <td colspan="@(colCount + 1)" onclick="addTableRow(@Html.Raw(Json.Encode(Model.Field.Children)));">
+                    <span class="textButton">Add more row</span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}

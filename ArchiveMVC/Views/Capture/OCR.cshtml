@@ -1,0 +1,114 @@
+﻿@model IEnumerable<ArchiveMVC.Models.FieldValueModel>
+@if (Model != null)
+{
+
+    foreach (var fieldValue in Model)
+    {
+        var docType = ArchiveMVC.Utility.Utilities.DocumentType(fieldValue.Field.DocTypeId);
+        var isCapture = ViewContext.RouteData.GetRequiredString("controller").Equals("Capture");
+        var isDisable = !(isCapture || docType.DocumentTypePermission.AllowedUpdateFieldValue);
+        var inputClass = "";
+
+        if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Date)
+        {
+            inputClass = "date";
+        }
+        else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Integer)
+        {
+            inputClass = "allownumericwithdecimal";
+            
+            if (fieldValue.Field.IsLookup)
+            {
+                inputClass += " lookup";
+            }
+        }
+        else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Decimal)
+        {
+            inputClass = "allownumericwithoutdecimal";
+            
+            if (fieldValue.Field.IsLookup)
+            {
+                inputClass += " lookup";
+            }
+        }
+        else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.String && fieldValue.Field.IsLookup)
+        {
+            inputClass += "lookup";
+        }
+
+        if (!fieldValue.Field.IsSystemField ||
+            (fieldValue.Field.IsRestricted && docType.DocumentTypePermission.AllowedSeeRetrictedField))
+        {
+            <div class="@(fieldValue.Field.IsRequired ? "content_fields mandatory " : "content_fields ")">
+                <div class="content_lables"><span>@fieldValue.Field.Name</span></div>
+                <div class="content_fields_input input-control @((fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Picklist ||
+                    fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Boolean || fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Table) ? "select" : "text")
+                    @(isDisable ? "disable" : "")">
+                    @if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Picklist)
+                    {
+                        <select style="width:100%">
+                            @if (fieldValue.PickListValues != null)
+                            {
+                                foreach (var picklistValues in fieldValue.PickListValues)
+                                {
+                                    <option>@picklistValues</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Boolean)
+                    {
+                        <input type="checkbox" @(fieldValue.Value == "True" ? "checked" : "")/>
+                    }
+                    else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Table)
+                    {
+                        <input type="text" class="table_field_value" value="Click here to display @fieldValue.Field.Name values"/>
+                        <input type="hidden" value="@fieldValue.Field.DocTypeId" class="docTypeId"/>
+                    }
+                    else
+                    {
+                        <input type="text" value="@fieldValue.Value" @(isDisable ? "disabled='disable'" : "") class="@inputClass" />
+                        if (docType.DocumentTypePermission.AllowedUpdateFieldValue)
+                        {
+                            <button class="close" tabindex="-1">×</button>
+                        }
+                        
+                        if(fieldValue.Field.IsLookup)
+                        {
+                            <div id="@fieldValue.Field.Id" style="display:block; position:absolute; z-index:9000; background-color:whitesmoke; border: 1px solid #0094ff; margin:5px">
+
+                            </div>
+                        }
+                    }
+                    <input type="hidden" value="@(fieldValue.Field.OCRTemplateZone != null ? fieldValue.Field.OCRTemplateZone.Left.ToString() : " ")" class="left" />
+                    <input type="hidden" value="@(fieldValue.Field.OCRTemplateZone != null ? fieldValue.Field.OCRTemplateZone.Top.ToString() : " ")" class="top" />
+                    <input type="hidden" value="@(fieldValue.Field.OCRTemplateZone != null ? fieldValue.Field.OCRTemplateZone.Width.ToString() : " ")" class="width" />
+                    <input type="hidden" value="@(fieldValue.Field.OCRTemplateZone != null ? fieldValue.Field.OCRTemplateZone.Height.ToString() : " ")" class="height" />
+                    <input type="hidden" value="@fieldValue.Field.Id" class="id"/>
+                    <input type="hidden" value="@fieldValue.Field.Name" class="name"/>
+                    
+
+                    @if (docType.OCRTemplate != null && fieldValue.Field.OCRTemplateZone != null)
+                    {
+                        var templatePage = docType.OCRTemplate.OCRTemplatePages.Single(
+                                                p => p.Id == fieldValue.Field.OCRTemplateZone.OCRTemplatePageId);
+                        <input type="hidden" value="@templatePage.PageIndex" class="pageIndex" />
+                    }
+                </div>
+            </div>
+        }
+    }
+}
+
+<div id="tableFieldValue" style="display:none">
+
+</div>
+
+@if (ViewData["ERROR"] != null)
+{
+    <script>
+        alert("OCR ERROR");
+        window.console.log(@ViewData["ERROR"]);
+
+    </script>
+}

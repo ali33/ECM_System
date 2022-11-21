@@ -1,0 +1,3292 @@
+﻿
+var insOption;
+var pageCurrent;
+var docTypeName;
+//var Annotations = [];
+var fields = {};
+var $thumbnail, $toolbar, $documentViewer, $docViewerLoading, $classifyLaterFolder, $docTypeId;
+var $selectedPage;
+var $selectedFolder;
+var draw;
+//danh sách toolbar theo id của doctype
+var toolbarElement = [];
+var draws = {};
+var currentPageId;
+var previousPageId;
+//Annotation array when view loaded
+//var annotations = {};
+var rotate = {};
+//var permission = {
+//    documentType: {},
+//    annotation: {}
+//};
+//Khai bao Enum
+var Options = {
+    Import: 0,
+    InsertBefore: 1,
+    InsertAfter: 2,
+    Replace: { Import: 31, Scan: 32 },
+    NewFromSelected: 4,
+    NewStartingHer: 5,
+    ClassifyLater: 6,
+    Exist: 7
+};
+var load_tool_bar = false;
+var isEditOcrAndDoc = false;
+
+var tool = new Toolbar();
+function moveDefaultBatchToFirst() {
+    var def = $('ul.default_batch');
+    var p = def.parent();
+    if (def.index() != 0) {
+        def.insertBefore(p.children().first());
+    }
+}
+function changeDocument(key, options) {
+    console.log($(this));
+    var oldDocument = $(this).parent();
+    var _docType = searchDocType(key);
+    var pageElements = oldDocument.find('ul.treeview_three');
+    var newDocElement = createNewDocElement(pageElements.length, _docType);
+    newDocElement.find('ul.treeview_three').replaceWith(pageElements);
+    oldDocument.replaceWith(newDocElement);
+    updateDocElements();
+}
+/*
+    Tao cac Page (Thumbnail va View)
+    @params
+        items: danh sach cac page (List<CacheFileResult>)
+        $docOnViewer: element de add page
+        $parent: element se add cac thumbnail items
+        [$pos]: element se dc append
+        [opt]: lua chon append 'before' or 'after' or 'replace'
+*/
+function createItems(items, $parent, $pos, opt, annotations, rotate) {
+    var itemElements = [];
+    var $document = $("<div class='document' data-loading='true'/>");
+    //$target is a page to replace or insert aftter or insert before
+    var $target;
+    //$targetitem is a thumbnail item to replace or insert aftter or insert before
+    var $targetItem;
+    var $pageToRemove;
+    if ($pos) {
+        var id = $pos.find('.page').attr('id');
+        $target = $('#page_' + id);
+        $targetItem = $pos;
+
+        $document = $target.parent();
+        //remove 'document' cu.document se dc cap nhat lai 
+        //va them vao documentViewer sau khi load tat cac cac page
+        $target.parent().remove();
+        if (opt == 'replace')
+            $pageToRemove = $target
+    }
+    var countLoaded = 0;
+    //$docViewerLoading.children('.content').hide();
+    $docViewerLoading.append($document);
+    $.each(items, function (i) {
+        var id = this.KeyCache;
+        var Annotations = this.Annotations;
+        var rotateAngle = this.RotateAngle;
+        var $item = createThumbnail(this, i);
+        if ($targetItem) {
+            //If insert before,the first item will be insert before the target
+            //And the next items will be insert after the first item
+            if (opt == 'before' && i == 0) {
+                $item.insertBefore($targetItem);
+            } else {
+                $item.insertAfter($targetItem);
+            }
+            $targetItem = $item;
+        } else {
+            $parent.append($item);
+        }
+        $item.find('.treeview_title').ecm_loading_show();
+        //$item.find('a > img').load(function () {
+        //    $item.find('.treeview_title').ecm_loading_hide();
+        //});
+        $item.click(pageClick)
+        itemElements.push($item);
+        ///////////////Create document viewer
+
+        if (this.FileType != "image") {
+            var URL_Text = URL_Get_Document + "/?key=" + this.KeyCache;
+            var pageID = "page_" + this.KeyCache;
+            var $page = $("<div id='" + pageID + "'/>");
+            $page.css({
+                width: '100%', height: '100%', overflow: 'hidden',
+                //'background-color': 'white'
+            });
+            $.get(URL_Text, function (data) {
+                $page.append(data);
+                $item.find('.treeview_title').ecm_loading_hide();
+            });
+            $document.append($page);
+            $documentViewer.children().hide();
+            $documentViewer.append($document);
+            $docViewerLoading.find($document).remove();
+        } else {
+            var pageID = "page_" + this.KeyCache;
+            var $page = $("<div id='" + pageID + "'></div>");
+            var imageUrl = URL_LoadImage + "?key=" + this.KeyCache;
+            //var padding = $('<div style="height:10px;width:100%;float:clear;"/>');
+            //$document.css('visibility', 'hidden');
+            if ($target) {
+                if (opt == 'before' && i == 0)
+                    $page.insertBefore($target);
+                else
+                    $page.insertAfter($target);
+                //padding.insertAfter($target);
+                $target = $page;
+            } else {
+                $document.append($page);
+                //$document.append(padding);
+            }
+            draws[this.KeyCache] = $page.annotationCapture({ image: imageUrl, width: ($documentViewer.width() - 50) });
+            tool.add(this.KeyCache, draws[this.KeyCache]);
+            $page.find('img').load(function () {
+                countLoaded++;
+                if (countLoaded == items.length) {
+                    //$document.hide();
+                    //$document.css('visibility', 'visible');
+                    if ($pageToRemove)
+                        $pageToRemove.remove();
+                    $document.attr('data-loading', false);
+                    $documentViewer.children().hide();
+                    $documentViewer.append($document);
+                    $docViewerLoading.find($document).remove();
+                    $("#documentViewer").scrollTo($document.children().first());
+                }
+                $item.find('.treeview_title').ecm_loading_hide();
+                //tool.rotateRight(id, rotate[id]);
+                //if (annotations[id])
+                //    tool.init(id, annotations[id], rotate[id]);
+                if (Annotations)
+                    tool.init(id, Annotations, rotateAngle);
+            });
+        }
+    });
+    if (opt == 'replace') {
+        $pos.next().find(".page").addClass("treeview_select");
+        $pos.remove();
+    }
+    return itemElements;
+}
+function createThumbnail(item, i) {
+    ////////////Create Thumbnail on left side bar
+    var imageUrl = URL_LoadImage + "/?key=" + item.KeyCache + "&thumb=true";
+    var dpi = "";
+    if (item.FileType == "image")
+        dpi = item.Resolution + " dpi";
+    //Sau khi submit thanh cong server tra ve danh sach cac key,tuong ung voi so trang cua image
+    //Hien thi thumbnail cac trang tren left menu
+    var $item = $('<li data-page-id="' + (item.PageId ? item.PageId : "")
+            + '"><input type="hidden" class="language" value="eng"/>'
+            + '<span class="page treeview_title" id="' + item.KeyCache + '">'
+            + '<a href="#"><img src="' + imageUrl + '" /><span>'
+            + '<strong class="pageNumber">' + (i + 1) + '</strong>'
+            + '<span> ' + dpi + '</span>'
+            + '</span></a></span></li>');
+    $viewer = $('<input type="hidden" class="viewer" value="' + item.FileType + '"/>');
+    $item.append($viewer);
+    $item.data('key', item.KeyCache);
+    return $item;
+}
+function updatePageNotClassify(items, $pos, opt) {
+    //$target is a page to replace or insert aftter or insert before
+    var $target;
+    //$targetitem is a thumbnail item to replace or insert aftter or insert before
+    var $targetItem;
+    var $pageToRemove;
+    if ($pos) {
+        var id = $pos.find('.page').attr('id');
+        $target = $('#page_' + id); documentViewer
+        $targetItem = $pos;
+        $target.parent().remove();
+        if (opt == 'replace')
+            $pageToRemove = $target;
+    }
+    //$docViewerLoading.children('.content').hide();
+    $.each(items, function (i) {
+        var $document = $("<div class='document' data-loading='true'/>");
+        $docViewerLoading.append($document);
+        var $item = createThumbnail(this, i);
+
+        if ($targetItem) {
+            //If insert before,the first item will be insert before the target
+            //And the next items will be insert after the first item
+            if (opt == 'before' && i == 0) {
+                $item.insertBefore($targetItem);
+            } else {
+                $item.insertAfter($targetItem);
+            }
+            $targetItem = $item;
+        } else {
+            $parent.append($item);
+        }
+
+        $item.find('.treeview_title').ecm_loading_show();
+        //$item.find('a > img').load(function () {
+        //    $item.find('.treeview_title').ecm_loading_hide();
+        //});
+        $item.click(pageClick)
+        ///////////////Create document viewer
+
+        if (this.FileType != "image") {
+            var URL_Text = URL_Get_Document + "/?key=" + this.KeyCache;
+            var pageID = "page_" + this.KeyCache;
+            var $page = $("<div id='" + pageID + "'/>");
+            $page.css({
+                width: '100%', height: '100%', overflow: 'hidden',
+                //'background-color': 'white'
+            });
+            $.get(URL_Text, function (data) {
+                $page.append(data);
+                $item.find('.treeview_title').ecm_loading_hide();
+            });
+            $document.append($page);
+            $documentViewer.children().hide();
+            $documentViewer.append($document);
+            $docViewerLoading.find($document).remove();
+        } else {
+            var pageID = "page_" + this.KeyCache;
+            var $page = $("<div id='" + pageID + "'></div>");
+            var imageUrl = URL_LoadImage + "/?key=" + this.KeyCache;
+            $document.append($page);
+            draws[this.KeyCache] = $page.annotationCapture({ image: imageUrl });
+            tool.add(this.KeyCache, draws[this.KeyCache]);
+            $page.find('img').load(function () {
+                if ($pageToRemove)
+                    $pageToRemove.remove();
+                $documentViewer.children().hide();
+                $documentViewer.append($document);
+                $docViewerLoading.find($document).remove();
+                $item.find('.treeview_title').ecm_loading_hide();
+            });
+        }
+
+    });
+    if (opt == 'replace') {
+        $pos.remove();
+    }
+}
+/*
+    Tao Document
+    @param
+        data: danh sach cac page (List<CacheFileResult>)
+        insOption: cach create Document la import roi classify sau, 
+                   hoac import, hoac insert before, after
+        docId: neu view document thi co docId
+        annotation: neu view document co cac annotation (annotations={ pagId: annotation[] })
+        rotate: neu view document co rotateAngle
+*/
+function createDocument(data, insOption, docId, documentTypeName) {
+    var set,
+    $parentItem;
+    if (documentTypeName)
+        docTypeName = documentTypeName;
+    doctype = searchDocType(docTypeName);
+    var $doc;
+    var $parentItem;
+    isEditOcrAndDoc = false;
+
+    switch (insOption) {
+        case Options.ClassifyLater: {
+            //Check selector is selected
+            if ($('.default_batch').length == 0) {
+                $classifyLaterFolder = $('<ul class="default_batch connectedSortable"></ul');
+                $thumbnail.append($classifyLaterFolder);
+            }
+            $parentItem = $classifyLaterFolder;
+            $.each(data, function () {
+                var _data = [];
+                _data.push(this);
+                createItems(_data, $parentItem);
+            });
+
+            //$.each(itemElements, function () {
+            //    $parentItem.append(this);
+            //});
+            updatePageElements($parentItem);
+            break;
+        }
+        case Options.Replace.Import: {
+            $doc = $selectedFolder;
+            $parentItem = $doc.find('ul.treeview_three').length ? $doc.find('ul.treeview_three') : $doc;
+            isEditOcrAndDoc = true;
+            if ($parentItem.hasClass('default_batch')) {
+                updatePageNotClassify(data, $selectedPage, 'replace');
+            } else {
+                createItems(data, $parentItem, $selectedPage, 'replace');
+            }
+            performIndex();
+            updatePageElements($parentItem);
+            break;
+        }
+        case Options.InsertBefore: {
+            $doc = $selectedFolder;
+            $parentItem = $doc.find('ul.treeview_three').length ? $doc.find('ul.treeview_three') : $doc;
+            isEditOcrAndDoc = true;
+            if ($parentItem.hasClass('default_batch')) {
+                updatePageNotClassify(data, $selectedPage, 'before');
+            } else {
+                createItems(data, $parentItem, $selectedPage, 'before');
+            }
+            performIndex();
+            updatePageElements($parentItem);
+            break;
+        }
+        case Options.InsertAfter: {
+            $doc = $selectedFolder;
+            $parentItem = $doc.find('ul.treeview_three').length ? $doc.find('ul.treeview_three') : $doc;
+            isEditOcrAndDoc = true;
+            if ($parentItem.hasClass('default_batch')) {
+                updatePageNotClassify(data, $selectedPage, 'after');
+            } else {
+                createItems(data, $parentItem, $selectedPage, 'after');
+            }
+            performIndex();
+            updatePageElements($parentItem);
+            break;
+        }
+        case Options.Exist: {
+            $doc = createNewDocElement(data.length, doctype, docId);
+            $parentItem = $doc.find('ul.treeview_three');
+            $thumbnail.append($doc);
+            createItems(data, $parentItem, null, null);
+            performIndex();
+            break;
+        }
+        default: {
+            if (data && data.length) {
+                $doc = createNewDocElement(data.length, doctype, docId);
+                $parentItem = $doc.find('ul.treeview_three');
+                $thumbnail.append($doc);
+                createItems(data, $parentItem);
+                performIndex();
+                updatePageElements($parentItem);
+            } else {
+                $.messageBox({
+                    message: 'Can not convert file to view'
+                });
+            }
+            break;
+        }
+    }
+    load_tool_bar = false;
+    if (doctype && data[0].FileType == "image") {
+        LoadToolbar(doctype.DocType.Id);
+        load_tool_bar = true;
+    }
+    $('body').ecm_loading_hide();
+}
+
+function LoadToolbar(docTypeId) {
+    if (docTypeId == undefined)
+        return;
+    if (toolbarElement[docTypeId]) {
+        $toolbar.html(toolbarElement[docTypeId]);
+    }
+    else {
+        $.get(URL_Toolbar + "?id=" + docTypeId, function (data) {
+            $toolbar.html(data);
+            toolbarElement[docTypeId] = data;
+        });
+    }
+}
+function searchDocType(key) {
+    rs = $.grep(docType, function (item) {
+        return item.DocType.Name == key;
+    });
+    if (rs.length > 0)
+        return rs[0];
+}
+function relatives(id) {
+    var p = $('#' + id).parent().parent();
+    var rs = [];
+    p.find('li > .treeview_title').each(function () {
+        rs.push($(this).attr('id').toString());
+    });
+    return rs;
+}
+//manage annotationCapture instances
+function Toolbar() {
+    var docs = {};
+    var opt = { high: 1, text: 2, redaction: 3 };
+    var current;
+    this.add = function (id, d) {
+        docs[id] = d;
+        try {
+            switch (current) {
+                case opt.high:
+                    d.annoHighlight();
+                    break;
+                case opt.redaction:
+                    d.annoRedaction();
+                    break;
+                case opt.text:
+                    d.annoText();
+                    break;
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    this.highlight = function () {
+        current = opt.high;
+        $.each(docs, function () {
+            try {
+                this.annoHighlight();
+            } catch (e) {
+                console.log(e);
+            }
+        });
+    }
+    this.redaction = function () {
+        current = opt.redaction;
+        $.each(docs, function () {
+            try {
+                this.annoRedaction();
+            } catch (e) {
+                console.log(e);
+            }
+        });
+    }
+    this.text = function () {
+        current = opt.text;
+        $.each(docs, function () {
+            try {
+                this.annoText();
+            } catch (e) {
+                console.log(e);
+            }
+        });
+    }
+    this.zoomIn = function () {
+        var id = currentPageId();//$('.treeview_select').attr('id').toString();
+        var r = relatives(id);
+        if (r.length > 0) {
+            $.each(r, function () {
+                docs[this].zoomIn();
+            });
+        }
+    }
+    this.zoomOut = function () {
+        var id = currentPageId();//$('.treeview_select').attr('id').toString();
+        var r = relatives(id);
+        if (r.length > 0) {
+            $.each(r, function () {
+                docs[this].zoomOut();
+            });
+        }
+    }
+    this.fitWidth = function () {
+        var id = currentPageId();//$('.treeview_select').attr('id').toString();
+        var r = relatives(id);
+        if (r.length > 0) {
+            $.each(r, function () {
+                docs[this].fit($documentViewer.width());
+            });
+        }
+    }
+    this.fitHeight = function () {
+        var id = currentPageId();//$('.treeview_select').attr('id').toString();
+        var r = relatives(id);
+        if (r.length > 0) {
+            $.each(r, function () {
+                docs[this].fitH($documentViewer.height());
+            });
+        }
+    }
+    this.hide = function () {
+        var id = currentPageId();//$('.treeview_select').attr('id').toString();
+        var r = relatives(id);
+        if (r.length > 0) {
+            $.each(r, function () {
+                docs[this].toggleHidden();
+            });
+        }
+    }
+    this.pan = function () {
+        var id = currentPageId();//$('.treeview_select').attr('id').toString();
+        var r = relatives(id);
+        if (r.length > 0) {
+            $.each(r, function () {
+                docs[this].scrollable($("#documentViewer"));
+            });
+        }
+    }
+    this.rotateLeft = function () {
+        var id = currentPageId();//$('.treeview_select').attr('id').toString();
+
+        if (isSelectDoc()) {
+            var r = relatives(id);
+            if (r.length > 0) {
+                $.each(r, function () {
+                    docs[this].rotateCounterClockwise();
+                });
+            }
+        } else {
+            docs[id].rotateCounterClockwise();
+        }
+    }
+    this.rotateRight = function () {
+        var id = currentPageId();//$('.treeview_select').attr('id').toString();
+
+        if (isSelectDoc()) {
+            var r = relatives(id);
+            if (r.length > 0) {
+                $.each(r, function () {
+                    docs[this].rotateClockwise();
+                });
+            }
+        } else {
+            docs[id].rotateClockwise();
+        }
+    }
+    var curId;
+    this.showOCRZone = function (index, pos) {
+        var page = $(".treeview_select").parentsUntil(".treeview_second").filter(':last').children('ul').children();
+        //var index = $(".pageIndex", this).val();
+        var id = $(page[index]).children('.page').attr('id') || $(page[index]).attr('id');
+        if (id) {
+            docs[id].removePassiveAnnotation();
+            docs[id].showPassiveAnnotation({
+                left: pos.left,
+                top: pos.top,
+                width: pos.width,
+                height: pos.height
+            });
+            curId = id;
+            if (!loading(id)) {
+                $('#documentViewer').scrollTo($("#passive"));
+                var src = $("#page_" + curId).children('img').attr('src');
+                var left = document.getElementById("passive").offsetLeft;
+                var top = document.getElementById("passive").offsetTop;
+                var width = document.getElementById("passive").offsetWidth;
+                var height = document.getElementById("passive").offsetHeight;
+                var imgWidth = $("#passive").parent().children('img').width();
+                var imgHeight = $("#passive").parent().children('img').height();
+                $("#croppedImage").children('img').attr("src", src);
+                $("#croppedImage").children('img').css({
+                    'margin-left': -left, 'margin-top': -top,
+                    width: imgWidth, height: imgHeight
+                });
+                $("#croppedImage").css({
+                    width: width, height: height,
+                    visibility: 'visible'
+                }).show();
+            }
+        }
+    }
+    this.init = function (id, annotations, angle) {
+        if (docs[id]) {
+            if (annotations) {
+                var anns = [];
+                $.each(annotations, function () {
+                    var an = docs[id].convert(this);
+                    anns.push(an);
+                });
+                docs[id].createAnnotations(anns);
+            }
+            if (angle) {
+                var i = angle / 90;
+                if (i > 0)
+                    for (j = 0; j < i; j++)
+                        docs[id].rotateClockwise();
+                else
+                    for (j = 0; j < -i; j++)
+                        docs[id].rotateCounterClockwise();
+            }
+
+        }
+    }
+
+    this.removeOCRZone = function () {
+        var page = $(".treeview_select").parentsUntil(".treeview_second").filter(':last').children('ul').children();
+        //var index = $(".pageIndex", this).val();
+        var id = currentPageId();//$(page[curId]).children('span.treeview_select').attr('id') || "";
+        if (id)
+            docs[id].removePassiveAnnotation();
+    }
+    function currentPageId() {
+        var id = $('.treeview_select').attr('id') || $('.treeview_select').parent().find('.page').attr('id');
+        return id;
+    }
+    function isSelectDoc() {
+        return $('.treeview_select').hasClass('folder');
+    }
+}
+/* 
+    Function create new Document
+    Tao ra Document Thumnails
+    @params
+        pageCounter: so luong page
+        docType: DocumentTypeModel
+        docId: Neu View Document thi co docId
+*/
+function createNewDocElement(pageCounter, doctype, docId) {
+    var $wrap = $('<li data-doc_type_id="' + doctype.DocType.Id + '" data-doc-id = "' + docId + '"></li>');
+    var $id = $('<input type="hidden" class="docTypeId" value="' + doctype.DocType.Id + '"/>');
+    var $lang = $('<input type="hidden" class="language" value="eng"/>');
+    $wrap.append($id.add($lang));
+    var $fieldValues = $("<div class='fieldValues'></div>");
+    $.each(doctype.DocType.Fields, function () {
+        if (this.IsSystemField == false)
+            $fieldValues.append('<input type="hidden" data-id="' + this.Id + '" value=""/>');
+    });
+    $wrap.append($fieldValues);
+    var $treeview_icon = $('<span class="treeview_icon glyphicon glyphicon-play"></span>');
+    $folderName = $('<span class="folder treeview_title treeview_open">' +
+                        '<a href="#">' +
+                            //'<img src="' + URL_GetIcon + "/?key=" + doctype.IconKey + '" />' +
+                            '<img src="' + URL_Folder + '" />' +
+                            '<span>' +
+                                '<strong><span class="docNumber">' + $('.treeview_second').children().length +
+                                '</span><span class="docTypeName">. ' + doctype.DocType.Name + '</span></strong>' +
+                                '<span class="pageCounter">Pages: ' + pageCounter + '</span>' +
+                            '</span>' +
+                        '</a>' +
+                    '</span>');
+    var $folder = $('<ul class="treeview_three connectedSortable"></ul>')
+        .css({ 'min-height': '2px' });
+    var removeIntent = false;
+
+    $folder.sortable({
+        revert: true,
+        opacity: 0.5,
+        placeholder: "ui-state-highlight",
+        receive: function (e, ui) {
+            var docTypeId = ui.item.parent().parent().data('doc_type_id');
+            var allowedReOrderPage = global_Page == "Capture" || permission.documentType[docTypeId]['AllowedReOrderPage'];
+
+            if (allowedReOrderPage) {
+                //ID cua page nhan dc
+                var id = ui.item.find('.page').attr('id');
+                var $page = $("#page_" + id);
+                //Tim document se them page nay vao
+                //$(this) trong context nay la <ul> chua cac thumbnail <li>
+                //Tim bat cu id nao trong !
+                var id_p = $(this).find('.page').filter(':not(#' + id + ')').attr('id');
+                var p = $("#page_" + id_p).parent();
+                var i = ui.item.index();
+                if (i == 0)
+                    $page.insertBefore(p.children().first());
+                else {
+                    var target = p.children(':nth-child(' + i + ')');
+                    $page.insertAfter(target);
+                }
+                $documentViewer.children().hide();
+                p.show();
+                $documentViewer.scrollTo($page);
+            }
+            return false;
+        },
+        update: function (e, ui) {
+            var docTypeId = ui.item.parent().parent().data('doc_type_id');
+            var allowedReOrderPage = global_Page == "Capture" || permission.documentType[docTypeId]['AllowedReOrderPage'];
+
+            if (allowedReOrderPage) {
+                updatePageElements($(this));
+                var id = ui.item.find('.page').attr('id');
+                var docView = $('#page_' + id).parent();
+                var pageView = $("#page_" + id);
+                var i = ui.item.index();
+                if (i == 0)
+                    docView.prepend(pageView);
+                else {
+                    var prevId = ui.item.prev().find('.page').attr('id');
+                    var target = $("#page_" + prevId);
+                    pageView.insertAfter(target);
+                }
+                $documentViewer.scrollTo(pageView);
+                $fieldValues.removeData('cacheHTML');
+                console.log($fieldValues.data('cacheHTML'));
+            } else {
+                $.messageBox({
+                    title: 'Re-Order  failed',
+                    message: 'You do not have permission to re-order page!'
+                });
+                return false;
+            }
+        },
+        start: function (e, ui) {
+            $itemToRemove = null;
+            $('body').append($recyclebin);
+            $recyclebin.droppable({
+                drop: function (event, u) {
+                    var docTypeId = u.draggable.parent().parent().data('doc_type_id');
+                    var allowedDelete = global_Page == "Capture" || permission.documentType[docTypeId]['AllowedDeletePage'];
+
+                    if (allowedDelete) {
+                        $recyclebin.remove();
+                        $folder.sortable("option", "revert", false);
+                        deletePage(u.draggable);
+                        $folder.sortable("option", "revert", true);
+                    } else {
+                        $.messageBox({
+                            title: 'Delete failed',
+                            message: 'You do not have permission to delete page!'
+                        });
+                    }
+                },
+                over: function (event, u) {
+                    $recyclebin.css('opacity', '0.5');
+                },
+                out: function (event, u) {
+                    $recyclebin.css('opacity', '0.1');
+                }
+            });
+        },
+        stop: function () {
+            $recyclebin.remove();
+        },
+        connectWith: ".connectedSortable",
+        dropOnEmpty: true
+    }).disableSelection();
+
+    $('ul.default_batch').sortable("option", "connectWith", ".connectedSortable");
+    /* Hide or show Page when click treeview_icon in Document folder */
+    $treeview_icon.click(function () {
+        $f = $(this).parentsUntil('.treeview_second').children('.treeview_three');
+        $fName = $(this).parent();
+        if (!$f.is(':hidden')) {
+            $f.slideUp(100);
+            $fName.removeClass('treeview_open');
+        }
+        else {
+            $f.slideDown(100);
+            $fName.addClass('treeview_open');
+        }
+    });
+    $wrap.append($folderName.prepend($treeview_icon)).append($folder);
+    $wrap.click(selection);
+    //$(".thumbnail").append($wrap);
+    $wrap.click();
+    return $wrap;
+}
+/* Function update Page number, Document number, number of Pages in a Document*/
+function updateDocElements() {
+    var docElements = $('.treeview_second > li');
+    for (i = 0; i < docElements.length; i++) {
+        $(docElements[i]).find('.docNumber').text((i + 1));
+    }
+}
+/* Update a page number in a Document element
+ * @param a selector of html element, 
+ *      Document consist of document title, document number, document type id (hidden), 
+            page counter, page number, page id (image key)
+ * @return no
+ */
+function updatePageElements(docElement) {
+    pages = docElement.find('.pageNumber');
+    if (pages.length == 0) {
+        if (!docElement.hasClass('default_batch')) {
+            docElement.parentsUntil('.treeview_second').remove();
+            updateDocElements();
+        }
+        return;
+    }
+    docElement.parentsUntil('.treeview_second').find('.pageCounter').text('Pages: ' + pages.length);
+    //update page number
+    for (i = 0; i < pages.length; i++) {
+        $(pages[i]).text(i + 1);
+    }
+}
+/* Function create classify a page, 
+ * Name on context menu is: New document from selected page 
+ */
+function classifySinglePage($itemSelector, doctype) {
+    var $newDocument = createNewDocElement(1, doctype);
+    var $oldDocument = $itemSelector.parent();
+    $itemSelector.appendTo($newDocument.find('ul.treeview_three'));
+    $thumbnail.append($newDocument);
+    updatePageElements($oldDocument);
+    updatePageElements($newDocument);
+}
+/*Function classify multidocument*/
+function classifyMultiPage($beginPage, doctype) {
+    var begin = $beginPage.index();
+    var $oldDocument = $beginPage.parent();
+    ////count = (len of element) - (begin + 1) + 1
+    var count = $('li', $oldDocument).length - begin;
+    var $newDocument = createNewDocElement(count, doctype);
+    $('li', $oldDocument).filter(function (index) {
+        return index >= begin;
+    }).appendTo($newDocument.find('ul.treeview_three'));
+    $thumbnail.append($newDocument);
+    updatePageElements($oldDocument);
+    updatePageElements($newDocument);
+}
+
+function performIndex() {
+    $('.current_content').ecm_loading_show();
+    var doc = { DocumentTypeId: 1, Pages: [] };
+    var $docElement = $(".treeview_select").parentsUntil(".treeview_second").filter(":last");
+    doc.DocumentTypeId = $docElement.find('.docTypeId').val();
+    if (doc.DocumentTypeId !== undefined) {
+        var $pageElement = $docElement.find($('ul.treeview_three > li'));
+        $.each($pageElement, function () {
+            var imgKey = $(this).find(".treeview_title").attr("id");
+            var _LangCode = $(this).find('.language').val();
+            var Page = { ImgKey: imgKey, Annotations: [], LanguageCode: _LangCode };
+            doc.Pages.push(Page);
+        });
+
+        var fieldValues = $docElement.find('div.fieldValues').children();
+        var fieldOCRs;
+        if (isEditOcrAndDoc) {
+            fieldValues.parent().removeData("cacheHTML");
+            $(".current_content_fields").find(".content_fields").remove();
+            $(".current_content_fields").parent().find("#croppedImage").hide();
+            $(".current_content_fields").parent().find("#croppedImage").find("img").attr("src", "#");
+        }
+        if (fieldValues.parent().data("cacheHTML") == undefined) {
+            //For import
+            var data_ocr = {
+                doc: doc
+            };
+            //For replace -> import
+            // and for insertBefore
+            if (isEditOcrAndDoc) {
+                data_ocr = {
+                    doc: doc,
+                    isEdit: isEditOcrAndDoc
+                };
+            }
+            //End for replace -> import
+            // and for insertBefore
+
+            Inno.helper.post(URL_OCR, JSON.stringify(data_ocr), function (data) {
+                $(".current_content_fields").html(data);
+                fieldOCRs = $(".current_content_fields").find('.content_fields_input > input[type=text]');
+                $.each(fieldOCRs, function (i) {
+                    $(fieldValues[i]).val($(this).val());
+                    console.log($(fieldOCRs[i]).val());
+                    if ($(this).val()) {
+                        $(fieldOCRs[i]).parent().addClass('hasvalue');
+                    } else {
+                        $(fieldOCRs[i]).parent().removeClass('hasvalue');
+                    }
+                    $(this).change(function () {
+                        $(fieldValues[i]).val($(this).val());
+                    });
+                });
+                fieldValues.parent().data('cacheHTML', $(".current_content_fields").html());
+                isEditOcrAndDoc = false;
+                $('.current_content').ecm_loading_hide();
+            });
+            //$.ajax({
+            //    url: URL_OCR,
+            //    type: "POST",
+            //    data: JSON.stringify(doc),
+            //    //async: false,
+            //    contentType: "application/json",
+            //    dataType: "json",
+            //    converters: {
+            //        'text json': true
+            //    },
+            //    error: function (e) {
+            //        console.log(e);
+            //    },
+            //    success: function (data) {                    
+            //        $(".current_content_fields").html(data);
+            //        fieldOCRs = $(".current_content_fields").find('.content_fields_input > input[type=text]');
+            //        $.each(fieldOCRs, function (i) {
+            //            $(fieldValues[i]).val($(this).val());
+            //            console.log($(fieldOCRs[i]).val());
+            //            if ($(this).val()) {
+            //                $(fieldOCRs[i]).parent().addClass('hasvalue');
+            //            } else {
+            //                $(fieldOCRs[i]).parent().removeClass('hasvalue');
+            //            }
+            //            $(this).change(function () {
+            //                $(fieldValues[i]).val($(this).val());
+            //            });
+            //        });
+            //        fieldValues.parent().data('cacheHTML', $(".current_content_fields").html());
+            //        $('.current_content').ecm_loading_hide();
+            //    },
+            //    cache: false,
+            //    processData: false
+            //});
+        } else {
+            fieldValues = $docElement.find('div.fieldValues').children();
+            $(".current_content_fields").html(fieldValues.parent().data('cacheHTML'));
+            fieldOCRs = $(".current_content_fields").find('.content_fields_input > input[type=text]');
+            $.each(fieldValues, function (i) {
+                $(fieldOCRs[i]).val($(this).val());
+                console.log($(fieldOCRs[i]).val());
+                if ($(this).val()) {
+                    $(fieldOCRs[i]).parent().addClass('hasvalue');
+                } else {
+                    $(fieldOCRs[i]).parent().removeClass('hasvalue');
+                }
+                $(fieldOCRs[i]).change(function () {
+                    $(fieldValues[i]).val($(this).val());
+                });
+            });
+            $('.current_content').ecm_loading_hide();
+        }
+        $(document).on('click', '.content_fields_input', function () {
+            if (tool) {
+                var pos = {
+                    left: parseFloat($(".left", this).val()),
+                    top: parseFloat($(".top", this).val()),
+                    width: parseFloat($(".width", this).val()),
+                    height: parseFloat($(".height", this).val())
+                }
+                var index = $(".pageIndex", this).val();
+                tool.showOCRZone(index, pos);
+            }
+
+        });
+        $('.date').datepicker().on('changeDate', function () {
+            $(this).change();
+            $(this).parent().addClass('hasvalue');
+        });
+        var title = $(".treeview_select").parentsUntil(".treeview_second").filter(':last')
+                        .find(".treeview_title > a > span > strong").first().html();
+        var count = " ( " + ($(".treeview_second").children().length - 1) + " doc)";
+        $(".current_content_header").html("<strong>" + title + "</strong>" + count);
+    }
+}
+function selection(e) {
+    if (!e.ctrlKey) {
+        $('.treeview_select').removeClass('treeview_select');
+        $(this).children('.treeview_title').addClass('treeview_select');
+        $(this).find('li').first().click();
+    } else {
+        $('.treeview_select').removeClass('treeview_select');
+        $(this).children('.treeview_title').addClass('treeview_select');
+        $(this).find('li').first().click();
+        //var $this_title = $(this).children('.treeview_title');
+        //if ($this_title.hasClass("treeview_select")) {
+        //    $this_title.removeClass("treeview_select");
+        //} else {
+        //    $this_title.addClass("treeview_select");
+        //}
+    }
+    return false;
+}
+function deletePage($page) {
+
+    var lst_page_select = $page.parent().find("li");
+    var haveDeleted = false;
+    $.each(lst_page_select, function () {
+        var $this = $(this);
+        var selected = $(this).children('.treeview_title').hasClass("treeview_select");
+        if (selected) {
+            var id = $this.children('.page').attr('id');
+            var page_sup_parent = $this.parent().parent();
+            haveDeleted = true;
+            $this.remove();
+            $pageView = $('#page_' + id);
+            $docView = $pageView.parent();
+            $pageView.remove();
+            $docElement = $page.parent();
+            if (!$docView.find('div[id^="page"]').length)
+                $docView.remove();
+            updatePageElements($docElement);
+            if (page_sup_parent.find(".page.treeview_title").length == 0) {
+                page_sup_parent.find(".folder.treeview_title").remove();
+            }
+            //recheck
+            if ($(".treeview_three").find("li").length == 0) {
+                if ($toolbar)
+                    $toolbar.children().remove();
+            }
+            isEditOcrAndDoc = true;
+            performIndex();
+        }
+    });
+    if (!haveDeleted) {
+        $.innoDialog({
+            title: 'Warning information',
+            width: 350,
+            dialog_data: '<div class="message_infor">Please select least one page!</div>',
+            type: 'Ok',
+            Ok_Button: function () {
+                $(this).dialog('close');
+            }
+        });
+    }
+}
+//$doc: element to delete, the element can be a title of document or a root tag (<li>) of document
+function deleteDoc($doc) {
+    var id_first = $doc.find('.page').attr('id') || $doc.parentsUntil('.treeview_second').find('.page').attr('id');
+    $('#page_' + id_first).parent().remove();
+    $doc.parentsUntil('.treeview_second').remove();
+    $doc.remove();
+    updateDocElements();
+    $toolbar.children().remove();
+}
+function pageClick(e) {
+    currentPageId = $(this).find($('.page')).attr('id');
+    //ready create documentvier
+    var currentPage = $("#documentViewer").find('#page_' + currentPageId);
+    //Visible = hidden ==> Page haven't finished loading
+    if (loading(currentPageId))
+        return false;
+    var docTypeId = $('#' + currentPageId).parentsUntil('.treeview_second').last().find('.docTypeId').val();
+    if (load_tool_bar) {
+        LoadToolbar(docTypeId);
+    }
+    if (currentPage.length > 0) {
+        $("#documentViewer").children().hide();
+        currentPage.parent().show();
+        $("#documentViewer").scrollTo(currentPage);
+    }
+
+    ///////////////////set treeview_select class
+    if (!e.ctrlKey) {
+        $('.treeview_select').removeClass('treeview_select');
+        $(this).parent().parent().find('.folder').addClass('treeview_select');
+    }
+    if (!$(this).children('.treeview_title').hasClass('treeview_select')) {
+        $(this).children('.treeview_title').addClass('treeview_select');
+    }
+    else {
+        $(this).children('.treeview_title').removeClass('treeview_select');
+    }
+    /////////////////////////////////////////////////////
+
+    return false;
+}
+//Check document full loaded
+//id of page 
+function loading(id) {
+    if ($("#" + id).parent().find('.viewer') == 'image' &&
+        $docViewerLoading.find('#page_' + currentPageId))
+        return true;
+    return false;
+}
+function toobarClick() {
+    $(document).on('click', '.control_zoomin', function () {
+        //$(document).on('click','.select').removeClass('select');
+        $(this).addClass('select');
+        //draw.zoomIn();
+        tool.zoomIn();
+        $(this).removeClass('select')
+        return false;
+    });
+    $(document).on('click', '.control_resetzoom.fit_width', function () {
+        $(this).addClass('select');
+        tool.fitWidth();
+        $(this).removeClass('select')
+        return false;
+    });
+    $(document).on('click', '.control_resetzoom.fit_height', function () {
+        $(this).addClass('select');
+        tool.fitHeight();
+        $(this).removeClass('select')
+        return false;
+    });
+    $(document).on('click', '.control_pan', function () {
+        $('.select').removeClass('select');
+        $(this).addClass('select');
+        tool.pan();
+        //draw.pan();
+        //draw.scrollable();
+    });
+    $(document).on('click', '.control_hide', function () {
+        //draw.toggleHidden();
+        tool.hide();
+    });
+    $(document).on('click', '.control_highlight', function () {
+        $('.select').removeClass('select');
+        $(this).addClass('select');
+        tool.highlight();
+    });
+    $(document).on('click', '.control_redaction', function () {
+        $('.select').removeClass('select');
+        $(this).addClass('select');
+        //draw.annoRedaction();
+        tool.redaction();
+    });
+    $(document).on('click', '.control_comment', function () {
+        $('.select').removeClass('select');
+        $(this).addClass('select');
+        //draw.annoText();
+        tool.text();
+    });
+    $(document).on('click', '.control_zoomout', function () {
+        //$(document).on('click','.select').removeClass('select');
+        //$(this).addClass('select');
+        tool.zoomOut();
+        return false;
+    });
+    $(document).on('click', '.leftbar_lable', function () {
+        if (tool)
+            tool.removeOCRZone();
+    });
+    $(document).on('click', '.control_print', function () {
+        console.log($(".capture_content"));
+        console.log(_linkCSS);
+        $(".capture_content").printThis({ debug: true, loadCSS: _linkCSS });
+    });
+    $(document).on('click', '.control_rotationleft', function () {
+        //var src = draw.rotateCounterClockwise();
+        //$('.treeview_select').find('img').attr('src', src);
+        tool.rotateLeft();
+    });
+    $(document).on('click', '.control_rotationright', function () {
+        //var src = draw.rotateClockwise();
+        //$('.treeview_select').find('img').attr('src', src);
+        tool.rotateRight();
+    });
+    $(document).on('click', ".control_save", function () {
+        var $select = $('.treeview_select');
+        //if class treeview_select is Page, docElement = <li>..</li>
+        var $docElement = $select.parentsUntil('.treeview_second', ':last');
+        //if class treeview_select is Folder, docElement = first child <li> of Folder
+        //if ($select.hasClass('folder'))
+        //    $docElement = $select.parent().children("li").first();
+
+        var id = $docElement.children('.docTypeId').val();
+        var pageElements = $docElement.find('.treeview_three > li');
+        var fieldValueElements = $docElement.find('div.fieldValues > input[type=hidden]');
+
+        var Document = { DocumentTypeId: id, Pages: [], FieldValues: [] };
+        for (j = 0; j < pageElements.length; j++) {
+            var _ImgKey = $(pageElements[j]).children('span.treeview_title').attr('id');
+            var _LangCode = $(pageElements[j]).find('.language').val();
+
+            var _annotations = {};
+            var angle = 0;
+            if (draws[_ImgKey] != undefined) {
+                _annotations = draws[_ImgKey].getAnnotations();
+                angle = draws[_ImgKey].rotateAngle();
+            }
+            Document.Pages[j] = {
+                ImgKey: _ImgKey, Annotations: _annotations, LanguageCode: _LangCode,
+                PageWidth: $("#page_" + _ImgKey).width(), PageHeight: $("#page_" + _ImgKey).height(),
+                RotateAngle: angle * -1
+            };
+        }
+        var formData = $("<form class='save_or_mail_option'></form>");
+        var attach = $("<fieldset>" +
+                        "<legend>Attachment File Options </legend>" +
+                        "<input type='radio' name='format' value='pdf' checked='checked' id='mail_opt_pdf'/>" +
+                        "<label for='mail_opt_pdf'>Email attachment as PDF</label>" +
+                        "<input type='radio' name='format' value='tiff'/ id='mail_opt_tiff'>" +
+                        "<label for='mail_opt_tiff'>Email attachment as TIFF</label><br/>" +
+                    "</fieldset><br/>" +
+                    "<fieldset> " +
+                            "<legend>Page range</legend>" +
+                            "<input type='radio' name='pagerange' value='all' id='mail_opt_all' checked='checked'/>" +
+                            "<label for='mail_opt_all'>All</label>" +
+                            "<input type='radio' name='pagerange' value='pages' id='mail_opt_pages'/>" +
+                            "<label for='mail_opt_pages'>Pages</label>" +
+                            "<input type='text' name='listofpage' />" +
+                         "</fieldset>");
+        attach.children('span,label').css({ 'font-size': '14px', 'font-weight': 'normal' });
+        formData.append(attach);
+        $.messageBox({
+            title: 'Save option',
+            type: 'form',
+            message: null,
+            formData: formData,
+            width: "500px",
+            buttons: {
+                OK: function (data) {
+                    var mail = {};
+                    var form = $('.save_or_mail_option');
+                    mail['format'] = $('input[name="format"]:checked', form).val();
+                    mail['range'] = $('input[name="pagerange"]:checked', form).val();
+                    mail['pages'] = [];
+                    var ps = $('input[name="listofpage"]', form).val();
+                    if (mail['range'] == 'pages' && ps && ps != " ") {
+                        var pages = $('input[name="listofpage"]', form).val().split(',');
+                        $.each(pages, function () {
+                            if ($.isNumeric(this))
+                                mail.pages.push(parseInt(this));
+                            if (this.indexOf('-') > 0) {
+                                var p2p = this.split('-');
+                                if (!$.isNumeric(p2p[0]) || !$.isNumeric(p2p[1])) {
+                                    pageError.show();
+                                    return;
+                                }
+                                var s = p2p[1] - p2p[0];
+                                if (d >= 0)
+                                    for (i = p2p[0]; i <= p2p[1]; i++)
+                                        if (mail.pages.indexOf(i) < 0)
+                                            mail.pages.push(parseInt(i))
+
+                            }
+                        });
+                    }
+                    mail['Document'] = Document;
+                    Inno.helper.post(URL_SaveLocal, JSON.stringify(mail), function (data) {
+                        //var $p = $('<iframe src="/capture/get?key=' + data + '"></iframe>');
+                        //$("#printdiv").append($p);
+                        window.open(URL_Get + "?key=" + data, "_blank");
+                    });
+                    //$.ajax({
+                    //    url: URL_SaveLocal,
+                    //    type: "POST",
+                    //    data: JSON.stringify(mail),
+                    //    error: function () {
+                    //        alert("ERROR");
+                    //    },
+                    //success: function (data) {
+                    //    //var $p = $('<iframe src="/capture/get?key=' + data + '"></iframe>');
+                    //    //$("#printdiv").append($p);
+                    //    window.open(url_get + "?key=" + data, "_blank");
+                    //},
+                    //    contentType: "application/json"
+                    //});
+                }
+            }
+        });
+    });
+    $(document).on('click', '.control_mail', function () {
+        var $select = $('.treeview_select');
+        //if class treeview_select is Page, docElement = <li>..</li>
+        var $docElement = $select.parentsUntil('.treeview_second', ':last');
+
+        var id = $docElement.children('.docTypeId').val();
+        var pageElements = $docElement.find('.treeview_three > li');
+        var fieldValueElements = $docElement.find('div.fieldValues > input[type=hidden]');
+        var _DocumentId = $docElement.data('doc-id');
+        var Document = {
+            DocumentTypeId: id,
+            Pages: [], FieldValues: [],
+            DocumentId: _DocumentId
+        };
+        for (j = 0; j < pageElements.length; j++) {
+            var _ImgKey = $(pageElements[j]).children('span.treeview_title').attr('id');
+            var _LangCode = $(pageElements[j]).find('.language').val();
+
+            var _annotations = {};
+            var angle = 0;
+            if (draws[_ImgKey] != undefined) {
+                _annotations = draws[_ImgKey].getAnnotations();
+                angle = draws[_ImgKey].rotateAngle();
+            }
+            Document.Pages[j] = {
+                ImgKey: _ImgKey, Annotations: _annotations, LanguageCode: _LangCode,
+                PageWidth: $("#page_" + _ImgKey).width(), PageHeight: $("#page_" + _ImgKey).height(),
+                RotateAngle: angle * -1
+            };
+        }
+        createMailForm(Document);
+        ////#region mail form
+        //var formData = $("<form class='save_or_mail_option'></form>");
+        //var attach = $("<fieldset>" +
+        //                "<legend>Attachment File Options </legend>" +
+        //                "<input type='radio' name='format' value='pdf' checked='checked' id='mail_opt_pdf'/>" +
+        //                "<label for='mail_opt_pdf'>Email attachment as PDF</label>" +
+        //                "<input type='radio' name='format' value='tiff'/ id='mail_opt_tiff'>" +
+        //                "<label for='mail_opt_tiff'>Email attachment as TIFF</label>" +
+        //            "</fieldset>" +
+        //            "<fieldset> " +
+        //                    "<legend>Page range</legend>" +
+        //                    "<input type='radio' name='pagerange' value='all' id='mail_opt_all' checked='checked'/>" +
+        //                    "<label for='mail_opt_all'>All</label>" +
+        //                    "<input type='radio' name='pagerange' value='pages' id='mail_opt_pages'/>" +
+        //                    "<label for='mail_opt_pages'>Pages</label>" +
+        //                    "<input type='text' name='listofpage' />" +
+        //                 "</fieldset>");
+        //var mailBy = $("<fieldset> " +
+        //                    "<legend>Send by</legend>" +
+        //                    "<input type='radio' name='sendby' value='server' checked='checked' id='mail_opt_server'/>" +
+        //                    "<label for='mail_opt_server'>Server</label>" +
+        //                    "<input type='radio' name='sendby' value='client' id='mail_opt_client'/>" +
+        //                    "<label for='mail_opt_client'>Client (Open Outlook)</label>" +
+        //                 "</fieldset>");
+        //var mailTo = $("<fieldset> " +
+        //                "<legend>To Email</legend>" +
+        //                "<span>To email </span><input type='text' name='mailTo'/>" +
+        //                "<a href='#'>Cc, Bcc</a><br/>" +
+        //            "</fieldset>");
+        //var cc = $("<span>CC </span><input type='text' name='cc'/>" +
+        //         "<span>BCC </span><input type='text' name='bcc'/>");
+        //cc.hide();
+        //mailTo.append(cc);
+        //mailTo.children('a').click(function () {
+        //    if (cc.css('display') == "none")
+        //        cc.show();
+        //    else
+        //        cc.hide();
+        //    return false;
+        //});
+        //attach.add(mailBy).add(mailTo).css({ 'font-size': '15px', 'font-weight': 'bold' });
+        //attach.add(mailBy).add(mailTo).children('span,label').css({ 'font-size': '14px', 'font-weight': 'normal' });
+        //formData.append(attach).append(mailBy).append(mailTo);
+        ////#endregion
+        //$.messageBox({
+        //    title: 'Input mail address',
+        //    type: 'form',
+        //    message: null,
+        //    formData: formData,
+        //    width: "500px",
+        //    buttons: {
+        //        OK: function (data) {
+        //            var mail = {};
+        //            var form = $('.save_or_mail_option');
+        //            mail['format'] = $('input[name="format"]:checked', form).val();
+        //            mail['range'] = $('input[name="pagerange"]:checked', form).val();
+        //            mail['pages'] = [];
+        //            var ps = $('input[name="listofpage"]', form).val();
+        //            if (mail['range'] == 'pages' && ps && ps != " ") {
+        //                var pages = $('input[name="listofpage"]', form).val().split(',');
+        //                $.each(pages, function () {
+        //                    if ($.isNumeric(this))
+        //                        mail.pages.push(parseInt(this));
+        //                    if (this.indexOf('-') > 0) {
+        //                        var p2p = this.split('-');
+        //                        if (!$.isNumeric(p2p[0]) || !$.isNumeric(p2p[1])) {
+        //                            pageError.show();
+        //                            return;
+        //                        }
+        //                        var d = p2p[1] - p2p[0];
+        //                        if (d >= 0)
+        //                            for (i = p2p[0]; i <= p2p[1]; i++)
+        //                                if (mail.pages.indexOf(i) < 0)
+        //                                    mail.pages.push(parseInt(i))
+        //                    }
+        //                });
+        //            }
+        //            mail['sendby'] = $('input[name="sendby"]', form).val();
+        //            mail['mailTo'] = $('input[name="mailTo"]', form).val();
+        //            mail['cc'] = $('input[name="cc"]', form).val();
+        //            mail['bcc'] = $('input[name="bcc"]', form).val();
+        //            mail['Document'] = Document;
+        //            Inno.helper.post(URL_SendMail, JSON.stringify(mail), function (data) {
+        //                if (data == true)
+        //                    $.messageBox({ type: 'notify', message: 'Your email has been send' });
+        //                else
+        //                    $.messageBox({ type: 'notify', message: 'Fail to send your email!' });
+        //            })
+        //            //$.ajax({
+        //            //    url: URL_SendMail,
+        //            //    type: "POST",
+        //            //    data: JSON.stringify(mail),
+        //            //    error: function () {
+        //            //        alert("ERROR");
+        //            //    },
+        //            //    success: function (data) {
+        //            //        if (data == true)
+        //            //            $.messageBox({ type: 'notify', message: 'Your email has been send' });
+        //            //        else
+        //            //            $.messageBox({ type: 'notify', message: 'Fail to send your email!' });
+        //            //    },
+        //            //    contentType: "application/json"
+        //            //});
+        //        }
+        //    }
+        //});
+
+    });
+    function createMailForm(Document) {
+        //#region create html element
+        var formData = $("<form class='save_or_mail_option'></form>");
+        var attach = $("<fieldset>" +
+                        "<legend>Attachment File Options </legend>" +
+                        "<input type='radio' name='format' value='pdf' checked='checked' id='mail_opt_pdf'/>" +
+                        "<label for='mail_opt_pdf'>Email attachment as PDF</label>" +
+                        "<input type='radio' name='format' value='tiff'/ id='mail_opt_tiff'>" +
+                        "<label for='mail_opt_tiff'>Email attachment as TIFF</label>" +
+                    "</fieldset>" +
+                    "<fieldset> " +
+                            "<legend>Page range</legend>" +
+                            "<input type='radio' name='pagerange' value='all' id='mail_opt_all' checked='checked'/>" +
+                            "<label for='mail_opt_all'>All</label>" +
+                            "<input type='radio' name='pagerange' value='pages' id='mail_opt_pages'/>" +
+                            "<label for='mail_opt_pages'>Pages</label>" +
+                            "<input type='text' name='listofpage' />" +
+                         "</fieldset>");
+        var mailBy = $("<fieldset> " +
+                            "<legend>Send by</legend>" +
+                            "<input type='radio' name='sendby' value='server' checked='checked' id='mail_opt_server'/>" +
+                            "<label for='mail_opt_server'>Server</label>" +
+                            "<input type='radio' name='sendby' value='client' id='mail_opt_client'/>" +
+                            "<label for='mail_opt_client'>Client (Open Outlook)</label>" +
+                         "</fieldset>");
+        var mailTo = $("<fieldset> " +
+                        "<legend>To Email</legend>" +
+                        "<span>To email </span><input type='text' name='mailTo'/>" +
+                        "<a href='#'>Cc, Bcc</a><br/>" +
+                    "</fieldset>");
+        var cc = $("<span>CC </span><input type='text' name='cc'/>" +
+                 "<span>BCC </span><input type='text' name='bcc'/>");
+        //#endregion
+        //#region create style
+        cc.hide();
+        mailTo.children('span').css({ display: 'inline-block', width: '60px' });
+        mailTo.children('input').css({ display: 'inline-block', width: '150px' });
+        mailTo.append(cc);
+        mailTo.children('a').click(function () {
+            if (cc.css('display') == "none")
+                cc.css('display', 'inline-block')
+            else
+                cc.hide();
+            return false;
+        });
+        cc.filter('span').css({ width: '60px' });
+        cc.filter('input').css({ width: '150px' });
+        attach.add(mailBy).add(mailTo).css({ 'font-size': '15px', 'font-weight': 'bold' });
+        attach.add(mailBy).add(mailTo).children('span,label').css({ 'font-size': '14px', 'font-weight': 'normal' });
+        formData.append(attach).append(mailBy).append(mailTo);
+        //#endregion
+        $.messageBox({
+            title: 'Input mail address',
+            type: 'form',
+            message: null,
+            formData: formData,
+            width: "500px",
+            buttons: {
+                OK: function (data) {
+                    var mail = {};
+                    var form = $('.save_or_mail_option');
+                    mail['format'] = $('input[name="format"]:checked', form).val();
+                    mail['range'] = $('input[name="pagerange"]:checked', form).val();
+                    mail['pages'] = [];
+                    var ps = $('input[name="listofpage"]', form).val();
+                    if (mail['range'] == 'pages' && ps && ps != " ") {
+                        var pages = $('input[name="listofpage"]', form).val().split(',');
+                        $.each(pages, function () {
+                            if ($.isNumeric(this))
+                                mail.pages.push(parseInt(this));
+                            if (this.indexOf('-') > 0) {
+                                var p2p = this.split('-');
+                                if (!$.isNumeric(p2p[0]) || !$.isNumeric(p2p[1])) {
+                                    pageError.show();
+                                    return;
+                                }
+                                var d = p2p[1] - p2p[0];
+                                if (d >= 0)
+                                    for (i = p2p[0]; i <= p2p[1]; i++)
+                                        if (mail.pages.indexOf(i) < 0)
+                                            mail.pages.push(parseInt(i))
+
+                            }
+                        });
+                    }
+                    mail['sendby'] = $('input[name="sendby"]', form).val();
+                    mail['mailTo'] = $('input[name="mailTo"]', form).val();
+                    mail['cc'] = $('input[name="cc"]', form).val();
+                    mail['bcc'] = $('input[name="bcc"]', form).val();
+                    mail['Document'] = Document;
+                    $('section.body').ecm_loading_show();
+                    Inno.helper.post(URL_SendMail, JSON.stringify(mail), function (data) {
+                        $('section.body').ecm_loading_hide();
+                        if (data == true)
+                            $.messageBox({ type: 'notify', message: 'Your email has been send' });
+                        else
+                            $.messageBox({ type: 'notify', message: 'Failed to send your email!' });
+                    },
+                    function () {
+                        $('section.body').ecm_loading_hide();
+                    });
+                },
+                Cancel: function () { }
+            }
+        });
+    }
+    $(document).on('click', '.control_navigationdown', function () {
+        var $next;
+        if ($('.treeview_select').hasClass('page'))
+            $next = $('.treeview_select').parent().next();
+        else
+            $next = $('.treeview_select').parent().find('.page').eq(1).parent();
+        $next.click();
+    });
+    $(document).on('click', '.control_navigationup', function () {
+        var $prev;
+        if ($('.treeview_select').hasClass('page'))
+            $prev = $('.treeview_select').parent().prev();
+        $prev.click();
+    });
+}
+
+
+ Set the selected batch, document, page when first load
+function InitSelectedBatchView() {
+
+    var selectedBatchId = $('#selected-batch-id').val();
+
+     Show selected batch menu
+    var batchMenu = $('#menu-batch-' + selectedBatchId);
+    batchMenu.show();
+
+     Set active menu to first document menu
+    var docMenu = batchMenu.children().children('ul').children().first().children('span');
+    docMenu.addClass('treeview_select');
+     Show first document view
+    var docId = docMenu.attr('id').substr(14);
+    var docView = $('#view-document-' + docId);
+    docView.addClass('view-select').removeClass('view-non-select');
+     Set selected type and selected document id
+    $('#selected-type').val('document');
+    $('#selected-document-id').val(docId);
+
+     Scroll to first page of first active document
+    $('#documentViewer').scrollTop(docView.children().first().position().top);
+}
+
+ Add handler for click arrow to open or close menu item in left menu
+function AddHandlerTreeViewArrowClick($treeviewIcon) {
+    $treeviewIcon.click(function (e) {
+        e.stopPropagation();
+        $treeviewIcon.parent().toggleClass('treeview_open').next().slideToggle(100);
+    });
+}
+ Add handler for click on root in left menu
+function AddHandlerRootClick($captureRoot) {
+    $captureRoot.click(function () {
+
+        var _batch = $captureRoot;
+
+         Case click on its self
+        if (_batch.hasClass('treeview_select')) {
+            ScrollViewerTo('#xr_xri');
+            return;
+        }
+
+         Disable control menu
+        $('#control-menu').ecm_disable();
+
+        var selectedType = $('#selected-type');
+        var selectedDocId = $('#selected-document-id');
+        var selectedPageId = $('#selected-page-id');
+
+        switch (selectedType.val()) {
+            case 'document':
+                 Remove class active of menu batch
+                $('#menu-document-' + selectedDocId.val()).removeClass('treeview_select');
+                 Hide document view
+                $('#view-document-' + selectedDocId.val()).removeClass('view-select').addClass('view-non-select');
+                break;
+
+            case 'page':
+                $('#menu-page-' + selectedPageId.val()).removeClass('treeview_select');
+                 Hide document view
+                $('#view-page-' + selectedPageId.val()).parent().removeClass('view-select').addClass('view-non-select');
+                break;
+
+            default:
+                break;
+        }
+
+         Update active class and show guid view
+        _batch.addClass('treeview_select');
+        $('#xr_xri').show();
+        ScrollViewerTo('#xr_xri');
+
+         Update selected status
+        selectedType.val('batch');
+        selectedDocId.val('');
+        selectedPageId.val('');
+    });
+}
+ Add handler for click on document in left menu
+function AddHandlerDocumentClick($folder) {
+    $folder.click(function () {
+
+        var _doc = $folder;
+
+         Click on its self again
+        if (_doc.hasClass('treeview_select')) {
+            ScrollViewerTo('#view-document-' + _doc.attr('id').substr(14));
+            return;
+        }
+
+        var selectedType = $('#selected-type');
+        var selectedDocId = $('#selected-document-id');
+        var selectedPageId = $('#selected-page-id');
+        var clickedDocId = _doc.attr('id').substr(14);
+
+         Click on the same previous active doc menu
+        if (clickedDocId == selectedDocId.val()) {
+             In this case a child page is active => need to remove active class
+            $('#menu-page-' + selectedPageId.val()).removeClass('treeview_select');
+            selectedPageId.val('');
+
+             Add active class to document
+            _doc.addClass('treeview_select');
+             Update selected type
+            selectedType.val('document');
+            ScrollViewerTo('#view-document-' + clickedDocId);
+            return;
+        }
+
+        switch (selectedType.val()) {
+            case 'batch':
+                 Remove class active of menu batch
+                $('#menu-batch-' + $('#selected-batch-id').val()).children().children('span').removeClass('treeview_select');
+                 Hide guid view
+                $('#xr_xri').hide();
+                 Enable control menu
+                $('#control-menu').ecm_enable();
+                break;
+
+            case 'document':
+                 Remove class active of menu batch
+                $('#menu-document-' + selectedDocId.val()).removeClass('treeview_select');
+                 Hide document view
+                $('#view-document-' + selectedDocId.val()).removeClass('view-select').addClass('view-non-select');
+                break;
+
+            case 'page':
+                $('#menu-page-' + selectedPageId.val()).removeClass('treeview_select');
+                 Hide document view
+                $('#view-page-' + selectedPageId.val()).parent().removeClass('view-select').addClass('view-non-select');
+                 Update selected page id
+                selectedPageId.val('');
+                break;
+
+            default:
+                break;
+        }
+
+         Set active class and update selected document
+        _doc.addClass('treeview_select');
+        selectedDocId.val(clickedDocId);
+        selectedType.val('document');
+
+         Show document viewer
+        $('#view-document-' + clickedDocId).addClass('view-select').removeClass('view-non-select');
+         Scroll to first page of first active document
+        ScrollViewerTo('#view-document-' + clickedDocId);
+
+    });
+}
+ Add handler for click on page in left menu
+function AddHandlerPageClick($page) {
+    $page.click(function () {
+
+        var _page = $page;
+
+         Case click its self again
+        if (_page.hasClass('treeview_select')) {
+            ScrollViewerTo('#view-page-' + $('#selected-page-id').val());
+            return;
+        }
+
+        var clickedPageId = _page.attr('id').substr(10);
+        var parentDocId = _page.parent().parent().prev().attr('id').substr(14);
+
+        var selectedType = $('#selected-type');
+        var selectedDocId = $('#selected-document-id');
+        var selectedPageId = $('#selected-page-id');
+
+         Click on the same document id
+        if (parentDocId == selectedDocId.val()) {
+             Update active class
+            $('#menu-document-' + selectedDocId.val()).removeClass('treeview_select');
+            $('#menu-page-' + selectedPageId.val()).removeClass('treeview_select');
+            _page.addClass('treeview_select');
+
+             Scroll viewer
+            ScrollViewerTo('#view-page-' + clickedPageId);
+
+             Update selected status
+            $('#selected-type').val('page');
+            $('#selected-page-id').val(clickedPageId);
+            return;
+        }
+
+        switch (selectedType.val()) {
+            case 'batch':
+                 Remove class active of menu batch
+                $('#menu-batch-' + $('#selected-batch-id').val()).children().children('span').removeClass('treeview_select');
+                 Hide guid view
+                $('#xr_xri').hide();
+                 Enable control menu
+                $('#control-menu').ecm_enable();
+                break;
+
+            case 'document':
+                 Remove class active of menu batch
+                $('#menu-document-' + selectedDocId.val()).removeClass('treeview_select');
+                 Hide document view
+                $('#view-document-' + selectedDocId.val()).removeClass('view-select').addClass('view-non-select');
+                break;
+
+            case 'page':
+                $('#menu-page-' + selectedPageId.val()).removeClass('treeview_select');
+                 Hide document view
+                $('#view-page-' + selectedPageId.val()).parent().removeClass('view-select').addClass('view-non-select');
+                break;
+
+            default:
+                break;
+        }
+
+        _page.addClass('treeview_select');
+         Show document view
+        $('#view-page-' + clickedPageId).parent().addClass('view-select').removeClass('view-non-select');
+        ScrollViewerTo('#view-page-' + clickedPageId);
+
+         Update select status
+        selectedType.val('page');
+        selectedDocId.val(parentDocId);
+        selectedPageId.val(clickedPageId);
+    });
+}
+ Add handler for click on page support preview
+function AddHandlerMenuNativeFileClick($menuNativeFile) {
+    $menuNativeFile.click(function () {
+
+         Disable function hide, pan, draw, rotate
+
+        var $page = $menuNativeFile;
+
+        if ($page.data('is-loaded') == true) {
+            return;
+        }
+
+        var $doc = $page.parent().parent().prev();
+        var $batch = $doc.parent().parent().parent().parent();
+
+        var pageId = $page.attr('id').substr(10);
+        var viewPage = $('#view-page-' + pageId);
+
+        var $body = $('body');
+        $body.ecm_loading_show();
+        var sync = { syncCount: 1 };
+
+        Inno.helper.post(
+            urlGetNativeFile,
+            JSON.stringify({
+                batchId: $batch.attr('id').substr(11),
+                docId: $doc.attr('id').substr(14),
+                pageId: pageId
+            }),
+            [$body],
+            sync,
+            function (data) {
+                console.log(data.length);
+                if (data.length == undefined) {
+                    return;
+                }
+
+                var iFrame = $('<iframe width="545px" height="384px" allowfullscreen webkitallowfullscreen></iframe>');
+                iFrame.attr('src', '/ViewerJS/#../' + data);
+
+                viewPage.children().remove();
+                viewPage.css({ width: '550px', height: '389px' });
+                viewPage.append(iFrame);
+                $page.data('is-loaded', true);
+
+                ScrollViewerTo('#view-page-' + pageId);
+            }
+        );
+    });
+}
+
+function AddHandlerSortable($captureRoot) {
+
+     Get scrollable div
+    var $scrollable = $("#tree-view");
+    var bottom = $scrollable.height();
+
+     Enable sortable for folder
+    var $ulBatch = $captureRoot.next();
+    $ulBatch.addClass('connect-folder');
+    $ulBatch.sortable({
+        connectWith: ".connect-folder",
+        placeholder: "ui-state-highlight",
+        forcePlaceholderSize: true,
+        tolerance: "pointer",
+        scroll: false,
+        sort: function (event, ui) {
+            var currentScrollTop = $scrollable.scrollTop(),
+                topHelper = ui.position.top,
+                delta = topHelper - currentScrollTop;
+
+            if (topHelper > bottom) {
+                setTimeout(function () {
+                    $scrollable.scrollTop(currentScrollTop + 20);
+                }, 5);
+            } else if (topHelper < 0) {
+                setTimeout(function () {
+                    $scrollable.scrollTop(currentScrollTop - 20);
+                }, 5);
+            }
+        }
+    });
+    $ulBatch.disableSelection();
+
+     Enable sortable for page
+    var $ulFolder = $ulBatch.children().children('ul');
+    $ulFolder.addClass('connect-folder');
+    $ulFolder.sortable({
+        connectWith: ".connect-folder",
+        placeholder: "ui-state-highlight",
+        forcePlaceholderSize: true,
+        tolerance: "pointer",
+        scroll: false,
+        sort: function (event, ui) {
+            var currentScrollTop = $scrollable.scrollTop(),
+                topHelper = ui.position.top,
+                delta = topHelper - currentScrollTop;
+
+            if (topHelper > bottom) {
+                setTimeout(function () {
+                    $scrollable.scrollTop(currentScrollTop + 20);
+                }, 5);
+            } else if (topHelper < 0) {
+                setTimeout(function () {
+                    $scrollable.scrollTop(currentScrollTop - 20);
+                }, 5);
+            }
+        }
+    });
+    $ulFolder.disableSelection();
+
+}
+
+ Helper scroll viewer to specify page id
+function ScrollViewerTo(idTarget) {
+    var viewer = $('#documentViewer');
+    var newTop = viewer.scrollTo(idTarget).scrollTop();
+    viewer.scrollTop(newTop - 5); // 5 is margin
+}
+
+ Zoomin function
+function Zoomin(idDocViewer) {
+    var docViewer = $(idDocViewer);
+    var oldScale = docViewer.data('scale');
+    var newScale = oldScale + 0.1;
+
+    if (newScale > 5) {
+        return;
+    }
+
+    docViewer.data('scale', newScale);
+    Zoom(docViewer, newScale / oldScale)
+}
+ Zoomout function
+function Zoomout(idDocViewer) {
+
+    var docViewer = $(idDocViewer);
+    var oldScale = docViewer.data('scale');
+    var newScale = oldScale - 0.1;
+
+    if (newScale < 0.1) {
+        return;
+    }
+
+    docViewer.data('scale', newScale);
+    Zoom(docViewer, newScale / oldScale)
+}
+ Zoom function
+function Zoom(docViewer, scale) {
+    docViewer.children('.wrapper-image').each(function () {
+
+        var page = $(this);
+        var widthPage = page.width();
+        var heightPage = page.height();
+
+         Set new size for div wrapper image
+        widthPage = widthPage * scale;
+        heightPage = heightPage * scale;
+        page.width(widthPage);
+        page.height(heightPage);
+
+         Set new size for image
+        var image = page.children().first();
+
+         Set new transform orgin
+        var rotateAngle = image.data('rotate');
+        var axis
+        if (rotateAngle == '90' || rotateAngle == '-270') {
+            image.width(heightPage);
+            image.height(widthPage);
+            axis = (widthPage / 2) + 'px';
+            image.css('transform-origin', axis + ' ' + axis + ' 0');
+        }
+        else if (rotateAngle == '-90' || rotateAngle == '270') {
+            image.width(heightPage);
+            image.height(widthPage);
+            axis = (heightPage / 2) + 'px';
+            image.css('transform-origin', axis + ' ' + axis + ' 0');
+        } else {
+            image.width(widthPage);
+            image.height(heightPage);
+        }
+
+         Loop annotation
+        page.children('div').each(function () {
+
+            var anno = $(this);
+            var widthAnno = anno.width();
+            var heightAnno = anno.height();
+            var leftAnno = anno.css('left').replace('px', '');
+            var topAnno = anno.css('top').replace('px', '');
+
+             Set new value
+            widthAnno = widthAnno * scale;
+            heightAnno = heightAnno * scale;
+            leftAnno = leftAnno * scale;
+            topAnno = topAnno * scale;
+
+            anno.width(widthAnno);
+            anno.height(heightAnno);
+            anno.css('left', leftAnno + 'px');
+            anno.css('top', topAnno + 'px');
+
+             Case anno text
+            if (anno.hasClass('anno_comment')) {
+                var annoRotateAngle = anno.data('rotate');
+                var textInner = anno.children();
+
+                var axisInner
+                if (annoRotateAngle == '90' || annoRotateAngle == '-270') {
+                     Set new value for div text inner
+                    textInner.width(heightAnno);
+                    textInner.height(widthAnno);
+
+                    axisInner = (widthAnno / 2) + 'px';
+                    textInner.css('transform-origin', axisInner + ' ' + axisInner + ' 0');
+                }
+                else if (annoRotateAngle == '-90' || annoRotateAngle == '270') {
+                     Set new value for div text inner
+                    textInner.width(heightAnno);
+                    textInner.height(widthAnno);
+
+                    axisInner = (heightAnno / 2) + 'px';
+                    textInner.css('transform-origin', axisInner + ' ' + axisInner + ' 0');
+                } else {
+                     Set new value for div text inner
+                    textInner.width(widthAnno);
+                    textInner.height(heightAnno);
+                }
+
+                 Scale line-height
+                var lineHeight = textInner.css('line-height').replace('px', '');
+                lineHeight = lineHeight * scale;
+                textInner.css('line-height', lineHeight + 'px');
+
+                 Loop all span to scale font-size
+                textInner.children('span').each(function () {
+                    var span = $(this);
+                    var fontSize = span.css('font-size').replace('px', '');
+                    console.log(fontSize);
+                    fontSize = fontSize * scale;
+                    span.css('font-size', fontSize + 'px');
+                });
+            }
+        });
+
+    });
+}
+
+ Rotate function
+function Rotate(pageViewer, angle) {
+
+    if (pageViewer.hasClass('wrapper-image-native-file')) {
+        return;
+    }
+
+    var widthPage = pageViewer.width();
+    var heightPage = pageViewer.height();
+
+    var image = pageViewer.children().first();
+    var rotateAngleImage = image.data('rotate');
+    rotateAngleImage += angle;
+
+     Adjust angle for angle is 0 <= angle <= 360
+    if (rotateAngleImage < 0) {
+        do {
+            rotateAngleImage += 360;
+        } while (rotateAngleImage < 0);
+    }
+    else if (rotateAngleImage > 359) {
+        do {
+            rotateAngleImage -= 360;
+        } while (rotateAngleImage > 359);
+    }
+
+     Rotate thumbnail
+    var thumb = $('#menu-page-' + pageViewer.attr('id').substr(10)).children().children().first().children();
+    thumb.removeAttr('class').addClass('rotate-' + rotateAngleImage);
+
+     Rotate div image wrapper by swap width and height
+    pageViewer.width(heightPage);
+    pageViewer.height(widthPage);
+
+     Update rotate status
+    image.data('rotate', rotateAngleImage);
+    image.removeClass('rotate-0').removeClass('rotate-90').removeClass('rotate-180').removeClass('rotate-270');
+    image.addClass('rotate-' + rotateAngleImage);
+
+    image.removeAttr('style');
+    var axis;
+    var ogrin
+    if (rotateAngleImage == 90) {
+        axis = heightPage / 2 + 'px';
+    } else if (rotateAngleImage == 270) {
+        axis = widthPage / 2 + 'px';
+    } else {
+        axis = '50%';
+    }
+
+    ogrin = axis + ' ' + axis;
+     Set new orgin
+    image.css('-moz-transform-origin', ogrin);
+    image.css('-o-transform-origin', ogrin);
+    image.css('-webkit-transform-origin', ogrin);
+    image.css('-ms-transform-origin', ogrin);
+    image.css('-transform-origin', ogrin);
+
+     Loop annotation
+    pageViewer.children('div').each(function () {
+
+        var anno = $(this);
+        var widthAnno = anno.width();
+        var heightAnno = anno.height();
+        var leftAnno = anno.css('left').replace('px', '');
+        var topAnno = anno.css('top').replace('px', '');
+        var tempLeft;
+        var tempTop;
+
+        var rotateAngleAnno = anno.data('rotate');
+        rotateAngleAnno += angle;
+
+         Adjust angle for angle is 0 <= angle <= 360
+        if (rotateAngleAnno < 0) {
+            do {
+                rotateAngleAnno += 360;
+            } while (rotateAngleAnno < 0);
+        }
+        else if (rotateAngleAnno > 359) {
+            do {
+                rotateAngleAnno -= 360;
+            } while (rotateAngleAnno > 359);
+        }
+
+         Calculate new left top
+        if (angle == 90) {
+            tempLeft = heightPage - topAnno - heightAnno;
+            tempTop = leftAnno;
+        } else {
+            tempLeft = topAnno;
+            tempTop = widthPage - leftAnno - widthAnno;
+        }
+        leftAnno = tempLeft;
+        topAnno = tempTop;
+
+         Rotate div image wrapper by swap width and height, left and top
+        anno.width(heightAnno);
+        anno.height(widthAnno);
+        anno.css('left', leftAnno + 'px');
+        anno.css('top', topAnno + 'px');
+
+         Update rotate status
+        anno.data('rotate', rotateAngleAnno);
+
+         Case anno text
+        if (anno.hasClass('anno_comment')) {
+            var textInner = anno.children();
+
+             Update rotate status
+            textInner.removeClass('rotate-0').removeClass('rotate-90').removeClass('rotate-180').removeClass('rotate-270');
+            textInner.addClass('rotate-' + rotateAngleAnno);
+
+            image.removeAttr('style');
+            var axis;
+            var ogrin
+            if (rotateAngleAnno == 90) {
+                axis = heightAnno / 2 + 'px';
+            } else if (rotateAngleAnno == 270) {
+                axis = widthAnno / 2 + 'px';
+            } else {
+                axis = '50%';
+            }
+
+            ogrin = axis + ' ' + axis;
+             Set new orgin
+            textInner.css('-moz-transform-origin', ogrin);
+            textInner.css('-o-transform-origin', ogrin);
+            textInner.css('-webkit-transform-origin', ogrin);
+            textInner.css('-ms-transform-origin', ogrin);
+            textInner.css('-transform-origin', ogrin);
+        }
+    });
+}
+
+ NavigateUp function
+function NavigationUp(docViewer) {
+
+    var pages = docViewer.children();
+    var page;
+
+     Find the page is have top and bottom is positive
+    for (var i = 0; i < pages.length; i++) {
+        page = $(pages[i]);
+        if (page.position().top >= 0) {
+            break;
+        }
+    }
+
+     Move previous
+    var prevPage = page.prev();
+    if (prevPage.length != 0) {
+        ScrollViewerTo('#' + prevPage.attr('id'));
+    }
+}
+ NavigateDown function
+function NavigationDown(docViewer) {
+
+    var pages = docViewer.children();
+    var heightDocViewer = $('#documentViewer').height();
+    var page;
+    var top;
+    var bottom;
+
+     Find the page is have top and bottom is positive
+    for (var i = 0; i < pages.length; i++) {
+        page = $(pages[i]);
+        top = page.position().top;
+        bottom = top + page.height();
+
+        if ((top > 0 && top < heightDocViewer && bottom > heightDocViewer) || (top > heightDocViewer)) {
+            break;
+        }
+    }
+     Move next
+    ScrollViewerTo('#' + page.attr('id'));
+}
+
+ Panning function
+function PanOn() {
+
+    var $docViewer = $('#documentViewer');
+    var $body = $('body');
+    var click_x;
+    var click_y;
+
+    $docViewer.addClass('cursor-pan-hover')
+              .on('mousedown', null, PanMouseDown);
+
+    function PanMouseDown(e) {
+
+        click_x = e.pageX;
+        click_y = e.pageY;
+
+        $docViewer.removeClass('cursor-pan-hover')
+        $body.addClass('cursor-pan-down')
+             .on('mousemove', null, PanMouseMove)
+             .on('mouseup', null, PanMouseUp);
+    }
+
+    function PanMouseMove(e) {
+
+        var $docOffset = $docViewer.offset();
+
+        $docViewer.scrollLeft($docViewer.scrollLeft() - (e.pageX - click_x));
+        $docViewer.scrollTop($docViewer.scrollTop() - (e.pageY - click_y));
+
+        click_x = e.pageX;
+        click_y = e.pageY;
+    }
+
+    function PanMouseUp(e) {
+        $docViewer.addClass('cursor-pan-hover')
+        $body.removeClass('cursor-pan-down')
+             .off('mousemove', null, PanMouseMove)
+             .off('mouseup', null, PanMouseUp);
+    }
+}
+function PanOff() {
+    $('#documentViewer').removeClass('cursor-pan-hover')
+                        .off('mousedown', null, PanOn.PanMouseDown);
+    $('.control_highlight').removeClass('select');
+}
+
+ Drawing funtion
+function DrawAnnoOn($batch, syncAnnoKind) {
+
+    var $anno = $('<div>').addClass('anno-drawing');
+    var $body = $('body');
+    var $page;
+    var pageOffset
+    var offset_left;
+    var offset_top;
+    var offset_right;
+    var offset_bottom;
+    var click_x;
+    var click_y;
+    var canDraw;
+
+    var new_x;
+    var new_y;
+    var move_x;
+    var move_y;
+
+    var $pages = $batch.children().children('.wrapper-image');
+    var $annoes = $pages.children('div');
+
+    $annoes.addClass('anno-retrict')
+           .on('mousedown', null, AnnoRestrictDown);
+    $pages.addClass('cursor-draw')
+          .on('mousedown', null, AnnoMouseDown);
+
+    function AnnoRestrictDown(e) {
+        e.stopPropagation()
+    }
+
+    function AnnoMouseDown(e) {
+
+        $page = $(this);
+
+        $page.children('div').removeClass('anno-retrict');
+
+        pageOffset = $page.offset();
+        offset_left = pageOffset.left;
+        offset_top = pageOffset.top;
+        offset_right = offset_left + $page.width();
+        offset_bottom = offset_top + $page.height();
+
+        click_x = e.pageX;
+        click_y = e.pageY;
+
+        $anno.css({
+            'left': click_x - offset_left,
+            'top': click_y - offset_top,
+            'width': 0,
+            'height': 0
+        });
+        $anno.appendTo($page);
+
+        $body.on('mousemove', null, AnnoMouseMove)
+             .on('mouseup', null, AnnoMouseUp);
+    }
+
+    function AnnoMouseMove(e) {
+
+        move_x = e.pageX;
+        move_y = e.pageY;
+
+        if (move_x > offset_right) {
+            move_x = offset_right;
+        } else if (move_x < offset_left) {
+            move_x = offset_left;
+        }
+
+        if (move_y > offset_bottom) {
+            move_y = offset_bottom;
+        } else if (move_y < offset_top) {
+            move_y = offset_top;
+        }
+
+        var width = Math.abs(move_x - click_x);
+        var height = Math.abs(move_y - click_y);
+
+        new_x = (move_x < click_x) ? click_x - width : click_x;
+        new_y = (move_y < click_y) ? click_y - height : click_y;
+
+        $anno.css({
+            'left': new_x - offset_left,
+            'top': new_y - offset_top,
+            'width': width,
+            'height': height
+        });
+
+    }
+
+    function AnnoMouseUp(e) {
+
+        $body.off('mousemove', null, AnnoMouseMove)
+             .off('mouseup', null, AnnoMouseUp);
+        $anno.remove();
+        $page.children('div').addClass('anno-retrict');
+
+        if ($anno.outerWidth() == 0 || $anno.outerHeight() == 0) {
+            return;
+        }
+
+        var $cloneAnno = $anno.clone();
+
+        if (syncAnnoKind.value == 'comment') {
+            $page.children('div').addClass('anno-retrict');
+
+            var $div = $('<div>');
+            var outerWidth = $cloneAnno.outerWidth();
+            var outerHeight = $cloneAnno.outerHeight();
+
+            $cloneAnno.removeClass('anno-drawing')
+                      .css({ 'position': 'absolute' });
+
+            var $wraperEditor = $cloneAnno.clone().addClass('anno-editing')
+                                                  .appendTo($page)
+                                                  .on('mousedown', null, AnnoRestrictDown);
+            var $div = $('<div>').appendTo($wraperEditor);
+
+             Inite jQueryTE editor
+            $div.jqte({
+                $('.anno_comment_inner').jqte({
+                center: false,
+                fsizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '24', '26', '28', '36', '72'],
+                format: false,
+                indent: false,
+                link: false,
+                left: false,
+                ol: false,
+                outdent: false,
+                remove: false,
+                right: false,
+                rule: false,
+                source: false,
+                sub: false,
+                strike: false,
+                sup: false,
+                ul: false,
+                unlink: false
+            });
+
+             Get element jqte after init
+            var $jqte = $('.jqte');
+            var $jqteEditor = $('.jqte_editor');
+            var $jqteToolbar = $('.jqte_toolbar');
+
+            $jqteEditor.css({
+                'font-size': '12px',
+                'color': 'rgb(0, 0, 0)'
+            });
+
+             Adjust default size of jqte
+            if (outerWidth < 150) {
+                $wraperEditor.outerWidth(150);
+            }
+            if (outerHeight < 70) {
+                $wraperEditor.outerHeight(70);
+            }
+            $jqteEditor.outerHeight($jqte.outerHeight() - $jqteToolbar.outerHeight());
+
+             Resize height of editor when main jqte resized
+            $wraperEditor.resize(function () {
+                $jqteEditor.outerHeight($jqte.outerHeight() - $jqteToolbar.outerHeight());
+            }).resizable();
+
+            $jqteEditor.focus().one('focusout', function () {
+                 Get content input in editor
+                var content = $jqteEditor.html();
+                arrResult = [];
+                SplitNode($('<div>' + content + '</div>'), '', arrResult)
+
+                 Remove editor
+                $wraperEditor.remove();
+
+                 If input content, paste it to div anno text
+                if (content != '') {
+
+                    var $innerText = $('<div>').addClass('anno_comment_inner')
+                                               .width(outerWidth).height(outerHeight)
+                                               .appendTo($cloneAnno);
+
+                    for (var i = 0; i < arrResult.length; i++) {
+                        $innerText.append(arrResult[i]);
+                    }
+
+                    $cloneAnno.attr('data-rotate', 0)
+                              .addClass('anno_' + syncAnnoKind.value)
+                              .addClass('anno-retrict')
+                              .addClass('can-delete')
+                              .appendTo($page)
+                              .on('mousedown', null, AnnoRestrictDown)
+                }
+            });
+
+        } else {
+            $cloneAnno.removeClass('anno-drawing')
+                      .addClass('anno_' + syncAnnoKind.value)
+                      .addClass('anno-retrict')
+                      .addClass('can-delete')
+                      .css({ 'position': 'absolute' })
+                      .appendTo($page)
+                      .on('mousedown', null, AnnoRestrictDown);
+            $page.children('div').addClass('anno-retrict');
+        }
+    }
+}
+function DrawAnnoOff($batch) {
+    var $pages = $batch.children().children('.wrapper-image');
+    var $annoes = $pages.children('div');
+
+    $annoes.removeClass('anno-retrict')
+           .off('mousedown', null, DrawAnnoOn.AnnoRestrictDown);
+    $pages.removeClass('cursor-draw')
+          .off('mousedown', null, DrawAnnoOn.AnnoMouseDown);
+}
+
+function SelectOn($batch) {
+
+     Get all page and annotation of this batch
+    var $pages = $batch.children().children('.wrapper-image');
+    var $annoes = $pages.children('div.can-delete');
+
+     Change cursor style to 'Move' for pages of this batch
+    $pages.addClass('cursor-select');
+
+     Add style hover and turn on drag-able for annotations of this batch
+    $annoes.addClass('anno-select').draggable({
+        containment: 'parent',
+        addClass: false,
+        start: function (event, ui) {
+
+             Get all anno in the same page of this anno
+            $siblingAnnoes = ui.helper.parent().children('div.can-delete');
+             Remove style hover select
+            $siblingAnnoes.removeClass('anno-select');
+        },
+        stop: function (event, ui) {
+
+             Get all anno in the same page of this anno
+            $siblingAnnoes = ui.helper.parent().children('div.can-delete');
+             Restore style hover select
+            $siblingAnnoes.addClass('anno-select');
+        }
+    });
+
+     Add handler on mouse down for set active of clicked annotation
+    $annoes.on('mousedown', null, SelectMouseDown);
+    $annoes.filter('.anno_comment').on('dblclick', null, SelectMouseClick)
+
+     Call-back function of mouse down
+    function SelectMouseDown() {
+
+         $activeAnno is global variable declare in Index.cshtml of ViewController
+         Reset class of previous active anno
+        if ($activeAnno != null) {
+
+             Click on its self again
+            if ($activeAnno[0] == this) {
+                return;
+            }
+
+            $activeAnno.removeClass('anno-active').addClass('anno-select');
+            $activeAnno.resizable('destroy');
+        }
+
+         Raise focusout of jqteEditor if anno text is editing
+        $('.jqte_editor').trigger('focusout');
+
+        $activeAnno = $(this);
+         Set active class for clicked anno
+        $activeAnno.removeClass('anno-select').addClass('anno-active');
+
+         Turn on re-sizable for this anno
+        $activeAnno.resizable({
+            containment: 'parent',
+            handles: "all",
+            start: function (event, ui) {
+
+                 Get all anno in the same page of this anno
+                $siblingAnnoes = ui.helper.parent().children('div.can-delete');
+                 Remove style hover select
+                $siblingAnnoes.removeClass('anno-select');
+            },
+            resize: function (event, ui) {
+
+                var rotateAngle = ui.element.data('rotate');
+                var width = ui.element.width();
+                var height = ui.element.height();
+                var $innerText = ui.element.children().first();
+
+                if (ui.element.hasClass('anno_comment')) {
+                    console.log('sdf');
+                     Resize the div inner text
+                    if (rotateAngle == 90 || rotateAngle == 270 || rotateAngle == -90 || rotateAngle == -270) {
+                        $innerText.width(height).height(width);
+                    } else {
+                        $innerText.width(width).height(height);
+                    }
+
+                    var axisInner
+                     Calculate transform orgin after resize
+                    if (rotateAngle == '90' || rotateAngle == '-270') {
+                        axisInner = (width / 2) + 'px';
+                        $innerText.css('transform-origin', axisInner + ' ' + axisInner + ' 0');
+                    }
+                    else if (rotateAngle == '-90' || rotateAngle == '270') {
+                        axisInner = (height / 2) + 'px';
+                        $innerText.css('transform-origin', axisInner + ' ' + axisInner + ' 0');
+                    }
+                }
+            },
+            stop: function (event, ui) {
+
+                 Get all anno in the same page of this anno
+                $siblingAnnoes = ui.helper.parent().children('div.can-delete');
+                 Restore style hover select
+                $siblingAnnoes.addClass('anno-select');
+            }
+        });
+    }
+
+    function SelectMouseClick() {
+
+         $activeAnno is global variable declare in Index.cshtml of ViewController
+        var $oldInnerText = $activeAnno.children().first();
+        var $page = $activeAnno.parent();
+        var $wraperEditor = $('<div>').attr('style', $activeAnno.attr('style')).addClass('anno-editing');
+        $wraperEditor.appendTo($page);
+        $activeAnno.hide();
+
+        var $div = $('<div>').appendTo($wraperEditor);
+         Init jQueryTE editor
+        $div.jqte({
+            center: false,
+            fsizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '24', '26', '28', '36', '72'],
+            format: false,
+            indent: false,
+            link: false,
+            left: false,
+            ol: false,
+            outdent: false,
+            remove: false,
+            right: false,
+            rule: false,
+            source: false,
+            sub: false,
+            strike: false,
+            sup: false,
+            ul: false,
+            unlink: false,
+        });
+
+         Get element jqte after init
+        var $jqte = $('.jqte');
+        var $jqteEditor = $('.jqte_editor');
+        var $jqteToolbar = $('.jqte_toolbar');
+
+         Adjust default size of jqte
+        if ($wraperEditor.outerWidth() < 150) {
+            $wraperEditor.outerWidth(150);
+        }
+        if ($wraperEditor.outerHeight() < 70) {
+            $wraperEditor.outerHeight(70);
+        }
+        $jqteEditor.outerHeight($jqte.outerHeight() - $jqteToolbar.outerHeight());
+
+         Resize height of editor when main jqte resized
+        $wraperEditor.resize(function () {
+            $jqteEditor.outerHeight($jqte.outerHeight() - $jqteToolbar.outerHeight());
+        }).resizable();
+
+        $jqteEditor.html($oldInnerText.html());
+
+        $jqteEditor.focus().one('focusout', function () {
+            console.log($jqteEditor.html());
+             Get content input in editor
+            var content = $jqteEditor.html();
+            arrResult = [];
+            SplitNode($('<div>' + content + '</div>'), '', arrResult)
+
+             Remove editor
+            $wraperEditor.remove();
+
+             If input content, paste it to div anno text
+            if (content != '') {
+                $oldInnerText.html('');
+                for (var i = 0; i < arrResult.length; i++) {
+                    console.log(arrResult[i].html())
+                    if (arrResult[i].html() == '') {
+                        continue;
+                    }
+                    $oldInnerText.append(arrResult[i]);
+                }
+                $activeAnno.show();
+            } else {
+                $activeAnno.remove();
+            }
+        });
+    }
+}
+function SelectOff($batch) {
+
+     $activeAnno is global variable declare in Index.cshtml of ViewController
+
+     Get all page and annotation of this batch
+    var $pages = $batch.children().children('.wrapper-image');
+    var $annoes = $pages.children('div.can-delete');
+
+     Remove cursor style to 'Move' for pages of this batch
+    $pages.removeClass('cursor-select');
+
+     Add style hover and turn on drag-able for annotations of this batch
+    $annoes.removeClass('anno-select').draggable('destroy');
+     Remove handler on mouse down for set active of clicked annotation
+    $annoes.off('mousedown', null, SelectOn.SelectMouseDown);
+    $annoes.filter('.anno_comment').off('dblclick', null, SelectOn.SelectMouseClick);
+
+     $activeAnno is global variable declare in Index.cshtml of ViewController
+     Remove select for active and turn of resizeable
+    if ($activeAnno != null) {
+        $activeAnno.removeClass('anno-active').resizable('destroy');
+        $activeAnno = null;
+    }
+}
+
+function SplitNode($elem, parentStyle, arrResult) {
+    var contents = $elem.contents();
+
+    for (var i = 0; i < contents.length; i++) {
+        var content = contents[i];
+
+        var $span = $('<span>');
+         Add style of
+        $span.attr('style', parentStyle);
+
+        if (content.nodeType === 3) {
+            $span.append(content.nodeValue);
+            arrResult.push($span);
+            continue;
+        }
+        else {
+            if (content.tagName.toLowerCase() == 'br') {
+                arrResult.push($('<br/>'));
+                continue;
+            }
+
+            var $content = $(content);
+            $span.css('color', $content.css('color'));
+            $span.css('font-size', $content.css('font-size'));
+            $span.css('font-weight', $content.css('font-weight'));
+            $span.css('font-style', $content.css('font-style'));
+            $span.css('text-decoration', $content.css('text-decoration'));
+
+            SplitNode($(content), $span.attr('style'), arrResult)
+        }
+    }
+}
+
+
+$(document).ready(function () {
+
+     Set the selected batch, document, page when first load
+    InitSelectedBatchView()
+
+     Create the view menu in top menu to select the batch
+    CreateOpenedBatchesMenu();  // This function in file "~Script/OpenedBatchesMenu.js"
+
+    $('#opened-batch-menu').addClass('active');
+
+     Add handler for click arrow to open or close menu item in left menu
+    $('.treeview_icon').each(function () {
+        AddHandlerTreeViewArrowClick($(this));
+    });
+     Add handler for click on root in left menu
+    $('.capture_root').each(function () {
+        AddHandlerRootClick($(this));
+        AddHandlerSortable($(this));
+    });
+     Add handler for click on document in left menu
+    $('.folder').each(function () {
+        AddHandlerDocumentClick($(this));
+    });
+     Add handler for click on page in left menu
+    $('.page').each(function () {
+        AddHandlerPageClick($(this));
+    });
+     Add handler for load ViewerJs for native file
+    $(".menu-native-file").each(function () {
+        AddHandlerMenuNativeFileClick($(this));
+    });
+
+     Prevent defaut click on page viewer
+    $('.wrapper-image img').on('dragstart', function (event) { event.preventDefault(); });
+
+     Add handler zoom
+    $('.control_zoomin').click(function () {
+        switch ($('#selected-type').val()) {
+            case 'document':
+            case 'page':
+                Zoomin('#view-document-' + $('#selected-document-id').val());
+                break;
+            default:
+                break;
+        }
+    });
+    $('.control_zoomout').click(function () {
+        switch ($('#selected-type').val()) {
+            case 'document':
+            case 'page':
+                Zoomout('#view-document-' + $('#selected-document-id').val());
+                break;
+            default:
+                break;
+        }
+    });
+
+     Add handler rotate
+    $('.control_rotationright').click(function () {
+        switch ($('#selected-type').val()) {
+            case 'document':
+                $('#view-document-' + $('#selected-document-id').val()).children().each(function () {
+                    Rotate($(this), 90);
+                });
+                break;
+            case 'page':
+                Rotate($('#view-page-' + $('#selected-page-id').val()), 90);
+                break;
+            default:
+                break;
+        }
+    });
+    $('.control_rotationleft').click(function () {
+        switch ($('#selected-type').val()) {
+            case 'document':
+                $('#view-document-' + $('#selected-document-id').val()).children().each(function () {
+                    Rotate($(this), -90);
+                });
+                break;
+            case 'page':
+                Rotate($('#view-page-' + $('#selected-page-id').val()), -90);
+                break;
+            default:
+                break;
+        }
+    });
+
+     Add handler naviage
+    $('.control_navigationup').click(function () {
+        switch ($('#selected-type').val()) {
+            case 'document':
+            case 'page':
+                NavigationUp($('#view-document-' + $('#selected-document-id').val()));
+            default:
+                break;
+        }
+    });
+    $('.control_navigationdown').click(function () {
+        switch ($('#selected-type').val()) {
+            case 'document':
+            case 'page':
+                NavigationDown($('#view-document-' + $('#selected-document-id').val()));
+            default:
+                break;
+        }
+    });
+
+    var syncAnnoKind = { value: '' };
+
+     Add handler for pan, select, highlight, redaction, comment
+    $('.control-2-state').click(function () {
+
+         Click on it self again
+        if ($(this).hasClass('select')) {
+            return;
+        }
+
+        var $batch = $('#view-batch-' + $('#selected-batch-id').val());
+        var controlStatus = $batch.data('control-status');
+        var prevDrawAnno = false;
+
+         Turn off function of previous control
+        switch (controlStatus) {
+            case 'pan':
+                PanOff();
+                break;
+
+            case 'select':
+                SelectOff($batch);
+                break;
+
+            case 'highlight':
+            case 'redaction':
+            case 'comment':
+                prevDrawAnno = true;
+                 In this case, do not turn off draw function at now
+                break;
+
+            default:
+        }
+         Remove class select of previous control
+        $('.control_' + controlStatus).removeClass('select');
+
+        var $control = $(this);
+        var controlClass;
+        var controlStatus;
+
+        if ($control.hasClass('control_pan')) {
+             Turn off function draw anno
+            if (prevDrawAnno == true) {
+                DrawAnnoOff($batch);
+            }
+
+            controlStatus = 'pan';
+             Turn on function pan
+            PanOn();
+
+        } else if ($control.hasClass('control_select')) {
+             Turn off function draw anno
+            if (prevDrawAnno == true) {
+                DrawAnnoOff($batch);
+            }
+
+            controlStatus = 'select';
+             Turn on function pan
+            SelectOn($batch);
+        } else {
+            if ($control.hasClass('control_highlight')) {
+                controlStatus = 'highlight';
+
+            } else if ($control.hasClass('control_redaction')) {
+                controlStatus = 'redaction';
+
+            } else if ($control.hasClass('control_comment')) {
+                controlStatus = 'comment';
+
+            }
+
+            syncAnnoKind.value = controlStatus;
+            if (prevDrawAnno == false) {
+                 Turn on function draw anno
+                DrawAnnoOn($batch, syncAnnoKind);
+            }
+        }
+
+
+         Update control status and css class
+        $batch.data('control-status', controlStatus);
+        $control.addClass('select')
+    });
+
+    
+    $('#tab-thumbnails').click(function () {
+         Hide all
+        $('.current_content').hide();
+         Show batch thumbnail
+        $('#tree-view').show();
+
+    });
+    
+    $('#tab-batch-indexes').click(function () {
+         Hide all
+        $('.current_content').hide();
+         Show batch index
+        $('#batch-index-' + $('#selected-batch-id').val()).show();
+    });
+    
+    $('#tab-indexes').click(function () {
+         Hide all
+        $('.current_content').hide();
+         Show batch index
+        $('#document-index-' + $('#selected-document-id').val()).show();
+    });    
+
+    $('.hungle').jqte();
+
+
+
+
+    $('.cleditorMain').hide();
+
+    $('.wrapper-image').slice(2);
+    //$('.annotation').css('rotate', -90);
+    $('.annotation').draggable(
+        {
+            containment: 'parent'
+        }
+    );
+
+
+    $('.image-rotate').click(function () {
+        $(this).css('rotate', 90);
+    });
+
+    //$('#hung')
+    $('.control_highlight').click(function () {
+        var div = '<div id="hung" class="ui-widget-content" style="width: 63px; height: 40px; left: 0; top: 0; position: absolute;"></div>';
+        div = '<div id="hung" class="ui-widget-content" style="width: 63px; height: 40px;"></div>';
+
+        $(div).appendTo($('.anno_highlight')).draggable({
+            containment: "parent"
+            //appendTo: 'body',
+            //helper: 'clone'
+            //drag: function () {
+            //    $(".ui-draggable-dragging").css('rotate', 90);
+            //}
+        });
+    });
+});
+
+
+$(document).ready(function () {
+    $thumbnail = $('.thumbnail');
+    $toolbar = $('.capture_content_menu');
+    $documentViewer = $("#documentViewer");
+    $docViewerLoading = $("<div id='docViewerTemp'>");
+    $classifyLaterFolder = $('<ul class="default_batch connectedSortable"></ul>').css({ 'min-height': '2px' });
+    $docTypeId = $("#docTypeId");
+    $thumbnail.append($classifyLaterFolder);
+    _top = ($('body').scrollTop() + $('body').height() - 300) / 2;
+    _left = ($('body').scrollTop() + $('body').width() - 300) / 2;
+    $recyclebin = $('<img src="' + 'URL_Recycle' + '"/>').css({
+        position: 'absolute', top: _top, left: _left, height: 300, width: 300, opacity: '0.1', zIndex: 2
+    });
+    $itemToRemove = null;
+    //$('body').ecm_loading_show();
+    createContextMenu(docType, permission);
+
+    $("ul.default_batch").sortable({
+        revert: false,
+        opacity: 0.5,
+        placeholder: "ui-state-highlight",
+        update: function (e, ui) {
+            updatePageElements($(this));
+        },
+        receive: function (e, ui) {
+            //ID cua page nhan dc
+            var id = ui.item.find('.page').attr('id');
+            var $page = $("#page_" + id);
+            //Tim document se them page nay vao
+            //$(this) trong context nay la <ul> chua cac thumbnail <li>
+            $documentViewer.children().hide();
+            var p = $("<div class='document'/>");
+            p.appendTo($documentViewer);
+            $page.appendTo(p);
+            p.show();
+            $documentViewer.scrollTo($page);
+        },
+        start: function (e, ui) {
+            $itemToRemove = null;
+            $('body').append($recyclebin);
+            $recyclebin.droppable({
+                drop: function (event, u) {
+                    $recyclebin.remove();
+                    deletePage(u.draggable);
+                    $documentViewer.children(':not(.content)').hide();
+                    $documentViewer.children('.content').show();
+                },
+                over: function (event, u) {
+                    $recyclebin.css('opacity', '0.3');
+                },
+                out: function (event, u) {
+                    $recyclebin.css('opacity', '0.1');
+                }
+            });
+        },
+        stop: function () {
+            $recyclebin.remove();
+        },
+        connectWith: ".connectedSortable",
+        dropOnEmpty: true
+    });
+    //Drag drop on  folder title
+    $(".treeview_second").sortable({
+        revert: false,
+        opacity: 0.5,
+        placeholder: "ui-state-highlight",
+        update: function (e, ui) {
+            updateDocElements($(this));
+            moveDefaultBatchToFirst();
+        },
+        start: function (e, ui) {
+            $itemToRemove = null;
+            $('body').append($recyclebin);
+            $doc = $(this);
+            $recyclebin.droppable({
+                drop: function (event, u) {
+                    var docTypeId = u.draggable.data('doc_type_id');
+                    var allowedDelete = global_Page == "Capture" || permission.documentType[docTypeId]['AllowedDeletePage'];
+
+                    if(allowedDelete){
+                        $recyclebin.remove();
+                        deleteDoc(u.draggable);
+                        //u.draggable.remove();
+                        updateDocElements();
+                        //$('#documentViewer').children(':not(.content)').hide();
+                        $documentViewer.children('.content').show();
+                    } else {
+                        $.messageBox({
+                            title: 'Delete failed',
+                            message: 'You do not have permission to delete page!'
+                        })
+                    }
+                },
+                over: function (event, u) {
+                    $recyclebin.css('opacity', '0.3');
+                },
+                out: function (event, u) {
+                    $recyclebin.css('opacity', '0.1');
+                }
+            });
+        },
+        stop: function () {
+            $recyclebin.remove();
+        },
+        dropOnEmpty: true
+    });
+
+    $("ul.default_batch").disableSelection();
+
+    //Su kien chon file xong va file co su thay doi,
+    $("#filePath").change(function () {
+        $('body').ecm_loading_show();
+        //Goi ham submit de upload image len server
+        options = {
+            url: URL_PostImage,
+            dataType: "json",
+            success: function (data) {
+                createDocument(data, insOption);
+            },
+            error: showError,
+        };
+        $('#formUpload').ajaxSubmit(options);
+    });
+    $("#filePath").click(function () {
+        $(this).val("");
+    });
+
+    function showError(jqXHR, textStatus, errorThrown ) {
+        alert('Upload fail.');
+        console.log(textStatus);
+        console.log(errorThrown);
+        console.log(jqXHR);
+        $('body').ecm_loading_hide();
+    }
+
+    $docViewerLoading.css({
+        visibility: 'hidden',
+        left: $('body').offset().left + $('body').width(),
+        top: 0,//$('body').offset().top + $('body').height(),
+        width: $documentViewer.width(),
+        height: $documentViewer.height(),
+        zIndex: -1,
+        position: 'absolute'
+    });
+    $('body').append($docViewerLoading);
+
+    $(document).on('click', '.treeview_three > li', pageClick);
+
+    $('#submit').click(function () {
+        if ($('.default_batch > li').length > 0) {
+            alert('Please Classify Document before submit!');
+            return;
+        }
+        var fillRequired = true;
+        $('div.content_fields.mandatory input:first').each(function () {
+            if (!$(this).val()) {
+                fillRequired = false;
+                return false;
+            }
+        });
+        if (!fillRequired) {
+            alert("Please fill in all the required fields");
+            return;
+        }
+        data = { Documents: [] };
+        var docElements = $('.treeview_second > li');
+        for (i = 0; i < docElements.length; i++) {
+            var docTypeId = $(docElements[i]).children('.docTypeId').val();
+            var id = $(docElements[i]).data('doc-id');
+            var pageElements = $(docElements[i]).find('.treeview_three > li');
+            var fieldValueElements = $(docElements[i]).find('div.fieldValues > input[type=hidden]');
+
+            data.Documents[i] = {
+                DocumentTypeId: docTypeId,
+                DocumentId: id,
+                Pages: [], FieldValues: []
+            };
+            for (j = 0; j < pageElements.length; j++) {
+                var _ImgKey = $(pageElements[j]).children('span.treeview_title').attr('id');
+                var _LangCode = $(pageElements[j]).find('.language').val();
+                var _PageId = $(pageElements[j]).data('page-id');
+                var _annotations = {};
+                var angle = 0;
+                if(draws[_ImgKey] != undefined){
+                    _annotations = draws[_ImgKey].getAnnotations();
+                    angle = draws[_ImgKey].rotateAngle();
+                }
+                data.Documents[i].Pages[j] = {
+                    ImgKey: _ImgKey, Annotations: _annotations, LanguageCode: _LangCode,
+                    PageWidth: $("#page_" + _ImgKey).width(), PageHeight: $("#page_" + _ImgKey).height(),
+                    RotateAngle: angle * -1,
+                    PageId: _PageId
+                };
+            }
+            for (k = 0; k < fieldValueElements.length; k++) {
+                var _Id = $(fieldValueElements[k]).attr('data-id');
+                var _Value = $(fieldValueElements[k]).val();
+                if (_Id && _Value)
+                    data.Documents[i].FieldValues[k] = { Id: _Id.toString(), Value: _Value };
+                else {
+                    //alert("Please fill in all the required fields");
+                    //return;
+                }
+            }
+        }
+        $("section.body").ecm_loading_show();
+        Inno.helper.post(URL_Insert, JSON.stringify(data), function (data, textStatus, jqXHR) {
+            $("section.body").ecm_loading_hide();
+            alert(data.Message);
+            if (data.Code == 1 && global_Page == "Capture") {
+                docElements.remove();
+                $(".current_content_fields").children().remove();
+                $(".thumbnails").click();
+                $(".button_navigation").children().prop("disable", true);
+                $documentViewer.children(":not(.content)").remove();
+                $documentViewer.children('.content').show();
+                $toolbar.children().remove();
+            }
+        }, function () { $("section.body").ecm_loading_hide(); });
+        //$.ajax({
+        //    url: URL_Insert,
+        //    async: false,
+        //    type: "POST",
+        //    data: JSON.stringify(data),
+        //    dataType: "json",
+        //    contentType: "application/json; charset=utf-8",
+        //    error: function (jqXHR, textStatus, errorThrown) {
+        //        console.log(jqXHR + "-" + textStatus + "-" + errorThrown);
+        //    },
+        //    success: function (data, textStatus, jqXHR) {
+        //        alert(data.Message);
+        //        if (data.Code == 1 && global_Page == "Capture") {
+        //            docElements.remove();
+        //            $(".current_content_fields").children().remove();
+        //            $(".thumbnails").click();
+        //            $(".button_navigation").children().prop("disable", true);
+        //            $documentViewer.children(":not(.content)").remove();
+        //            $documentViewer.children('.content').show();
+        //            $toolbar.children().remove();
+        //        }
+        //    }
+        //});
+
+        return false;
+    });
+
+    /* Hide or show children when click treeview_icon in default_batch */
+    $('.treeview_first .treeview_icon').click(function () {
+        if (!$('.treeview_second').is(':hidden')) {
+            $('.treeview_second').slideUp(100);
+            $(this).parent().removeClass('treeview_open');
+        }
+        else {
+            $('.thumbnail').slideDown(100);
+            $(this).parent().addClass('treeview_open');
+        }
+    });
+
+    $('#index').click(function () {
+        if (!isEditOcrAndDoc) {
+            if (!$('.treeview_three').length || $('.capture_thumbnails').find('.ecm_loading_bg').length > 0)
+                return false;
+        }
+        performIndex.call(this);
+    });
+
+    $('.navigation_back').click(function (e) {
+        var $prev = $(".treeview_select").parentsUntil(".treeview_second").filter(":last").prev();
+        //var id = $(".treeview_select").attr('id') || $(".treeview_select").next().find('.treeview_select').attr('id');
+        if ($prev.length > 0 && $prev.index() > 0) {
+            $('.navigation_next').prop('disabled', false);
+            //if (loading($prev.find(id)))
+            //    return false;
+            $prev.find('li:first').click();
+            performIndex();
+            if ($(".treeview_select").parentsUntil(".treeview_second").filter(":last").prev().index() == 0)
+                $(this).prop('disabled', true);
+        }
+    });
+    $('.navigation_next').click(function (e) {
+        var $next = $(".treeview_select").parentsUntil(".treeview_second").filter(":last").next();
+        if ($next.length > 0) {
+            $('.navigation_back').prop('disabled', false);
+            $next.find('li:first').click();
+            performIndex();
+            if ($(".treeview_select").parentsUntil(".treeview_second").filter(":last").next().length == 0)
+                $(this).prop('disabled', true);
+        }
+    });
+    toobarClick();
+    $(".webcam_feature .bt_images").click(function () {
+        docTypeName = null;
+        showWebcam();
+    });
+    $(".webcam_feature .span_show").click(function () {
+        //size of context = 150
+        var x = $(this).offset().left - 40;
+        var y = $(this).offset().top + 36;
+        $(".webcam_feature .span_show").contextMenu({ x: x, y: y });
+    });
+    $(".upload_feature .span_show").click(function () {
+        //size of context = 150
+        var x = $(this).offset().left - 40;
+        var y = $(this).offset().top + 36;
+        $(".upload_feature .span_show").contextMenu({ x: x, y: y });
+    });
+    $(".scan_feature .span_show").click(function () {
+        //size of context = 150
+        var x = $(this).offset().left - 40;
+        var y = $(this).offset().top + 36;
+        $(".scan_feature .span_show").contextMenu({ x: x, y: y });
+    });
+});
+
+///////////////////////////////////////////////////
+var pos = 0, ctx = null, saveCB, image = [];
+var cameraWidth = 600, cameraHeight = 450;
+var cameraWidth = 320, cameraHeight = 240;
+var canvas = document.createElement("canvas");
+canvas.setAttribute('width', cameraWidth);
+canvas.setAttribute('height', cameraHeight);
+ctx = canvas.getContext("2d");
+image = ctx.getImageData(0, 0, cameraWidth, cameraHeight);
+saveCB = function (data) {
+    var col = data.split(";");
+    var img = image;
+    for (var i = 0; i < cameraWidth; i++) {
+        var tmp = parseInt(col[i]);
+        img.data[pos + 0] = (tmp >> 16) & 0xff;
+        img.data[pos + 1] = (tmp >> 8) & 0xff;
+        img.data[pos + 2] = tmp & 0xff;
+        img.data[pos + 3] = 0xff;
+        pos += 4;
+    }
+    if (pos >= 4 * cameraWidth * cameraHeight) {
+        ctx.putImageData(img, 0, 0);
+        $('body').ecm_loading_show();
+        $.post(URL_PostImage, { fileUpload: canvas.toDataURL("image/png"), isFromCamera: true }, function (data) {
+            docTypeName = "Test CV"
+            if (docTypeName != null)
+                createDocument(data, Options.Import);
+            else
+                createDocument(data, Options.ClassifyLater);
+            $('body').ecm_loading_hide();
+        });
+        pos = 0;
+    }
+};
+/////////////////////////////////////////////////////////////////
+
+function showWebcam() {
+    var $camera = $("<div id='camera'></div>");
+    $.messageBox({
+        title: "Capture from camera",
+        type: 'form',
+        message: null,
+        formData: $camera,
+        width: 630,
+        height: 600,
+        buttons: {
+            OK: function () {
+                webcam.capture();
+                return false;
+            },
+            Cancel: function () { }
+        }
+    });
+    $camera.webcam({
+        width: 600,
+        height: 450,
+        mode: "callback",
+        swffile: URL_Camera,
+        onTick: function () { },
+        onSave: saveCB,
+        onCapture: captureWebcam,
+        debug: function () { },
+        onLoad: function () { }
+    });
+}
+function captureWebcam() {
+    webcam.save();
+}

@@ -1,0 +1,249 @@
+﻿@using CaptureMVC.Resources;
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_SearchLayout.cshtml";
+   
+}
+
+@section AddToHead
+    {
+
+    <link href="@Url.Content("~/Content/datepicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/tablesorter/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/ECM.css")" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tablesorter.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/popup.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/load.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/effect.js")"></script>
+
+    @Scripts.Render("~/Scripts/Pages/OpenedBatchesMenu.js")
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/Search.js")"></script>
+
+    <script>
+        var URL_MenuResume = "@Url.Content("~/Images/Menu/menu_resume.png")";
+        var URL_MenuDelete = "@Url.Content("~/Images/Menu/menu_delete.png")";
+        var URL_MenuOpen = "@Url.Content("~/Images/Menu/menu_open.png")";
+        var URL_MenuApprove = "@Url.Content("~/Images/Menu/menu_approve.png")";
+        var URL_MenuReject = "@Url.Content("~/Images/Menu/menu_reject.png")";
+        var URL_MenuUnlock = "@Url.Content("~/Images/Menu/menu_unclock.png")";
+        var URL_MenuSendLink = "@Url.Content("~/Images/Menu/menu_sendlink.png")";
+        var URL_MenuDelegate = "@Url.Content("~/Images/Menu/menu_delegate.png")";
+
+
+        // Url of post methods
+        var UrlLoadAssignedMenu = "@Url.Action("_LoadAssignedMenu")";
+        var UrlGetCountStatus = "@Url.Action("_GetCountStatus")";
+        var UrlLoadAdvancedSearch = "@Url.Action("_LoadAdvancedSearch")";
+        var UrlLoadSavedQueries = "@Url.Action("_LoadSavedQueries")";
+        var UrlLoadDefaultCondition = "@Url.Action("_LoadDefaultCondition")";
+        var UrlLoadSavedCondition = "@Url.Action("_LoadSavedCondition")";
+        var UrlLoadSearchOperatorAndInput = "@Url.Action("_LoadSearchOperatorAndInput")";
+        var UrlLoadSearchInput = "@Url.Action("_LoadSearchInput")";
+        var UrlAddCondition = "@Url.Action("_AddCondition")";
+        var UrlSaveQuery = "@Url.Action("_SaveQuery")";
+        var UrlDeleteQuery = "@Url.Action("_DeteleQuery")";
+        var UrlIsQueryNameExisted = "@Url.Action("_IsQueryNameExisted")";
+
+        var UrlUnlock = "@Url.Action("_UnlockBatches")";
+        var UrlDelete = "@Url.Action("_DeleteBatches")";
+        var UrlApprove = "@Url.Action("_ApproveBatches")";
+        var UrlResume = "@Url.Action("_ResumeBatches")";
+        var UrlReject = "@Url.Action("_RejectBatches")";
+        var UrlDelegate = "@Url.Action("_DelegateBatches")";
+
+        var DisplayUnlock = "@CommandResources.Unlock";
+        var DisplayDelete = "@CommandResources.Delete";
+        var DisplayApprove = "@CommandResources.Approve";
+        var DisplayResume = "@CommandResources.Resume";
+        var DisplayReject = "@CommandResources.Reject";
+        var DisplayDelegate = "@CommandResources.Delegate";
+        var DisplaySendLink = "@CommandResources.SendLink";
+        var DisplayOpen = "@CommandResources.Open";
+
+
+        // Id of element
+        var IdAssignedMenuPanel = "#AssignedMenuPanel";
+        var IdDocumentTypeContent = "#documentTypeContent";
+        var IdSelectedBatchTypeId = "#SelectedBatchTypeId";
+        var IdSearchQueryPanel = "#SearchQueryPanel";
+        var IdAdvanceSearchQueries = "#AdvanceSearchQueries";
+        var IdDeleteQueryPopup = "#bt_delete_query_popup";
+        var IdSaveQueryPopup = "#bt_save_query_popup";
+        var IdSelectQueryName = "#selectqueryname";
+        var IdSavedQueryNameInput = "#SavedQueryNameInput";
+        var IdSavedQueryNameMessage = "#SavedQueryNameMessage";
+
+        // Constant
+        var SEARCH_OPERATION_IN_BETWEEN = "InBetween";
+        var DEFAULT_ERROR_MESSAGE = "@CommonResources.DefaultJavaScriptErrorMessage";
+
+        // Variable
+        var titleDeleteQueryPopup = "@QueryResources.DeleteQuery";
+        var titleSaveQueryPopup = "@QueryResources.QueryName";
+        var messageRequiredQueryName = "@QueryResources.MessageRequiredQueryName";
+        var messageQueryNameExist = "@QueryResources.MessageQueryNameExisted";
+        var messageNoSearchQueryExpression = "@QueryResources.MessageNoSearchQueryExpression";
+
+        // Sync ojbect
+        var syncAdvanceSearch = { Obj: new XMLHttpRequest() };
+
+
+
+        // Section search result
+        var urlSearchByBatchTypeAndStatus = '@Url.Action("_GetBatches")';
+        var urlSearchByAdvancedSearch = '@Url.Action("_RunAdvancedSearch")';
+
+        // Section template search control
+        var idTemplateInput1Value = '#template-input-1-value';
+        var idTemplateInput2Value = '#template-input-2-value';
+        var idTemplateInputBoolean = '#template-input-boolean';
+        var idTemplateOperatorTypeString = '#template-operator-string';
+        var idTemplateOperatorTypeNumber = '#template-operator-number';
+        var idTemplateOperatorTypeBoolean = '#template-operator-boolean';
+        var idTemplateAddedCondition = '#template-added-condition';
+
+
+        var idPanelBody = '#panel-body';
+        var idPanelMenu = '#panel-menu';
+        var idPanelSearch = '#panel-search';
+        var idPanelResult = '#panel-result';
+
+        var idSelectedId = '#selected-id';
+        var idSelectedStatus = '#selected-status';
+
+        var urlOpenBatches = '@Url.Action("_OpenBatchesForSearchController", "View")';
+        var urlViewBatches = '@Url.Action("Index", "View")';
+
+        // Section opened batches main menu
+        var closeAll = '@Html.Raw(CaptureResources.MenuCloseAll)';
+        var iconDelete = '@Url.Content("~/Images/Menu/menu_delete_flat.png")';
+        var messageConfirmSave = '@Html.Raw(CaptureResources.MessageConfirmSave)';
+        var ecmTitleMessage = '@Html.Raw(CaptureMVC.Models.Constant.TITLE_MESSAGE_DIALOG)';
+        var urlCloseBatches = '@Url.Action("_CloseBatches", "View")';
+        var urlOpenBatchForAnotherController = '@Url.Action("_OpenBatchForAnotherController", "View")';
+        var urlViewIndex = '@Url.Action("Index", "View")';
+        var urlSearchIndex = '@Url.Action("Index", "Search")';
+
+    </script>
+
+}
+
+@section ViewTask 
+{
+    @Html.Action("_GetOpenedMenu", "View")
+}
+
+
+<input type="hidden" id="selected-id" value="" />
+<input type="hidden" id="selected-status" value="" />
+
+<!-- body here -->
+<section id="panel-body" class="body archive body_search">
+    <!-- batch type nav -->
+    <div id="panel-menu" class="left_column document_type open">
+        <!-- batch type header  -->
+        <div class="document_type_header">
+            <span class="document_header_label">@CaptureMVC.Resources.MainMenuResources.AssignedTasks</span>
+        </div>
+
+        <!-- batch type content -->
+        <div id="documentTypeContent" class="document_type_content">
+            @Html.Action("_LoadAssignedMenu")
+        </div>
+    </div>
+    <!--Ket thuc batch type nav -->
+
+    <!-- Search -->
+    <div class="right_column search">
+        <!-- Search Query -->
+        <div id="panel-search" class="search_query collapse">
+            <div id="AdvanceSearchSection" class="form_query_search">
+                <!--Search condtion-->
+                <div id="AdvanceSearchQueries" class="layout_table"></div>
+
+                <!--Query button section-->
+                <div class="query_search_button">
+                    <div>
+                        <button id="bt_add_conditions" type="button" class="action_button">
+                            <span>@CaptureMVC.Resources.QueryResources.AddConditions</span>
+                            <img src="@Url.Content("Images/button/appbar.add.32.png")">
+                        </button>
+                    </div>
+                    <div>
+                        <button id="bt_reset_conditions" type="button" class="action_button">
+                            <span>@CaptureMVC.Resources.QueryResources.ResetCoditions</span>
+                            <img src="@Url.Content("Images/button/appbar.reset.32.png")">
+                        </button>
+                    </div>
+                    <div>
+                        <button id="bt_save_query" type="button" class="action_button">
+                            <span>@CaptureMVC.Resources.QueryResources.SaveQuery</span>
+                            <img src="@Url.Content("Images/button/appbar.save.32.png")">
+                        </button>
+                        <!-- popup to enter a name for the query -->
+                        <div id="bt_save_query_popup" class="popup">
+
+                            <div class="input-control text">
+                                <input id="SavedQueryNameInput" type="text" value="" class="query_name" autofocus />
+                            </div>
+                            <div id="SavedQueryNameMessage" class="name_emptyorexits" style="color: red">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div>
+                        <button id="bt_delete_query" type="button" class="action_button">
+                            <span>@CaptureMVC.Resources.QueryResources.DeleteQuery</span>
+                            <img src="@Url.Content("Images/button/appbar.delete.32.png")">
+                        </button>
+                        <!-- popup when click bt_delete_query -->
+                        <div id="bt_delete_query_popup" class="popup">
+                            <div>
+                                <p align="center">@CaptureMVC.Resources.QueryResources.DeleteQueryConfirm</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button id="search-advance" type="button" class="action_button bt_search col_center" data-batch-type-id="">
+                            <span>@CaptureMVC.Resources.QueryResources.Search</span>
+                            <img src="@Url.Content("Images/button/appbar.magnify.32.png")">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <span class="que_resize"></span>
+            <div class="bar"></div>
+        </div>
+
+        <!--Search result-->
+        <div id="panel-result" class="result_query">
+            <div class="datagript_result">
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-reject" style="display: none">
+        <textarea id="rejected-note" rows="4" cols="50" class="input-control text"></textarea>
+    </div>
+
+    <div id="popup-delegate" style="display: none">
+        <select id="delegate-to-user" size="5" style="width: 100%">
+            @foreach (string userName in ViewBag.UserNames as List<string>)
+            {
+                <option value="@userName">@userName</option>
+            }
+        </select>
+        <textarea id="delegate-note" rows="4" cols="50" class="input-control text" style="width: 100%"></textarea>
+    </div>
+
+    <a id="email-as-link" href="mailto:?Subject={0}&Body={0}" style="display:none;" 
+        data-server-url="@(ViewBag.ServerUrl as string)" 
+        data-subject="@CaptureMVC.Resources.EmailResources.EmailAsLinkSubject"
+        data-body="@CaptureMVC.Resources.EmailResources.EmailAsLinkBody"
+        data-username="@CaptureMVC.Utility.Utilities.UserName"
+        />
+</section>

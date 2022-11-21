@@ -1,0 +1,49 @@
+﻿@model ArchiveMVC.Models.AmbiguousDefinitionModel
+
+@{
+    ViewBag.Title = "ShowSettingConfigureDetail";
+}
+
+<div class="sub_properties_content">
+    
+    <div class="sub_properties_top">
+        <div class="properties_title">
+            <div class="title_data">OCR auto correction detail</div>
+        </div>
+        <div class="properties_button">
+            <div class="save_button">
+                <button type="button" id="mapping_configure_save_button" class="archive_button archive_admin_button">
+                    <span>Save</span>
+                    <img src="~/Images/button/appbar.save.32.png" />
+                </button>
+            </div>
+            <div class="close_button">
+                <button type="button" id="mapping_configure_cancel_button" class="archive_button archive_admin_button">
+                    <span>Close</span>
+                    <img src="~/Images/button/appbar.cancel.png" />
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="sub_properties_between">
+        <div class="between_content">
+            <fieldset class="parent_fieldset mapping_height">
+                <legend>Mapping</legend>
+                <div class="textarea_content">
+                    <textarea placeholder="Enter orc details">@Model.Text</textarea>
+                </div>
+                <div>
+                    @if(Model.IsUnicode==true){
+                        <input type="checkbox" id="unicode_check" checked="checked" data-value="true"/>
+                    }else{
+                        <input type="checkbox" id="unicode_check" data-value="false"/>
+                    }
+                    Support unicode
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,190 @@
+/*
+ * imgAreaSelect default style
+ */
+
+/*.imgareaselect-border1 {
+	background: url(border-v.gif) repeat-y left top;
+}
+
+.imgareaselect-border2 {
+    background: url(border-h.gif) repeat-x left top;
+}
+
+.imgareaselect-border3 {
+    background: url(border-v.gif) repeat-y right top;
+}
+
+.imgareaselect-border4 {
+    background: url(border-h.gif) repeat-x left bottom;
+}
+
+.imgareaselect-border1, .imgareaselect-border2,
+.imgareaselect-border3, .imgareaselect-border4 {
+    filter: alpha(opacity=50);
+	opacity: 0.5;
+}
+
+.imgareaselect-handle {
+    background-color: #fff;
+    border: solid 1px #000;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+
+.imgareaselect-outer {
+    background-color: #000;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}*/
+
+.imgareaselect-selection {
+/*    opacity: 0.9;
+    background: black;*/
+/*    background-color: #000000;
+    border: 2px solid #999999;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS
+    -moz-box-shadow: 0px 0px 20px #000000;
+    -webkit-box-shadow: 0px 0px 20px #000000;
+    box-shadow: 0px 0px 20px #000000;
+    IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+
+}
+.OCRZone{
+    /*opacity: 0.4;*/
+    /*background: black;*/
+    border: 3px solid red;
+    /*background-color: #000000;*/
+    /*border: 2px solid #999999;*/
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+/*    -moz-box-shadow: 0px 0px 20px #000000;
+    -webkit-box-shadow: 0px 0px 20px #000000;
+    box-shadow: 0px 0px 20px #000000;*/
+    /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+    overflow: visible;
+    position: relative;
+}
+.Redaction{
+    opacity: 1;
+    background: white;
+    border: 2px solid black;
+    /*background-color: #000000;*/
+    /*border: 2px solid #999999;*/
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+/*    -moz-box-shadow: 0px 0px 20px #000000;
+    -webkit-box-shadow: 0px 0px 20px #000000;
+    box-shadow: 0px 0px 20px #000000;*/
+    /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+}
+.Highlight{
+    opacity: 0.5;
+    background: greenyellow;
+    border: 2px solid greenyellow;
+    /*background-color: #000000;*/
+    /*border: 2px solid #999999;*/
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+/*    -moz-box-shadow: 0px 0px 20px #000000;
+    -webkit-box-shadow: 0px 0px 20px #000000;
+    box-shadow: 0px 0px 20px #000000;*/
+    /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+}
+.Text{
+/*    opacity: 0.4;
+    background: blue;*/
+    border: 2px;
+    /*background-color: #000000;*/
+    /*border: 2px solid #999999;*/
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+    -moz-transform: rotate(-1deg);
+    -webkit-transform: rotate(-1deg);
+    -o-transform: rotate(-1deg);
+    -ms-transform: rotate(-1deg);
+    transform: rotate(-1deg);
+    box-shadow: 0px 5px 7px #222;
+    -moz-box-shadow: 0px 5px 7px #222;
+    -webkit-box-shadow: 0px 5px 7px #222;
+}
+.focus{
+    /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+    -moz-box-shadow: 0px 0px 20px black;
+    -webkit-box-shadow: 0px 0px 20px black;
+    box-shadow: 0px 0px 20px #0066FF;
+}
+.editor{
+    /*margin-top: 20px;*/
+    resize: none;
+    opacity: 0.9;
+    position: relative;
+    z-index: 9;
+    background: url('/Images/SelectionArea/noteline.png')repeat-y;
+    /*font-family: 'Comic Sans MS',Textile,cursive;*/
+    font-size:16px;
+    font-weight: bold;
+    overflow:hidden;
+    border: 1px solid #F2F5A9;
+    /*font-family: 'Gloria Hallelujah', cursive;*/
+}
+.bar-editor{
+    height: 20px;
+    background: #F2F5A9;
+    padding-bottom: -1;
+    opacity: 0.9;
+}
+.combox{
+    opacity: 0.8;
+    display: none;
+    z-index: 9;
+    position: absolute;
+    background-color: #ffffff;
+    border: 2px solid #999999;
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+    border-radius: 9px;
+    /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+    -moz-box-shadow: 0px 0px 4px #000000;
+    -webkit-box-shadow: 0px 0px 4px #000000;
+    box-shadow: 0px 0px 4px #000000;
+    /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#a1acad');
+    /*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
+    /*Element must have a height (not auto)*/
+    /*All filters must be placed together*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#a1acad')";
+    /*Element must have a height (not auto)*/
+    /*All filters must be placed together*/
+    background-image: -moz-linear-gradient(top, #ffffff, #a1acad);
+    background-image: -ms-linear-gradient(top, #ffffff, #a1acad);
+    background-image: -o-linear-gradient(top, #ffffff, #a1acad);
+    background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#a1acad));
+    background-image: -webkit-linear-gradient(top, #ffffff, #a1acad);
+    background-image: linear-gradient(top, #ffffff, #a1acad);
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    /*Use "background-clip: padding-box" when using rounded corners to avoid the gradient bleeding through the corners*/
+    /*--IE9 WILL PLACE THE FILTER ON TOP OF THE ROUNDED CORNERS--*/
+
+    /*Use "background-clip: padding-box" when using rounded corners to avoid the gradient bleeding through the corners*/
+    /*--IE9 WILL PLACE THE FILTER ON TOP OF THE ROUNDED CORNERS--*/
+
+}
+.error{
+    border: 2px solid red;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}

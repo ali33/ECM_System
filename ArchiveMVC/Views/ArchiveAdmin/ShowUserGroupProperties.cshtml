@@ -1,0 +1,67 @@
+﻿@model ArchiveMVC.Models.UserGroupModel
+@{
+    ViewBag.Title = "ShowUserGroupProperties";
+}
+
+<div class="sub_properties_content">
+    <div class="sub_properties_between user_group_infor">
+        <div class="between_content">
+            <fieldset class="parent_fieldset user_group_fieldset">
+                <legend>General Information</legend>
+                <div class="between_content_avatar"></div>
+                <div class="between_content_info">
+                    <div class="between_content_data">
+                        <div class="label">Group name</div>
+                        <div class="field user_input_field">
+                            <input type="text" id="usergroup_name" class="archive_input" value="@Model.Name">
+                            <input type="text" id="usergroup_type" class="archive_input" value="@Model.Type" style="display:none"/>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="sub_properties_mutli_data">
+        <fieldset class="parent_fieldset user_group_fieldset">
+            <legend>Members</legend>
+            <div>
+                <div class="multi_data">
+                    <div id="usergroup_member">
+                    @{
+                        foreach(var userItem in Model.Users)
+                        {
+                            <div class="usergroup_user_row" id="@userItem.Id">@userItem.Username</div>
+                        }
+                     }
+                    </div>
+                </div>
+            </div>
+            <div class="multi_button">
+                <div class="button_content">
+                    <button type="button" id="usergroup_button_adduser" class="archive_button properties_button">
+                        <span>Add</span>
+                        <img src="Images/button/appbar.add.32.png" />
+                    </button>
+                    <button type="button" id="usergroup_button_deleteuser" class="archive_button properties_button">
+                        <span>Delete</span>
+                        <img src="Images/button/appbar.delete.32.png" />
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="main_button">
+        <div class="save_button">
+            <button type="button" id="usergroup_button_save" class="archive_button archive_admin_button">
+                <span>Save</span>
+                <img src="~/Images/button/appbar.save.32.png" />
+            </button>
+        </div>
+        <div class="close_button">
+            <button type="button" id="usergroup_button_cancel" class="archive_button archive_admin_button">
+                <span>Close</span>
+                <img src="~/Images/button/appbar.cancel.png" />
+            </button>
+        </div>
+    </div>
+</div>

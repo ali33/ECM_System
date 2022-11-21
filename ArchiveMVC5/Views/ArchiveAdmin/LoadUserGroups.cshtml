@@ -1,0 +1,62 @@
+﻿@model IList<ArchiveMVC5.Models.UserGroupModel>
+@{
+    ViewBag.Title = "LoadUserGroups";
+}
+
+<div class="sub_properties_list">
+    <div class="box box-success padding-1">
+        <div class="box-header with-border">
+            <h4>User groups</h4>
+        </div>
+        <div class="box-body padding-1">
+            <div class="usergroup-MenuBar padding-1">
+                <ul class="menu padding-1">
+                    @{
+                        var userNumber = 1;
+                        var classActive = "";
+
+                        foreach (var groupItem in Model)
+                        {
+                            if (userNumber == 1)
+                            {
+                                classActive = "active";
+                            }
+                            else
+                            {
+                                classActive = "";
+                            }
+                
+                        <li id="@groupItem.Id" title="@groupItem.Name" class="group_sub_menu_item @classActive">
+                            <a href="#" class="group_menu_item">@groupItem.Name</a>
+                        </li>
+                            userNumber++;
+                        }
+                    }
+                </ul>
+                @*        @{
+                    foreach(var userGroupItem in Model)
+                    {
+                        <div class="sub_menu_item usergroup_container" id="@userGroupItem.Id"> 
+                            <div class="usergroup_infor">
+                                <div class="group_name" title="@userGroupItem.Name">@userGroupItem.Name</div>
+                                <div class="group_type" title="@userGroupItem.Type">@userGroupItem.Type</div>
+                            </div>
+                        </div>
+                    }
+                }*@
+            </div>
+        </div>
+        <div class="box-footer padding-1">
+            <div class="btn-group pull-right">
+                <button type="button" id="usergroup_button_add" class="btn btn-flat bg-olive margin">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add</span>
+                </button>
+                <button type="button" id="usergroup_button_delete" class="btn btn-flat bg-olive margin">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

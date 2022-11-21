@@ -1,0 +1,70 @@
+﻿@model ArchiveMVC.Models.LoginModel
+@section AddToHead{
+        <link href="~/Content/ECM.css" rel="stylesheet" type="text/css">
+        @*<script type="application/javascript" language="javascript" src="Scripts/jquery-1.8.2.min.js" ></script>*@
+        @*<script type="application/javascript"  src="~/Scripts/bootstrap.min.js" ></script>*@
+        @*<script type="application/javascript"  src="~/Scripts/effect.js"></script>*@
+        @*<script type="application/javascript" src="~/Scripts/pages/login.js" ></script>*@
+    <script>
+        $(document).ready(function () {
+            $('#username,#password').keyup(function (e) {
+                console.log(e);
+                if (e.which == 13)
+                    document.login.submit();
+                                    
+            });
+        });
+    </script>
+    @*@Styles.Render("~/Content/Pages/login.css")*@
+}
+@{
+    ViewBag.Title = "Index";
+}
+<header style="height:1px">
+
+</header>
+<section class="body_login">
+    <div class="left_panel">
+        <div class="concept"><span>Text</span></div>
+        <div class="slogan_header"><span>Help Your Business Success</span></div>
+    </div>
+    <div class="right_panel">
+        <div class="right_top">
+            <img src="~/Images/archive_logo.png" style="width:200px; height:48px;"/>
+            <div>
+                <form action="@Url.Action("Action")" method="post" name="login">
+                    <input type="text" name="username" id="username" autofocus placeholder="username" autocomplete="off"/>
+                    <input type="password" name="password" id="password" placeholder="password"/>
+                    <input type="hidden" name="returnurl" id="returnurl" value="@Model.ReturnUrl"/>
+                    <span id="login" class="button" onclick="document.login.submit()"> login</span>
+                    <div class="error @(Model.IsError ? "showerror" : "")">
+                        <span class="message">@(Model.IsError ? Model.Message : "")</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="right_bottom">
+            <input type="text" name="name" id="name"/>
+            <input type="password" name="phone" id="phone"/>
+            <input type="text" name="mail" id="mail"/>
+            <input type="password" name="organization" id="org"/>
+            <span id="submit" class="button">submit</span>
+        </div>
+    </div>
+</section>
+<footer class="footer_login">
+    <div class="bottom">
+        <div class="right">
+            <img src="~/Images/Login/logo.png"/>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="left">
+            <span>@ViewBag.CopyRight</span>
+            <a>Plolicy</a>
+            <a>Right & Cookie</a>
+            <a>Feedback</a>
+            <a>Helps</a>
+        </div>
+    </div>
+</footer>

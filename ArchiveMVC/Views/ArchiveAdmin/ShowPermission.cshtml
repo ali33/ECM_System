@@ -1,0 +1,50 @@
+﻿@model ArchiveMVC.Models.ArchiveAdminModel
+@{
+    ViewBag.Title = "ShowPermission";
+}
+
+<div class="admin_sub_menu_content">
+    
+    <div class="admin_sub_menu_button">
+        <div class="add_button permission_view_by_contenttype_button">
+            <button type="button" id="permission_view_contenttype" class="archive_button permission_button selected" data-value="bycontent">
+                <span>By content type</span>
+            </button>
+        </div>
+
+        <div class="delete_button permission_view_by_group_button">
+            <button type="button" id="permission_view_usergroup" class="archive_button permission_button" data-value="byusergroup">
+                <span>By group</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="admin_sub_menu_items">
+        @{
+            var userNumber = 1;
+            foreach(var docTypeItem in Model.ListDocTypeModel)
+            {
+                <div class="sub_menu_item" id="@docTypeItem.Id" title="@docTypeItem.Name">
+                    <div class="permission_menu_item">
+                        <span>@docTypeItem.Name</span>
+                    </div>
+                </div>
+                <div class="permission_sub_menu" style="display:none">
+                @{ 
+                    foreach (var userGroupItem in Model.ListUserGroup){
+                       <div class="permission_sub_menu_item sub_menu_item_by_content_type" id="@userGroupItem.Id">
+                            <div class="content data">
+                                <div class="data_content" title="@userGroupItem.Name">
+                                    @userGroupItem.Name
+                                </div>
+                            </div>
+                       </div>
+                    }
+                    
+                 }
+                </div>
+                userNumber++;
+            }
+        }
+    </div>
+</div>

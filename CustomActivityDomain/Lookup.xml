@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LookupInfos>
+  <LookupData>
+    <FieldId>1</FieldId>
+    <ConnectionInfo>
+    
+    </ConnectionInfo>
+  </LookupData>
+  <lookupData>
+    <FieldId>1</FieldId>
+    <ConnectionInfo>
+    
+    </ConnectionInfo>
+    <BatchMappings>
+      <FieldMapping></FieldMapping>
+    </BatchMappings>
+  </lookupData>
+</LookupInfos>

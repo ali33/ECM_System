@@ -1,0 +1,32 @@
+﻿@model ArchiveMVC5.Models.SearchModel
+@{
+    var Doctype = Model.ListDocType.Where(p => p.Id == Model.DocumentTypeId).FirstOrDefault();
+    var field = Doctype.Fields.Where(p => p.Id == Model.FieldID && p.DataType != Ecm.Domain.FieldDataType.Table && p.DataType != Ecm.Domain.FieldDataType.Folder).FirstOrDefault();
+
+    var script="";
+    if(field != null){
+        switch (field.DataType)
+        {
+            case Ecm.Domain.FieldDataType.Date:
+                script ="$('#" + Model.ValueControlId + "').find('input').datepicker()";
+             break;
+
+        }
+    
+    
+        if (Model.SearchOperator == null || (int)Model.SearchOperator == -1)
+        {
+            Model.SearchOperator = ArchiveMVC5.Utility.GeneratorJson.GetOperatorFromType(field.DataType).FirstOrDefault();
+        }
+
+        @Html.Raw(ArchiveMVC5.Utility.GeneratorJson.GetComboBoxValue(field, Model.SearchOperator, "", ""))
+    }
+    else{
+        script += " alert('Error')";
+    }
+}
+
+ 
+<script>
+    @Html.Raw(script)    
+</script>

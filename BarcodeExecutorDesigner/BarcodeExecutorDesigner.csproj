@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5A1C705E-6F45-4E58-8156-A8AF380433D0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.Workflow.Activities.BarcodeExecutorDesigner</RootNamespace>
+    <AssemblyName>BarcodeExecutorDesigner</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\CaptureAdmin\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Workflow\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU'">
+    <OutputPath>bin\Release Obfuscated\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BarcodeConfigurationDesigner.cs" />
+    <Compile Include="Converter\NegativeVisibilityConverter.cs" />
+    <Compile Include="Converter\VisibilityConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\BarcodeConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\ReadActionViewModel.cs" />
+    <Compile Include="ViewModel\SeparationActionViewModel.cs" />
+    <Compile Include="View\BarcodeConfigurationView.xaml.cs">
+      <DependentUpon>BarcodeConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogChildView.cs" />
+    <Compile Include="View\DialogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DialogViewer.Designer.cs">
+      <DependentUpon>DialogViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReadActionView.xaml.cs">
+      <DependentUpon>ReadActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SeparationActionView.xaml.cs">
+      <DependentUpon>SeparationActionView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BarcodeDomain\BarcodeDomain.csproj">
+      <Project>{D09AB159-030C-4055-9D76-73865883F6DA}</Project>
+      <Name>BarcodeDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptureDomain\CaptureDomain.csproj">
+      <Project>{1FAFF4DB-A95F-44F8-BEE6-5D6903F37FDF}</Project>
+      <Name>CaptureDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomActivityDomain\CustomActivityDomain.csproj">
+      <Project>{FB5197AB-1699-4B35-B49C-1FB64E5CE59E}</Project>
+      <Name>CustomActivityDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomActivityModel\CustomActivityModel.csproj">
+      <Project>{FF9B3DF2-7410-4348-BF67-3A051754D1BD}</Project>
+      <Name>CustomActivityModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomControl\CustomControl.csproj">
+      <Project>{dad3886b-c8c6-463a-a07d-ed08c85f8d08}</Project>
+      <Name>CustomControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{E3D700D5-BDFB-4777-8E9C-53E8F943AC58}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mvvm\Mvvm.csproj">
+      <Project>{81D27875-F5C9-423F-BD44-509D7A8F951C}</Project>
+      <Name>Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{F5B8F368-604C-4CFD-95E6-6CB7F2BCB832}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\config.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.vi-VN.resx">
+      <LastGenOutput>Resource.vi-VN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx">
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DialogViewer.resx">
+      <DependentUpon>DialogViewer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\BarcodeConfigurationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReadActionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SeparationActionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\add.png" />
+    <Resource Include="Themes\Images\delete.png" />
+    <Resource Include="Themes\Images\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="signAssemblyKey.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release Obfuscated" ("%25ProgramFiles%25\RustemSoft\Skater .NET Obfuscator\skater.exe" -SOURCE="$(TargetPath)" -OUTPUT="$(TargetPath)" -KEY="$(ProjectDir)signAssemblyKey.snk" -CONCEALSTRINGS -FLOW -METHOD=0 -WRITELOG)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

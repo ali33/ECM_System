@@ -1,0 +1,92 @@
+﻿@model ArchiveMVC.Controllers.ViewController.DocumentCaching
+<section class="body archive body_capture">
+    <!-- capture_sitebar nav -->
+    <div class="left_column capture_sitebar open">
+        <!-- nav resize button -->
+        <span class="nav_resize"></span>
+        <!-- capture_leftbar -->
+        <div class="capture_leftbar">
+            <div class="leftbar_lable thumbnails leftbar_lable_focus">
+                <img src="~/Images/view_list.png" />
+                <span>Thumbnails</span>
+            </div>
+            <div class="leftbar_lable indexs" id="index">
+                <img src="~/Images/view_incident.png" />
+                <span>Indexs</span>
+            </div>
+        </div>
+        <!-- capture_mainbar -->
+        <div class="capture_mainbar">
+            <div class="capture_header">
+                <div class="capture_header_feature capture_option" title="Options"></div>
+            </div>
+            <div class="capture_main_content thumbnails">
+                <!-- treeview thumbnails -->
+                <div class="treeview">
+                    <ul class="treeview_first">
+                        <li>
+                            <span class="capture_root treeview_title treeview_open" id="openFile">
+                                <span class="treeview_icon glyphicon glyphicon-play"></span>
+                                <a href="#">
+                                    <img src="@Url.Content("~/Images/appbar.cabinet.files.png")" />
+                                    <span>
+                                        <strong>Default batch</strong>
+                                        <span>Create on: 
+                                            <time id="create-date" datetime="@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")" >@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")</time>
+
+                                        </span>
+                                        <span>Create by: <span>@ArchiveMVC.Utility.Utilities.UserName
+                                            <input id="create-by" value="@ArchiveMVC.Utility.Utilities.UserName" type="hidden" />
+                                        </span></span>
+                                    </span>
+                                </a>
+                            </span>
+                            <ul class="treeview_second thumbnail">
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- index -->
+                <div class="current_content">
+                    <div class="current_content_header">
+                    </div>
+                    <div class="current_content_fields">
+                    </div>
+                    <div id="navigation_index" class="button_navigation">
+                        <button class="navigation_back">Back</button>
+                        <button class="navigation_next">Next</button>
+                    </div>
+                </div>
+                <div class="button_mainbar" style="border-top: 1px solid rgb(128, 128, 128)">
+                    <button class="capture_sitebar_submit" id="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- capture -->
+    <div class="right_column capture">
+        <div class="capture_content right" id="documentViewer">
+        </div>
+    </div>
+    <div class="capture_content_menu">
+    </div>
+    <div id="printDiv" style="display: none;"></div>
+    @*@RenderPage("~/Views/Capture/Toolbar.cshtml")*@
+</section>
+<OBJECT id="TwainX" 
+  clsid="{DBFCD99F-59BB-4854-8D50-152A28B17BA4}"  
+  codebaseurl = "@Url.Content("~/OCX/TwainOcx.cab")"
+  progid  ="TwainOcx.WebTwain"
+  TYPE="application/x-itst-activex"
+  width="0" height="0">
+</object>
+<!-- IE
+  
+  -->
+
+<OBJECT id="TwainXIE" name="TwainXIE" 
+  classid="clsid:DBFCD99F-59BB-4854-8D50-152A28B17BA4"  
+  codebase="@Url.Content("~/OCX/TwainOcx.cab")"
+  width="0" height="0">
+</object>

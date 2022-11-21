@@ -1,0 +1,151 @@
+﻿@using CaptureMVC.Utility
+@using CaptureMVC.Models
+@using Newtonsoft.Json
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @{
+        if (!ViewContext.RouteData.GetRequiredString("controller").Equals("Login")
+            && (Utilities.UserName == null || Utilities.Password == null))
+        {
+            var login = new LoginModel { ReturnUrl = Request.Url.AbsoluteUri };
+            <meta http-equiv="refresh" content="0;url='@Url.Action("Index", "Login", login)'" />
+        }
+    }
+
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta name="description" content="ECM System" charset="utf-8" lang="en-us" />
+    <meta name="author" content="Mia Solution" />
+    <link rel="icon" href="~/favicon.ico">
+
+   
+
+    @*jQuery and jQuery UI*@
+    <script type="text/javascript" src="~/Plugin/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="~/Plugin/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+    <link href="~/Plugin/jquery-ui-1.11.4/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+
+    @*jQuery layout*@
+    <script type="text/javascript" src="~/Plugin/jQuery.layout-1.4.0/jquery.layout-latest.js"></script>
+
+    @*jQuery context menu*@
+    <script type="text/javascript" src="~/Plugin/ContextMenu/jquery.contextMenu.js"></script>
+    <link href="~/Plugin/ContextMenu/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+
+    @*Custom loading*@
+    <script type="text/javascript" src="~/Plugin/Loading/load.js"></script>
+    <link href="~/Plugin/Loading/load.css" rel="stylesheet" type="text/css" />
+
+    @*jQuery alert*@
+    <script type="text/javascript" src="~/Plugin/jQuery.alerts-1.1/jquery.alerts.js"></script>
+    <link href="~/Plugin/jQuery.alerts-1.1/jquery.alerts.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="~/Scripts/browser-detect.js"></script>
+    <script type="text/javascript" src="~/Scripts/date.js"></script>
+
+    <link href="~/Content/Pages/CaptureLayout.css" rel="stylesheet" type="text/css" />
+
+
+    <script>
+        var bodyLayout;
+        $(document).ready(function () {
+            bodyLayout = $('body').layout({
+                applyDefaultStyles: true,
+                north: {
+                    closable: false,
+                    resizable: false,
+                    slidable: false,
+                    spacing_open: 1,
+                    paneSelector: '#fix-header',
+                }
+            });
+        });
+
+    </script>
+    <!--head-->
+    @RenderSection("AddToHead", required: false)
+    <!--style-->
+    @RenderSection("AddToStyle", required: false)
+    <!--script-->
+    @RenderSection("AddToJavaScript", required: false)
+    <!--other-->
+    @RenderSection("AddToOther", required: false)
+</head>
+
+<body>
+    <div class="ecm_loading_bg" style="background-color:white;"></div>
+    <header id="fix-header">
+        <table id="header">
+            <tr>
+                <td id="header-logo">
+                    <img src="~/Images/Capture.png" alt="Capture Logo" />
+                </td>
+                <td>
+                    <div id="header-main-menu">
+                        @{
+                            var controllerName = ViewContext.RouteData.Values["controller"].ToString();
+                        }
+                        <div class="main-menu-item @(controllerName.Equals("Search") ? "active" : "")">
+                            <a id="main-menu-item-search" href="@Url.Action("Index", "Search")">@CaptureMVC.Resources.MainMenuResources.Search</a>
+                        </div>
+
+                        <div class="main-menu-item @(controllerName.Equals("Capture") ? "active" : "")">
+                            <a href="@Url.Action("Index", "Capture")">@CaptureMVC.Resources.MainMenuResources.Capture</a>
+                        </div>
+
+                        @if (Utilities.IsAdmin)
+                        {
+                            <div class="main-menu-item @(controllerName.Equals("CaptureAdmin") ? "active" : "")">
+                                <a href="@Url.Action("Index", "CaptureAdmin")">@CaptureMVC.Resources.MainMenuResources.Admin</a>
+                            </div>
+                        }
+
+                        @RenderSection("ViewTask", false)
+
+                        <div class="main-menu-item @(controllerName.Equals("Help") ? "active" : "")">
+                            <a href="#">@CaptureMVC.Resources.MainMenuResources.Help</a>
+                        </div>
+                    </div>
+                </td>
+                <td id="header-user-info">
+                    <div id="header-user-info-wraper">
+                        @if (Session["KEY_CACHE_USER_PROFILE"] != null)
+                        {
+                            <img height="36" src="~/ImageProcessing/GetIcon?key=@Session["KEY_CACHE_USER_PROFILE"]" />
+                        }
+                        else
+                        {
+                            <img src="~/Images/icon_user_profile.png" />
+                        }
+                        <ul id="header-user-info-menu">
+                            <li>
+                                <a href="#">@(Utilities.UserName)</a>
+                            </li>
+                            <li>
+                                <a id="change_password">@CaptureMVC.Resources.LoginResources.ChangePassword</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Login")">@CaptureMVC.Resources.LoginResources.Logout</a>
+                            </li>
+                            <li>
+                                <span>@Html.ActionLink("English", "ChangeLanguage", "ChangeLanguage", new { culture = "en-US", returnUrl = this.Request.RawUrl }, null)</span>
+                            </li>
+                            <li>
+                                <span>@Html.ActionLink("Tiếng Việt", "ChangeLanguage", "ChangeLanguage", new { culture = "vi-VN", returnUrl = this.Request.RawUrl }, null)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </header>
+
+    <section id="fix-content" class="ui-layout-center">
+        @RenderBody()
+    </section>
+
+</body>
+
+</html>

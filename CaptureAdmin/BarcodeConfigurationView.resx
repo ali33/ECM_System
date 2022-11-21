@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="btnDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="btnEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="btnOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="btnSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="cbCopyToField" xml:space="preserve">
+    <value>Copy to document field</value>
+  </data>
+  <data name="cbOverWriteField" xml:space="preserve">
+    <value>Overwrite field value</value>
+  </data>
+  <data name="cbTransferAndOverWrite" xml:space="preserve">
+    <value>Transfer and overwrite workflow barcode configurations to client</value>
+  </data>
+  <data name="colBarcodeType" xml:space="preserve">
+    <value>Barcode type</value>
+  </data>
+  <data name="colBatchOrDoc" xml:space="preserve">
+    <value>Batch type or content type</value>
+  </data>
+  <data name="colContentType" xml:space="preserve">
+    <value>Content type</value>
+  </data>
+  <data name="colCopyValueToField" xml:space="preserve">
+    <value>Copy barcode value to fields</value>
+  </data>
+  <data name="colOverwrite" xml:space="preserve">
+    <value>Overwrite index value</value>
+  </data>
+  <data name="colPosition" xml:space="preserve">
+    <value>Position in doc</value>
+  </data>
+  <data name="colRemoveSeparator" xml:space="preserve">
+    <value>Remove separator page</value>
+  </data>
+  <data name="colSeparatorChar" xml:space="preserve">
+    <value>Separator char</value>
+  </data>
+  <data name="colSpecify" xml:space="preserve">
+    <value>Specify new document type</value>
+  </data>
+  <data name="colStartWith" xml:space="preserve">
+    <value>Starts with</value>
+  </data>
+  <data name="tbBarcodeType" xml:space="preserve">
+    <value>Barcode type</value>
+  </data>
+  <data name="tbContentType" xml:space="preserve">
+    <value>Content type</value>
+  </data>
+  <data name="tbCopyValueToField" xml:space="preserve">
+    <value>Copy barcode value to index fields</value>
+  </data>
+  <data name="tbDataActionHeader" xml:space="preserve">
+    <value>Data extraction actions</value>
+  </data>
+  <data name="tbPosition" xml:space="preserve">
+    <value>Position in doc</value>
+  </data>
+  <data name="tbRemoveSeparator" xml:space="preserve">
+    <value>Remove separator page</value>
+  </data>
+  <data name="tbSeparationActionHeader" xml:space="preserve">
+    <value>Separation actions</value>
+  </data>
+  <data name="tbSeparatorChar" xml:space="preserve">
+    <value>Separator char</value>
+  </data>
+  <data name="tbSpecifyNewDocType" xml:space="preserve">
+    <value>Specify new document type</value>
+  </data>
+  <data name="tbStartWith" xml:space="preserve">
+    <value>Start with</value>
+  </data>
+  <data name="uiActionDataTitle" xml:space="preserve">
+    <value>Add data extraction</value>
+  </data>
+  <data name="uiAddSeparationDataTitle" xml:space="preserve">
+    <value>Add separation data</value>
+  </data>
+  <data name="uiBarcodeConfigText" xml:space="preserve">
+    <value>Click to configure barcode</value>
+  </data>
+  <data name="uiConfirmDelete" xml:space="preserve">
+    <value>Are you sure you want to delete selected item?</value>
+  </data>
+  <data name="uiDialogTitle" xml:space="preserve">
+    <value>Barcode configuration</value>
+  </data>
+  <data name="uiDocTypeNotFound" xml:space="preserve">
+    <value>Content type not found</value>
+  </data>
+  <data name="uiEditActionDataTitle" xml:space="preserve">
+    <value>Edit data extraction</value>
+  </data>
+  <data name="uiEditSeparationDataTitle" xml:space="preserve">
+    <value>Edit separation data</value>
+  </data>
+  <data name="uiFieldRequired" xml:space="preserve">
+    <value>Field(s) is required.</value>
+  </data>
+  <data name="uiInvalidFieldName" xml:space="preserve">
+    <value>Invalid index field name '{0}'</value>
+  </data>
+  <data name="uiInvalidPosition" xml:space="preserve">
+    <value>Invalid position in doc. Position in doc must be in range of from 1 to 100.</value>
+  </data>
+  <data name="uiSampleText" xml:space="preserve">
+    <value>Use the separator char to separate index fields. Example: ECMField1{0}ECMField2{0}{0}ECMField4</value>
+  </data>
+  <data name="uiSelectDocType" xml:space="preserve">
+    <value>Please select a content type</value>
+  </data>
+  <data name="uiSelectField" xml:space="preserve">
+    <value>Please select the field</value>
+  </data>
+</root>

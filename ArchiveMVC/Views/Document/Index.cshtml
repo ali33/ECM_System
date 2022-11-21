@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Get Document</h2>
+@using (Html.BeginForm("GetDocs","Document",FormMethod.Post)){
+    @Html.ValidationSummary(true)
+    @Html.TextBox("id")
+    <input type="submit" value="Get Document" />
+}
+@RenderPage("../Shared/Menu.cshtml")

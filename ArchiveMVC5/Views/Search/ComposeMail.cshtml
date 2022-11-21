@@ -1,0 +1,49 @@
+﻿@model ArchiveMVC5.Models.SaveOption
+
+<div class="box box-info">
+    <div class="box-body" id="mail_div">
+        <div class="form-group">
+            <input type="text" placeholder="To:" class="form-control input-sm col-md-10" id="mail_to" />
+            @if (Model.CC == null)
+            {
+                <a id="show_cc"><span class="lable label-success col-md-1">Mail CC</span></a>
+            }
+            @if (Model.BCC == null)
+            {
+                <a id="show_bcc"><span class="lable label-success col-md-1">Mail BCC</span></a>
+            }
+        </div>
+        @if (Model.CC != null && Model.CC.Count > 0)
+        {
+            <div class="form-group">
+                <input type="text" placeholder="Cc:" class="form-control input-sm" id="mail_cc" value="@Model.CC"/>
+            </div>
+        }
+        @if (Model.BCC != null && Model.BCC.Count > 0)
+        {
+            <div class="form-group">
+                <input type="text" placeholder="Bcc:" class="form-control input-sm" id="mail_bcc" value="@Model.BCC"/>
+            </div>
+        }
+        <div class="form-group">
+            <input type="text" placeholder="Subject:" class="form-control input-sm" id="mail_subject" value="@Model.Subject"/>
+        </div>
+        <div class="form-group">
+            <textarea class="textarea" id="mail_body" placeholder="Place some text here"></textarea>
+        </div>
+    </div>
+    <div class="box-footer">
+        <div class="btn-group">
+            <button class="btn btn-info" id="btn_send">
+                <i class="fa fa-envelope"></i>
+                <span>Send</span>
+            </button>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-info" id="btn_discard">
+                <i class="fa fa-times"></i>
+                <span>Discard</span>
+            </button>
+        </div>
+    </div>
+</div>

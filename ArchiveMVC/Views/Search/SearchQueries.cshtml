@@ -1,0 +1,166 @@
+﻿@model ArchiveMVC.Models.SearchModel
+@{
+
+    var _script = "";
+}
+@*<div class="layout_table">*@
+    <div class="SelectQueryName" id="RowComboBoxQueries">
+        <div class="display_lable">
+            <div>Queries </div>
+        </div>
+        <div class="input-control select">
+            <select id="selectqueryname" onchange="QueryNameChange(this)">
+                <option value="-1">--- Select query ---</option>
+                @{
+                    foreach (var item in Model.ListQueryModel)
+                    {
+                        <option value="@item.Id">@item.Name</option>        
+                    }
+                          
+                }
+            </select>
+        </div>
+        @*<div>
+            <button type="button" class="action_button bt_save_query col_center" >
+                <span>Save query</span>
+                    <img src="@Url.Content("Images/button/appbar.save.32.png")">
+            </button>
+            <button type="button" class="action_button bt_delete_query" >
+                <span>Delete query</span>
+                <img src="@Url.Content("Images/button/appbar.delete.32.png")">
+            </button>
+        </div>*@
+    </div>
+    @if(Model.ListDocType.Count > 0){
+        foreach (var item in Model.ListDocType.Where(p => p.Id == Model.DocumentTypeId).FirstOrDefault().Fields.Where(p => !p.IsSystemField))
+        {
+            var idComboboxValue = ArchiveMVC.Utility.UniqueId.GetUniqueKey();
+            <div id="RowCondition">
+                <div>
+                    <div class="input-control select">                       
+                         
+                        <select id="Conjunction">
+                            @foreach (Ecm.Domain.SearchConjunction dataType in Enum.GetValues(typeof(Ecm.Domain.SearchConjunction)))
+                            {
+                                
+                                <option value="@((int)dataType)">@dataType.ToString()</option>
+                            }  
+                            
+                           
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="display_lable">
+                        <span id="FieldName" value="@(item.Id)">@item.Name</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-control select col_center">
+                        <select id="Operator" onchange="CreateTextBoxValue(this.value,'@item.Id','@idComboboxValue')">
+                            @{
+                                if(item.DataType== Ecm.Domain.FieldDataType.Date)
+                                {
+                                    _script += "$('[id=\"" + idComboboxValue + "\"]').find('input').datepicker();";
+                                }
+                                var listOperator = ArchiveMVC.Utility.GeneratorJson.GetOperatorFromType(item.DataType);
+                            }
+                            @foreach (var item1 in listOperator)
+                            {                                
+                                <option value="@((int)item1)">@item1</option>
+                            }                            
+                        </select>
+                    </div>
+                </div>
+                <div id="@idComboboxValue" class="search_input">
+                    @Html.Raw(ArchiveMVC.Utility.GeneratorJson.GetComboBoxValue(item, listOperator.FirstOrDefault(),"",""))
+                </div>
+                <div>
+                </div>
+            </div>    
+        }
+    }
+@*</div>*@
+@*<table class="layout_table">
+    <tbody>*@
+        @*<tr class="SelectQueryName" id="RowComboBoxQueries">
+            <td>
+                <div class="display_lable">
+                    <span>Queries</span>
+                </div>
+            </td>
+            <td colspan="3">
+                <div class="input-control select">
+                    <select id="selectqueryname" onchange="QueryNameChange(this)">
+                        <option value="-1">--- Select query ---</option>
+                        @{
+                            foreach (var item in Model.ListQueryModel)
+                            {
+                                <option value="@item.Id">@item.Name</option>        
+                            }
+                          
+                        }
+                        
+                       
+                    </select>
+                </div>
+            </td>
+            <td></td>
+        </tr>*@
+        @*@if(Model.ListDocType.Count > 0){
+            foreach (var item in Model.ListDocType.Where(p => p.Id == Model.DocumentTypeId).FirstOrDefault().Fields.Where(p => !p.IsSystemField))
+            {
+                var idComboboxValue = ArchiveMVC.Utility.UniqueId.GetUniqueKey();
+                <tr id="RowCondition">
+                    <td>
+                        <div class="input-control select">                       
+                         
+                            <select id="Conjunction">
+                                @foreach (Ecm.Domain.SearchConjunction dataType in Enum.GetValues(typeof(Ecm.Domain.SearchConjunction)))
+                                {
+                                
+                                    <option value="@((int)dataType)">@dataType.ToString()</option>
+                                }  
+                            
+                           
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="display_lable">
+                            <span id="FieldName" value="@(item.Id)">@item.Name</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-control select">
+                            <select id="Operator" onchange="CreateTextBoxValue(this.value,'@item.Id','@idComboboxValue')">
+                                @{
+                                    if(item.DataType== Ecm.Domain.FieldDataType.Date)
+                                    {
+                                        _script += "$('[id=\"" + idComboboxValue + "\"]').find('input').datepicker();";
+                                    }
+                                    var listOperator = ArchiveMVC.Utility.GeneratorJson.GetOperatorFromType(item.DataType);
+                                }
+                                @foreach (var item1 in listOperator)
+                                {                                
+                                    <option value="@((int)item1)">@item1</option>
+                                }  
+                            
+                            </select>
+
+                        </div>
+                    </td>
+                    <td id="@idComboboxValue">
+                        @Html.Raw(ArchiveMVC.Utility.GeneratorJson.GetComboBoxValue(item.DataType, listOperator.FirstOrDefault(),"",""))
+                    </td>
+                    <td>
+                    </td>
+                </tr>    
+            }
+        }*@
+@*    </tbody>
+
+</table>*@
+<script>
+    @Html.Raw(_script);
+</script>

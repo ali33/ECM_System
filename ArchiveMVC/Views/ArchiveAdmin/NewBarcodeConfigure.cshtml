@@ -1,0 +1,79 @@
+﻿@model ArchiveMVC.Models.DocumentTypeModel
+@{
+    ViewBag.Title = "NewBarcodeConfigure";
+}
+<div class="sub_properties_content">
+    <div class="top_height">
+        <div class="sub_properties_top">
+            <div class="properties_title">
+                <div class="title_data" title="Barcode configuration for @Model.Name">
+                    Barcode configuration
+                </div>
+            </div>
+
+            <div class="properties_button">
+                <div class="save_button">
+                    <button type="button" id="button_save_barcode" class="archive_button archive_admin_button">
+                        <span>Save</span>
+                        <img src="Images/button/appbar.save.32.png" />
+                    </button>
+                </div>
+
+                <div class="close_button">
+                    <button type="button" id="button_cancel_barcode" class="archive_button archive_admin_button">
+                        <span>Close</span>
+                        <img src="Images/button/appbar.cancel.png" />
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="down_height">
+        <div class="sub_properties_mutli_data">
+            <fieldset class="parent_fieldset">
+                <legend>Barcode configuration fields</legend>
+                <div class="multi_data">
+                    <table id="barcode_table" class="archive_table tablesorter"  data-barcode_document_id="@Model.Id">
+                        <thead>
+                            <tr>
+                                <th>Barcode type</th>
+                                <th>Barcode position</th>
+                                <th>Separate document</th>
+                                <th>Remove separator</th>
+                                <th>Copy value to field</th>
+                                <th>Do lookup</th>
+                            </tr>
+                        </thead>
+                        <tbody id="barcode_table_body">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="multi_button">
+                    <div class="button_content">                   
+                        <button type="button" id="button_delete_barcode" class="archive_button properties_button">
+                            <span>Delete</span>
+                            <img src="Images/button/appbar.delete.32.png" />
+                        </button>
+
+                        <button type="button" id="button_edit_barcode" class="archive_button properties_button">
+                            <span>Edit</span>
+                            <img src="Images/button/option.png" />
+                        </button>
+
+                        <button type="button" id="button_add_barcode" class="archive_button properties_button">
+                            <span>Add</span>
+                            <img src="Images/button/appbar.add.32.png" />
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    var lstFields =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Fields, Newtonsoft.Json.Formatting.Indented));
+</script>

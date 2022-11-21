@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1D3F8427-7AED-4081-9AF9-5A3A9EE06B9C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.Workflow.Activities.ReleaseToArchiveConfiguration</RootNamespace>
+    <AssemblyName>ReleaseToArchiveConfiguration</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\CaptureAdmin\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Workflow\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU'">
+    <OutputPath>bin\Release Obfuscated\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigurationDesigner.cs" />
+    <Compile Include="Converter\MappingColumnTypeConverter.cs" />
+    <Compile Include="Converter\NegativeVisibilityConverter.cs" />
+    <Compile Include="Converter\HaveMappingToFontWeightConverter.cs" />
+    <Compile Include="Converter\VisibilityConverter.cs" />
+    <Compile Include="Model\TreeModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\ConfigurationMainViewModel.cs" />
+    <Compile Include="ViewModel\ProcessHelper.cs" />
+    <Compile Include="ViewModel\TableMappingViewModel.cs" />
+    <Compile Include="View\ConfigurationMainView.xaml.cs">
+      <DependentUpon>ConfigurationMainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogChildView.cs" />
+    <Compile Include="View\DialogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DialogViewer.Designer.cs">
+      <DependentUpon>DialogViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TableMappingView.xaml.cs">
+      <DependentUpon>TableMappingView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TableMappingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CaptureDomain\CaptureDomain.csproj">
+      <Project>{1FAFF4DB-A95F-44F8-BEE6-5D6903F37FDF}</Project>
+      <Name>CaptureDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptureModel\CaptureModel.csproj">
+      <Project>{55C752B0-1E69-4E06-AB1B-7B5ACC566051}</Project>
+      <Name>CaptureModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomActivityDomain\CustomActivityDomain.csproj">
+      <Project>{FB5197AB-1699-4B35-B49C-1FB64E5CE59E}</Project>
+      <Name>CustomActivityDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomActivityModel\CustomActivityModel.csproj">
+      <Project>{FF9B3DF2-7410-4348-BF67-3A051754D1BD}</Project>
+      <Name>CustomActivityModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomControl\CustomControl.csproj">
+      <Project>{DAD3886B-C8C6-463A-A07D-ED08C85F8D08}</Project>
+      <Name>CustomControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{855C2210-6121-4C67-8162-F1D14B34C035}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{E3D700D5-BDFB-4777-8E9C-53E8F943AC58}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{856d7d25-0be2-455d-ae92-052c3ce82ea3}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mvvm\Mvvm.csproj">
+      <Project>{81D27875-F5C9-423F-BD44-509D7A8F951C}</Project>
+      <Name>Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service.Contract\Service.Contract.csproj">
+      <Project>{CC2AE1F7-17EE-4FA5-A9BC-B3CC38526CAB}</Project>
+      <Name>Service.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{F5B8F368-604C-4CFD-95E6-6CB7F2BCB832}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConfigurationView.resx">
+      <LastGenOutput>ConfigurationView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationView.vi-VN.resx">
+      <LastGenOutput>ConfigurationView.vi-VN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableMappingView.resx">
+      <LastGenOutput>ConfigurationView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableMappingView.vi-VN.resx">
+      <LastGenOutput>ConfigurationView.vi-VN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DialogViewer.resx">
+      <DependentUpon>DialogViewer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="signAssemblyKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\ConfigurationMainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Themes\Images\connect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\load.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\keys.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\contenttype.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\foldermapping.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\mapdata.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Images\configuration.png" />
+    <Resource Include="Themes\Images\reset.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release Obfuscated" ("%25ProgramFiles%25\RustemSoft\Skater .NET Obfuscator\skater.exe" -SOURCE="$(TargetPath)" -OUTPUT="$(TargetPath)" -KEY="$(ProjectDir)signAssemblyKey.snk" -CONCEALSTRINGS -FLOW -METHOD=0 -WRITELOG)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ArchiveMVC.Models.TableColumnModel>
+
+@if (Model != null)
+{
+    var colCount = Model.Count();
+    
+    <table class="tableValue">
+        <thead>
+            <tr>
+                <th></th>
+                @foreach (var column in Model)
+                {
+                    <th>@column.ColumnName</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="removeRow"><img src="@Url.Content("~/Images/appbar.delete.png")" alt="Remove table row values" class="removeRowImg"/></td>
+                @foreach (var column in Model)
+                {
+                    var inputClass = "";
+                    
+                    if (column.DataType == Ecm.Domain.FieldDataType.Date)
+                    {
+                        inputClass = "dateField";
+                    }
+                    else if (column.DataType == Ecm.Domain.FieldDataType.Integer)
+                    {
+                        inputClass = "allownumericwithoutdecimal";
+                    }
+                    else if (column.DataType == Ecm.Domain.FieldDataType.Decimal)
+                    {
+                        inputClass = "allownumericwithdecimal";
+                    }
+                    
+                    <td>
+                        <div class="content_fields_input input-control text">
+                            <input type="text" value="@column.DefaultValue" class="@inputClass"/>
+                            <input type="hidden" value="@column.FieldId" id="tableFieldId" />
+                            <button class="close" tabindex="-1">×</button>
+                        </div></td>
+                }
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="fakeRow">
+                <td colspan="@(colCount + 1)" onclick="addTableRow(@Html.Raw(Json.Encode(Model)));">
+                    <span class="textButton">Add more row</span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}

@@ -1,0 +1,88 @@
+﻿@model CaptureMVC.Models.LoginModel
+@section AddToHead{
+        <link href="~/Content/ECM.css" rel="stylesheet" type="text/css">
+       
+    <script>
+        $(document).ready(function () {
+            $('#username,#password').keyup(function (e) {
+                console.log(e);
+                if (e.which == 13)
+                    document.login.submit();
+                                    
+            });
+        });
+    </script>
+}
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_SearchLayout.cshtml";
+}
+<header style="height:1px">
+
+</header>
+<section class="body_login">
+    <div class="left_panel">
+        <div class="left_top">
+            <div class="area_banner">
+                <img src="~/Images/Login/72.jpg" />
+            </div><div class="area_sologan">
+                <span><span> access information</span> just the time you need it!</span>
+                <span>EZECM Capture: The comprehensive Content Management Solution for you</span>
+            </div>
+            <div class="area_pad">
+
+            </div>
+        </div>
+        <div class="left_bottom">
+            <p>The storage and retrieval of documents, purchase orders, human resources and 
+            business records is extremely important in a business. A system of document and 
+            content that can be access and work anytime, anywhere is the top concern of business executives. </p>
+            <p>
+            Enterprise Content Management (ECM) is the strategies, methods and tools used to collect, 
+            manage, store, preserve and distribute content and documents related to organizational processes.</p>
+            <p>
+            Capture is a product aims to support small and medium enterprise with outstanding features. 
+            Using Capture in management helps you manage the business of enterprise with the lowest cost and 
+            highest efficiency</p>
+            Ready to grow your business? Try ezECM Capture product demo now! <span class="button demo">Get a demo !</span>
+        </div>
+    </div><div class="right_panel">
+        <div class="right_top">
+            <img src="~/Images/EZECM_logo.svg"/>
+            <div>
+                <form action="@Url.Action("Action")" method="post" name="login">
+                    <input type="text" name="username" id="username" autofocus placeholder="username" autocomplete="off"/>
+                    <input type="password" name="password" id="password" placeholder="password"/>
+                    <input type="hidden" name="returnurl" id="returnurl" value="@Model.ReturnUrl"/>
+                    <span id="login" class="button" onclick="document.login.submit()">login</span>
+                    <div class="error @(Model.IsError ? "showerror" : "")">
+                        <span class="message">@(Model.IsError ? Model.Message : "")</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="right_bottom">
+            <input type="text" name="name" id="name"/>
+            <input type="password" name="phone" id="phone"/>
+            <input type="text" name="mail" id="mail"/>
+            <input type="password" name="organization" id="org"/>
+            <span id="submit" class="button">submit</span>
+        </div>
+    </div>
+</section>
+<footer class="footer_login">
+    <div class="top">
+        <img src="~/Images/Login/79.png"/>
+    </div>
+    <div class="bottom">
+        <div class="left">
+            <span>©2014 Innoria Solution</span>
+            <a>Plolicy</a>
+            <a>Right & Cookie</a>
+        </div>
+        <div class="right">
+            <a>Feedback</a>
+            <a>Helps</a>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,71 @@
+﻿@model ArchiveMVC.Models.SearchResultModel
+@{
+    List<string> listColumn = new List<string>();
+    foreach (var item in Model.DataResult.Columns)
+    {
+        var name = "";
+        switch (item.ToString())
+        {
+            case ArchiveMVC.Models.Common.COLUMN_CHECKED:
+            case ArchiveMVC.Models.Common.COLUMN_SELECTED:
+
+                break;
+            case ArchiveMVC.Models.Common.COLUMN_PAGE_COUNT:
+                listColumn.Add(item.ToString());
+                name = "Page Count";
+                break;
+
+            case ArchiveMVC.Models.Common.COLUMN_MODIFIED_ON:
+                listColumn.Add(item.ToString());
+                name = "Modified Date";
+                break;
+            case ArchiveMVC.Models.Common.COLUMN_MODIFIED_BY:
+                listColumn.Add(item.ToString());
+                name = "Modified By";
+                break;
+            case ArchiveMVC.Models.Common.COLUMN_CREATED_ON:
+                listColumn.Add(item.ToString());
+                name = "Create Date";
+                break;
+            case ArchiveMVC.Models.Common.COLUMN_CREATED_BY:
+                listColumn.Add(item.ToString());
+                name = "Create By";
+                break;
+            case ArchiveMVC.Models.Common.COLUMN_VERSION:
+            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_ID:
+            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT:
+            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_TYPE_ID:
+            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_VERSION_ID:
+                break;
+            default:
+                listColumn.Add(item.ToString());
+                name = item.ToString();
+                break;
+        }
+    }
+}
+@foreach (System.Data.DataRow row in Model.DataResult.Rows)
+{
+    <tr>
+        <td>
+            <input type="checkbox"  value="@row[ArchiveMVC.Models.Common.COLUMN_DOCUMENT_ID]">
+        </td>
+    @foreach (var celName in listColumn)
+    {
+        <td>@row[celName].ToString()</td>
+    }
+    </tr>
+}
+<script>
+    if ($('#hasMoreResult').length > 0) {
+        $('#hasMoreResult').data('hasmore', '@Model.HasMoreResult');
+        $('#hasMoreResult').data('pageindex', '@Model.PageIndex');
+    }
+
+    var resultCount = parseInt($('.count span.count_display_doc').text()) + parseInt('@Model.ResultCount');
+    $('.count span.count_display_doc').text(resultCount);
+
+    if ($("#hasMoreAdvanceResult").length > 0) {
+        $("#hasMoreAdvanceResult").data("hasmoreresult", "@Model.HasMoreResult");
+    }
+</script>

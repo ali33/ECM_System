@@ -1,0 +1,155 @@
+@font-face {
+	font-family: 'iconFont';
+	src:url('../Fonts/icomoon.eot');
+	src:url('../Fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('../Fonts/icomoon.woff') format('woff'),
+		url('../Fonts/icomoon.ttf') format('truetype'),
+		url('../Fonts/icomoon.svg#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Source Sans Pro';
+	src:url('../Fonts/sourcesanspro-regular-webfont.eot');
+	src:url('../Fonts/sourcesanspro-regular-webfont.eot?#iefix') format('embedded-opentype'),
+		url('../Fonts/sourcesanspro-regular-webfont.woff') format('woff'),
+		url('../Fonts/sourcesanspro-regular-webfont.ttf') format('truetype'),
+		url('../Fonts/sourcesanspro-regular-webfont.svg#sourcesanspro-regular-webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+html, body { height: 100%; }
+
+body {
+	position: relative;
+	margin: 0;
+	overflow: hidden;
+	font-family: "Segoe UI", sans-serif;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline-style:none;/*IE*/
+}
+
+body > header {
+	position: relative;
+	margin: 0;
+	/*padding: 4px 9px 4px 9px;*/
+	background: rgb(255, 255, 255);
+    /*margin-top: -15px;
+    margin-bottom: -5px;*/
+    height:50px;
+}
+
+/*header > .logo {
+	display: inline-block;
+	position: relative;
+	width: 243px;
+	height: 50px;
+	margin-left: 20px;
+	margin-right: 20px;
+	
+	background-repeat: no-repeat;
+	
+	transition: all linear 0.2s;
+	-moz-transition: all linear 0.2s;
+	-o-transition: all linear 0.2s;
+	-webkit-transition: all linear 0.2s;
+}*/
+
+section.body {
+	display: block;
+	position:relative;
+	width: 100%;
+	font-family: "Segoe UI", sans-serif;
+    /*overflow:hidden;*/
+}
+
+section.body > .left_column {
+	display: inline-block;
+	position: relative;
+	height: 100%;
+    
+}
+
+section.body > .right_column {
+	display: inline-block;
+	position: absolute;
+	height: 100%;
+	
+}
+
+/* [class^"icon-"] */
+
+a[class^="icon-"], span[class^="icon-"] {
+	position: relative;
+	display: inline-block;
+	width: auto;
+	height: auto;
+	margin-top: 0;
+	font-family: "iconFont";
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: inherit;
+	-webkit-font-smoothing: antialiased;
+	
+	
+	line-height: normal;
+	vertical-align: baseline;
+	background-image: none;
+	background-position: 0% 0%;
+	background-repeat: repeat;
+}
+
+/* pagination */
+
+ul.pagination {
+	position: relative;
+	display: inline-block;
+	margin: 8px auto;
+	padding: 0;
+}
+
+ul.pagination li {
+	display: inline;
+	list-style: none;
+	background-color: #eeeeee;
+}
+
+ul.pagination li a {
+	position: relative;
+	float: left;
+	padding: 6px 12px;
+	margin-left: -1px;
+	line-height: 1.428571429;
+	text-decoration: none;
+	color: rgb(66, 139, 202);
+	background-color: rgb( 255, 255, 255);
+	border: 1px solid rgb(221, 221, 221);
+}
+
+ul.pagination li a:active {
+	color: rgb(0, 0, 0);
+}
+
+ul.pagination > li.active > a{
+	z-index: 2;
+	color: rgb( 255, 255, 255);
+	background-color: rgb(45, 137, 239);
+	border-color: rgb(45, 137, 239);
+	cursor: default;
+}
+
+ul.pagination > li.disabled > a {
+	color: rgb(153, 153, 153);
+	cursor: not-allowed;
+	border-color: rgb(221, 221, 221);
+}
+#TwainXIE,#TwainX{
+    display:none;
+}

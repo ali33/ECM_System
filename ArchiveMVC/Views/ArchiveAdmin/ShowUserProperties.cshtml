@@ -1,0 +1,146 @@
+﻿@model ArchiveMVC.Models.ArchiveAdminModel
+@Scripts.Render("~/Scripts/jquery.form.js")
+@{
+    ViewBag.Title = "ShowUserProperties";
+}
+<div class="sub_properties_content">
+    <div class="sub_properties_between">
+        <div class="between_content">
+            <fieldset class="parent_fieldset">
+                <legend>General Information</legend>
+                <div class="between_content_avatar">
+                    @if(@Model.ArchiveUserModel.Picture != null){
+                        <img id="profile_pic" src="~/ArchiveAdmin/GetImageFromCacheByKey?Key=@ViewData["KEY_CACHE_PROFILE_PIC"].ToString()" data-keycache=""/>
+                    }else{
+                        <img id="profile_pic" src="@Url.Content("~/Resources/icon_user_profile.png")" data-keycache=""/>    
+                    }
+                    <div id="edit_picture" class="change_img">Change</div>
+                    <form id="user_form" method="post">
+                        <div>
+                            <input type="file" name="srcPicture" id="profile_pic_upload" hidden/>
+                        </div>
+                    </form>
+                </div>
+                <div class="between_content_info">
+                    <div class="between_content_data">
+                        <div class="label">User name</div>
+                        <div class="field user_input_field">
+                            <input type="text" id="user_name" class="archive_input" value="@Model.ArchiveUserModel.Username" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="between_content_data">
+                        <div class="label">Full name</div>
+                        <div class="field user_input_field">
+                            <input type="text" id="user_full_name" class="archive_input" value="@Model.ArchiveUserModel.Fullname">
+                        </div>
+                    </div>
+                    <div class="between_content_data">
+                        <div class="label">Email</div>
+                        <div class="field user_input_field">
+                            <input type="text" id="user_email_address" class="archive_input" value="@Model.ArchiveUserModel.EmailAddress">
+                        </div>
+                    </div>
+                    <input type="text" id="user_password" class="archive_input hidden" value="@Model.ArchiveUserModel.Password">
+                </div>
+            </fieldset>
+        <fieldset class="parent_fieldset">
+            <legend>System</legend>
+            <div class="properties_bottom_content">
+                <div class="left_content">
+                    <fieldset class="sub_fieldset user_system_configuration">
+                        <legend>Configuration</legend>
+                        @{
+                            if (@Model.ArchiveUserModel.IsAdmin == true)  
+                             {
+                                 <div>
+                                    <input type="checkbox" id="user_is_admin" checked>Is admin
+                                 </div>
+                             }
+                             else
+                             {
+                                 <div>
+                                    <input type="checkbox" id="user_is_admin">Is admin
+                                 </div>
+                             }
+                            if (@Model.ArchiveUserModel.IsSelected == true)
+                             { 
+                                 <div>
+                                 <input type="checkbox" id="user_apply_capture_system" checked>Apply this user to Capture system
+                                 </div>
+                             }
+                             else
+                             {
+         
+                                 <div>
+                                 <input type="checkbox" id="user_apply_capture_system" >Apply this user to Capture system
+                                 </div>
+                             }
+    
+                          }
+
+                          <div class="languages">
+                              Language
+                                <select id="user_select_language" >
+                                @{
+                                   foreach(var languageItem in Model.ListLanguages)
+                                   {
+                                       if(languageItem.Id == Model.ArchiveUserModel.Language.Id)
+                                       {
+                                           <option id="@languageItem.Id" selected="selected">@languageItem.Name</option>
+                                       }
+                                       else
+                                       {
+                                       <option id="@languageItem.Id" value="@languageItem.Name">@languageItem.Name</option>
+                                       }
+                                    }
+                                }
+  
+                                </select>
+                          </div>
+                      </fieldset>
+                </div>
+                <div class="right_content">
+                    <fieldset class="sub_fieldset user_system_member_of">
+                    <legend class="sub_legend">Member of</legend>
+
+                        <div id="user_list_member_of">
+                        @{
+                             foreach(var userGroupItem in Model.ArchiveUserModel.UserGroups)
+                             {
+                                 <div class="row_usergroup_area" id="@userGroupItem.Id">@userGroupItem.Name</div>
+                             }
+                        }
+                        </div>
+                        <div class="multi_button">
+                            <div class="button_content">                   
+                                <button type="button" id="user_button_add_group" class="archive_button properties_button">
+                                    <span>Add</span>
+                                    <img src="~/Images/button/appbar.add.32.png" />
+                                </button>
+                                <button type="button" id="user_button_delete_usergroup" class="archive_button properties_button">
+                                    <span>Delete</span>
+                                    <img src="~/Images/button/appbar.delete.32.png" />
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </fieldset>
+        </div>
+    </div>
+    <div class="main_button">
+        <div class="save_button">
+            <button type="button" id="user_button_save" class="archive_button archive_admin_button">
+                <span>Save</span>
+                <img src="~/Images/button/appbar.save.32.png" />
+            </button>
+        </div>
+        <div class="close_button">
+            <button type="button" id="user_button_cancel" class="archive_button archive_admin_button">
+                <span>Close</span>
+                <img src="~/Images/button/appbar.cancel.png" />
+            </button>
+        </div>
+    </div>
+</div>

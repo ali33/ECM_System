@@ -1,0 +1,93 @@
+﻿@model ArchiveMVC5.Models.FieldValueModel
+
+@if (Model != null)
+{
+    var rows = (Model.TableValues == null || Model.TableValues.Count() == 0) ? -1 : Model.TableValues.Max(p => p.RowNumber);
+    var colCount = Model.Field.Children.Count;
+    var inputClass = "";
+  
+    <table class="table tableValue">
+        <thead>
+            <tr>
+                <td></td>
+                @foreach (var column in Model.Field.Children)
+                {
+                    <td>@column.Field.Name</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (rows == -1)
+            {
+                <tr>
+                    <td class="removeRow"><i class="glyphicon glyphicon-trash vcenter hand"></i></td>
+                    @foreach (var column in Model.Field.Children)
+                    {
+                        inputClass = "";
+                        if (column.DataType == Ecm.Domain.FieldDataType.Date)
+                        {
+                            inputClass = "date";
+                        }
+                        else if (column.DataType == Ecm.Domain.FieldDataType.Integer)
+                        {
+                            inputClass = "allownumericwithoutdecimal";
+                        }
+                        else if (column.DataType == Ecm.Domain.FieldDataType.Decimal)
+                        {
+                            inputClass = "allownumericwithdecimal";
+                        }                        
+                        
+                        <td>
+                            <div class="content_fields_input">
+                                <input type="text" class="form-control input-sm @inputClass" value="@column.DefaultValue" id="@column.ColumnGuid"/>
+                                <input type="hidden" value="@column.FieldId" id="tableFieldId" />
+                           </div>
+                        </td>
+                    }
+                </tr>
+            }
+            else
+            {
+                for (var i = 0; i <= rows; i++)
+                {
+                    var fieldValues = Model.TableValues.Where(p => p.RowNumber == i).ToList();
+                
+                    <tr>
+                        <td class="removeRow"><i class="glyphicon glyphicon-trash"></i></td>
+                        @foreach (var column in fieldValues)
+                        {
+                            inputClass = "";
+                            if (column.Field.DataType == Ecm.Domain.FieldDataType.Date)
+                            {
+                                inputClass = "date";
+                               
+                            }
+                            else if (column.Field.DataType == Ecm.Domain.FieldDataType.Integer)
+                            {
+                                inputClass = "allownumericwithdecimal";
+                            }
+                            else if (column.Field.DataType == Ecm.Domain.FieldDataType.Decimal)
+                            {
+                                inputClass = "allownumericwithoutdecimal";
+                            }           
+                                         
+                            <td>
+                                <div class="content_fields_input">
+                                    <input type="text" class="form-control input-sm @inputClass" value="@(column == null ? "" : column.Value)" id="@column.Id"/>
+                                    <input type="hidden" value="@column.FieldId" id="tableFieldId" />
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr class="fakeRow">
+                <td colspan='@(colCount + 1)' onclick='addTableRow(@Html.Raw(Json.Encode(Model.Field.Children)));'>
+                    <span class="textButton hand">Add more row</span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}

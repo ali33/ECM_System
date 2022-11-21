@@ -1,0 +1,74 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target
+        Name="_DeploymentComputeClickOnceManifestInfo"
+        Condition="'$(GenerateClickOnceManifests)'=='true'"
+        DependsOnTargets="_DeploymentGenerateTrustInfo">
+
+    <!-- Grab just the serialization assemblies for a referenced assembly.  There may also be a symbols file in ReferenceRelatedPaths -->
+    <ItemGroup>
+      <_SGenDllsRelatedToCurrentDll Include="@(_ReferenceSerializationAssemblyPaths->'%(FullPath)')" Condition="'%(Extension)' == '.dll'"/>
+      <_SGenDllsRelatedToCurrentDll Include="@(SerializationAssembly->'%(FullPath)')" Condition="'%(Extension)' == '.dll'"/>
+    </ItemGroup>
+
+    <!-- Flag primary dependencies-certain warnings emitted during application manifest generation apply only to them. -->
+    <ItemGroup>
+      <_DeploymentReferencePaths Include="@(ReferencePath)">
+        <IsPrimary>true</IsPrimary>
+      </_DeploymentReferencePaths>
+    </ItemGroup>
+
+    <!-- Create list of items for manifest generation -->
+    <ResolveManifestFiles
+        TargetFrameworkVersion="$(TargetFrameworkVersion)"
+        SigningManifests="$(SignManifests)"
+        EntryPoint="@(_DeploymentManifestEntryPoint)"
+        ExtraFiles="@(_DebugSymbolsIntermediatePath);$(IntermediateOutputPath)$(TargetName).xml;@(_ReferenceRelatedPaths)"
+        Files="@(ContentWithTargetPath);@(_DeploymentManifestIconFile);@(AppConfigWithTargetPath)"
+        ManagedAssemblies="@(_DeploymentReferencePaths);@(ReferenceDependencyPaths);@(_SGenDllsRelatedToCurrentDll);@(SerializationAssembly)"
+        NativeAssemblies="@(NativeReferenceFile);@(_DeploymentNativePrerequisite)"
+        PublishFiles="@(PublishFile)"
+        SatelliteAssemblies="@(IntermediateSatelliteAssembliesWithTargetPath);@(ReferenceSatellitePaths)"
+        TargetCulture="$(TargetCulture)">
+
+      <Output TaskParameter="OutputAssemblies" ItemName="_DeploymentManifestDependencies"/>
+      <Output TaskParameter="OutputFiles" ItemName="_DeploymentManifestFiles"/>
+      <Output TaskParameter="OutputEntryPoint" ItemName="_DeploymentResolvedManifestEntryPoint"/>
+
+    </ResolveManifestFiles>
+
+    <!-- Begin CAPTURE custom fragments-->
+    <ItemGroup>
+      <CustomActivities Include="$(MSBuildProjectDirectory)\**\HumanStep.dll;$(MSBuildProjectDirectory)\**\Lookup.dll;$(MSBuildProjectDirectory)\**\Notifier.dll;$(MSBuildProjectDirectory)\**\BarcodeExecutor.dll;$(MSBuildProjectDirectory)\**\ReleaseToArchive.dll;$(MSBuildProjectDirectory)\**\GetContent.dll" />
+    </ItemGroup>
+    <CreateItem Include="@(CustomActivities)" >
+      <Output TaskParameter="Include" ItemName="ManagedAssemblies" />
+    </CreateItem>
+    <CreateItem Include="@(ManagedAssemblies)" AdditionalMetadata="TargetPath=%(RecursiveDir)%(Filename)%(Extension);DependencyType=Install;">
+      <Output ItemName="_DeploymentManifestDependencies" TaskParameter="Include" />
+    </CreateItem>
+    <!-- End CAPTURE custom fragments -->
+    
+    <PropertyGroup>
+      <_DeploymentManifestType>ClickOnce</_DeploymentManifestType>
+    </PropertyGroup>
+
+    <!-- Obtain manifest version from ApplicationVersion and ApplicationRevision properties -->
+    <FormatVersion Version="$(ApplicationVersion)" Revision="$(ApplicationRevision)">
+      <Output TaskParameter="OutputVersion" PropertyName="_DeploymentManifestVersion"/>
+    </FormatVersion>
+
+    <FormatUrl InputUrl="$(_DeploymentUrl)">
+      <Output TaskParameter="OutputUrl" PropertyName="_DeploymentFormattedDeploymentUrl"/>
+    </FormatUrl>
+
+    <FormatUrl InputUrl="$(SupportUrl)">
+      <Output TaskParameter="OutputUrl" PropertyName="_DeploymentFormattedSupportUrl"/>
+    </FormatUrl>
+
+    <FormatUrl InputUrl="$(ErrorReportUrl)">
+      <Output TaskParameter="OutputUrl" PropertyName="_DeploymentFormattedErrorReportUrl"/>
+    </FormatUrl>
+
+  </Target>
+</Project>

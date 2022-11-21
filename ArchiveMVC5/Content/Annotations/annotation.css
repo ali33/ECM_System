@@ -1,0 +1,164 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.annotation{
+	border: 1px solid blue;
+	display: block;
+}
+.anno_text{
+	/*border: 1px solid green;*/
+	background-color:rgba(255, 255, 205, 0.80);
+    box-shadow: 0px 0px 5px #000;
+}
+.anno_text_content{
+	font-style:normal;
+	font-size:14px;
+	font-family: Comic Sans, Comic Sans MS, cursive;
+}
+.anno_text:hover{
+	/*border: 1px solid green;*/
+	/*display: block;*/
+	/*background-color:#CC3;*/
+}
+.anno_redaction{
+	/*border: 1px solid black;*/
+	display: block;
+	background-color:#666;
+}
+.anno_highlight{
+	opacity:0.7;
+	background-color:#CF0;
+}
+
+.anno_ocr_zone{
+	border:2px solid gray;
+}
+
+.not_map{
+	border:2px solid brown;
+}
+
+.duplicated{
+	border:2px solid red;
+}
+
+.valid{
+	border:2px solid green;
+}
+
+.anno_ocr_zone:hover{
+	opacity:1;		
+}
+
+.anno_ocr_zone_name{
+	display:block;
+	background:rgba(31, 187, 13, 0.7);
+	font-weight:bold;
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+.anno_passive {
+    display:block;
+    border: 1px solid #199819;
+}
+.anno_focus{
+	z-index:1000;
+	-moz-box-shadow: 0px 0px 20px black;
+	-webkit-box-shadow: 0px 0px 20px black;
+	box-shadow: 0px 0px 20px #000;
+}
+.ui-resizable-n {
+	cursor: n-resize;
+	height: 7px;
+	width: 100%;
+	top: -5px;
+	left: 0;
+}
+.ui-resizable-s {
+	cursor: s-resize;
+	height: 7px;
+	width: 100%;
+	bottom: -5px;
+	left: 0;
+}
+.ui-resizable-e {
+	cursor: e-resize;
+	width: 7px;
+	right: -5px;
+	top: 0;
+	height: 100%;
+}
+.ui-resizable-w {
+	cursor: w-resize;
+	width: 7px;
+	left: -5px;
+	top: 0;
+	height: 100%;
+}
+.ui-resizable-se {
+	cursor: se-resize;
+	width: 12px;
+	height: 12px;
+	right: 1px;
+	bottom: 1px;
+}
+.ui-resizable-sw {
+	cursor: sw-resize;
+	width: 9px;
+	height: 9px;
+	left: -5px;
+	bottom: -5px;
+}
+.ui-resizable-nw {
+	cursor: nw-resize;
+	width: 9px;
+	height: 9px;
+	left: -5px;
+	top: -5px;
+}
+.ui-resizable-ne {
+	cursor: ne-resize;
+	width: 9px;
+	height: 9px;
+	right: -5px;
+	top: -5px;
+}
+.ui-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    display: block;
+}
+.editable-button {
+	background-color:#79bbff;
+	-webkit-border-top-left-radius:0px;
+	-moz-border-radius-topleft:0px;
+	border-top-left-radius:0px;
+	-webkit-border-top-right-radius:0px;
+	-moz-border-radius-topright:0px;
+	border-top-right-radius:0px;
+	-webkit-border-bottom-right-radius:0px;
+	-moz-border-radius-bottomright:0px;
+	border-bottom-right-radius:0px;
+	-webkit-border-bottom-left-radius:0px;
+	-moz-border-radius-bottomleft:0px;
+	border-bottom-left-radius:0px;
+	text-indent:0px;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	font-style:normal;
+	height:25px;
+	line-height:25px;
+	width:55px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #528ecc;
+}.editable-button:hover {
+	background-color:#378de5;
+}.editable-button:active {
+	position:relative;
+	top:1px;
+}
+/* This button was generated using CSSButtonGenerator.com */

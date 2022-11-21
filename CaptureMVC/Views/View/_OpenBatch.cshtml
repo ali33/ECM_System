@@ -1,0 +1,727 @@
+﻿@using CaptureMVC.Resources;
+@using CaptureMVC.Utility;
+@using CaptureMVC.Models;
+@using Ecm.CaptureDomain;
+@using System.Globalization;
+@using System.Xml;
+@using System.Text;
+
+@model ViewBatchModel
+
+@{
+    var activeDocId = Guid.Empty;
+    var activePageId = Guid.Empty;
+
+    var looseDoc = Model.Documents[1];
+    if (looseDoc.PageCount > 0)
+    {
+        activeDocId = looseDoc.Id;
+        activePageId = looseDoc.Pages[0].OriginPage.Id;
+    }
+    else
+    {
+        var firstNormalDoc = Model.Documents[2];
+        activeDocId = firstNormalDoc.Id;
+        activePageId = firstNormalDoc.Pages[0].OriginPage.Id;
+    }
+}
+
+<div id="active-doc-id">@activeDocId</div>
+<div id="active-page-id">@activePageId</div>
+
+<!-- Batch thumbnail -->
+<ul>
+    <li id="@Model.Id" class="li-batch @(Model.IsRejected ? "reject" : "accept")"
+        data-can-modify-doc="@Model.BatchPermission.CanModifyDocument"
+        data-can-print="@Model.BatchPermission.CanPrint"
+        data-can-email="@Model.BatchPermission.CanEmail"
+        data-can-send-link="@Model.BatchPermission.CanSendLink"
+        data-can-download="@Model.BatchPermission.CanDownloadFilesOnDemand"
+        data-can-del="@Model.BatchPermission.CanDelete"
+        data-can-reject="@Model.BatchPermission.CanReject"
+        data-can-release-loose-page="@Model.BatchPermission.CanReleaseLoosePage">
+
+        <!-- Batch information section-->
+        <div class="item-content expand">
+            <div class="item-icon"></div>
+            <div class="item-image batch">
+                <div class="image-reject"></div>
+            </div>
+            <div class="item-text">
+                <div class="item-title">@Model.BatchName</div>
+                <div>
+                    @LeftBarResources.CreateOn:&nbsp;
+                    @Model.CreatedDate.ToString(DateTimeFormatInfo.CurrentInfo.FullDateTimePattern)
+                </div>
+                <div>@LeftBarResources.CreateBy:&nbsp;@Model.CreatedBy</div>
+            </div>
+        </div>
+
+        <!-- Documents of batch section-->
+        <div class="item-children">
+            <ul class="tree-item ul-doc">
+
+                @{
+                    int docIndex = 1;
+                    int pageIndex;
+                }
+
+                @foreach (var doc in Model.Documents.Where(h => h.DocKind != Constant.DOC_KIND_TEMP))
+                {
+                <li id="@doc.Id"
+                    class="li-doc @(doc.IsRejected ? "reject" : doc.PageCount > 0 ? "accept" : string.Empty)
+                    @(doc.DocKind == Constant.DOC_KIND_LOOSE ? "loose-item" : string.Empty) "
+                        data-can-add-highlight=" @doc.CanAddHighlight "
+                        data-can-add-text=" @doc.CanAddText "
+                        data-can-add-redaction=" @doc.CanAddRedaction "
+                        data-can-delete-highlight=" @doc.CanDeleteHighlight "
+                        data-can-delete-text=" @doc.CanDeleteText "
+                        data-can-delete-redaction=" @doc.CanDeleteRedaction "
+                        data-status-control=" pan"
+                    data-hide-anno="False"
+                    data-scale="10">
+
+                    @if (doc.DocumentType != null)
+                        {
+                            var docTitle = string.IsNullOrEmpty(doc.DocName) ? doc.DocumentType.Name : doc.DocName;
+                            <!-- Doc information section-->
+                        <div class="item-content expand">
+                            <div class="item-icon"></div>
+                            <div class="item-image doc">
+                                <div class="image-reject"></div>
+                            </div>
+                            <div class="item-text">
+                                <div class="item-title">
+                                    <span class="item-doc-index">@(docIndex++)</span>.&nbsp;
+                                    <span class="item-doc-title" data-doc-name="@doc.DocName">@docTitle</span>
+                                </div>
+                                <div>
+                                    @LeftBarResources.TotalPage:&nbsp;
+                                    <span class="item-doc-count">@doc.PageCount</span>
+                                </div>
+                            </div>
+                        </div>
+                        }
+
+                    <!-- pages of doc section -->
+                    <div class="item-children">
+                        <ul class="tree-item ul-page
+                            @(doc.DocKind == Constant.DOC_KIND_LOOSE ? "loose-item" : string.Empty) ">
+
+                            @{ pageIndex = 1; }
+
+                            @foreach (var page in doc.Pages.OrderBy(h=>h.OriginPage.PageNumber))
+                                {
+                                <li id="@page.OriginPage.Id"
+                                    class="li-page @(page.OriginPage.IsRejected ? "reject" : "accept")"
+                                    data-rotate-angle="@((int)page.OriginPage.RotateAngle)"
+                                    data-old-doc-id="@doc.Id">
+                                    <div class="item-content">
+                                        <div class="item-image
+                                             @(page.ContentType.StartsWith(Ecm.Utility.ContentTypeEnumeration.Image.IMAGE_TYPE) ? "real-image" : "native-image") ">
+                                                <img src=" ~ />Images/loading/preloader-black.gif"
+                                        class="image-main
+                                        rotate-@((int)page.OriginPage.RotateAngle)" />
+                                        <div class="image-reject"></div>
+                                    </div>
+                                    <div class="item-text">
+                                        <div class="item-page-index">@(pageIndex++)</div>
+                                    </div>
+                        </div>
+                    </li>
+                                }
+                        </ul>
+                    </div>
+                </li>
+                }
+            </ul>
+            </div>
+            </li>
+            </ul>
+
+            <!-- Batch viewer -->
+            <div id="view-batch-@Model.Id" class="view-batch">
+
+                @{
+                    int tempMarginTop;
+                    string axis;
+                    string rotateClass;
+                    int width;
+                    int height;
+                    int minSize;
+                    string transformOrigin;
+                    int rotateAngle;
+                }
+
+                @foreach (var doc in Model.Documents.Where(h => h.DocKind != Constant.DOC_KIND_TEMP))
+                {
+                    var classBuilder = new StringBuilder("view-doc");
+                    if (doc.DocKind == Constant.DOC_KIND_LOOSE)
+                    {
+                        classBuilder.Append(" loose-item");
+                    }
+                    if (doc.CanDeleteHighlight)
+                    {
+                        classBuilder.Append(" can-del-highlight");
+                    }
+                    if (doc.CanDeleteText)
+                    {
+                        classBuilder.Append(" can-del-text");
+                    }
+
+                    <div id="view-doc-@doc.Id" class="@(classBuilder.ToString())" data-hide-anno="false">
+
+                        @foreach (var page in doc.Pages.OrderBy(h => h.OriginPage.PageNumber))
+                        {
+                            if (page.ContentType.StartsWith(Ecm.Utility.ContentTypeEnumeration.Image.IMAGE_TYPE))
+                            {
+                                width = (int)Math.Round(page.OriginPage.Width);
+                                height = (int)Math.Round(page.OriginPage.Height);
+                                minSize = Math.Min(width, height);
+                                if (minSize > 60)
+                                {
+                                    minSize = 60;
+                                }
+                                transformOrigin = string.Empty;
+                                rotateAngle = (int)page.OriginPage.RotateAngle;
+
+
+                                if (rotateAngle == 90 || rotateAngle == -270)
+                                {
+                                    axis = (width / 2).ToString() + "px";
+                                    transformOrigin = string.Format(Constant.TRANSFORM_ORIGIN_TEMPLATE, axis, axis);
+                                    rotateClass = "rotate-90";
+                                }
+                                else if (rotateAngle == 270 || rotateAngle == -90)
+                                {
+                                    axis = (height / 2).ToString() + "px";
+                                    transformOrigin = string.Format(Constant.TRANSFORM_ORIGIN_TEMPLATE, axis, axis);
+                                    rotateClass = "rotate-270";
+
+                                }
+                                else
+                                {
+                                    transformOrigin = string.Empty;
+                                    if (rotateAngle == 180 || rotateAngle == -180)
+                                    {
+                                        rotateClass = "rotate-180";
+                                    }
+                                    else
+                                    {
+                                        rotateClass = string.Empty;
+                                    }
+                                }
+
+                                <div id="view-page-@page.OriginPage.Id" class="wrapper-image not-load"
+                                     style="width: @(width)px; height: @(height)px;" data-del-annoes="">
+                                    @if (height > minSize)
+                                    {
+                                        tempMarginTop = (height - minSize) / 2;
+                                    }
+                                    else
+                                    {
+                                        tempMarginTop = 0;
+                                    }
+                                    <div class="wrapper-image-temp"
+                                         style="margin-top: @(tempMarginTop)px; width: @(minSize)px; height: @(minSize)px;">
+                                    </div>
+                                    @if (rotateAngle == 90 || rotateAngle == -270 || rotateAngle == 270 || rotateAngle == -90)
+                                    {
+                                        <img src="" draggable="false" width="@(height - 1)" height="@(width - 1)"
+                                             class="@rotateClass" style="@transformOrigin">
+                                    }
+                                    else
+                                    {
+                                        <img src="" draggable="false" width="@(width - 1)" height="@(height - 1)"
+                                             class="@rotateClass" style="@transformOrigin">
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="view-page-@page.OriginPage.Id" class="wrapper-image-native-file">
+                                    <div class="wrapper-image-temp"></div>
+                                    <img src="" draggable="false">
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+
+            </div>
+
+            <!-- Batch index -->
+            <div id="batch-index-@Model.Id" class="current_content"
+                 style="display:none; position: relative; overflow-x: hidden"
+                 data-can-modify-index="@Model.BatchPermission.CanModifyIndexes">
+                <div class="current_content_header">
+                    <strong><span class="docTypeName">@LeftBarResources.TitleBatchIndexes</span></strong>
+                    <br />
+                    <strong><span class="docTypeName">@Model.BatchType.Name</span></strong>
+                    (@Model.Documents.Count @LeftBarResources.CountDocInBatchIndexes)
+                </div>
+                <div class="current_content_fields">
+                    @foreach (var fieldValue in Model.FieldValues.Where(h => !h.FieldMetaData.IsSystemField)
+                                                         .OrderBy(h => h.FieldMetaData.DisplayOrder))
+                    {
+                        <div class="content_fields">
+                            @if ("Boolean".Equals(fieldValue.FieldMetaData.DataType, StringComparison.OrdinalIgnoreCase))
+                            {
+                                <div class="content_lables">
+                                    <input type="checkbox" tabindex="-1" />
+                                </div>
+                                    <div class="input-control">
+                                        <input id="@fieldValue.Id" type="checkbox" class="boolean"
+                                               @("True".Equals(fieldValue.Value) ? "checked=\"checked\"" : string.Empty)
+                                               @(Model.BatchPermission.CanModifyIndexes ? string.Empty : "disabled=\"disabled\"")>
+                                        <span>@fieldValue.FieldMetaData.Name</span>
+                                    </div>
+                            }
+                            else
+                            {
+                                <div class="content_lables">
+                                    <input type="checkbox" tabindex="-1" />
+                                    <span>@fieldValue.FieldMetaData.Name</span>
+                                </div>
+                                <div class="content_fields_input">
+                                    @if (Model.BatchPermission.CanModifyIndexes)
+                                    {
+                                        switch (fieldValue.FieldMetaData.DataType)
+                                        {
+                                            case "String":
+                                                <input id="@fieldValue.Id" type="text" value="@fieldValue.Value"
+                                                       @(fieldValue.FieldMetaData.MaxLength > 0 ? "maxlength=" + fieldValue.FieldMetaData.MaxLength : string.Empty)>
+                                                break;
+
+                                            case "Integer":
+                                            <input id="@fieldValue.Id" type="text" value="@fieldValue.Value" class="integer"
+                                                   maxlength="10" data-old-value="@fieldValue.Value">
+                                                break;
+
+                                            case "Decimal":
+                                            <input id="@fieldValue.Id" type="text" value="@fieldValue.Value" class="decimal"
+                                                   maxlength="10" data-old-value="@fieldValue.Value">
+                                                break;
+
+                                            case "Date":
+                                                DateTime date;
+                                                var flag = DateTime.TryParseExact(fieldValue.Value, Constant.DATE_FORMATS,
+                                                                                  null, DateTimeStyles.None, out date);
+
+                                                if (flag)
+                                                {
+                                                    <input data-date-value="@date.ToString("yyyy-MM-dd")" id="@fieldValue.Id" type="text"
+                                                           value="@date.ToString("M/d/yyyy")" class="date" maxlength="10">
+                                                }
+                                                else
+                                                {
+                                                    <input data-date-value="" id="@fieldValue.Id" type="text" value="" class="date"
+                                                           maxlength="10">
+                                                }
+                                                break;
+
+                                            default:
+                                                break;
+                                        }
+
+                                        <button tabindex="-1" class="close">×</button>
+                                    }
+                                    else
+                                    {
+                                        <input id="@fieldValue.Id" type="text" value="@fieldValue.Value" readonly="readonly">
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Doc index -->
+            <div id="doc-index">
+                @foreach (var docModel in Model.Documents.Where(h => h.DocumentType != null))
+                {
+                    <div id="doc-index-@docModel.Id" class="current_content">
+                        <div class="current_content_header">
+                            <strong><span class="docTypeName">@LeftBarResources.TitleDocIndexes</span></strong>
+                            <br />
+                            <strong>
+                                <span class="item-doc-index"></span>.
+                                <span class="docTypeName">@docModel.DocumentType.Name</span>
+                            </strong>(@Model.Documents.Count @LeftBarResources.CountDocInDocIndexes)
+                        </div>
+                        <div class="current_content_fields">
+                            @{
+                    // Get list non system field
+                    var fieldValues = docModel.FieldValues.Where(h => !h.FieldMetaData.IsSystemField)
+                                                          .OrderBy(h => h.FieldMetaData.DisplayOrder);
+                    var readOnly = Model.BatchPermission.CanModifyIndexes ? string.Empty : "readonly=\"readonly\"";
+                            }
+
+                            @foreach (var fieldValue in fieldValues)
+                            {
+                                var required = fieldValue.FieldMetaData.IsRequired ? "required" : string.Empty;
+                                var starRequired = fieldValue.FieldMetaData.IsRequired ? "*" : string.Empty;
+                                var empty = string.IsNullOrWhiteSpace(fieldValue.Value) ? "empty" : string.Empty;
+
+                                <div class="content_fields">
+                                    @if ("Boolean" == fieldValue.FieldMetaData.DataType)
+                                    {
+                                        <div class="content_lables">
+                                            <input type="checkbox" tabindex="-1" @readOnly />
+                                        </div>
+                                            <div class="input-control">
+                                                <input id="@fieldValue.Id" type="checkbox" class="boolean"
+                                                       @("True" == fieldValue.Value ? "checked=\"checked\"" : string.Empty)
+                                                       @readOnly>
+                                                <span>@fieldValue.FieldMetaData.Name</span>
+                                                <span class="star-req">@starRequired</span>
+                                            </div>
+                                    }
+                                    else if ("Table" == fieldValue.FieldMetaData.DataType)
+                                    {
+                                        <div class="content_lables">
+                                            <span>@fieldValue.FieldMetaData.Name</span>
+                                            <span class="star-req">@starRequired</span>
+                                        </div>
+
+                                        var emptyTable = string.Empty;
+                                        if (Model.BatchPermission.CanModifyIndexes
+                                            && (fieldValue.TableFieldValue == null || fieldValue.TableFieldValue.Count == 0))
+                                        {
+                                            emptyTable = "empty";
+                                        }
+
+                                        <div id="@fieldValue.Id"
+                                             class="content_fields_input click-detail-table @required @emptyTable">
+                                            @LeftBarResources.ClickDetailTable
+                                        </div>
+
+                                            <div class="detail-table" id="tbl-@fieldValue.Id">
+                                                <div class="ui-layout-center table">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                @if (Model.BatchPermission.CanModifyIndexes)
+                                                                {
+                                                                    <th></th>
+                                                                }
+
+                                                                @foreach (var header in fieldValue.FieldMetaData
+                                                                                      .Children
+                                                                                      .OrderBy(h => h.DisplayOrder))
+                                                                {
+                                                                    <th class="td-data" id="@header.Id">@header.Name</th>
+                                                                }
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @if (Model.BatchPermission.CanModifyIndexes)
+                                                            {
+                                                                <tr class="template-row @required">
+                                                                    <td>
+                                                                        <img class="del-col" src="~/Images/appbar.delete.png" />
+                                                                    </td>
+                                                                    @foreach (var col in fieldValue.FieldMetaData
+                                                                                       .Children
+                                                                                       .OrderBy(h => h.DisplayOrder))
+                                                                    {
+                                                                        <td class="td-data">
+                                                                            <div class="content_fields_input">
+                                                                                @if ("String" == col.DataType)
+                                                                                {
+                                                                                    <input type="text" value=""
+                                                                                           data-field-id="@col.Id"
+                                                                                           class="string @required empty-template"
+                                                                                           @(col.MaxLength > 0 ? "maxlength=" + col.MaxLength : string.Empty)>
+                                                                                            <button tabindex="-1" class="close in-table">
+                                                                                                ×
+                                                                                            </button>
+                                                                                }
+                                                                                else if ("Integer" == col.DataType)
+                                                                                {
+                                                                                    <input type="text" value="" data-field-id="@col.Id"
+                                                                                           class="integer @required empty-template"
+                                                                                           maxlength="11" data-old-value="">
+                                                                                            <button tabindex="-1" class="close in-table">
+                                                                                                ×
+                                                                                            </button>
+                                                                                }
+                                                                                else if ("Decimal" == col.DataType)
+                                                                                {
+                                                                                    <input type="text" value="" data-field-id="@col.Id"
+                                                                                           class="decimal @required empty-template"
+                                                                                           maxlength="22" data-old-value="">
+                                                                                            <button tabindex="-1" class="close in-table">
+                                                                                                ×
+                                                                                            </button>
+                                                                                }
+                                                                                else if ("Date" == col.DataType)
+                                                                                {
+                                                                                    <input data-date-value="" type="text" value=""
+                                                                                           data-field-id="@col.Id"
+                                                                                           class="date-template
+                                                                                           @required empty-template"
+                                                                                           maxlength="10">
+                                                                                            <button tabindex="-1" class="close in-table">
+                                                                                                ×
+                                                                                            </button>
+                                                                                }
+                                                                            </div>
+                                                                        </td>
+                                                                    }
+                                                                </tr>
+
+                                                                foreach (var rowGroup in fieldValue.TableFieldValue
+                                                                                                   .GroupBy(h => h.RowNumber)
+                                                                                                   .OrderBy(h => h.Key))
+                                                                {
+                                                                    <tr class="real-row">
+                                                                        <td>
+                                                                            <img class="del-col" src="~/Images/appbar.delete.png" />
+                                                                        </td>
+
+                                                                        @foreach (var col in rowGroup.OrderBy(h => h.Field
+                                                                                                    .DisplayOrder))
+                                                                        {
+                                                                            <td class="td-data">
+                                                                                <div class="content_fields_input">
+                                                                                    @{
+                                                                            var colEmpty = string.IsNullOrWhiteSpace(col.Value)
+                                                                                ? "empty" : string.Empty;
+                                                                                    }
+
+                                                                                    @if ("String" == col.Field.DataType)
+                                                                                    {
+                                                                                        <input id="@col.Id" type="text"
+                                                                                               data-field-id="@col.FieldId"
+                                                                                               value="@col.Value"
+                                                                                               class="string @required @colEmpty"
+                                                                                               @(col.Field.MaxLength > 0 ? "maxlength=" + col.Field.MaxLength : string.Empty)>
+                                                                                                <button tabindex="-1" class="close in-table">
+                                                                                                    ×
+                                                                                                </button>
+                                                                                    }
+                                                                                    else if ("Integer" == col.Field.DataType)
+                                                                                    {
+                                                                                        <input id="@col.Id" type="text"
+                                                                                               data-field-id="@col.FieldId"
+                                                                                               value="@col.Value"
+                                                                                               class="integer @required @colEmpty"
+                                                                                               maxlength="11" data-old-value="@col.Value">
+                                                                                                <button tabindex="-1" class="close in-table">
+                                                                                                    ×
+                                                                                                </button>
+                                                                                    }
+                                                                                    else if ("Decimal" == col.Field.DataType)
+                                                                                    {
+                                                                                        <input id="@col.Id" type="text"
+                                                                                               data-field-id="@col.FieldId"
+                                                                                               value="@col.Value"
+                                                                                               class="decimal @required @colEmpty"
+                                                                                               maxlength="22" data-old-value="@col.Value">
+                                                                                                <button tabindex="-1" class="close in-table">
+                                                                                                    ×
+                                                                                                </button>
+                                                                                    }
+                                                                                    else if ("Date" == col.Field.DataType)
+                                                                                    {
+                                                                                        DateTime date;
+                                                                                        var flag = DateTime.TryParseExact
+                                                                                                   (
+                                                                                                        col.Value,
+                                                                                                        Constant.DATE_FORMATS, null,
+                                                                                                        DateTimeStyles.None, out date
+                                                                                                   );
+
+                                                                                        if (flag)
+                                                                                        {
+                                                                                            <input data-date-value="@date.ToString("yyyy-MM-dd")"
+                                                                                                   data-field-id="@col.FieldId"
+                                                                                                   id="@col.Id"
+                                                                                                   type="text"
+                                                                                                   value="@date.ToString("M/d/yyyy")"
+                                                                                                   class="date @required" maxlength="10">
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <input data-date-value="" id="@col.Id"
+                                                                                                   data-field-id="@col.FieldId"
+                                                                                                   type="text" value=""
+                                                                                                   class="date @required empty"
+                                                                                                   maxlength="10">
+                                                                                        }
+                                                                                        <button tabindex="-1" class="close in-table">
+                                                                                            ×
+                                                                                        </button>
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                        }
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (var rowGroup in fieldValue.TableFieldValue
+                                                                                                   .GroupBy(h => h.RowNumber)
+                                                                                                   .OrderBy(h => h.Key))
+                                                                {
+                                                                    <tr class="real-row">
+                                                                        @foreach (var col in rowGroup)
+                                                                        {
+                                                                            <td class="td-data">
+                                                                                <div class="content_fields_input">
+                                                                                    @if ("Date" == col.Field.DataType)
+                                                                                    {
+                                                                                        DateTime date;
+                                                                                        var flag = DateTime.TryParseExact
+                                                                                                   (
+                                                                                                        col.Value,
+                                                                                                        Constant.DATE_FORMATS, null,
+                                                                                                        DateTimeStyles.None, out date
+                                                                                                   );
+
+                                                                                        if (flag)
+                                                                                        {
+                                                                                            <input id="@col.Id" type="text"
+                                                                                                   value="@date.ToString("M/d/yyyy")"
+                                                                                                   readonly="readonly">
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <input id="@col.Id" type="text" value=""
+                                                                                                   readonly="readonly">
+                                                                                        }
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <input id="@col.Id" type="text"
+                                                                                               value="@col.Value" readonly="readonly">
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                        }
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                @if (Model.BatchPermission.CanModifyIndexes)
+                                                {
+                                                    <div class="click-new-row ui-layout-south">
+                                                        @LeftBarResources.ClickNewRow
+                                                    </div>
+                                                }
+                                            </div>
+                                    }
+                                    else
+                                    {
+                            <!-- Other data type -->
+                                        <div class="content_lables">
+                                            <input type="checkbox" tabindex="-1" @readOnly />
+                                            <span>@fieldValue.FieldMetaData.Name</span>
+                                            <span class="star-req">@starRequired</span>
+                                        </div>
+                                        <div class="content_fields_input">
+                                            @if (!Model.BatchPermission.CanModifyIndexes)
+                                            {
+                                                if ("Date" == fieldValue.FieldMetaData.DataType)
+                                                {
+                                                    DateTime date;
+                                                    var flag = DateTime.TryParseExact(fieldValue.Value,
+                                                                                      Constant.DATE_FORMATS, null,
+                                                                                      DateTimeStyles.None, out date);
+
+                                                    if (flag)
+                                                    {
+                                                        <input data-date-value="@date.ToString("yyyy-MM-dd")" id="@fieldValue.Id"
+                                                               type="text" value="@date.ToString("M/d/yyyy")" readonly="readonly">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input data-date-value="" id="@fieldValue.Id" type="text" value=""
+                                                               readonly="readonly">
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <input id="@fieldValue.Id" type="text" value="@fieldValue.Value"
+                                                           readonly="readonly">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                switch (fieldValue.FieldMetaData.DataType)
+                                                {
+                                                    case "String":
+                                                        <input id="@fieldValue.Id" type="text" value="@fieldValue.Value"
+                                                               class="string @required @empty"
+                                                               @(fieldValue.FieldMetaData.MaxLength > 0 ? "maxlength=" + fieldValue.FieldMetaData.MaxLength : string.Empty)>
+                                                        <button tabindex="-1" class="close">×</button>
+                                                        break;
+
+                                                    case "Integer":
+                                                    <input id="@fieldValue.Id" type="text" value="@fieldValue.Value"
+                                                           class="integer @required @empty"
+                                                           maxlength="11" data-old-value="@fieldValue.Value">
+                                                    <button tabindex="-1" class="close">×</button>
+                                                        break;
+
+                                                    case "Decimal":
+                                                    <input id="@fieldValue.Id" type="text" value="@fieldValue.Value"
+                                                           class="decimal @required @empty"
+                                                           maxlength="22" data-old-value="@fieldValue.Value">
+                                                    <button tabindex="-1" class="close">×</button>
+                                                        break;
+
+                                                    case "Date":
+                                                        DateTime date;
+                                                        var flag = DateTime.TryParseExact(fieldValue.Value,
+                                                                                          Constant.DATE_FORMATS, null,
+                                                                                          DateTimeStyles.None, out date);
+
+                                                        if (flag)
+                                                        {
+                                                            <input id="@fieldValue.Id" type="text" value="@date.ToString("M/d/yyyy")"
+                                                                   class="date @required" maxlength="10">
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="@fieldValue.Id" type="text" value=""
+                                                                   class="date @required empty" maxlength="10">
+                                                        }
+                                                        <button tabindex="-1" class="close">×</button>
+                                                        break;
+
+                                                    case "Picklist":
+                                                    <select id="@fieldValue.Id"
+                                                            class="picklist @required @empty">
+                                                        @if (!fieldValue.FieldMetaData.IsRequired)
+                                                        {
+                                                            <option value="" @(string.IsNullOrEmpty(fieldValue.Value) ? "selected" : string.Empty)></option>
+                                                        }
+                                                        @foreach (var picklist in fieldValue.FieldMetaData.Picklists)
+                                                        {
+                                                            <option value="@picklist.Id"
+                                                                    @(fieldValue.Value == picklist.Value ? "selected" : string.Empty)>
+                                                                @picklist.Value
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                        break;
+
+                                                    default:
+                                                        break;
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>

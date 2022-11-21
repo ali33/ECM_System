@@ -1,0 +1,15 @@
+﻿@model  IList<ArchiveMVC5.Models.DocumentTypeModel>
+@{
+    ViewBag.Title = "ShowDeleteField";
+}
+
+<h2>ShowDeleteField</h2>
+<p>Nội dung này chỉ dùng để test</p>
+@foreach (var item in Model)
+{
+    <h2>@item.Name</h2>
+    foreach (var item2 in item.DeletedFields)
+    {
+        <p>@item2.Name</p>
+    }
+}

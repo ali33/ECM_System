@@ -1,0 +1,26 @@
+/* header */
+
+header > .menu_archive > .menu_horizontal {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+header > .menu_archive > .menu_horizontal > li.menu_item {
+	width: 80px;
+}
+
+header > div.searchglobal {
+	left: 580px;
+}
+
+header > div.searchglobal .searchglobal_form {
+	padding-left: 20px;
+	padding-right: 10px;
+
+}
+
+/* section */
+
+.search_query.open table.query_search_button td:nth-of-type(5) {
+	width: 50px;
+}

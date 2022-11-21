@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Ecm.Workflow.Activities.HumanStepPermissionDesigner.View.FieldPermissionView"
+             Language="{UICulture}"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:control="clr-namespace:Ecm.CustomControl;assembly=CustomControl"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Style.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="ItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+                <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
+            </Style>
+
+        <DataTemplate x:Key="CanCellHiddenTemplate">
+                <CheckBox IsTabStop="False" IsChecked="{Binding Path=Hidden, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+        </DataTemplate>
+        <DataTemplate x:Key="CanCellReadTemplate">
+                <CheckBox IsTabStop="False" IsChecked="{Binding Path=CanRead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+        </DataTemplate>
+        <DataTemplate x:Key="CanCellWriteTemplate">
+                <CheckBox IsTabStop="False" IsChecked="{Binding Path=CanWrite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+        </DataTemplate>
+        <DataTemplate x:Key="AllCellTemplate">
+            <CheckBox IsTabStop="False" IsChecked="{Binding Path=AllPermission, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Command="{Binding Path=CheckAllCommand}"
+                      HorizontalAlignment="Center"/>
+        </DataTemplate>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Path=DocumentType.Name}" Style="{StaticResource DocTypeNameStyle}"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="LeftToRight" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView,Key=cbSeeRestrictedField}"
+                      IsChecked="{Binding Path=CanSeeRestrictedField}" Margin="5,0,0,0"/>
+            <Border Style="{StaticResource SeparatorBar}" Grid.Row="1"/>
+            <TextBlock Text="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView,Key=tbFieldPermissions}" Grid.Row="2" Style="{StaticResource DocTypeNameStyle}" Margin="5,0,0,0"/>
+            <control:SortableListView HorizontalAlignment="Stretch" 
+                                        VerticalAlignment="Stretch" 
+                                        ItemsSource="{Binding Path=FieldPermissions, NotifyOnTargetUpdated=True}"
+                                        SelectionMode="Single"
+                                        Grid.Row="3"         
+                                        Height="200"
+                                        MinHeight="200"
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                        ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                        ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                        ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                        ItemContainerStyle="{StaticResource ItemStyle}"
+                                        control:AutoResizeListView.Active="True">
+                <control:SortableListView.View>
+                    <GridView>
+                        <control:SortableGridViewColumn Header="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=colFieldName}" SortPropertyName="FieldName" DisplayMemberBinding="{Binding Path=FieldName, Mode=TwoWay}"/>
+                        <GridViewColumn Header="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=colCanRead}" CellTemplate="{StaticResource CanCellReadTemplate}"/>
+                        <GridViewColumn Header="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=colCanWrite}" CellTemplate="{StaticResource CanCellWriteTemplate}"/>
+                        <GridViewColumn Header="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=colAll}" CellTemplate="{StaticResource AllCellTemplate}"/>
+                    </GridView>
+                </control:SortableListView.View>
+            </control:SortableListView>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,44 @@
+﻿@model ArchiveMVC5.Models.ArchiveAdminModel
+@{
+    ViewBag.Title = "ShowPermission";
+}
+@*<div class="admin_sub_menu_content">
+    <div class="admin_sub_menu_items col-sm-12 padding-1">*@
+        <ul class="menu padding-1">
+            @{
+                var userNumber = 1;
+                var classActive = "";
+                        
+                foreach (var docTypeItem in Model.ListDocTypeModel)
+                {
+                    if (userNumber == 1)
+                    {
+                        classActive = "active";
+                    }
+                    else
+                    {
+                        classActive = "";
+                    }
+                
+                <li id="@docTypeItem.Id" title="@docTypeItem.Name" class="@classActive">
+                    <a href="#" class="permission_menu_item">@docTypeItem.Name</a>
+                    @{ 
+                    if (Model.ListUserGroup.Count > 0)
+                    {
+                        <ul class="treeview-menu" style="display:none">
+                            @foreach (var userGroupItem in Model.ListUserGroup)
+                            {
+                                <li id="@userGroupItem.Id" title="@userGroupItem.Name">
+                                    <a href="#" class="sub_menu_item sub_menu_item_by_content_type">@userGroupItem.Name</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    }
+                </li>
+                    userNumber++;
+                }
+            }
+        </ul>
+@*    </div>
+</div>*@

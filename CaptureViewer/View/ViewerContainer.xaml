@@ -1,0 +1,398 @@
+﻿<UserControl x:Class="Ecm.CaptureViewer.ViewerContainer"
+             Language="{UICulture}"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400"
+             xmlns:vw="clr-namespace:Ecm.CaptureViewer"
+             xmlns:cc="clr-namespace:Ecm.CustomControl;assembly=CustomControl" x:Name="Me">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/CaptureViewer;component/Themes/Style.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="Transparent" Name="CommandListener">
+        <Grid.Resources>
+            <Style x:Key="HowToTextOnCaptureStyle" TargetType="{x:Type Grid}">
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <TranslateTransform />
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard TargetProperty="RenderTransform.X">
+                                    <DoubleAnimationUsingKeyFrames Duration="0:0:1.4">
+                                        <SplineDoubleKeyFrame KeySpline="0.0,0.0 0.9,0.0" Value="80" KeyTime="0:0:0.7" />
+                                        <SplineDoubleKeyFrame KeySpline="0.0,0.0 0.9,0.0" Value="0" KeyTime="0:0:0.7" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="HelpTitle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="40" />
+                <Setter Property="Foreground" Value="#FFCCCCCC" />
+            </Style>
+            <Style x:Key="NumberHelpText" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="60" />
+                <Setter Property="Foreground" Value="#FFCCCCCC" />
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="HelpText" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="Foreground" Value="#FF888888" />
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="Margin" Value="20,0,0,0"></Setter>
+            </Style>
+            <Style x:Key="HelpHintText" TargetType="{x:Type TextBlock}">
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="Margin" Value="20,0,0,0"></Setter>
+            </Style>
+        </Grid.Resources>
+        <DockPanel>
+            <Grid Width="350" DockPanel.Dock="Left" x:Name="LeftPanelContainer" MinWidth="25" SizeChanged="LeftPanelContainerSizeChanged">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Grid.ColumnSpan="2" Background="{StaticResource ThumbnailBoundaryColor}"/>
+                <ToggleButton Grid.Column="1" Focusable="False" IsTabStop="False" Height="20" Margin="0,5,3,5"
+                              Template="{StaticResource CollapseExpand}" ClickMode="Press"
+                              VerticalAlignment="Top" Width="20" x:Name="LeftPanelExpandCollapse"
+                              Click="LeftPanelExpandCollapseClick">
+                    <ToggleButton.RenderTransform>
+                        <RotateTransform Angle="-90" CenterX="10" CenterY="10"></RotateTransform>
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+                <Grid Margin="28,0,5,0" IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,3,0,3">
+                        <cc:SplitButton Mode="Split" Placement="Bottom" x:Name="ScanButton" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttScan}" 
+                                        DropDownOpenning="ScanButtonDropDownOpenning" DropDownClosing="DropDownClosing">
+                            <cc:SplitButton.Content>
+                                <Image Source="..\Resources\scanner.png" Width="34" Height="34" Margin="4" />
+                            </cc:SplitButton.Content>
+                            <MenuItem Header="DocType1"></MenuItem>
+                        </cc:SplitButton>
+                        <cc:SplitButton Mode="Split" Placement="Bottom" Margin="10,0,0,0" x:Name="ImportButton" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttImport}"
+                                        DropDownOpenning="ImportButtonDropDownOpenning" DropDownClosing="DropDownClosing">
+                            <cc:SplitButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="..\Resources\import.png" Width="36" Height="36" Margin="4"/>
+                                </StackPanel>
+                            </cc:SplitButton.Content>
+                            <MenuItem Header="DocType1"></MenuItem>
+                        </cc:SplitButton>
+                        <cc:SplitButton Mode="Split" Placement="Bottom" Margin="10,0,0,0" x:Name="CameraButton" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttCamera}"
+                                        DropDownOpenning="CameraButtonDropDownOpenning" DropDownClosing="DropDownClosing">
+                            <cc:SplitButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="..\Resources\webcam.png" Width="36" Height="36" Margin="4"/>
+                                </StackPanel>
+                            </cc:SplitButton.Content>
+                            <MenuItem Header="DocType1"></MenuItem>
+                        </cc:SplitButton>
+                    </StackPanel>
+                    <cc:SplitButton Style="{StaticResource SplitButtonWithoutDropDown}"
+                                    Mode="Dropdown" Placement="Bottom" Margin="0,3,0,3" 
+                                    x:Name="SettingsButton" 
+                                    ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttOptions}" 
+                                    VerticalAlignment="Center" Grid.Column="1"
+                                    DropDownOpenning="SettingsButton_DropDownOpenning" DropDownClosing="DropDownClosing">
+                        <cc:SplitButton.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="..\Resources\settings.png" Width="40" Height="40"/>
+                            </StackPanel>
+                        </cc:SplitButton.Content>
+                        <MenuItem Header="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=mnChooseDefaultScanner}" x:Name="ChooseDefaultScannerMenu"></MenuItem>
+                        <MenuItem Header="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=mnChooseDefaultCamera}" x:Name="ChooseDefaultCameraMenu"/>
+                        <MenuItem Header="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=mnChooseDefaultMicrophone}" x:Name="ChooseDefaultMicrophoneMenu"/>
+                        <MenuItem Header="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=mnShowScannerDialog}" x:Name="ShowScannerDialogMenu" IsCheckable="True"></MenuItem>
+                    </cc:SplitButton>
+                </Grid>
+                <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Background="{DynamicResource ThumbnailBoundaryColor}" x:Name="leftButtonPanel" Width="25">
+                        <Button Width="120" Style="{DynamicResource QuickAccessButton}" Click="ThumbnailButtonClick">
+                            <Button.LayoutTransform>
+                                <RotateTransform Angle="90" />
+                            </Button.LayoutTransform>
+                            <Grid HorizontalAlignment="Stretch" Width="100">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="..\Resources\thumbnail_icon.png" Width="20" Height="20">
+                                    <Image.LayoutTransform>
+                                        <RotateTransform Angle="-90" />
+                                    </Image.LayoutTransform>
+                                </Image>
+                                <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=tbThumbnails}" Grid.Column="1" HorizontalAlignment="Center"></TextBlock>
+                            </Grid>
+                        </Button>
+                        <Button Width="120" Margin="0,1,0,0" Style="{DynamicResource QuickAccessButton}" x:Name="btnBatchIndex" IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                            <Button.LayoutTransform>
+                                <RotateTransform Angle="90" />
+                            </Button.LayoutTransform>
+                            <Grid HorizontalAlignment="Stretch" Width="120">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="..\Resources\index_icon.png" Width="20" Height="20">
+                                    <Image.LayoutTransform>
+                                        <RotateTransform Angle="-90" />
+                                    </Image.LayoutTransform>
+                                </Image>
+                                <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=tbBatchIndexs}" Grid.Column="1" HorizontalAlignment="Center"></TextBlock>
+                            </Grid>
+                        </Button>
+                        <Button Width="90" Margin="0,1,0,0" Style="{DynamicResource QuickAccessButton}" x:Name="btnIndex" IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                            <Button.LayoutTransform>
+                                <RotateTransform Angle="90" />
+                            </Button.LayoutTransform>
+                            <Grid HorizontalAlignment="Stretch" Width="80">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="..\Resources\index_icon.png" Width="20" Height="20">
+                                    <Image.LayoutTransform>
+                                        <RotateTransform Angle="-90" />
+                                    </Image.LayoutTransform>
+                                </Image>
+                                <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=tbIndexs}" Grid.Column="1" HorizontalAlignment="Center"></TextBlock>
+                            </Grid>
+                        </Button>
+                        <Button Width="90" Margin="0,1,0,0" Style="{DynamicResource QuickAccessButton}" x:Name="btnComment" IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                            <Button.LayoutTransform>
+                                <RotateTransform Angle="90" />
+                            </Button.LayoutTransform>
+                            <Grid HorizontalAlignment="Stretch" Width="90">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="..\Resources\comments.png" Width="20" Height="20">
+                                    <Image.LayoutTransform>
+                                        <RotateTransform Angle="-90" />
+                                    </Image.LayoutTransform>
+                                </Image>
+                                <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=tbCommentButton}" Grid.Column="1" HorizontalAlignment="Center"></TextBlock>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                    <Border Grid.Column="1" BorderThickness="3,0,3,3" BorderBrush="{StaticResource ThumbnailBoundaryColor}">
+                        <Grid x:Name="LeftPanelContent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <vw:DocThumbnail x:Name="DocThumbnail" Items="{Binding Path=Items, ElementName=Me}"></vw:DocThumbnail>
+                            <vw:IndexViewer x:Name="IndexViewer" Visibility="Collapsed" FieldValues="{Binding Path=FieldValues, ElementName=Me}"></vw:IndexViewer>
+                            <Border BorderBrush="{StaticResource ThumbnailBoundaryColor}" BorderThickness="0,1,0,0" Grid.Row="1" x:Name="mainButtonPanel">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="45" Width="Auto">
+                                    <Button Name="btnCreateBatch" Margin="5,5,10,5">
+                                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="120" Height="Auto">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="..\Resources\add.png" Width="20" Height="20" Margin="5,0,5,0"/>
+                                            <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=btnCreateBatch}" Name="LblButtonCreateBatch" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" />
+                                        </Grid>
+                                    </Button>
+                                    <Button Name="ButtonSave" Margin="5,5,0,5" HorizontalAlignment="Left">
+                                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="..\Resources\save.png" Width="20" Height="20" Margin="5,0,5,0"/>
+                                            <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=btnSave}" Name="LblButtonSave" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" />
+                                        </Grid>
+                                    </Button>
+                                    <Button Name="ButtonSubmit" Margin="5,5,0,5" HorizontalAlignment="Left">
+                                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="Auto">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="..\Resources\accept.png" Width="20" Height="20" Margin="5,0,5,0"/>
+                                            <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=btnSubmit}" Name="LblButtonApprove" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" />
+                                        </Grid>
+                                    </Button>                                    
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+            <cc:Splitter Style="{StaticResource VerticalSpitter}" DockPanel.Dock="Left" Width="3" Focusable="False" Name="LeftSplitter"></cc:Splitter>
+            <Grid DockPanel.Dock="Left">
+                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LeftDocPanel">
+                    <Grid DockPanel.Dock="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="#fefefe" BorderBrush="{StaticResource BorderColor}" BorderThickness="1" Margin="3,6,5,6" Name="PanelInfo"
+                                Grid.ColumnSpan="2" Visibility="Collapsed">
+                            <Border.Effect>
+                                <DropShadowEffect Color="LightGray" ShadowDepth="0" BlurRadius="10"  />
+                            </Border.Effect>
+                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid x:Name="pnInfoPanel" Grid.Row="0" Margin="30,15,30,15" Style="{StaticResource HowToTextOnCaptureStyle}" DockPanel.Dock="Top">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+
+                                    <Border BorderBrush="#FF6593CF" BorderThickness="0,0,0,1" Width="490" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=tbIntroduction}" Style="{StaticResource HelpTitle}"></TextBlock>
+                                    </Border>
+                                    <Image Source="..\Resources\capture_screen.png" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="0,20,0,0" Stretch="Uniform" StretchDirection="Both" />
+                                </Grid>
+                            </DockPanel>
+                        </Border>
+                        <Border Background="#fefefe" BorderBrush="{StaticResource BorderColor}" BorderThickness="1" Margin="3,6,5,6" Name="PanelComment"
+                                Grid.ColumnSpan="2" Visibility="Collapsed">
+                            <Border.Effect>
+                                <DropShadowEffect Color="LightGray" ShadowDepth="0" BlurRadius="10"  />
+                            </Border.Effect>
+                            <vw:CommentView x:Name="CommentView" Comments="{Binding Path=Comments, ElementName=Me}"/>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1" Margin="3,6,7,6" Name="PanelNativeViewer"
+                                Visibility="Collapsed">
+                            <Border.Effect>
+                                <DropShadowEffect Color="LightGray" ShadowDepth="0" BlurRadius="10"  />
+                            </Border.Effect>
+                            <Border.Background>
+                                <ImageBrush x:Name="nativeBackGround"/>
+                            </Border.Background>
+                            <vw:NativeViewer x:Name="NativeViewer" FilePath="{Binding Path=OpenNativeFilePath, ElementName=Me}"></vw:NativeViewer>
+                        </Border>
+                        <Border Background="#fefefe" BorderBrush="{StaticResource BorderColor}" BorderThickness="1" Margin="3,6,7,6" Name="PanelMediaPlayer"
+                                Visibility="Collapsed">
+                            <Border.Effect>
+                                <DropShadowEffect Color="LightGray" ShadowDepth="0" BlurRadius="10"  />
+                            </Border.Effect>
+                            <vw:MediaPlayer x:Name="MediaPlayer" FilePath="{Binding Path=OpenMediaFilePath, ElementName=Me}"></vw:MediaPlayer>
+                        </Border>
+                        <Border Background="#fefefe" BorderBrush="{StaticResource BorderColor}" BorderThickness="1" Margin="3,6,7,6" Name="PanelImageViewer"
+                                 Visibility="Collapsed">
+                            <Border.Effect>
+                                <DropShadowEffect Color="LightGray" ShadowDepth="0" BlurRadius="10"  />
+                            </Border.Effect>
+                            <vw:ImageViewer x:Name="ImageViewer" Items="{Binding Path=OpeningItems, ElementName=Me, Mode=TwoWay}"></vw:ImageViewer>
+                        </Border>
+                        <Border Background="#fefefe" BorderBrush="{StaticResource BorderColor}" BorderThickness="1" Margin="3,6,7,6" Name="PanelTextViewer"
+                         Visibility="Collapsed">
+                            <Border.Effect>
+                                <DropShadowEffect Color="LightGray" ShadowDepth="0" BlurRadius="10"  />
+                            </Border.Effect>
+                            <vw:TextViewer x:Name="TextViewer" FilePath="{Binding Path=OpenTextFilePath, ElementName=Me}"></vw:TextViewer>
+                        </Border>
+                        <Border Grid.Column="1" Name="PanelToolbar" Visibility="Collapsed"
+                                Background="{StaticResource ThumbnailBoundaryColor}" HorizontalAlignment="Stretch" Width="39">
+                            <ScrollViewer Style="{StaticResource ImageViewerToolScrollViewer}" VerticalContentAlignment="Center">
+                                <StackPanel>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonPrint" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttPrint}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/printer.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonEmail" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttMail}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/mail.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonSaveAs" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttSaveAs}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/save.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <ToggleButton Style="{StaticResource ImageViewerToolToggleButton}" Name="ButtonPan" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttPan}" Margin="2"
+                                                  IsChecked="{Binding Path=EnableReadMode, Mode=TwoWay, ElementName=ImageViewer}">
+                                        <Image Source="/CaptureViewer;component/Resources/handtool.png" Width="24" Height="24"></Image>
+                                    </ToggleButton>
+                                    <ToggleButton Style="{StaticResource ImageViewerToolToggleButton}" Name="ButtonSelection" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttSelect}" Margin="2"
+                                                  IsChecked="{Binding Path=EnableSelection, Mode=TwoWay, ElementName=ImageViewer}"
+                                                  IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                                        <Image Source="/CaptureViewer;component/Resources/arrow.png" Width="24" Height="24"></Image>
+                                    </ToggleButton>
+                                    <ToggleButton Style="{StaticResource ImageViewerToolToggleButton}" Name="ButtonHideAnnotation" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttHideAll}" Margin="2"
+                                                  IsChecked="{Binding Path=EnableHideAnnotation, Mode=TwoWay, ElementName=ImageViewer}"
+                                                  IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                                        <Image Source="/CaptureViewer;component/Resources/hideannotation.gif" Width="24" Height="24"></Image>
+                                    </ToggleButton>
+                                    <ToggleButton Style="{StaticResource ImageViewerToolToggleButton}" Name="ButtonHightlight" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttHighlight}" Margin="2"
+                                                  IsChecked="{Binding Path=EnableHighlight, Mode=TwoWay, ElementName=ImageViewer}"
+                                                  IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                                        <Image Source="/CaptureViewer;component/Resources/highlight.gif" Width="24" Height="24"></Image>
+                                    </ToggleButton>
+                                    <ToggleButton Style="{StaticResource ImageViewerToolToggleButton}" Name="ButtonRedaction" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttRedaction}" Margin="2"
+                                                  IsChecked="{Binding Path=EnableRedaction, Mode=TwoWay, ElementName=ImageViewer}"
+                                                  IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                                        <Image Source="/CaptureViewer;component/Resources/redaction.gif" Width="24" Height="24"></Image>
+                                    </ToggleButton>
+                                    <ToggleButton Style="{StaticResource ImageViewerToolToggleButton}" Name="ButtonText" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttText}" Margin="2"
+                                                  IsChecked="{Binding Path=EnableText, Mode=TwoWay, ElementName=ImageViewer}"
+                                                  IsEnabled="{Binding Path=ReadOnly, Converter={StaticResource NegativeBoolConverter}}">
+                                        <Image Source="/CaptureViewer;component/Resources/addtext.gif" Width="24" Height="24"></Image>
+                                    </ToggleButton>
+                                    <ToggleButton Style="{StaticResource ImageViewerToolToggleButton}" Name="ButtonOCRZone" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttAddOcrZone}" Margin="2"
+                                                  IsChecked="{Binding Path=EnableOCRZone, Mode=TwoWay, ElementName=ImageViewer}">
+                                        <Border BorderBrush="Red" BorderThickness="1" Width="24" Height="24" Background="Transparent"></Border>
+                                    </ToggleButton>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonZoomin" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttZoomIn}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/zoomin.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonZoomout" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttZoomOut}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/zoomout.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <!--<Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonFitHeight" ToolTip="Fit height" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/fit-height.gif" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonFitWidth" ToolTip="Fit width" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/fit-width.gif" Width="24" Height="24"></Image>
+                                    </Button>-->
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonFitToViewer" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttFitToViewer}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/fixtowindow.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonRotateLeft" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttRotateLeft}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/rotateleft.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonRotateRight" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttRotateRight}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/rotateright.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonPreviousPage" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttPreviousPage}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/up.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource ImageViewerToolButton}" Name="ButtonNextPage" ToolTip="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=ttNextPage}" Margin="2">
+                                        <Image Source="/CaptureViewer;component/Resources/down.png" Width="24" Height="24"></Image>
+                                    </Button>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>

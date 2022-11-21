@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1FAFF4DB-A95F-44F8-BEE6-5D6903F37FDF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.CaptureDomain</RootNamespace>
+    <AssemblyName>CaptureDomain</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU'">
+    <OutputPath>bin\Release Obfuscated\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionLog.cs" />
+    <Compile Include="ActivityPermission.cs" />
+    <Compile Include="AmbiguousDefinition.cs" />
+    <Compile Include="Annotation.cs" />
+    <Compile Include="AnnotationInfoMobile.cs" />
+    <Compile Include="AnnotationPermission.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BatchInfoMobile.cs" />
+    <Compile Include="BatchPermission.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="DocumentPermission.cs" />
+    <Compile Include="DocumentFieldPermission.cs" />
+    <Compile Include="DocumentTypePermission.cs" />
+    <Compile Include="DocumetInfoMobile.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="HumanStepAnnotationPermission.cs" />
+    <Compile Include="HumanStepPermission.cs" />
+    <Compile Include="HumanStepUserGroupPermission.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OutlookPicture.cs" />
+    <Compile Include="PageInfoMobile.cs" />
+    <Compile Include="ReleaseAnnotation.cs" />
+    <Compile Include="ReleaseBatch.cs" />
+    <Compile Include="ReleaseBatchFieldValue.cs" />
+    <Compile Include="ReleaseComment.cs" />
+    <Compile Include="ReleaseDocument.cs" />
+    <Compile Include="ReleaseDocumentFieldValue.cs" />
+    <Compile Include="ReleasePage.cs" />
+    <Compile Include="Batch.cs" />
+    <Compile Include="BatchFieldMetaData.cs" />
+    <Compile Include="BatchFieldValue.cs" />
+    <Compile Include="BatchType.cs" />
+    <Compile Include="BatchTypePermission.cs" />
+    <Compile Include="Comment.cs" />
+    <Compile Include="Document.cs" />
+    <Compile Include="DocumentFieldMetaData.cs" />
+    <Compile Include="DocumentFieldValue.cs" />
+    <Compile Include="DocumentType.cs" />
+    <Compile Include="Enum.cs" />
+    <Compile Include="History.cs" />
+    <Compile Include="Language.cs" />
+    <Compile Include="Membership.cs" />
+    <Compile Include="OCRTemplate.cs" />
+    <Compile Include="OCRTemplatePage.cs" />
+    <Compile Include="OCRTemplateZone.cs" />
+    <Compile Include="Page.cs" />
+    <Compile Include="Picklist.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReleaseTableFieldValue.cs" />
+    <Compile Include="SearchQuery.cs" />
+    <Compile Include="SearchQueryExpression.cs" />
+    <Compile Include="CustomActivitySetting.cs" />
+    <Compile Include="Setting.cs" />
+    <Compile Include="SettingObject.cs" />
+    <Compile Include="TableFieldValue.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserGroup.cs" />
+    <Compile Include="UserGroupPermission.cs" />
+    <Compile Include="WokItemSearchResult.cs" />
+    <Compile Include="WorkflowConstant.cs" />
+    <Compile Include="WorkflowDefinition.cs" />
+    <Compile Include="WorkflowHumanStepDocumentTypePermission.cs" />
+    <Compile Include="WorkflowHumanStepPermission.cs" />
+    <Compile Include="WorkflowObjectType.cs" />
+    <Compile Include="WorkflowRuntimeData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="signAssemblyKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BarcodeDomain\BarcodeDomain.csproj">
+      <Project>{D09AB159-030C-4055-9D76-73865883F6DA}</Project>
+      <Name>BarcodeDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LookupDomain\LookupDomain.csproj">
+      <Project>{225183EE-484D-466F-B539-770D45C36992}</Project>
+      <Name>LookupDomain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release Obfuscated" ("%25ProgramFiles%25\RustemSoft\Skater .NET Obfuscator\skater.exe" -SOURCE="$(TargetPath)" -OUTPUT="$(TargetPath)" -KEY="$(ProjectDir)signAssemblyKey.snk" -CONCEALSTRINGS -FLOW -METHOD=0 -WRITELOG)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

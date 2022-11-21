@@ -1,0 +1,58 @@
+﻿@using CaptureMVC.Resources;
+@using CaptureMVC.Utility;
+@using CaptureMVC.Models;
+@using Ecm.CaptureDomain;
+@using System.Globalization;
+@using System.Xml;
+
+@model List<ViewPageModel>
+
+<div>
+    <!-- Page thumbnail -->
+    <div id="upload-type">@ViewBag.UploadType</div>
+
+    <!-- Thumbnail -->
+    <ul>
+        @foreach (var page in Model)
+        {
+            <li id="@page.OriginPage.Id" class="li-page accept"
+                data-rotate-angle="0"
+                data-old-doc-id="@page.OriginPage.DocId">
+                <div class="item-content">
+                    <div class="item-image @(page.ContentType.StartsWith(ContentTypeEnumeration.Image.IMAGE_TYPE)
+                                                             ? "real-image" : "native-image")">
+                        <img src="~/Images/loading/preloader-black.gif" class="image-main rotate-0" />
+                        <div class="image-reject"></div>
+                    </div>
+                    <div class="item-text">
+                        <div class="item-page-index"></div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <!-- Viewer -->
+    <div id="viewer">
+        @foreach (var page in Model)
+        {
+            if (page.ContentType.StartsWith(ContentTypeEnumeration.Image.IMAGE_TYPE))
+            {
+            <div id="view-page-@page.OriginPage.Id" class="wrapper-image not-load" 
+                style="width: 128px; height: 128px;" data-del-annoes="">
+                <div class="wrapper-image-temp" style="margin-top: 34px; width: 60px; height: 60px;"></div>
+                <img src="" width="0" height="0" class="rotate-0" style="display: none;" data-rotate="0">
+            </div>
+            }
+            else
+            {
+            <div id="view-page-@page.OriginPage.Id" class="wrapper-image-native-file" 
+                style="width: 128px; height: 128px;">
+                <div class="wrapper-image-temp" style="margin-top: 34px; width: 60px; height: 60px;"></div>
+                <img src="" width="128" height="128" style="display: none;">
+            </div>
+            }
+        }
+    </div>
+
+</div>

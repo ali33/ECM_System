@@ -1,0 +1,55 @@
+﻿@model ArchiveMVC5.Models.SearchResultModel
+@{
+    List<string> listColumn = new List<string>();
+    foreach (var item in Model.DataResult.Columns)
+    {
+        var name = "";
+        switch (item.ToString())
+        {
+            case ArchiveMVC5.Models.Common.COLUMN_CHECKED:
+            case ArchiveMVC5.Models.Common.COLUMN_SELECTED:
+
+                break;
+            case ArchiveMVC5.Models.Common.COLUMN_PAGE_COUNT:
+                listColumn.Add(item.ToString());
+                name = "Page Count";
+                break;
+
+            case ArchiveMVC5.Models.Common.COLUMN_MODIFIED_ON:
+                listColumn.Add(item.ToString());
+                name = "Modified Date";
+                break;
+            case ArchiveMVC5.Models.Common.COLUMN_MODIFIED_BY:
+                listColumn.Add(item.ToString());
+                name = "Modified By";
+                break;
+            case ArchiveMVC5.Models.Common.COLUMN_CREATED_ON:
+                listColumn.Add(item.ToString());
+                name = "Create Date";
+                break;
+            case ArchiveMVC5.Models.Common.COLUMN_CREATED_BY:
+                listColumn.Add(item.ToString());
+                name = "Create By";
+                break;
+            case ArchiveMVC5.Models.Common.COLUMN_VERSION:
+            case ArchiveMVC5.Models.Common.COLUMN_DOCUMENT_ID:
+            case ArchiveMVC5.Models.Common.COLUMN_DOCUMENT:
+            case ArchiveMVC5.Models.Common.COLUMN_DOCUMENT_TYPE_ID:
+            case ArchiveMVC5.Models.Common.COLUMN_DOCUMENT_VERSION_ID:
+                break;
+            default:
+                listColumn.Add(item.ToString());
+                name = item.ToString();
+                break;
+        }
+    }
+}
+@foreach (System.Data.DataRow row in Model.DataResult.Rows)
+{
+    <tr id="@row[ArchiveMVC5.Models.Common.COLUMN_DOCUMENT_ID]">
+    @foreach (var celName in listColumn)
+    {
+        <td>@row[celName].ToString()</td>
+    }
+    </tr>
+}

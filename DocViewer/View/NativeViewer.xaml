@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="Ecm.DocViewer.NativeViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Mvvm="clr-namespace:Ecm.Mvvm;assembly=Mvvm" x:Name="myNativeViewer">
+    <Grid>
+            <WebBrowser Name="webBrowser"
+                        Panel.ZIndex="0" 
+                        FocusVisualStyle="{x:Null}" 
+                        Mvvm:WebBrowserUtility.BindableSource="{Binding Path=FilePath, ElementName=myNativeViewer}"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch"/>
+    </Grid>
+</UserControl>

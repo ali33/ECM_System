@@ -1,0 +1,36 @@
+﻿@model IList<ArchiveMVC.Models.UserGroupModel>
+@{
+    ViewBag.Title = "LoadUserGroups";
+}
+
+<div class="admin_sub_menu_content">
+    <div class="admin_sub_menu_items">
+        @{
+            foreach(var userGroupItem in Model)
+            {
+                <div class="sub_menu_item usergroup_container" id="@userGroupItem.Id"> 
+                    <div class="usergroup_infor">
+                        <div class="group_name" title="@userGroupItem.Name">@userGroupItem.Name</div>
+                        <div class="group_type" title="@userGroupItem.Type">@userGroupItem.Type</div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="admin_sub_menu_button">
+        <div class="add_button archive_admin_button_padding">
+            <button type="button" id="usergroup_button_add" class="archive_button archive_admin_button">
+                <span>Add</span>
+                <img src="Images/button/appbar.add.32.png" />
+            </button>
+        </div>
+        <div class="delete_button">
+            <button type="button" id="usergroup_button_delete" class="archive_button archive_admin_button">
+                <span>Delete</span>
+                <img src="Images/button/appbar.delete.32.png" />
+            </button>
+        </div>
+    </div>
+
+    
+</div>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ArchiveMVC5.Models.LanguageModel>
+
+@{
+    ViewBag.Title = "SettingConfigureLanguages";
+    var i = 0;
+}
+
+<div class="admin_sub_menu_content">
+    <div class="admin_sub_menu_button">
+        <div class="add_button archive_admin_button_padding">
+            <button type="button" id="getting_configure_add_button" class="archive_button archive_admin_button">
+                <span>Add</span>
+                <img src="Images/button/appbar.add.32.png" />
+            </button>
+        </div>
+        <div class="delete_button">
+            <button type="button" id="getting_configure_delete_button" class="archive_button archive_admin_button">
+                <span>Delete</span>
+                <img src="Images/button/appbar.delete.32.png" />
+            </button>
+        </div>
+    </div>
+    
+    <div class="admin_sub_other">
+        <div class="setting_configure_language_content">
+            <div class="setting_languages">
+                Languages
+                <select id="setting_configure_language_select" >
+                    @foreach (var item in Model)
+                    {
+                        if(i==0){
+                            <option value="@item.Id" selected="selected">@item.Name</option>
+                        }else{
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                        i++;
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="mapping_tile">
+            <div class="mapping_content">
+                Mapping
+            </div>
+            <div class="support_unicode_content">
+                Support unicode
+            </div>
+        </div>
+    </div>
+
+    <div class="admin_sub_menu_items" style="min-height:282px">
+        <div class="mapping_table"></div>
+    </div>
+    
+</div>

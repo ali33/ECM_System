@@ -1,0 +1,99 @@
+﻿@model CaptureMVC.Models.CaptureAdminModel
+@{
+    ViewBag.Title = "BatchType";
+}
+
+<div class="left-container-child">
+    <div class="admin_sub_menu_items row track">
+        @{
+            foreach (var item in Model.ListBatchType)
+            {
+                <div class="sub_menu_item content_type_item clearfix" id="@item.Value.Id">
+
+                    <div class="row_batch_type">
+
+                        <div class="Dropdown-profile">
+                            @if (item.Value.Icon != null)
+                            {
+                                <img class="Photo" src="@Url.Action("GetIcon", "ImageProcessing")/?key=@item.Key" />
+                            }
+                            else
+                            {
+                                <img class="Photo" src="#" style="opacity: 0" />
+                            }
+                            <span class="Name">@item.Value.Name</span>
+                            <span class="MenuIcon">
+                                <span class="MenuIcon-line"></span>
+                                <span class="MenuIcon-line"></span>
+                                <span class="MenuIcon-line"></span>
+                            </span>
+                        </div>
+                        <nav class="Dropdown-nav">
+                            <ul class="Dropdown-group">
+                                <li class="NavLink clearfix">
+                                    <span class="pull-left">Workflow</span>
+                                    <span class="pull-right entypo-plus">
+                                        <a href="" class="" id="button_add_field">
+                                            <i class="glyphicon glyphicon-cog white"></i>
+                                        </a> | <a class="" id="button_add_field">
+                                            <i class="glyphicon glyphicon-trash white"></i>
+                                        </a>
+                                    </span>
+                                </li>
+                                <li class="NavLink clearfix">
+                                    <span class="pull-left">Barcode</span>
+                                    <span class="pull-right entypo-plus">
+                                        <a href="" class="barcode_config" id="button_add_field" title="Barcode configure" data-id="@item.Value.Id">
+                                            <i class="glyphicon glyphicon glyphicon-barcode white"></i>
+                                        </a> | <a class="" id="button_add_field">
+                                            <i class="glyphicon glyphicon-trash white"></i>
+                                        </a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </nav>
+                        @*<div class="configure">
+                            <div class="data">OCR template</div>
+                            <a href="@Url.Action("Configure","ArchiveAdmin")?id=@item.Value.Id" class="ocr_template" title="Ocr configure">
+                                <div class="icon">
+                                </div>
+                            </a>
+                            @if (item.Value.HasOCRTemplateDefined)
+            {
+                <div class="delete_ocr" title="Delete Ocr template" data-id="@item.Value.Id" data-contenttype_name="@item.Value.Name"></div>
+            }
+            else
+            {
+                <div class="add_delete_ocr_icon" title="Delete Ocr template" data-id="@item.Value.Id" data-contenttype_name="@item.Value.Name"></div>
+            }
+                        </div>
+                        <div class="barcode">
+                            <div class="data">Barcode</div>
+                            <div class="icon barcode_config" title="Barcode configure" data-id="@item.Value.Id">
+                            </div>
+                            @if (item.Value.HasBarcodeConfigurations)
+            {
+                <div class="delete_barcode" title="Delete barcode" data-id="@item.Value.Id" data-contenttype_name="@item.Value.Name"></div>
+            }
+            else
+            {
+                <div class="add_delete_barcode_icon" title="Delete barcode" data-id="@item.Value.Id" data-contenttype_name="@item.Value.Name"></div>
+            }
+                        </div>*@
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="panel_button row">
+        <button type="button" id="button_add_batch" class="btn btn-primary pull-left">
+            <span>Add</span>
+            <i class="glyphicon glyphicon-plus"></i>
+        </button>
+        <button type="button" id="button_delete_batch" class="btn btn-primary pull-right">
+            <span>Delete</span>
+            <i class="glyphicon glyphicon-trash"></i>
+        </button>
+    </div>
+</div>

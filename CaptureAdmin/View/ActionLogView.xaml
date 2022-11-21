@@ -1,0 +1,276 @@
+﻿<UserControl x:Class="Ecm.CaptureAdmin.View.ActionLogView"
+             Language="{UICulture}"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cc="clr-namespace:Ecm.CustomControl;assembly=CustomControl">
+    <UserControl.Resources>
+        <Style x:Key="ItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
+        </Style>
+
+        <DataTemplate x:Key="listBoxTemplate">
+            <DockPanel>
+                <TextBlock Text="{Binding Path=Name}"></TextBlock>
+            </DockPanel>
+        </DataTemplate>
+
+        <ControlTemplate x:Key="EmptyTemplate">
+            <TextBlock />
+        </ControlTemplate>
+        <ControlTemplate x:Key="SearchCoditionTemplate">
+            <ComboBox ItemsSource="{Binding Path=SearchConditions}" 
+                      SelectedValue="{Binding Path=Search.Condition, Mode=Twoway}"
+                      Width="60" VerticalAlignment="Center"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="PairDateTimeTemplate">
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <DatePicker Text="{Binding Path=Search.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="120" />
+                <TextBlock Text=" - " Grid.Column="1" VerticalAlignment="Center" />
+                <DatePicker Grid.Column="2" Text="{Binding Path=Search.Value1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="120"/>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="SingleDateTimeTemplate">
+            <DatePicker Text="{Binding Path=Search.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" Width="120" Height="22"/>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SingleStringTemplate">
+            <TextBox Text="{Binding Path=Search.Value,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
+        </ControlTemplate>
+
+        <DataTemplate x:Key="SearchExpressionTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Control x:Name="conditionControl" Template="{StaticResource SearchCoditionTemplate}" Margin="2,0,0,0" />
+                <TextBlock Text="{Binding Path= Search.Name}" x:Name="fieldControl" Grid.Column="1" Margin="10,0,0,0" />
+                <ComboBox ItemsSource="{Binding Path=SearchOperators}" 
+                          SelectedValue="{Binding Path=Search.Operator, Mode=TwoWay}"
+                          Grid.Column="2" 
+                          Margin="10,0,0,0"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                <Control x:Name="control" Template="{StaticResource EmptyTemplate}" 
+                         Grid.Column="3" 
+                         Margin="10,0,0,0" 
+                         HorizontalAlignment="Left" 
+                         HorizontalContentAlignment="Stretch" VerticalAlignment="Center" Width="300"/>
+            </Grid>
+            <DataTemplate.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Search.DataType}" Value="Date"/>
+                        <Condition Binding="{Binding Path=Search.Operator, Converter={StaticResource BetweenOperatorSelectedConverter}}" Value="false"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="control" Property="Template" Value="{StaticResource SingleDateTimeTemplate}"/>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Search.DataType}" Value="Date"/>
+                        <Condition Binding="{Binding Path=Search.Operator, Converter={StaticResource BetweenOperatorSelectedConverter}}" Value="true"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="control" Property="Template" Value="{StaticResource PairDateTimeTemplate}"/>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Search.DataType}" Value="String"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="control" Property="Template" Value="{StaticResource SingleStringTemplate}"/>
+                </MultiDataTrigger>
+                <!--<MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsAdditionCondition}" Value="true"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="fieldControl" Property="Template" Value="{StaticResource AdditionalFieldTemplate}"/>
+                </MultiDataTrigger>-->
+                <DataTrigger Binding="{Binding Path=Search.Condition}" Value="{x:Null}">
+                    <Setter TargetName="conditionControl" Property="Template" Value="{StaticResource EmptyTemplate}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="pnCenter" 
+                  MinWidth="200"
+                  HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" 
+                  DockPanel.Dock="Left">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch"
+                  DockPanel.Dock="Top"
+                  Height="Auto"
+                  MinHeight="20"
+                  MaxHeight="150"
+                  x:Name="pnMainSearch"
+                  SizeChanged="pnMainSearch_SizeChanged">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      MinHeight="20"
+                      x:Name="SearchPanel"
+                      Visibility="Collapsed">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0">
+                        <ListBox x:Name="lbxSearch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                 ItemsSource="{Binding Path=Searchs}"
+                                 BorderThickness="0"
+                                 ItemContainerStyle="{StaticResource SearchConditionStyle}"
+                                 ItemTemplate="{StaticResource SearchExpressionTemplate}"
+                                 Margin="5"/>
+                    </Grid>
+                </Grid>
+                <Grid Width="Auto" 
+                      Height="Auto" 
+                      HorizontalAlignment="Stretch" 
+                      Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid x:Name="SearchButtonPanel" Visibility="Collapsed" HorizontalAlignment="Right">
+                        <Button Margin="5" Command="{Binding Path=AdvanceSearchCommand}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/search.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=btnSearch.Text}" x:Name="btnSearch" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </Grid>
+                    <ToggleButton Focusable="False"
+                                  Grid.Column="1"
+                                  IsTabStop="False" 
+                                  Height="20"
+                                  Template="{StaticResource CollapseExpand}" 
+                                  VerticalAlignment="Center"
+                                  Width="20" 
+                                  HorizontalAlignment="Right"
+                                  ClickMode="Release"
+                                  x:Name="btnExpandSearch"
+                                  Click="btnExpandSearch_Click">
+                    </ToggleButton>
+                </Grid>
+            </Grid>
+            <cc:Splitter Style="{StaticResource HorizontalSplitter}" 
+                         HorizontalAlignment="Stretch" 
+                         Height="Auto" 
+                         DockPanel.Dock="Top"/>
+            <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+                <cc:SortableListView Grid.Row="0" 
+                                     HorizontalAlignment="Stretch" 
+                                     VerticalAlignment="Stretch" 
+                                     Margin="2,0,2,0"
+                                     TargetUpdated="lvActionLog_TargetUpdated"
+                                     ItemsSource="{Binding Path=ActionLogs, Mode=TwoWay}"
+                                     SelectionChanged="lvActionLog_SelectionChanged"
+                                     ItemContainerStyle="{StaticResource ItemStyle}"
+                                     ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                     ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                     ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                     EndSortingProcess="lvActionLog_EndSortingProcess"
+                                     AlternationCount="2"
+                                     SelectedItem="{Binding Path=ActionLog,Mode=TwoWay}"
+                                     x:Name="lvActionLog"
+                                     SelectionMode="Multiple">
+                    <cc:SortableListView.View>
+                        <GridView KeyboardNavigation.TabNavigation="Continue" >
+                            <GridViewColumn CellTemplate="{StaticResource CheckBoxCell}" Width="30" >
+                                <GridViewColumn.Header>
+                                    <CheckBox IsChecked="{Binding Path=IsSelectedAll, Mode=TwoWay}"/>
+                                </GridViewColumn.Header>                                
+                            </GridViewColumn>
+                            
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=gcLoggedDate.Header}" Width="150" x:Name="gcLoggedDate"
+                                            DisplayMemberBinding="{Binding Path=LoggedDate}"
+                                                        SortPropertyName="LoggedDate"/>
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=gcUsername.Header}" x:Name="gcUsername" Width="150" 
+                                            DisplayMemberBinding="{Binding Path=Username}"
+                                                        SortPropertyName="Username"/>
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=gcActionName.Header}" x:Name="gcActionName"  Width="200" 
+                                            DisplayMemberBinding="{Binding Path=ActionName}"
+                                                        SortPropertyName="ActionName"/>
+                            <cc:SortableGridViewColumn Width="200"  Header="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=gcHost.Header}" x:Name="gcHost" 
+                                            DisplayMemberBinding="{Binding Path=IpAddress}"/>
+                            <cc:SortableGridViewColumn Width="Auto"  Header="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=gcMessage.Header}" x:Name="gcMessage" 
+                                            DisplayMemberBinding="{Binding Path=Message}"/>
+                            
+                            
+                        </GridView>
+                        
+                        
+                    </cc:SortableListView.View>
+                </cc:SortableListView>
+                <TextBlock Grid.Row="1"/>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Width="Auto" Margin="5,2,5,0" Command="{Binding Path=DeleteLogCommand}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/delete.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=btnDelete.Text}" x:Name="btnDelete" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                    <Button Command="{Binding Path=ShowPreviousCommand}" 
+                            VerticalAlignment="Center" Height="26" Width="100" 
+                            HorizontalAlignment="Center"
+                            Grid.Column="1"
+                            Margin="0,0,5,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Image Source="..\Resources\Images\previous.png" Width="22" Height="22" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=btnPrevious.Text}" x:Name="btnPrevious" HorizontalAlignment="Stretch" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding Path=ShowNextCommand}"
+                            VerticalAlignment="Center" Height="26" 
+                            Width="100" HorizontalAlignment="Center"
+                            Margin="0,0,5,0"
+                            Grid.Column="2">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.ActionLogView,Key=btnNext.Text}" x:Name="btnNext" HorizontalAlignment="Stretch" VerticalAlignment="Center"></TextBlock>
+                            <Image Source="..\Resources\Images\next.png" Width="22" Height="22" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>

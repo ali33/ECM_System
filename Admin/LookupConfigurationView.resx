@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnAddCondition.Content" xml:space="preserve">
+    <value>Add Condition</value>
+  </data>
+  <data name="btnBuildCommand.Content" xml:space="preserve">
+    <value>Build command</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="btnClearCondition.Content" xml:space="preserve">
+    <value>Clear condition</value>
+  </data>
+  <data name="btnOk.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="btnTestConnection.Content" xml:space="preserve">
+    <value>Test connection</value>
+  </data>
+  <data name="dggDialogTitle" xml:space="preserve">
+    <value>Lookup configuration information</value>
+  </data>
+  <data name="gcArchiveClient.Header" xml:space="preserve">
+    <value>Archive client</value>
+  </data>
+  <data name="gcLookupDataSource.Header" xml:space="preserve">
+    <value>Lookup data source</value>
+  </data>
+  <data name="rdbDisplayStored.Content" xml:space="preserve">
+    <value>Display stored procedures</value>
+  </data>
+  <data name="rdbDisplayTable.Content" xml:space="preserve">
+    <value>Display tables</value>
+  </data>
+  <data name="rdbDisplayView.Content" xml:space="preserve">
+    <value>Display views</value>
+  </data>
+  <data name="tbDatabaseField.Text" xml:space="preserve">
+    <value>Lookup data sources field</value>
+  </data>
+  <data name="tbDatabaseName.Text" xml:space="preserve">
+    <value>Database name</value>
+  </data>
+  <data name="tbDataProvider.Text" xml:space="preserve">
+    <value>Data provider</value>
+  </data>
+  <data name="tbDataSource.Text" xml:space="preserve">
+    <value>Data source</value>
+  </data>
+  <data name="tbMappingDataSource.Text" xml:space="preserve">
+    <value>Data source</value>
+  </data>
+  <data name="tbMappingInfo.Text" xml:space="preserve">
+    <value>Mapping info</value>
+  </data>
+  <data name="tbMaximumRow.Text" xml:space="preserve">
+    <value>Maximum number of lookup rows returned</value>
+  </data>
+  <data name="tbMinimumCharacter.Text" xml:space="preserve">
+    <value>Minimum characters entered before lookup occurs</value>
+  </data>
+  <data name="tbOperator.Text" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="tbPassword.Text" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="tbSelectDataSourceType.Text" xml:space="preserve">
+    <value>Select data source type</value>
+  </data>
+  <data name="tbServerName.Text" xml:space="preserve">
+    <value>Server name</value>
+  </data>
+  <data name="tbSqlCommand.Text" xml:space="preserve">
+    <value>Build SQL command</value>
+  </data>
+  <data name="tbStoredCommand.Text" xml:space="preserve">
+    <value>Build stored procedure command</value>
+  </data>
+  <data name="tbTabCommandInfo.Text" xml:space="preserve">
+    <value>Command info</value>
+  </data>
+  <data name="tbTabMappingInfo.Text" xml:space="preserve">
+    <value>Mapping info</value>
+  </data>
+  <data name="tbTabServerInfo.Text" xml:space="preserve">
+    <value>Server info</value>
+  </data>
+  <data name="tbUsername.Text" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="tbViewText.Text" xml:space="preserve">
+    <value>User list</value>
+  </data>
+  <data name="uiTestConnectionFail" xml:space="preserve">
+    <value>Test connection failed.</value>
+  </data>
+  <data name="uiTestConnectionSuccessfully" xml:space="preserve">
+    <value>Test connection success.</value>
+  </data>
+  <data name="uiEditModeTestConnectionFail" xml:space="preserve">
+    <value>Login to server with existing lookup info fail. Please enter correct username and password to continue.</value>
+  </data>
+  <data name="btnAddCondition" xml:space="preserve">
+    <value>Add condition</value>
+  </data>
+  <data name="btnBuildCommand" xml:space="preserve">
+    <value>Build command</value>
+  </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="btnClearCondition" xml:space="preserve">
+    <value>Clear condition</value>
+  </data>
+  <data name="btnOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="btnTest" xml:space="preserve">
+    <value>Test connection</value>
+  </data>
+  <data name="btnTestSql" xml:space="preserve">
+    <value>Test query</value>
+  </data>
+  <data name="cbApplyLookupClient" xml:space="preserve">
+    <value>Apply configuration for client lookup</value>
+  </data>
+  <data name="colArchiveField" xml:space="preserve">
+    <value>Archive field</value>
+  </data>
+  <data name="colLookupField" xml:space="preserve">
+    <value>Lookup</value>
+  </data>
+  <data name="rdbDisplayStored" xml:space="preserve">
+    <value>Display stored procedures</value>
+  </data>
+  <data name="rdbDisplayTable" xml:space="preserve">
+    <value>Display tables</value>
+  </data>
+  <data name="rdbDisplayView" xml:space="preserve">
+    <value>Display views</value>
+  </data>
+  <data name="tbCommand" xml:space="preserve">
+    <value>Command info</value>
+  </data>
+  <data name="tbDatabase" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="tbDatabaseField" xml:space="preserve">
+    <value>Lookup field</value>
+  </data>
+  <data name="tbDatabaseInfo" xml:space="preserve">
+    <value>Server info</value>
+  </data>
+  <data name="tbDatabaseType" xml:space="preserve">
+    <value>Database type</value>
+  </data>
+  <data name="tbMapping" xml:space="preserve">
+    <value>Mapping info</value>
+  </data>
+  <data name="tbMappingDataSource" xml:space="preserve">
+    <value>Data sources</value>
+  </data>
+  <data name="tbMaxLookupRow" xml:space="preserve">
+    <value>Max lookup rows return</value>
+  </data>
+  <data name="tbMinPrefixLength" xml:space="preserve">
+    <value>Minimum number of character enter before do lookup</value>
+  </data>
+  <data name="tbOperator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="tbPasswrod" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="tbPort" xml:space="preserve">
+    <value>Port number</value>
+  </data>
+  <data name="tbProviderType" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="tbSelectDataSourceType" xml:space="preserve">
+    <value>Select data source type</value>
+  </data>
+  <data name="tbServerName" xml:space="preserve">
+    <value>Server name</value>
+  </data>
+  <data name="tbShemas" xml:space="preserve">
+    <value>Schema</value>
+  </data>
+  <data name="tbSqlCommand" xml:space="preserve">
+    <value>SQL command</value>
+  </data>
+  <data name="tbStoredCommand" xml:space="preserve">
+    <value>Stored procedure SQL command</value>
+  </data>
+  <data name="tbTabOut" xml:space="preserve">
+    <value>Do lookup when tab out?</value>
+  </data>
+  <data name="tbTestValue" xml:space="preserve">
+    <value>Enter lookup value do you want to run testing</value>
+  </data>
+  <data name="tbUsername" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="TestLookupData" xml:space="preserve">
+    <value>Test lookup data</value>
+  </data>
+</root>

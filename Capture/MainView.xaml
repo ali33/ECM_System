@@ -1,0 +1,312 @@
+﻿<Page x:Class="Ecm.Capture.MainView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:CustomControl="clr-namespace:Ecm.CustomControl;assembly=CustomControl"
+      Language="{UICulture}"
+      WindowTitle="Cloud ECM - Capture"	Title="Cloud ECM - Capture">
+<Page.Resources>
+        <Style x:Key="CloseDocumentButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border SnapsToDevicePixels="true" x:Name="Chrome" Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" Opacity="0" />
+                            <Path x:Name="Path" Stretch="Fill" StrokeThickness="0.5" Stroke="#FF333333" 
+                                  Data="F1 M 2.28484e-007,1.33331L 1.33333,0L 4.00001,2.66669L 6.66667,6.10352e-005L 8,1.33331L 5.33334,4L 8,6.66669L 6.66667,8L 4,5.33331L 1.33333,8L 1.086e-007,6.66669L 2.66667,4L 2.28484e-007,1.33331 Z " 
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Path.Style>
+                                    <Style TargetType="{x:Type Path}">
+                                        <Setter Property="Fill" Value="#FF969696">
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                                                         Value="True">
+                                                <Setter Property="Fill" Value="#FFe52022">
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" TargetName="Chrome" Value="1"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" TargetName="Chrome" Value="1"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#ADADAD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="WorkItemMenuItemStyle" TargetType="{x:Type MenuItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="hoverOn">
+                                <DoubleAnimation Duration="00:00:00.1000000" Storyboard.TargetName="BackgroundGradientHover" Storyboard.TargetProperty="Opacity" To="0.6" />
+                                <DoubleAnimation Duration="00:00:00.1000000" Storyboard.TargetName="IsMouseOverGlow" Storyboard.TargetProperty="Opacity" To="0.75" />
+                                <DoubleAnimation Duration="00:00:00.1000000" Storyboard.TargetName="MouseOverShine" Storyboard.TargetProperty="Opacity" To="0.75" />
+                            </Storyboard>
+                            <Storyboard x:Key="hoverOff">
+                                <DoubleAnimation Duration="00:00:00.1000000" Storyboard.TargetName="BackgroundGradientHover" Storyboard.TargetProperty="Opacity" To="0" />
+                                <DoubleAnimation Duration="00:00:00.1000000" Storyboard.TargetName="IsMouseOverGlow" Storyboard.TargetProperty="Opacity" To="0" />
+                                <DoubleAnimation Duration="00:00:00.1000000" Storyboard.TargetName="MouseOverShine" Storyboard.TargetProperty="Opacity" To="0" />
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <Border x:Name="Border" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" Height="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition x:Name="Col0" MinWidth="30" Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition x:Name="Col3" Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle x:Name="BackgroundGradientHover" HorizontalAlignment="Stretch" Stroke="#dee2e7" Grid.Column="0" Grid.ColumnSpan="4" StrokeThickness="1" RadiusX="1" RadiusY="1" Opacity="0" Fill="#dee2e7"/>
+                                <Border BorderBrush="#666666" x:Name="IsMouseOverGlow" HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Stretch" Width="Auto" Opacity="0" BorderThickness="1" CornerRadius="2">
+                                    <Rectangle Margin="1">
+                                        <Rectangle.Fill>
+                                            <RadialGradientBrush Center="0.1,0.9" GradientOrigin="0.1,0.9" RadiusY="0.5" RadiusX="0.5">
+                                                <GradientStop Color="#9FFFFFFF" Offset="0"/>
+                                                <GradientStop Offset="1"/>
+                                            </RadialGradientBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Border>
+                                <Border BorderBrush="#666666" x:Name="MouseOverShine" HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="1" Opacity="0" CornerRadius="2">
+                                    <Rectangle Margin="1">
+                                        <Rectangle.Fill>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#53FFFFFF" Offset="0"/>
+                                                <GradientStop Offset="0.9"/>
+                                            </LinearGradientBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Border>
+
+                                <!-- ContentPresenter to show an Icon if needed -->
+                                <ContentPresenter Grid.Column="0" Margin="5,0,5,0" x:Name="Icon" VerticalAlignment="Center" ContentSource="Icon"/>
+
+                                <!-- Glyph is a checkmark if needed for a checkable menu -->
+                                <Grid Grid.Column="0" Visibility="Hidden" Margin="5,0,5,0" x:Name="GlyphPanel" VerticalAlignment="Center">
+                                    <Path x:Name="GlyphPanelpath" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}" Data="M0,2 L0,4.8 L2.5,7.4 L7.1,2.8 L7.1,0 L2.5,4.6 z" FlowDirection="LeftToRight"/>
+                                </Grid>
+                                <!-- Content for the menu text etc -->
+                                <ContentPresenter Grid.Column="1" Margin="{TemplateBinding Padding}" x:Name="HeaderHost" RecognizesAccessKey="True" ContentSource="Header" VerticalAlignment="Center"/>
+
+                                <!-- Content for the menu IGT -->
+                                <ContentPresenter Grid.Column="2" Margin="8,1,8,1" x:Name="IGTHost" ContentSource="InputGestureText" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                <Button Command="{Binding Path=CloseCommand}" Cursor="Hand" Focusable="False" Margin="10,0,5,0" 
+                                        VerticalAlignment="Center" ToolTip="Close this task" Width="10" Height="10" 
+                                        Style="{StaticResource CloseDocumentButton}" Grid.Column="3">
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <!-- These triggers re-configure the four arrangements of MenuItem to show different levels of menu via Role -->
+                        <ControlTemplate.Triggers>
+                            <!-- Role = TopLevelHeader : this is the root menu item in a menu; the Popup expands down -->
+                            <Trigger Property="Role" Value="TopLevelHeader">
+                                <Setter Property="Padding" Value="6,1,6,1"/>
+                                <Setter Property="MinWidth" Value="0" TargetName="Col0"/>
+                                <Setter Property="Width" Value="Auto" TargetName="Col3"/>
+                                <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
+                                <Setter Property="Visibility" Value="Collapsed" TargetName="GlyphPanel"/>
+                                <Setter Property="Visibility" Value="Collapsed" TargetName="IGTHost"/>
+                            </Trigger>
+
+                            <!-- Role = TopLevelItem :  this is a child menu item from the top level without any child items-->
+                            <Trigger Property="Role" Value="TopLevelItem">
+                                <Setter Property="Padding" Value="6,1,6,1"/>
+                            </Trigger>
+
+                            <!-- Role = SubMenuHeader : this is a child menu item which does not have children -->
+                            <Trigger Property="Role" Value="SubmenuHeader">
+                                <Setter Property="DockPanel.Dock" Value="Top"/>
+                                <Setter Property="Padding" Value="0,2,0,2"/>
+                            </Trigger>
+
+                            <!-- Role = SubMenuItem : this is a child menu item which has children-->
+                            <Trigger Property="Role" Value="SubmenuItem">
+                                <Setter Property="DockPanel.Dock" Value="Top"/>
+                                <Setter Property="Padding" Value="0,2,0,2"/>
+                            </Trigger>
+
+                            <!-- If no Icon is present the we collapse the Icon Content -->
+                            <Trigger Property="Icon" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
+                            </Trigger>
+
+                            <!-- The GlyphPanel contains the CheckMark -->
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Visibility" Value="Visible" TargetName="GlyphPanel"/>
+                                <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
+                            </Trigger>
+
+                            <!-- Using the system colors for the Menu Highlight and IsEnabled-->
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource hoverOff}" x:Name="hoverOff_BeginStoryboard"/>
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource hoverOn}" x:Name="hoverOn_BeginStoryboard"/>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsHighlighted" Value="false">
+                                <Setter Property="Background" Value="Transparent" TargetName="Border"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" Value="0.3"/>
+                                <Setter Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource Background}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Height="40" HorizontalAlignment="Stretch">
+            <Border BorderThickness="3,0,3,1">
+                <Border.Background>
+                    <ImageBrush ImageSource="pack://application:,,,/Resources/Images/HeaderBackground.jpg"></ImageBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="pack://application:,,,/Resources/Images/capture.png" Margin="1"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Margin="10,0,0,0">
+                        <TextBlock Text="{Resx ResxName=Ecm.Capture.MainView, Key=tbWelcome}" Style="{StaticResource LoginInfo}" Margin="10,0,0,0"/>
+                        <TextBlock Text="{Binding Path=WelcomeText}" Style="{StaticResource LoginInfo}"/>
+                    </StackPanel>
+                    <Grid x:Name="btnButtonBar" HorizontalAlignment="Stretch" Grid.Column="2">
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" 
+                                    FlowDirection="LeftToRight" Height="Auto" Margin="5,3,5,0">
+                            <CustomControl:SplitButton Style="{StaticResource SplitToolbarButton}" Mode="Dropdown" Margin="0,0,5,0" Height="40" 
+                                                       Width="55" ToolTip="{Resx ResxName=Ecm.Capture.MainView,Key=ttOpeningTasks}"
+                                                       Visibility="{Binding Path=HasWorkItem, Converter={StaticResource VisibilityConverter}}"
+                                                       DropDownOpenning="DropDownOpenning"
+                                                       DropDownClosing="DropDownClosing"
+                                                       Name="ButtonWorkItems">
+                                <CustomControl:SplitButton.Content>
+                                    <Image Source="Resources\Images\onetask32.png" Width="32" 
+                                           Height="32" Margin="0,2,0,0" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </CustomControl:SplitButton.Content>
+                                <MenuItem Command="{Binding Path=CloseTaskCommand}">
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Capture.MainView,Key=tbClose}"/>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Command="{Binding Path=CloseOtherTasksCommand}">
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Capture.MainView,Key=tbOtherAll}"/>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Command="{Binding Path=CloseAllTasksCommand}">
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Capture.MainView,Key=tbCloseAll}"/>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <Separator />
+                            </CustomControl:SplitButton>
+                            <Button Style="{StaticResource ToolbarButton}"
+                                    Margin="0,0,5,0" Height="40" Width="55" Command="{Binding Path=TaskViewCommand}"
+                                    Visibility="{Binding Path=HasTaskPermission, Converter={StaticResource VisibilityConverter}}" 
+                                    ToolTip="{Resx ResxName=Ecm.Capture.MainView,Key=ttTask}">
+                                <Image Source="Resources\Images\task32.png" Width="32" Height="32" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button Style="{StaticResource ToolbarButton}" 
+                                    Margin="5,0,5,0" Height="40" Width="55" Command="{Binding Path=CaptureViewCommand}"
+                                    Visibility="{Binding Path=HasCapturePermission, Converter={StaticResource VisibilityConverter}}" ToolTip="Capture">
+                                <Image Source="Resources\Images\scanner32.png" Width="32" Height="32" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                            <CustomControl:SplitButton Style="{StaticResource SplitToolbarButton}" 
+                                                       Mode="Dropdown" 
+                                                       Placement="Bottom" 
+                                                       Margin="5,0,5,0" 
+                                                       Height="40" 
+                                                       Width="55" 
+                                                       ToolTip="{Resx ResxName=Ecm.Capture.MainView,Key=ttAccount}"
+                                                       DropDownClosing="DropDownClosing"
+                                                       DropDownOpenning="DropDownOpenning">
+                                <CustomControl:SplitButton.Content>
+                                    <Image Source="Resources\Images\accountnew.png" Width="32" Height="32" Margin="0,2,0,0" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </CustomControl:SplitButton.Content>
+                                <MenuItem Header="{Resx ResxName=Ecm.Capture.MainView,Key=hdChangePassword}" Command="{Binding Path=ChangePasswordCommand}" Height="30">
+                                    <MenuItem.Icon>
+                                        <Image Source="Resources/Images/keys.png" Width="22" Height="22"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="{Binding Path=LogoutCommand}" Height="30">
+                                    <MenuItem.Icon>
+                                        <Image Source="Resources/Images/exit.png" Width="22" Height="22"/>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Capture.MainView,Key=tbLogout}"/>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </CustomControl:SplitButton>
+                            <CustomControl:SplitButton Style="{StaticResource SplitToolbarButton}"
+                                                       Mode="Dropdown" 
+                                                       Margin="5,0,5,0" 
+                                                       Height="40" 
+                                                       Width="55" 
+                                                       ToolTip="{Resx ResxName=Ecm.Capture.MainView,Key=ttHelp}"
+                                                       DropDownClosing="DropDownClosing"
+                                                       DropDownOpenning="DropDownOpenning">
+                                <CustomControl:SplitButton.Content>
+                                    <Image Source="Resources\Images\support.png" Width="32" Height="32" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </CustomControl:SplitButton.Content>
+                                <MenuItem Height="30">
+                                    <MenuItem.Icon>
+                                        <Image Source="Resources/Images/help24.png" Width="22" Height="22"/>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Capture.MainView,Key=tbHelp}"/>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Command="{Binding Path=AboutViewCommand}" Height="30">
+                                    <MenuItem.Icon>
+                                        <Image Source="Resources/Images/information24.png" Width="22" Height="22"/>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Resx ResxName=Ecm.Capture.MainView,Key=tbAbout}"/>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </CustomControl:SplitButton>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,2,5,5" Grid.Row="1" Background="#fefefe">
+            <ContentControl Name="ViewContainer" FocusVisualStyle="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+        </Grid>
+    </Grid>
+</Page>

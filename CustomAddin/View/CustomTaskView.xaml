@@ -1,0 +1,54 @@
+﻿<Window x:Class="Ecm.CustomAddin.View.CustomTaskView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             Width="350" Height="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary x:Key="MainResource">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Silver.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="listBoxTemplate">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Margin="5,0,0,10"/>
+                    <TextBlock Text="{Binding Path=CustomTaskTitle}" Grid.Column="1" Margin="5,0,0,20"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Custom Task Views"/>
+        <ListBox Width="Auto" 
+                 VerticalAlignment="Stretch" 
+                 HorizontalAlignment="Stretch"
+                 ItemTemplate="{StaticResource listBoxTemplate}"
+                 ItemsSource="{Binding Path=CustomTasks,Mode=TwoWay}"
+                 Grid.Row="1"/>
+        <Border Style="{StaticResource Separator}" Grid.Row="2"/>
+        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="3" Height="45">
+            <Button ContentTemplate="{StaticResource CancelButton}" 
+                    IsCancel="True"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left" 
+                    Command="{Binding Path=CancelCommand}"
+                    Margin="5,5,0,5"/>
+            <Button ContentTemplate="{StaticResource OkButton}" 
+                    Margin="5,5,5,5"
+                    IsDefault="True"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left" 
+                    Command="{Binding Path=OkCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

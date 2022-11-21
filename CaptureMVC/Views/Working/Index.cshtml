@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_WorkingLayout.cshtml";
+    ViewBag.Title = "Working";
+}
+
+@section AddToHead
+{
+    <script src="~/Working/Pages/Working.js"></script>
+}
+
+<div class="ui-layout-center">
+    <button onclick="myLayout.resizeAll();">
+        inner - insets = 50
+    </button>
+</div>
+<div class="ui-layout-east">East</div>
+<div class="ui-layout-west">West</div>

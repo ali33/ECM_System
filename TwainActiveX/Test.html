@@ -1,0 +1,57 @@
+﻿<!DOCTYPE>
+<html>
+   <head>
+          <title>DemoCSharpActiveX webpage</title>
+       <OBJECT id="twain" name="twain" classid="clsid:1EFCF932-9826-4DF5-BB20-4ECBE8A47078"
+		TYPE="application/x-itst-activex"
+                ALIGN="baseline" BORDER="0"></OBJECT>  
+ 
+	    <script type="text/javascript">
+	        function onload() {
+	            txtText.value = "hello";
+	        }
+
+	        function ScanX(isShowDialog) {
+	            try {
+	                //var obj = new ActiveXObject("TwainActiveX.TwainActiveX");
+
+	                //if (obj) {
+
+	                var obj = twain.Scan(isShowDialog, 'http://ezecm.com:8086/ArchiveMVC/ImageProcessing/UploadFile');
+	                if (obj) {
+
+	                    //console.log();
+	                    var ss = JSON.parse(obj);
+	                    $(ss).each(function () {
+	                        //  console.log($this);
+	                        var img = $('<img width=50 heigh=50 >');
+	                        img.attr("src", "http://ezecm.com:8086/ArchiveMVC/ImageProcessing/UploadFile/ID?key=" + this.KeyCache);
+	                        $('body').append(img);
+	                    });
+	                }
+
+	                //}
+	            }
+	            catch (ex) {
+	                alert(ex.Description);
+	            }
+	        }
+
+	        function handleEvent(agrs) {
+	            alert(agrs);
+	        }
+        </script>
+   </head>
+   <body onload="onload();">
+        <div>
+            <textarea id="txtText" rows="5" cols="10"></textarea>
+            <button onclick="ScanX(true);" value="Scan"/>
+        </div>
+<!--        <script for="twain" event="ScanPageEvent(args)" language="javascript">
+            //alert(args);
+            function twain::ScanPageEvent(args) {
+                alert(args);
+            }
+        </script>-->
+   </body>
+</html>

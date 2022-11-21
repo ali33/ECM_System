@@ -1,0 +1,825 @@
+﻿@model  ArchiveMVC5.Models.ArchiveAdminModel
+@{
+    ViewBag.Title = "Archive Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section AddToHead
+    {
+
+
+
+    @* Được thêm mới bởi Triết *@
+    @*Styles.Render("~/Content/jquery-ui.css") *@
+    @*@Styles.Render("~/Content/themes/base/jquery-ui.css")*@
+    <link rel="icon" href="~/Content/themes/base/images" type="image/png" />
+
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/load.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Annotations/annotation.V1.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdmin.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdminPermission.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdminUser.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdminUserGroup.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/ArchiveAdminSettings.js"></script>
+    <script type="text/javascript" src="~/Scripts/Annotations/scrollTo.js"></script>
+    <script type="text/javascript" src="~/Scripts/Camera/jquery.webcam.js"></script>
+
+    @* Loc Ngo *@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/OcrTemplateMenu.js")"></script>
+    @* End Loc Ngo *@
+    @*///THODINH*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/Thumb.js")"></script>
+    <link href="~/Content/Annotations/annotation.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/Annotations/annotation.V1.js" type="text/javascript"></script>
+    <link href="~/Scripts/Annotations/tip/tip-yellowsimple/tip-yellowsimple.css" rel="stylesheet">
+    <script src="~/Scripts/Annotations/tip/jquery.poshytip.js"></script>
+
+    <link href="~/Scripts/Annotations/jquery-editable/css/jquery-editable.css" rel="stylesheet" />
+    <script src="~/Scripts/Annotations/jquery-editable/js/jquery-editable-poshytip.js"></script>
+    <script src="~/plugins/bootstrap-dialog/js/bootstrap-dialog.js"></script>
+    @*///END*@
+    @* Loc Ngo *@
+    <link href="@Url.Content("~/Content/tablesorter/style.css")" rel="stylesheet" type="text/css" />
+    @* End Loc Ngo *@
+
+    <script>
+        var URL_Recycle = '@Url.Content("~/Images/recycle-bin.png")';
+        var URL_ShowListContentType = "@Url.Action("ShowListContentType", "ArchiveAdmin")";
+        var URL_ContentTypeProperties = "@Url.Action("ContentTypeProperties", "ArchiveAdmin")";
+        var URL_DeleteContentType = "@Url.Action("DeleteContentType", "ArchiveAdmin")";
+        var URL_SaveContentType = "@Url.Action("SaveContentType", "ArchiveAdmin")";
+        var URL_DeleteFields = "@Url.Action("DeleteFields", "ArchiveAdmin")";
+        var URL_GetPicklistValue = "@Url.Action("GetPicklistValue", "ArchiveAdmin")";
+        var URL_GetTableValue = "@Url.Action("GetTableValue", "ArchiveAdmin")";
+        var URL_LoadTableConfigure = "@Url.Action("LoadTableConfigure", "ArchiveAdmin")";
+        var URL_EditTableConfigure = "@Url.Action("EditTableConfigure", "ArchiveAdmin")";
+        var URL_TestConnection = "@Url.Action("TestConnection", "ArchiveAdmin")";
+        var URL_GetDataSource = "@Url.Action("GetDataSource", "ArchiveAdmin")";
+        var URL_GetColumns = "@Url.Action("GetColumns", "ArchiveAdmin")";
+        var URL_GetOperators = "@Url.Action("GetOperators", "ArchiveAdmin")";
+        var URL_GetOperatorsFormStored = "@Url.Action("GetOperatorsFromStored", "ArchiveAdmin")";
+        var URL_GetParameters = "@Url.Action("LoadParameters", "ArchiveAdmin")";
+        var URL_BuildCommandText = "@Url.Action("BuildCommandText", "ArchiveAdmin")";
+        var URL_BuildExecuteCommand = "@Url.Action("BuildExecuteCommand", "ArchiveAdmin")";
+        var URL_BuildWhereClause = "@Url.Action("BuildWhereClause", "ArchiveAdmin")";
+        var URL_GetLookupData = "@Url.Action("TestLookup", "ArchiveAdmin")";
+        var URL_LoadLookupInfo = "@Url.Action("LoadLookupInfo", "ArchiveAdmin")";
+        var URL_ShowPermissionProperties = "@Url.Action("ShowPermissionProperties", "ArchiveAdmin")";
+        var URL_ShowUser = "@Url.Action("ShowUser", "ArchiveAdmin")";
+        var URL_ShowPermission = "@Url.Action("ShowPermission", "ArchiveAdmin")";
+        var URL_ShowUserProperties = "@Url.Action("ShowUserProperties", "ArchiveAdmin")";
+        var URL_DeleteUser = "@Url.Action("DeleteUser", "ArchiveAdmin")";
+        var URL_SaveUser = "@Url.Action("SaveUser", "ArchiveAdmin")";
+        var URL_ShowListUserGroup = "@Url.Action("ShowListUserGroup", "ArchiveAdmin")";
+        var URL_LoadUserGroups = "@Url.Action("LoadUserGroups", "ArchiveAdmin")";
+        var URL_DeleteUserGroup = "@Url.Action("DeleteUserGroup", "ArchiveAdmin")";
+        var URL_ShowUserGroupProperties = "@Url.Action("ShowUserGroupProperties", "ArchiveAdmin")";
+        var URL_SaveUserGroup = "@Url.Action("SaveUserGroup", "ArchiveAdmin")";
+        var URL_SearchUser = "@Url.Action("SearchUser", "ArchiveAdmin")";
+        var URL_SavePermissions = "@Url.Action("SavePermissions", "ArchiveAdmin")";
+        var URL_DeleteOcrTemplate = "@Url.Action("DeleteOcrTemplate", "ArchiveAdmin")";
+        var URL_DeleteBarcode = "@Url.Action("DeleteBarcode", "ArchiveAdmin")";
+        var URL_ShowSettings = "@Url.Action("ShowSettings", "ArchiveAdmin")";
+        //LocNgo
+        var URL_ContentTypeIcon = "@Url.Action("UploadContentTypeIcon", "ArchiveAdmin")";
+        var URL_SettingConfigure = "@Url.Action("ShowSettingConfigure", "ArchiveAdmin")";
+        var URL_SettingConfigureLanguages = "@Url.Action("ShowSettingConfigureLanguages", "ArchiveAdmin")";
+        var URL_ShowSettingConfigureDetails = "@Url.Action("ShowSettingConfigureDetail", "ArchiveAdmin")";
+        var URL_SaveSettingConfigireDetails = "@Url.Action("SaveSettingConfigureMapping", "ArchiveAdmin")";
+        var URL_DeleteSettingConfigureDetails = "@Url.Action("DeleteSettingConfigureMapping", "ArchiveAdmin")";
+        var URL_SaveSetting = "@Url.Action("SaveSetting", "ArchiveAdmin")";
+        var URL_MappingIcon = "@Url.Content("~/Images/archive_admin_icon/appbar.dial.svg")";
+        var URL_UploadProfilePic = "@Url.Action("UploadProfilePic", "ArchiveAdmin")";
+        var URL_GetImageFromCache = "@Url.Action("GetImageFromCacheByKey", "ArchiveAdmin")";
+        var URL_ShowBarcodeConfigure = "@Url.Action("ShowBarcodeConfigure", "ArchiveAdmin")";
+        var URL_SaveBarcodeFields = "@Url.Action("SaveBarcode", "ArchiveAdmin")";
+        //For content type
+        var URL_OcrConfigure = "@Url.Action("Configure", "ArchiveAdmin")";
+        var URL_GetIcon = "@Url.Action("GetIcon", "ImageProcessing")";
+        var URL_UserGroupIcon = "@Url.Content("~/Images/archive_admin_icon/appbar.group.minus.svg")";
+        var URL_TableConfigure = "@Url.Content("~/Resources/table_configure_delete_icon.png")";
+        //End Loc Ngo
+        ///THODINH
+        var URL_RemoveRowIcon = '@Url.Content("~/Images/appbar.delete.png")';
+        var URL_ScanIcon = '@Url.Content("~/Images/Scan-icon.png")';
+        var URL_ImportIcon = '@Url.Content("~/Images/file-import-icon.png")';
+        var URL_CameraIcon = '@Url.Content("~/Images/webcam.png")';
+        var URL_UploadFile = "@Url.Action("UploadFile", "ImageProcessing")";
+        var URL_LoadImage = "@Url.Action("ID", "ImageProcessing")";
+        var URL_SaveOCRTemplate = "@Url.Action("SaveOCRTemplate", "ArchiveAdmin")";
+        var URL_GetFieldMetaData = "@Url.Action("GetFieldMetaData", "ArchiveAdmin")";
+        var URL_Camera = '@Url.Content("~/Scripts/Camera/jscam.swf")';
+        var URL_PostImage = '@Url.Action("UploadFile", "ImageProcessing")';
+
+        var lookupInfo;
+        var lookupInfos = [];
+        var pickList;
+        var pickLists = [];
+        ///END
+    </script>
+    <style>
+        .ui-state-highlight {
+            width: 100%;
+            height: 100%;
+            border: 3px solid #F7BE81;
+        }
+
+        #lookupMappingDetail {
+            height:200px;
+            overflow-x:hidden;
+            overflow-y:auto;
+        }
+        #storeparameter {
+            height:120px;
+            overflow-x:hidden;
+            overflow-y:auto;
+        }
+    </style>
+
+}
+<section>
+
+<div class="container no-padding" style="width:103%">
+    <div class="col-md-12 col-sm-12 archive_admin_container">
+        <div class="admin_sub_menu col-md-3 col-sm-3 padding-3"></div>
+        <div class="sub_properties col-md-9 col-sm-9 padding-3"></div>
+    </div>
+    <div class="ocr_template_panel col-md-12 col-sm-12"></div>
+</div>
+<div class="modal padding-5" id="dialog_add_field" data-controls-modal="dialog_add_field" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header padding-5">
+                <h3>Field  properties</h3>
+            </div>
+            <div class="modal-body padding-5">
+                <div class="box box-success padding-5">
+                    <div class="box-header with-border padding-5">
+                        <h4>Fields</h4>
+                    </div>
+                    <div class="box-body padding-5">
+                        <div class="col-md-12 padding-5">
+                            <div class="form-group">
+                                <label class="control-label">Field name</label><span class="required">*</span>
+                                <input class="form-control input-sm" type="text" id="field_name"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Data type</label><span class="required">*</span>
+                                <select name="data_type" id="dataType" class="form-control input-sm">
+                                    @foreach (Ecm.Domain.FieldDataType dataType in Enum.GetValues(typeof(Ecm.Domain.FieldDataType)))
+                                    {
+                                        if(@dataType.ToString() != "Folder")
+                                        {
+                                        <option value="@dataType.ToString()">@dataType.ToString()</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-success padding-5">
+                    <div class="box-header with-border padding-5">
+                        <h4>Fields configure</h4>
+                    </div>
+                    <div class="box-body padding-5">
+                        <div class="col-md-12 padding-5">
+                            <div class="form-group">
+                                <input id="required" type="checkbox" value="fasle" />
+                                <label class="control-label">Is required </label>
+                            </div>
+                            <div class="form-group">
+                                <input id="restricted" type="checkbox" value="false" />
+                                <label class="control-label">Is restricted</label>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn bg-olive btn-sm" type="button" id="configure_table" style="display: none">
+                                    <i class="fa fa-table"></i> Configure column
+                                </button>
+                                <button class="btn bg-olive btn-sm" type="button" id="configure_picklist" style="display: none">
+                                    <i class="fa fa-list"></i> Configure picklist
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-control">Max length</label>
+                                <input type="text" name="max_length" id="max_length" class="form-control input-sm allownumericwithoutdecimal" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label class="label-control">Default value</label>
+                                <input type="text" name="default_value" id="default_value" class="form-control input-sm" />
+                                <input id="use_current_date" type="checkbox" value="false" style="display: none" class="current_date" />
+                                <label class="label-control current_date" style="display: none" for="use_current_date">Use current date? </label>
+                                <select id="select_true_false" class="form-control input-sm" style="display: none;">
+                                    <option value="True">True</option>
+                                    <option value="Fasle">Fasle</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer padding-5">
+                <button class="btn bg-olive btn-sm" type="button" data-dismiss="modal" id="closeFieldDialog"><i class="glyphicon glyphicon-remove"></i> Close </button>
+                <button class="btn bg-olive btn-sm" type="button" id="btsaveField"><i class="glyphicon glyphicon-floppy-save"></i> Save changes </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Dialog picklist -->
+<div class="modal padding-5" id="picklist_value_dialog" data-controls-modal="picklist_value_dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header padding-5">
+                <h3>Picklist value</h3>
+            </div>
+            <div class="modal-body padding-5">
+                <div class="box box-success padding-5">
+                    <div class="box-body padding-5">
+                        <div class="col-md-12 padding-5">
+                            <div class="form-group">
+                                <label class="control-label">Picklist values</label><span class="required">*</span>
+                                <textarea name="picklist_value" id="picklist_value" cols="25" rows="100" style="height:200px; width:100%; overflow-x:hidden; overflow-y:auto"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer padding-5">
+                <button class="btn bg-olive btn-sm" type="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>Close </button>
+                <button class="btn bg-olive btn-sm" type="button" id="savePicklist"><i class="glyphicon glyphicon-floppy-save"></i>Save changes </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Dialog configure table -->
+<div class="modal padding-5" id="dialog_table_configure" data-controls-modal="dialog_table_configure" data-backdrop="static" data-keyboard="false">
+    @*<h2>Table columns configuration</h2>*@
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header padding-5">
+                <h3>Table columns properties</h3>
+            </div>
+            <div class="modal-body padding-5">
+                <div class="box box-success padding-5">
+                    <div class="box-body padding-5">
+                        <div style="height: 300px; overflow: auto">
+                            <table id="table_configuration" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th>Column name</th>
+                                        <th>Data type</th>
+                                        <th style="width:12%">Max length</th>
+                                        <th style="width:7%">Required</th>
+                                        <th style="width:7%">Restricted</th>
+                                        <th>Default value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table_configure_row first_row">
+                                        <td id="first_delete_column">
+                                            <i class="dialog_table_icon glyphicon glyphicon-trash large hand"></i>
+                                        </td>
+                                        <td class="table_td_name">
+                                            <input type="text" class="table_name_value form-control input-sm" placeholder="New column">
+                                        @*</td>*@
+                                        <td class="table_td_type">
+                                            <select class="form-control input-sm table_data_type">
+                                                <option value="String" selected>String</option>
+                                                <option value="Integer">Integer</option>
+                                                <option value="Decimal">Decimal</option>
+                                                <option value="Date">Date</option>
+                                            </select>
+                                        </td>
+                                        <td class="table_td_maxlength">
+                                            <input type="text" class="form-control input-sm table_maxlength allownumericwithoutdecimal" value="0">
+                                        </td>
+                                        <td class="table_td_required">
+                                            <input type="checkbox" class="table_check_required"/>
+                                        </td>
+                                        <td class="table_td_restricted">
+                                            <input type="checkbox" class="table_check_restricted"/>
+                                        </td>
+                                        <td class="table_td_default_value">
+                                            <input type="text" class="table_default_value form-control input-sm">
+                                            <input type="checkbox" class="table_check_use_current_date" value="false" style="display: none" />
+                                            <a class="table_check_use_current_date" style="display: none">Use current date</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer padding-5">
+                        <button class="btn btn-default btn-sm" type="button" id="add_new_column"><i class="glyphicon glyphicon-plus"></i>Click here to add a new column </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer padding-5">
+                <button class="btn bg-olive btn-sm" type="button" data-dismiss="modal" id="closeTableColumn"><i class="glyphicon glyphicon-remove"></i>Close </button>
+                <button class="btn bg-olive btn-sm" type="button" id="saveTableColumn"><i class="glyphicon glyphicon-floppy-save"></i>Save changes </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Dialog configure table -->
+
+@*<div class="modal padding-3" id="dialog_lookup" data-fieldid="00000000-0000-0000-0000-000000000000" data-controls-modal="dialog_lookup" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header padding-5">
+                <h3>Lookup configuration</h3>
+            </div>
+            <div class="modal-body padding-3">
+                <div class="nav-tabs-custom padding-3" id="dialog_lookup_content">
+                    <ul class="nav nav-tabs">
+                        <li class="active" id="lookupServerInfo"><a data-toggle="tab" href="#tabs-ServerInfo">Server info</a></li>
+                        <li class="disabled" id="lookupMapInfo"><a href="#tabs-MappingInfo">Mapping info</a></li>
+                        <li id="lookupCommandInfo"><a data-toggle="tab" href="#tabs-CommandInfo" id="commandInfo">Command info</a></li>
+                    </ul>
+                    <div class="tab-content padding-3">
+                        <div class="tab-pane padding-3 fade in active" id="tabs-ServerInfo">
+                            <div class="row">
+                            <div class="col-md-12 col-sm-12 padding-3">
+                                <div class="col-md-6 col-sm-6 padding-3">
+                                    <div class="box box-success padding-3">
+                                        <div class="box-header padding-3">
+                                            <h4>Connection info</h4>
+                                        </div>
+                                        <div class="box-body padding-3">
+                                            <div class="form-group">
+                                                <label class="label-control">Server name</label><span class="required">*</span>
+                                                <input type="text" id="server_name" class="form-control input-sm validate" placeholder="Enter server name...">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="label-control">Database type</label><span class="required">*</span>
+                                                <select id="database_type_select" class="form-control input-sm">
+                                                    <option value="0">MS SQL Server</option>
+                                                    <option value="2">Oracle Database</option>
+                                                    <option value="4">IBM DB2</option>
+                                                    <option value="1">My SQL</option>
+                                                    <option value="3">Postgre SQL</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="label-control">Data provider</label><span class="required">*</span>
+                                                <select id="data_provider_select" class="form-control input-sm">
+                                                    <option value="2">ADO.NET provider</option>
+                                                    <option value="1">Oledb provider</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="label-control">Port number</label><span class="required">*</span>
+                                                <input type="text" id="port_number" class="form-control input-sm validate" placeholder="Enter port number..." value="1433">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 padding-3">
+                                    <div class="box box-success padding-3">
+                                        <div class="box-header padding-3">
+                                            <h4>Database info</h4>
+                                        </div>
+                                        <div class="box-body padding-3">
+                                            <div class="form-group">
+                                                <label class="label-control">User name</label><span class="required">*</span>
+                                                <input type="text" id="user_name" class="form-control input-sm validate" placeholder="Enter user name...">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="label-control">Password</label><span class="required">*</span>
+                                                <input type="password" id="pass_word" class="form-control input-sm validate">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="label-control">Database</label><span class="required">*</span>
+                                                <select id="select_database" class="form-control input-sm">
+                                                    <option>Empty</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="label-control">Schema</label><span class="required">*</span>
+                                                <select id="select_schema" class="form-control input-sm">
+                                                    <option>Empty</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-group margin">
+                                    <button type="button" id="button_test_connection" class="btn bg-olive btn-sm">
+                                        <i class="glyphicon glyphicon-play"></i>
+                                        <span>Test connection</span>
+                                    </button>
+                                </div>
+                            </div></div>
+                        </div>
+                        <div class="tab-pane padding-3 fade" id="tabs-MappingInfo">
+                            <div class="box box-success padding-3">
+                                <div class="box-header with-border padding-3">
+                                    <h4>Mapping info</h4>
+                                </div>
+                                <div class="box-body padding-3">
+                                    <div class="form-group">
+                                        <label class="label-control">Select data source type</label><span class="required">*</span>
+                                        <div>
+                                            <div class="col-md-12 col-sm-12 padding-1">
+                                                <div class="col-md-3 col-sm-3 padding-1 pull-left">
+                                                    <input type="radio" id="display_table" name="data_source" value="Table" checked="checked"> <label for="display_table" class="label-control"> Display table</label>
+                                                </div>
+                                                <div class="col-md-3 col-sm-3 padding-1 pull-left">
+                                                    <input type="radio" id="display_view" name="data_source" value="View"> <label class="label-control" for="display_view"> Display views</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 padding-1 pull-left">
+                                                    <input type="radio" id="display_procedure" name="data_source" value="StoredProcedure"> <label class="label-control" for="display_procedure"> Display stored procedures</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">Data source</label><span class="required">*</span>
+                                        <select class="form-control input-sm" id="select_data_source">
+                                            <option id="Empty">Select</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">Maximum number of lookup rows returned</label>
+                                        <input type="text" id="number_of_lookup_rows" class="form-control input-sm" />
+                                    </div>
+                                    <div id="lookupMappingDetail" class="col-md-12">
+                                        <table id="table_look_data" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Archive client</th>
+                                                    <th>Lookup data source</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane padding-3 fade" id="tabs-CommandInfo">
+                            <div class="box box-success padding-3" id="commandtext">
+                                <div class="box-header with-border padding-1">
+                                    <div class="col-md-12 col-sm-12 padding-1">
+                                        <div class="col-md-5 col-sm-5 padding-1">
+                                            <h4>Build Sql command</h4>
+                                        </div>
+                                        <div class="col-md-7 col-sm-7 padding-1">
+                                            <div class="btn-group pull-right padding-1">
+                                                <button type="button" id="button_add_condition" class="btn bg-olive btn-sm margin-3">
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                    <span>Add Condition</span>
+                                                </button>
+                                                <button type="button" id="button_clear_condition" class="btn bg-olive btn-sm margin-3">
+                                                    <i class="glyphicon glyphicon-refresh"></i>
+                                                    <span>Clear Condition</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body padding-3">
+                                    <div class="form-group">
+                                        <label class="label-control">Database field</label>
+                                        <select id="select_database_field" class="form-control input-sm">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">Operator</label>
+                                        <select id="select_operator" class="form-control input-sm">
+                                            <option>Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box box-success padding-3" id="commandstore" style="display:none">
+                                <div class="box-header padding-1">
+                                    <div class="col-md-12 col-sm-12 padding-1">
+                                        <div class="col-md-5 col-sm-5 padding-1">
+                                            <h4>Lookup data</h4>
+                                        </div>
+                                        <div class="col-md-7 col-sm-7 padding-1">
+                                                <button type="button" id="build_execute_command" class="btn bg-olive btn-sm pull-right">
+                                                    <i class="fa fa-upload"></i>
+                                                    <span>Build Command</span>
+                                                </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body padding-3">
+                                    <div class="form-group">
+                                        <label class="label-control">Database field</label>
+                                        <select id="select_database_field_stored" class="form-control input-sm">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">Operator</label>
+                                        <select id="select_operator_stored" class="form-control input-sm">
+                                            <option>Select</option>
+                                        </select>
+                                    </div>
+                                    <div class="padding-3">
+                                        <div id="storeparameter"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box box-success padding-3" id="text_sql">
+                                <div class="box-header padding-1">
+                                    <div class="col-md-12 col-sm-12 padding-1">
+                                        <div class="col-md-5 col-sm-5 padding-1">
+                                            <h4>Sql command</h4>
+                                        </div>
+                                        <div class="col-md-7 col-sm-7 padding-1">
+                                            <button type="button" id="test_lookup_data" class="btn bg-olive btn-sm pull-right">
+                                                <i class="fa fa-upload"></i>
+                                                <span>Test SQL</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body padding-3">
+                                    <div class="form-group">
+                                        <textarea name="text_area_condition" id="sql_command" cols="100" rows="50" style="width:100%; height:70px; overflow:auto"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box box-success padding-3">
+                                <div class="box-header padding-1">
+                                    <h4>Test lookup data results</h4>
+                                </div>
+                                <div class="box-body padding-3">
+                                    <div id="lookup_data_result" class="col-md-12 col-sm-12"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer padding-3">
+                <button class="btn bg-olive btn-sm" type="button" data-dismiss="modal" id="cancelLookup"><i class="glyphicon glyphicon-remove"></i>Close </button>
+                <button class="btn bg-olive btn-sm" type="button" id="saveLookup"><i class="glyphicon glyphicon-floppy-save"></i>Save changes </button>
+            </div>
+        </div>
+    </div>
+</div>*@
+<!-- Test lookup dialog-->
+@*<div class="modal padding-5" id="dialog_test_lookup">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header padding-5">
+                <h3>Test lookup</h3>
+            </div>
+            <div class="modal-body padding-5">
+                <div class="form-group">
+                    <label class="label-control">Lookup value</label>
+                    <input type="text" class="form-control input-sm" id="lookup_value"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group pull-right">
+                    <button class="btn bg-olive btn-sm margin" type="button" data-dismiss="modal" id="testLookupCancel"><i class="glyphicon glyphicon-remove"></i> Close </button>
+                    <button class="btn bg-olive btn-sm margin" type="button" id="testLookupOk"><i class="glyphicon glyphicon-floppy-ok"></i> OK </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div class="modal padding-5" id="dialog_barcode_configure" data-controls-modal="dialog_lookup" data-backdrop="static" data-keyboard="false">
+    @*<h2>Table columns configuration</h2>*@
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header padding-5">
+                <h3>Barcode properties</h3>
+            </div>
+            <div class="modal-body padding-5">
+                <div class="box box-ssuess padding-1">
+                    <div class="box-header"><h4>Barcode information</h4></div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="label-control">Barcode type</label>
+                            <select name="barcode_type" id="barcode_type" class="form-control input-sm">
+                                @foreach (ArchiveMVC5.Models.BarcodeTypeModel barcodetype in Enum.GetValues(typeof(ArchiveMVC5.Models.BarcodeTypeModel)))
+                                {
+                                    <option value="@barcodetype">@barcodetype</option>
+                                }
+                            </select>
+                        </div>
+                         <div class="form-group">
+                            <label class="label-control">Barcode position</label>
+                            <input type="text" id="barcode_position" class="form-control input-sm" value="0">
+                        </div>
+                   </div>
+                </div>
+                <div class="box box-success padding-1">
+                    <div class="box-header"><h4>Barcode configuration</h4></div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <input id="document_separator" type="checkbox"><label class="lable-control"> Document separator </label>
+                        </div>
+                        <div class="form-group">
+                            <input id="remove_separator_page" type="checkbox"><label class="lable-control"> Remove separator page </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-control">Field</label>
+                            <select id="barcode_fields" class="form-control input-sm">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input id="do_lookup" type="checkbox"><label class="lable-control"> Do lookup </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button class="btn bg-olive btn-sm margin" type="button" data-dismiss="modal" id="cancelBarcodeConfiguration"><i class="glyphicon glyphicon-remove"></i> Cancel </button>
+                    <button class="btn bg-olive btn-sm margin" type="button" id="saveBarcodeConfiguration"><i class="glyphicon glyphicon-floppy-save"></i> Save </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Dialog select user group -->
+<div id="dialog_user_select_group" class="modal padding-5" data-controls-modal="dialog_lookup" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header padding-5">
+                <h3>Search user groups</h3>
+            </div>
+            <div class="modal-body padding-5">
+                <div class="box box-success padding-5">
+                    <div class="box-header"><h4> Search user groups </h4></div>
+                    <div class="box-body padding-5">
+                        <div class="col-md-12 padding-5">
+                            <div class="input-group">
+                                <input type="text" id="user_name_search" class="form-control input-sm" placeholder="Enter group name..." aria-describedby="basic-addon2" autofocus>
+                                <span class="btn bg-olive btn-sm input-group-addon" id="user_search_usergroup"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-success padding-5">
+                    <div class="box-header"><h4> User groups </h4></div>
+                    <div class="box-body padding-5">
+                        <div class="col-md-12 padding-5">
+                            <table id="user_table_user_group" class="table">
+                                <thead>
+                                    <tr class="row_title">
+                                        <th style="width: 25px"><input type="checkbox" class="checkall" /></th>
+                                        <th>Group Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer padding-5">
+                <button class="btn bg-olive btn-sm" type="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Close </button>
+                <button class="btn bg-olive btn-sm" type="button" id="saveUserGroup"><i class="glyphicon glyphicon-floppy-save"></i> Save changes </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dialog select users  -->
+<div class="modal padding-5" id="dialog_usergroup_select_user" data-controls-modal="dialog_lookup" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header padding-5">
+                <h3>Search users</h3>
+            </div>
+            <div class="modal-body padding-5">
+                <div class="box box-success padding-5">
+                    <div class="box-header">
+                        <h4>Search user groups </h4>
+                    </div>
+                    <div class="box-body padding-5">
+                        <div class="col-md-12 padding-5">
+                            <div class="input-group">
+                                <input type="text" id="usergroup_name_search" class="form-control input-sm" placeholder="Enter group name..." aria-describedby="basic-addon2" autofocus>
+                                <button type="button" id="usergroup_search_user" class="btn bg-olive btn-sm input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                    <span>Search </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-success padding-5">
+                    <div class="box-header">
+                        <h4>User groups </h4>
+                    </div>
+                    <div class="box-body padding-5">
+                        <div class="col-md-12 padding-5">
+                            <table id="usergroup_table_user" class="table">
+                                <thead>
+                                    <tr class="row_title">
+                                        <th style="width: 25px">
+                                            <input type="checkbox" class="checkall" /></th>
+                                        <th>Username</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer padding-5">
+                <button class="btn bg-olive btn-sm" type="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Close </button>
+                <button class="btn bg-olive btn-sm" type="button" id="saveUser"><i class="glyphicon glyphicon-floppy-save"></i> Save changes </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Dialog ask question save or no when checkbox was change -->
+<div id="dialog_ask_question_permission" style="display: none;">
+    <p>Do you want to save changes made to Permission?</p>
+</div>
+
+<!--Loc Ngo-->
+<!--Dialog change icon of content type-->
+<div class="dialog_content_icon" style="display: none;">
+    <div class="left_icon">
+        <fieldset class="dialog_fieldset icon_fieldset">
+            <legend>Content icon</legend>
+            <img id="dialog_image_icon" src="#" data-keycache="" />
+        </fieldset>
+    </div>
+
+    <div class="right_lst_icon">
+        <fieldset class="dialog_fieldset lst_icon_fieldset">
+            <legend>Choose icon</legend>
+            @if (ViewData["DocumentTypeIcon"] != null)
+            {
+                foreach (var imageIcon in (IEnumerable<String>)ViewData["DocumentTypeIcon"])
+                {
+                <img id="sub_image_icon"  data-icon-path="@imageIcon" src="@Url.Content(imageIcon)" />
+                }
+            }
+        </fieldset>
+    </div>
+</div>
+<!--End dialog change icon of content type-->
+
+
+
+@*    <div class="left_column archive_admin_menu">
+        <div class="admin_menu_title">
+            <div class="title_content">Admin Menu</div>
+        </div>
+        <div id="content_types" class="admin_menu_item selected">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.debug.step.into.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">Content types</div>    
+            </div>
+        </div>
+
+        <div id ="permissions" class="admin_menu_item">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.key.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">Permissions</div> 
+            </div>
+        </div>
+        
+        <div id="users" class="admin_menu_item">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.user.minus.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">Users</div>
+            </div>
+        </div>
+        
+        <div id="user_groups" class="admin_menu_item">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.group.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">User Groups</div>
+            </div>
+        </div>
+        
+        <div id="settings" class="admin_menu_item">
+            <div class="icon">
+                <img src="@Url.Content("~/Images/archive_admin_icon/appbar.settings.svg")" />
+            </div>
+            <div class="item_content">
+                <div class="item_content_data">Settings</div>
+            </div>
+        </div>
+
+    </div>*@
+    </section>

@@ -1,0 +1,421 @@
+﻿<UserControl x:Class="Ecm.CaptureAdmin.View.BatchTypeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:CustomControl="clr-namespace:Ecm.CustomControl;assembly=CustomControl" 
+             xmlns:cc="clr-namespace:Ecm.CustomControl;assembly=CustomControl"
+             Name="Container"
+             Language="{UICulture}">
+    <UserControl.Resources>
+        <Style x:Key="ItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+            <Setter Property="IsSelected" Value="{Binding Path=.IsSelected}" />
+        </Style>
+        <DataTemplate x:Key="OcrCellTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource GridCellLinkButton}" Content="Configure" x:Name="btnConfigureOcr" 
+                        Command="{Binding Path=DataContext.ConfigOcrCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                        CommandParameter="{Binding Path=.}"
+                        Visibility="{Binding Path=., Converter={StaticResource HasOcrConverter}}"/>
+                <Button Style="{StaticResource GridCellLinkButton}" Content=" | Delete" x:Name="btnDeleteOcr" 
+                        Command="{Binding Path=DataContext.DeleteOcrCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding Path=.}"
+                        Visibility="{Binding Path=HasOCRTemplateDefined, Mode=OneWay, Converter={StaticResource VisibilityConverter}}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="BarcodeCellTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource GridCellLinkButton}" Content="Configure" x:Name="btnConfigureBarcode" Visibility="{Binding Path=., Converter={StaticResource HasBarcodeConverter}}"/>
+                <Button Style="{StaticResource GridCellLinkButton}" Content=" | Delete" x:Name="btnDeleteBarcode" 
+                        Visibility="{Binding Path=HasBarcodeConfigurations, Mode=OneWay, Converter={StaticResource VisibilityConverter}}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <ControlTemplate x:Key="EmptyCellTemplate">
+            <TextBlock/>
+        </ControlTemplate>
+        <ControlTemplate x:Key="DefaultDateValueCellTemplate">
+            <TextBlock Padding="0,0,10,0">{Use current date}</TextBlock>
+        </ControlTemplate>
+        <ControlTemplate x:Key="DefaultValueCellTemplate">
+            <TextBlock Padding="0,0,10,0" Text="{Binding Path=DefaultValue}"/>
+        </ControlTemplate>
+        <DataTemplate x:Key="CellDefaultValueTemplate">
+            <Control x:Name="control" Focusable="False" Template="{StaticResource DefaultValueCellTemplate}" />
+            <DataTemplate.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=DataType, Converter={StaticResource IndexDataTypeConverter}}" Value="Date"/>
+                        <Condition Binding="{Binding Path=UseCurrentDate}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="control" Property="Template" Value="{StaticResource DefaultDateValueCellTemplate}"></Setter>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=DataType, Converter={StaticResource IndexDataTypeConverter}}" Value="Date"/>
+                        <Condition Binding="{Binding Path=UseCurrentDate}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="control" Property="Template" Value="{StaticResource EmptyCellTemplate}"></Setter>
+                </MultiDataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+        <DataTemplate x:Key="BatchTypeItemTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5"  Tag="{Binding DataContext, ElementName=Container}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding Path=Icon,Converter={StaticResource ImageSourceBinaryConverter}}" Margin="0,0,10,0" Width="24" Height="24"/>
+                    <TextBlock Text="{Binding Path=Name}" FontSize="15" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="1" Margin="24,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Workflow" Margin="10,0,0,0"></TextBlock>
+                    <Button Grid.Column="1" Style="{StaticResource GridCellLinkButton}" 
+                            Content="Configure" 
+                            Margin="5,0,0,0" Tag="{Binding Path=.}" 
+                            Command="{Binding Path=DataContext.ConfigWorkflowCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding Path=.}"></Button>
+                    <TextBlock Text="Barcode" Margin="10,0,0,0" Grid.Row="1"></TextBlock>
+                    <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource GridCellLinkButton}" 
+                            Content="Configure" 
+                            Command="{Binding Path=DataContext.ConfigBarcodeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding Path=.}"
+                            Margin="5,0,0,0" Tag="{Binding Path=.}"></Button>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
+            <Grid DockPanel.Dock="Left" Margin="10,10,10,10" Width="2" MaxWidth="500" MinWidth="250">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                        Background="{StaticResource BackgroundBrush}" Height="40"
+                        BorderThickness="1" Margin="0,0,0,10" BorderBrush="{StaticResource BorderBrush}">
+                    <TextBlock Text="Batch types" Style="{StaticResource DisplayViewHeaderText}"/>
+                </Border>
+                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                             ItemsSource="{Binding Path=BatchTypes}"
+                             SelectedItem="{Binding Path=BatchType, Mode=TwoWay}"
+                             BorderThickness="0"
+                             ItemContainerStyle="{StaticResource GoldenListBoxItemStyle}"
+                             ItemTemplate="{StaticResource BatchTypeItemTemplate}"
+                             Margin="0,0,0,20" Name="ListBoxBatch"/>
+                    <Border Style="{StaticResource Separator}" Grid.Row="1"/>
+                    <StackPanel Grid.Row ="2" Width="Auto" Height="Auto" Orientation="Horizontal"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button Width="Auto" Command="{Binding Path=AddBatchTypeCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/add.png" VerticalAlignment="Center" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Grid.Column="1" Text="Add" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button Width="Auto" Margin="10,0,0,0" Command="{Binding Path=DeleteBatchTypeCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/delete.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Grid.Column="1" Text="Delete" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <CustomControl:Splitter Style="{StaticResource VerticalSpitter}" VerticalAlignment="Stretch" Height="Auto" DockPanel.Dock="Left"/>
+            <Grid Style="{StaticResource EditorViewStyle}" Margin="10,10,10,10" Width="Auto" Name="EditPanel"
+                  IsVisibleChanged="EditPanel_IsVisibleChanged"
+                  Visibility="{Binding Path=EditPanelVisibled, Mode=TwoWay,Converter={StaticResource VisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                        Background="{StaticResource BackgroundBrush}" 
+                        BorderThickness="1" Margin="0,0,0,10" Height="40"
+                        BorderBrush="{StaticResource BorderBrush}">
+                    <TextBlock Text="Batch type properties" Style="{StaticResource DisplayViewHeaderText}"/>
+                </Border>
+                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Batch type name"/>
+
+                    <Grid Grid.Row="1" Margin="0,3,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox  Name="txtBatchTypeName" MaxLength="250" Text="{Binding Path=EditBatchType.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"  />
+                        <CheckBox Grid.Column="2" Content="Apply for Outlook Capture" VerticalAlignment="Center" IsChecked="{Binding Path=EditBatchType.IsApplyForOutlook,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="3" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Batch type description" />
+                        <TextBlock Grid.Column="2" Text="Icon (Support PNG format with size 20X20)" x:Name="tbIcon" />
+                    </Grid>
+
+                    <Grid Grid.Row="4" Margin="0,3,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBox MaxLength="250" Text="{Binding Path=EditBatchType.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"/>
+                        <Grid Grid.Column="2" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox IsReadOnly="True" Text="{Binding Path=IconFilePath,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" HorizontalAlignment="Stretch"/>
+                            <Button Content="..." Height="21" Command="{Binding Path=BrowseCommand}" Width="30" Grid.Column="1"/>
+                        </Grid>
+                    </Grid>
+                   
+                    
+                    
+                
+                    <TextBlock Grid.Row="7" Text="Index fields" Margin="0,10,0,0" />
+                    <cc:SortableListView ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                         ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                         ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                         Grid.Row="8" Margin="0,3,0,0" x:Name="lvField"
+                                         ItemsSource="{Binding Path=BatchFields,Mode=TwoWay,NotifyOnTargetUpdated=True}"
+                                         ItemContainerStyle="{StaticResource ItemStyle}"
+                                         MouseDoubleClick="LvlFieldMouseDoubleClick"
+                                         SelectionMode="Single"
+                                         cc:ListViewLayoutManager.Enabled="True">
+                        <cc:SortableListView.View>
+                            <GridView KeyboardNavigation.TabNavigation="Continue">
+                                <cc:SortableGridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" SortPropertyName="Name"/>
+                                <cc:SortableGridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Path=DataType}" SortPropertyName="DataType"/>
+                                <cc:SortableGridViewColumn Header="Default value" Width="100" CellTemplate="{StaticResource CellDefaultValueTemplate}" SortPropertyName="DefaultValue"/>
+                                <cc:SortableGridViewColumn Header="Max length" Width="Auto" DisplayMemberBinding="{Binding Path=MaxLength}" SortPropertyName="MaxLength"
+                                                           cc:RangeColumn.MinWidth="100"
+                                                           cc:RangeColumn.IsFillColumn="True"/>
+                            </GridView>
+                        </cc:SortableListView.View>
+                    </cc:SortableListView>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                Grid.Row="9" Height="Auto" Width="Auto" Margin="0,10,0,0">
+                        <Button Margin="0,0,5,0" Command="{Binding Path=AddBatchFieldCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/add.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="Add..." Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button  Margin="5,0,5,0" Command="{Binding Path=EditBatchFieldCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/edit.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="Edit..." Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button Margin="5,0,5,0" Command="{Binding Path=DeleteBatchFieldCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/delete.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="Delete" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                    <TextBlock Grid.Row="10" Text="Content types" Margin="0,10,0,0" />
+                    <cc:SortableListView ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                         ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                         ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                         Grid.Row="11" Margin="0,3,0,0" x:Name="lvDocType"
+                                         ItemsSource="{Binding Path=DocTypes,Mode=TwoWay,NotifyOnTargetUpdated=True}"
+                                         SelectedItem="{Binding Path=SelectedDocType, Mode=TwoWay}"
+                                         ItemContainerStyle="{StaticResource ItemStyle}"
+                                         MouseDoubleClick="LvlDocTypeMouseDoubleClick"
+                                         SelectionMode="Single"
+                                         cc:ListViewLayoutManager.Enabled="True">
+                        <cc:SortableListView.View>
+                            <GridView KeyboardNavigation.TabNavigation="Continue">
+                                <cc:SortableGridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" SortPropertyName="Name"/>
+                                <cc:SortableGridViewColumn Header="Description" Width="Auto"
+                                                           cc:RangeColumn.MinWidth="300"
+                                                           cc:RangeColumn.IsFillColumn="True"
+                                                           DisplayMemberBinding="{Binding Path=Description}" SortPropertyName="Description"/>
+                                <cc:SortableGridViewColumn Header="OCR template" Width="150" CellTemplate="{StaticResource OcrCellTemplate}"/>
+                            </GridView>
+                        </cc:SortableListView.View>
+                    </cc:SortableListView>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                Grid.Row="12" Height="Auto" Width="Auto" Margin="0,10,0,0">
+                        <Button Margin="0,0,5,0" Command="{Binding Path=AddDocTypeCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/add.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="Add..." Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button Margin="5,0,5,0" Command="{Binding Path=ViewDocTypeCommand}" VerticalContentAlignment="Center"
+                                Visibility="{Binding SelectedDocType.HaveDoc, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/search.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="View..." Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+
+                        <Button  Margin="5,0,5,0" Command="{Binding Path=EditDocTypeCommand}" VerticalContentAlignment="Center"
+                                 Visibility="{Binding SelectedDocType.HaveDoc, Converter={StaticResource NegativeVisibilityConverter}}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/edit.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="Edit..." Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button Margin="5,0,5,0" Command="{Binding Path=DeleteDocTypeCommand}" VerticalContentAlignment="Center">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="../Resources/Images/delete.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                        <TextBlock Text="Delete" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Border Style="{StaticResource Separator}" Grid.Row="2"/>
+                <StackPanel Height="Auto" Orientation="Horizontal" 
+                            HorizontalAlignment="Right" VerticalAlignment="Center" 
+                            Grid.Row="3" Margin="0,0,0,0">
+                    <Button Command="{Binding Path=SaveCommand}" VerticalContentAlignment="Center">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/save.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="Save" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                    <Button Margin="10,0,0,0" Command="{Binding Path=CancelCommand}" VerticalContentAlignment="Center">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/cancel.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="Cancel" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+        <!--<cc:LoadingAnimation x:Name="waitingControl" Margin="0,250,0,0"  Visibility="{Binding Path=IsProcessing,Converter={StaticResource VisibilityConverter}}"/>-->
+    </Grid>
+</UserControl>

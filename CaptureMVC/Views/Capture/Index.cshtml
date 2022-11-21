@@ -1,0 +1,431 @@
+﻿@using CaptureMVC.Resources;
+@using CaptureMVC.Utility;
+@using CaptureMVC.Models;
+@using Ecm.CaptureDomain;
+@using System.Globalization;
+@using System.Xml;
+
+@model List<CaptureBatchModel>
+
+@{
+    Layout = "~/Views/Shared/_CaptureLayout.cshtml";
+    ViewBag.Title = "Capture";
+    int pageIndex;
+}
+
+@section AddToHead
+{
+    <script>
+        var _loginUserName = '@Utilities.UserName';
+        var _dateFormatFull = '@DateTimeFormatInfo.CurrentInfo.FullDateTimePattern';
+        var _dateFormat = '@DateTimeFormatInfo.CurrentInfo.ShortDatePattern';
+        var _decimalSeparator = '@NumberFormatInfo.CurrentInfo.NumberDecimalSeparator';
+        var _ecmTitleMessage = '@CommonResources.TitleDialog';
+        var _defaultJsErrorMessage = '@CommonResources.DefaultJavaScriptErrorMessage';
+        var _messageInvalidValidatePattern = '@CommonResources.MessageInvalidValidatePattern';
+        var _messageInvalidInteger = '@CommonResources.MessageInvalidValidatePattern';
+        var _messageInvalidDecimal = '@CommonResources.MessageInvalidValidatePattern';
+        var _messageInvalidDate = '@CommonResources.MessageInvalidValidatePattern';
+        var _messageRequiredField = 'Field is required';
+
+
+        var _menuThumbScan = '@CaptureViewerResources.Menu_Scan';
+        var _menuThumbImport = '@CaptureViewerResources.Menu_ImportFile';
+        var _menuThumbCamera = '@CaptureViewerResources.Menu_Camera';
+        var _menuThumbClassify = '@CaptureViewerResources.Menu_Classify';
+        var _menuThumbNewDocument = '@CaptureViewerResources.Menu_NewDoc';
+        var _menuChangeBatchType = '@CaptureViewerResources.Menu_ChangeBatchType';
+        var _menuRenameBatch = '@CaptureViewerResources.Menu_RenameBatch';
+        var _menuThumbDelete = '@CaptureViewerResources.Menu_Delete';
+        var _menuThumbSubmit = '@CaptureViewerResources.Menu_Submit';
+
+
+        var _urlGetCapturedBatchTypeInfo = '@Url.Action("_GetCapturedBatchTypeInfo", "Capture")',
+            _urlGetThumbnailRealImage = '@Url.Action("GetThumbnailRealImage", "Capture")',
+            _urlGetThumbnailRealImageInfo = '@Url.Action("GetThumbnailRealImageInfo", "Capture")',
+            _urlGetRealImage = '@Url.Action("GetRealImage", "Capture")',
+            _urlGetNativeImage = '@Url.Action("GetNativeImage", "Capture")',
+            _urlGetOcrImage = '@Url.Action("GetOcrImage", "Capture")',
+            _urlGetNewGuid = '@Url.Action("GetNewGuid", "Capture")';
+
+        var _urlCreateBatch = '@Url.Action("CreateBatch", "Capture")';
+
+        var iconViewerPrint = '@Url.Content("~/Images/ControlPanel/printer_select.png")';
+
+    </script>
+
+    @Scripts.Render("~/Scripts/jquery.viewport.js")
+
+
+    @Styles.Render("~/Content/UserGuide/xr_main.css")
+    @Styles.Render("~/Content/Annotations/annotation.css")
+
+    @Scripts.Render("~/Scripts/jquery.form.js")
+    @Scripts.Render("~/Scripts/Camera/jquery.webcam.js")
+
+    @Scripts.Render("~/Plugin/jQuery-TE_v.1.4.0/jquery-te-1.4.0.js")
+    @Styles.Render("~/Plugin/jQuery-TE_v.1.4.0/jquery-te-1.4.0.css")
+
+    @Scripts.Render("~/Scripts/Pages/CaptureViewer.js")
+    @Scripts.Render("~/Scripts/Pages/Capture.js")
+    @Styles.Render("~/Content/Pages/CaptureViewer.css")
+    @Styles.Render("~/Content/Pages/Capture.css")
+}
+
+@section ViewTask
+{
+    @Html.Action("_GetOpenedMenu", "View")
+}
+
+<!-- Left bar menu -->
+<div id="panel-tabs">
+    <div id="panel-tabs-inner">
+        <span class="nav_resize"></span>
+        <div id="tab-thumbnails" class="leftbar_lable first active">
+            <img src="~/Images/Pages/CaptureViewer/left_bar_transparent.png" />
+            <div class="rotate-90">@CaptureViewerResources.LeftBar_TabThumbnails</div>
+        </div>
+        <div id="tab-batch-indexes" class="leftbar_lable">
+            <img src="~/Images/Pages/CaptureViewer/left_bar_transparent.png" />
+            <div class="rotate-90">@CaptureViewerResources.LeftBar_TabBatchIndexes</div>
+        </div>
+        <div id="tab-indexes" class="leftbar_lable">
+            <img src="~/Images/Pages/CaptureViewer/left_bar_transparent.png" />
+            <div class="rotate-90">@CaptureViewerResources.LeftBar_TabIndexes</div>
+        </div>
+        <div id="tab-comments" class="leftbar_lable last">
+            <img src="~/Images/Pages/CaptureViewer/left_bar_transparent.png" />
+            <div class="rotate-90">@CaptureViewerResources.LeftBar_TabComments</div>
+        </div>
+    </div>
+</div>
+
+<!-- Thumbnail and viewer -->
+<div id="thumbnails-n-viewer">
+    <div id="thumbnails-groups">
+        <!-- Capture menu control -->
+        <div id="panel-captures">
+            <!-- Button scan, import, capture -->
+            <div id="panel-captures-left">
+                <div id="panel-captures-left-inner">
+                    <div title="@CaptureViewerResources.LeftBar_BtnScan" class="capture_header_feature scan_feature">
+                        <span class="bt_images"></span>
+                        <div class="span_show"></div>
+                    </div>
+                    <div title="@CaptureViewerResources.LeftBar_BtnImport" class="capture_header_feature upload_feature">
+                        <span class="bt_images"></span>
+                        <div class="span_show"></div>
+                    </div>
+                    <div title="@CaptureViewerResources.LeftBar_BtnCamera" class="capture_header_feature webcam_feature">
+                        <span class="bt_images"></span>
+                        <div class="span_show"></div>
+                    </div>
+                    <div title="@CaptureViewerResources.LeftBar_BtnOptions" class="capture_header_feature capture_option"></div>
+                </div>
+            </div>
+
+            <!-- Button setting, close -->
+            <div id="panel-captures-right">
+                <span class="nav_resize"></span>
+            </div>
+        </div>
+
+        <div id="thumbnails-n-prev-next">
+            <!-- Title of batch index or doc index -->
+            <div id="panel-title-index">
+                <div id="panel-title-index-inner" class="current_content_header"></div>
+            </div>
+
+            <div id="thumbnails-n-ocr">
+                <!-- Thumbnails images -->
+                <div id="panel-thumbnails">
+                    <div id="panel-thumbnails-inner">
+                        <ul id="ul-thumb" class="tree-item ul-batch">
+                            @foreach (var batchItem in Model)
+                            {
+                                @Html.Partial("_ThumbnailBatch", batchItem)
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Image of OCR -->
+                <div id="panel-ocr">
+                    <div id="panel-ocr-inner">
+                        <img id="img-ocr" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next and previous indexes -->
+            <div id="panel-prev-next">
+                <div id="panel-prev-next-inner" class="pnl-btn">
+                    <input id="btn-prev" type="submit" name="Previous" value="@CaptureViewerResources.LeftBar_BtnPrevious" />
+                    <input id="btn-next" type="submit" name="Next" value="@CaptureViewerResources.LeftBar_BtnNext" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Create and submit batch -->
+        <div id="panel-submit">
+            <div id="panel-submit-inner" class="pnl-btn">
+                <input id="btn-create" type="submit" name="Save" value="@CaptureViewerResources.LeftBar_BtnCreateBatch" />
+                <input id="btn-submit" type="submit" name="Submit" value="@CaptureViewerResources.LeftBar_BtnSubmit" />
+            </div>
+        </div>
+    </div>
+
+    <div id="panel-viewer-wrapper">
+        <!-- Total comment -->
+        <div id="panel-total-comment">
+            <div id="div-total-comments">
+                <span>0</span>
+            </div>
+        </div>
+
+        <!-- Document viewer -->
+        <div id="panel-viewer">
+            @RenderPage("~/Views/Capture/UserGuide.cshtml")
+        </div>
+
+        <!-- Comment input -->
+        <div id="panel-comment-input">
+            <!-- Text area comment -->
+            <div id="panel-comment-input-textarea">
+                <div>
+                    <textarea id="input-comment" maxlength="5"></textarea>
+                </div>
+            </div>
+
+            <div id="panel-remains-save">
+                <div id="panel-remains-character">
+                    @LeftBarResources.RemainsCharater: <span>4000</span>
+                </div>
+                <div id="panel-remains-save-center"></div>
+                <div id="panel-save-comment">
+                    <input class="input-disable" id="btn-save-comment" type="submit" name="Save" value="@LeftBarResources.Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Right bar control menu -->
+<div id="panel-controls" data-doc-id="">
+    <ul class="menu_control">
+        <li id="control-print" class="menu_control_item" title="@ControlPanelViewerResources.TitlePrint"></li>
+        <li id="control-mail" class="menu_control_item" title="@ControlPanelViewerResources.TitleSendMail"></li>
+        <li id="control-save" class="menu_control_item" title="@ControlPanelViewerResources.TitleSave"></li>
+        <li id="control-pan" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitlePan"></li>
+        <li id="control-select" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitleSelect"></li>
+        <li id="control-hide" class="menu_control_item" title="@ControlPanelViewerResources.TitleHideAnnos"></li>
+        <li id="control-Highlight" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitleAddHighlight"></li>
+        <li id="control-Redaction" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitleAddRedaction"></li>
+        <li id="control-Text" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitleAddText"></li>
+        <li id="control-zoom-in" class="menu_control_item" title="@ControlPanelViewerResources.TitleZoomIn"></li>
+        <li id="control-zoom-out" class="menu_control_item" title="@ControlPanelViewerResources.TitleZoomOut"></li>
+        <li id="control-fit" class="menu_control_item" title="@ControlPanelViewerResources.TitleFitToViewer"></li>
+        <li id="control-rotate-right" class="menu_control_item" title="@ControlPanelViewerResources.TitleRotateRight"></li>
+        <li id="control-rotate-left" class="menu_control_item" title="@ControlPanelViewerResources.TitleRotateLeft"></li>
+        <li id="control-navigation-up" class="menu_control_item" title="@ControlPanelViewerResources.TitleNavigationUp"></li>
+        <li id="control-navigation-down" class="menu_control_item" title="@ControlPanelViewerResources.TitleNavigationDown"></li>
+    </ul>
+</div>
+
+<!-- Upload control -->
+<div style="display: none;">
+    @using (Html.BeginForm("_Upload", "Capture", FormMethod.Post,
+                           new { enctype = "multipart/form-data", id = "frm-upload" }))
+    {
+        <input id="btn-upload-browser" type="file" name="file" multiple="multiple" />
+        <input id="upload-do-ocr" type="hidden" name="DoOcr" value="" />
+        <input id="upload-do-barcode" type="hidden" name="DoBarcode" value="" />
+        <input id="upload-batch-id" type="hidden" name="BatchId" value="" />
+        <input id="upload-batch-type-id" type="hidden" name="BatchTypeId" value="" />
+        <input id="upload-doc-type-id" type="hidden" name="DocTypeId" value="" />
+        <input id="upload-language-name" type="hidden" name="LanguageName" value="eng" />
+
+        @*
+            <input id="upload-page-id" type="hidden" name="PageId" value="" />
+            <input id="upload-doc-id" type="hidden" name="DocId" value="" />
+            <input id="upload-batch-id" type="hidden" name="BatchId" value="" />
+            <input id="upload-type" type="hidden" name="Type" value="" />*@
+        <input id="btn-upload" type="submit" name="Submit" value="Upload" />
+    }
+</div>
+
+<!-- Camera -->
+<div style="display: none;" id="camera"></div>
+
+<!-- ActiveX scanner for Chrome -->
+<object id="TwainXIE" name="TwainXIE"
+        classid="clsid:1EFCF932-9826-4DF5-BB20-4ECBE8A47078"
+        codebase="@Url.Content("~/OCX/TwainOcxInstaller.cab")"
+        width="0" height="0"></object>
+
+<!-- ActiveX scanner for IE -->
+<object id="TwainX"
+        clsid="{1EFCF932-9826-4DF5-BB20-4ECBE8A47078}"
+        codebaseurl="@Url.Content("~/OCX/TwainOcxInstaller.cab")"
+        progid="TwainActiveX.TwainActiveX"
+        type="application/x-itst-activex"
+        width="0" height="0"></object>
+
+<!-- Token scanner -->
+<input id="scan-token" type="hidden" name="scanToken" value="@ViewBag.ScanToken" />
+
+<!-- Create batch dialog -->
+@Html.Action("_CreateBatchDialog", "Capture")
+
+<!-- Template thumbnail batch -->
+<ul id="template-thumb-batch">
+    <li id="" class="li-batch empty" data-type-id="" data-can-classify="" data-can-index="">
+        <div class="item-content expand">
+            <div class="item-icon"></div>
+            <div class="item-image batch"></div>
+            <div class="item-text">
+                <div class="item-title"></div>
+                <div class="type-name"></div>
+                <div>@LeftBarResources.CreateOn:&nbsp;<span class="create-on"></span></div>
+                <div>@LeftBarResources.CreateBy:&nbsp;<span class="create-by"></span></div>
+            </div>
+        </div>
+        <div class="item-children">
+            <ul class="tree-item ul-doc">
+                <li id="" class="li-doc loose-item empty" data-status-control="pan" data-hide-anno="False" data-scale="10">
+                    <div class="item-children">
+                        <ul class="tree-item ul-page"></ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </li>
+</ul>
+
+<!-- Template thumbnail doc-->
+<ul id="template-thumb-doc">
+    <li id="" class="li-doc empty" data-status-control="pan" data-hide-anno="False" data-scale="10">
+        <div class="item-content expand">
+            <div class="item-icon"></div>
+            <div class="item-image doc"></div>
+            <div class="item-text">
+                <div class="item-title">
+                    <span class="item-doc-index"></span>.&nbsp;<span class="item-doc-title"></span>
+                </div>
+                <div class="item-type-name">
+                    <span class="item-doc-index"></span>.&nbsp;<span class="type-name"></span>
+                </div>
+                <div>@LeftBarResources.TotalPage:&nbsp;<span class="item-doc-count"></span></div>
+            </div>
+        </div>
+        <div class="item-children">
+            <ul class="tree-item ul-page"></ul>
+        </div>
+    </li>
+</ul>
+
+<!-- Template thumbnail page-->
+<ul id="template-thumb-page">
+    <li id="" class="li-page" data-rotate-angle="0">
+        <div class="item-content">
+            <div class="item-image">
+                <img src="~/Images/loading/preloader-black.gif" class="image-main rotate-0" />
+            </div>
+            <div class="item-text">
+                <div class="item-page-index"></div>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<!-- Template view page-->
+<div id="template-view-page" class="wrapper-image" data-width="0" data-height="0">
+    <div class="wrapper-image-temp"></div>
+    <img src="" class="main-image rotate-0" data-rotate="0">
+</div>
+
+<!-- Template batch index -->
+<div id="template-batch-index" class="current_content batch-index">
+    <div class="current_content_header">
+        <strong><span class="docTypeName">@CaptureViewerResources.LeftBar_TitleBatchIndexes</span></strong>
+        <br />
+        <strong><span class="docTypeName name"></span></strong>
+        (<span class="doc-count">0</span>&nbsp;@CaptureViewerResources.LeftBar_CountDocInBatchIndexes)
+    </div>
+    <div class="current_content_fields"></div>
+</div>
+
+<!-- Template doc index -->
+<div id="template-doc-index" class="current_content doc-index">
+    <div class="current_content_header">
+        <strong><span class="docTypeName">@CaptureViewerResources.LeftBar_TitleDocIndexes</span></strong>
+        <br />
+        <strong><span class="item-doc-index"></span>.&nbsp;<span class="docTypeName name"></span></strong>
+        (<span class="doc-count">0</span>&nbsp;@CaptureViewerResources.LeftBar_CountDocInDocIndexes)
+    </div>
+    <div class="current_content_fields"></div>
+</div>
+
+<!-- Template field index type bool -->
+<div id="template-field-bool" class="content_fields">
+    <div class="input-control content_fields_input">
+        <input id="" data-type-id="" type="checkbox" class="Boolean"><span class="field-name"></span>
+    </div>
+</div>
+
+<!-- Template field index type bool -->
+<div id="template-field-picklist" class="content_fields">
+    <div class="content_lables"><span class="field-name"></span></div>
+    <div class="content_fields_input">
+        <select id="" class="index-field" title="" data-type-id=""></select>
+    </div>
+</div>
+
+<!-- Template field index type bool -->
+<div id="template-field-table" class="content_fields">
+    <div class="content_lables"><span class="field-name"></span></div>
+    <div id="" class="content_fields_input click-detail-table index-field" title="" data-type-id="">
+        @LeftBarResources.ClickDetailTable
+    </div>
+    <div class="detail-table" id="" data-is-required="">
+        <div class="ui-layout-center table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="hidden">
+                            <img class="del-col" src="~/Images/appbar.delete.png" />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="template-row">
+                        <td>
+                            <img class="del-col" src="~/Images/appbar.delete.png" />
+                        </td>
+                        <td class="td-data">
+                            <div class="content_fields_input">
+                                <input type="text" class="index-field" maxlength="1" title=""
+                                       data-old-value="" data-date-value="" data-type-id="">
+                                <button tabindex="-1" class="close">×</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="click-new-row ui-layout-south">
+            @LeftBarResources.ClickNewRow
+        </div>
+    </div>
+</div>
+
+<!-- Template field index type integer, decimal, date, string -->
+<div id="template-field-other" class="content_fields">
+    <div class="content_lables"><span class="field-name"></span></div>
+    <div class="content_fields_input">
+        <input id="" type="text" class="index-field" maxlength="1" title=""
+               data-old-value="" data-date-value="" data-type-id="">
+        <button tabindex="-1" class="close">×</button>
+    </div>
+</div>

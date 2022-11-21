@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "ContentTypeProperties";
+}
+<div class="sub_properties_content">
+    
+    <div class="top_height">
+
+        <div class="sub_properties_between content_type_between">
+            <div class="between_content">
+                <form action="#" method="post" enctype="multipart/form-data" name="form1" id="form1">
+                    <fieldset class="parent_fieldset">
+                        <legend>General Info</legend>
+                        <div class="between_content_avatar">
+                            <div class="image_icon_container">
+                                <img id="image_icon" src="~/ArchiveAdmin/GetImageFromCacheByKey?Key=@ViewData["KEY_CACHE_ICON"].ToString()" data-keycache="@ViewData["KEY_CACHE_ICON"].ToString()"/>   
+                            </div>
+                            <div class="change_img change_content_icon">Change icon</div>
+                        </div>
+                        <div class="between_content_info">
+                            <div class="between_content_data">
+                                <div class="label">Content type name</div>
+                                <div class="field content_input_field">
+                                    <input type="text" name="content_name" id="content_name" class="archive_input"/>   
+                                </div>
+                            </div>
+                            <div class="between_content_data">
+                                <div class="label">
+                                    <input type="checkbox" name="outlook_import" id="outlook_import" value="false"  />
+                                    <label for="outlook_import">Apply for Outlook import</label>
+                                </div>
+
+                            </div>                       
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="down_height">
+        <div class="sub_properties_mutli_data">
+            <fieldset class="parent_fieldset">
+                <legend>Index fields</legend>
+                <div class="multi_data">
+                    <table id="table_fields" class="archive_table tablesorter">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Restricted</th>
+                                <th>Has lookup</th>
+                                <th>Default value</th>
+                                <th>Max length</th>
+                                <th>Lookup</th>
+                                <th class="hidden">PickList</th>
+                                <th class="hidden">Table</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_fields_body">
+            
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="multi_button">
+                    <div class="button_content">                   
+                        <button type="button" id="button_add_field" class="archive_button properties_button">
+                            <span>Add</span>
+                            <img src="Images/button/appbar.add.32.png" />
+                        </button>
+                        <button type="button" id="button_edit_field" class="archive_button properties_button">
+                            <span>Edit</span>
+                            <img src="Images/button/option.png" />
+                        </button>
+                        <button type="button" id="button_delete_field" class="archive_button properties_button">
+                            <span>Delete</span>
+                            <img src="Images/button/appbar.delete.32.png" />
+                        </button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="main_button">
+            <div class="save_button">
+                <button type="button" id="button_save_content" class="archive_button archive_admin_button">
+                    <span>Save</span>
+                    <img src="Images/button/appbar.save.32.png" />
+                </button>
+            </div>
+            <div class="close_button">
+                <button type="button" id="button_cancel_content" class="archive_button archive_admin_button">
+                    <span>Close</span>
+                    <img src="Images/button/appbar.cancel.png" />
+                </button>
+            </div>
+        </div>
+
+    </div>

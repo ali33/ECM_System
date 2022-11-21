@@ -1,0 +1,189 @@
+﻿@model IList<ArchiveMVC.Models.SearchResultModel>
+@{int count=0;}
+<div>
+    <span>Search for </span>
+    <span style="font-weight: bold;">@Model[0].GlobalSearchText</span>
+    @if(Model.Count > 0){
+        if(Model[0].HasMoreResult){
+            <a href="#" id="hasMoreGlobalResult"
+                data-pageindex="0"
+                data-hasmoreresult="@Model[0].HasMoreResult"
+                >Show more result
+            </a>
+        }
+    }
+</div>
+<br />
+
+@foreach (var doc in Model)
+{
+    count++;   
+          
+    <div id="@doc.DocumentType.Id" class="documenttypeid" data-id="@doc.DocumentType.Id">
+        <div class="datagript_header">
+            <div>
+                <div class="split_span">
+                    <span class="result_resize"></span>
+                </div>
+                @{
+                    var UniqueKey = ArchiveMVC.Utility.UniqueId.GetUniqueKey();   
+                }
+                <div>
+                    <strong class="name">@doc.DocumentTypeName</strong>
+                    <span> - </span>
+                    <span class="count">
+                        <span class="count_display">@doc.ResultCount</span> doc(s) found
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="datagript_body">
+
+            <table class="datagript_table tablesorter" id="@UniqueKey">
+                
+                <thead> <tr>
+                    <th><input type="checkbox" class="checkbox_all" title="Check all"></th>
+                    @{
+                        List<string> listColumn = new List<string>();
+                    }
+                    @foreach (var item in doc.DataResult.Columns)
+                    {
+                        var name="";
+                        switch (item.ToString())
+                        {
+                            case ArchiveMVC.Models.Common.COLUMN_CHECKED:
+                            case ArchiveMVC.Models.Common.COLUMN_SELECTED:
+
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_PAGE_COUNT:
+                                listColumn.Add(item.ToString());
+                                name = "Page Count";                                
+                                <th class="" >@name</th>    
+                                break;
+
+                            case ArchiveMVC.Models.Common.COLUMN_MODIFIED_ON:
+                                listColumn.Add(item.ToString());
+                                name = "Modified Date";
+                                <th class="">@name</th>    
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_MODIFIED_BY:
+                                listColumn.Add(item.ToString());
+                                name = "Modified By";                                
+                                <th class="">@name</th>    
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_CREATED_ON:
+                                listColumn.Add(item.ToString());
+                                name = "Create Date";                                
+                                <th class="">@name</th>    
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_CREATED_BY:
+                                listColumn.Add(item.ToString());
+                                name = "Create By";                                
+                                <th class="">@name</th>    
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_VERSION:
+                            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_ID:
+                            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT:
+                            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_TYPE_ID:
+                            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_VERSION_ID:
+                                break;
+                            default:
+                                listColumn.Add(item.ToString());
+                                name = item.ToString();                                
+                                <th class="">@name</th>    
+                                break;
+                        }
+                        
+                        }
+                    </tr>
+                </thead> 
+                <tbody>
+                    @foreach(System.Data.DataRow row in doc.DataResult.Rows){
+                <tr>
+                    <td><input type="checkbox" value="@row[ArchiveMVC.Models.Common.COLUMN_DOCUMENT_ID]"></td>
+                    @foreach (string celName in listColumn)
+                    {
+                        <td>@row[celName].ToString()</td>
+                    }
+                </tr>
+                    }
+               </tbody>
+            </table>
+            <!--
+            <div class="div_pagination">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a href="#"  data-pages="1">1</a></li>
+                    <li><a href="#" data-pages="2">2</a></li>
+                    <li><a href="#"  data-pages="3">3</a></li>
+                    <li><a href="#"  data-pages="4">4</a></li>
+                    <li><a href="#"  data-pages="5">5</a></li>
+                    <li><a href="#"  data-pages="6">7</a></li>
+                    <li><a href="#"  data-pages="7">&raquo;</a></li>
+                </ul>
+            </div>
+            -->
+        </div>
+    </div>
+    <script>
+        $("#@UniqueKey").tablesorter({
+            headers: {
+                // assign the secound column (we start counting zero)
+                0: {
+                    // disable it by setting the property sorter to false
+                    sorter: false
+                }
+            }
+        });
+
+
+        @*$("#@UniqueKey").find(":checkbox[title='Check all']").change(function (e) {
+            if ($(this).is(":checked")) {
+                // Check all checkbox in this datagript table.
+                $(this).parents("#@UniqueKey").find(":checkbox").attr("checked", true);
+            } else {
+                // Uncheck all checkbox in this datagript table.
+                $(this).parents("#@UniqueKey").find(":checkbox").attr("checked", false);
+            }
+        });*@
+
+        @*$("#@UniqueKey").find(":checkbox:not([title='Check all'])").change(function (e) {
+            if ($(this).is(":checked")) {
+                var checkall = true;
+                // Uncheck check all checkbox
+                $(this).parents("#@UniqueKey").find(":checkbox:not([title='Check all'])").each(function (index, element) {
+                    if ($(this).is(":not(:checked)")) {
+                        checkall = false;
+                    }
+                });
+                if (checkall) {
+                    // Check check all checkbox
+                    $(this).parents("#@UniqueKey").find(":checkbox[title='Check all']").attr("checked", true);
+                }
+            } else {
+                // Uncheck check all checkbox
+                $(".datagript_table").find(":checkbox[title='Check all']").attr("checked", false);
+            }
+        });*@
+
+        $("#@UniqueKey tbody").find("tr:not(:first)").live("click", function () {
+            var row = this;
+            $(".datagript_table").find("tr:not(:first)").each(function (index, element) {
+                $(element).removeClass("selected");
+            });
+            $(row).addClass("selected");
+        });
+ 
+        $("#@UniqueKey tbody").find("tr").live("dblclick", function () {
+            $("section.body").ecm_loading_show();
+            window.location = URL_EditDocID  + $(this).find("input[type='checkbox']").val();
+
+        });
+        setUrlSearchHasMoreResult(URL_RunGlobalSearch);
+
+    </script>
+    if (doc!=Model[Model.Count()-1])
+    {
+        <hr />
+    }
+}

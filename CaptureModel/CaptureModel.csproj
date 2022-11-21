@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{55C752B0-1E69-4E06-AB1B-7B5ACC566051}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.CaptureModel</RootNamespace>
+    <AssemblyName>CaptureModel</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU'">
+    <OutputPath>bin\Release Obfuscated\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionLogModel.cs" />
+    <Compile Include="ActionNameModel.cs" />
+    <Compile Include="AmbiguousDefinitionModel.cs" />
+    <Compile Include="AnnotationModel.cs" />
+    <Compile Include="AnnotationPermissionModel.cs" />
+    <Compile Include="AnnotationTypeModel.cs" />
+    <Compile Include="BarcodeConfigurationModel.cs" />
+    <Compile Include="BarcodeTypeModel.cs" />
+    <Compile Include="BatchFieldMetaDataModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BatchFieldValueModel.cs" />
+    <Compile Include="BatchModel.cs" />
+    <Compile Include="BatchPermissionModel.cs" />
+    <Compile Include="BatchTypeModel.cs" />
+    <Compile Include="BatchTypePermissionModel.cs" />
+    <Compile Include="CommentModel.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="DocumentPermissionModel.cs" />
+    <Compile Include="DataProvider\ActionLogProvider.cs" />
+    <Compile Include="DataProvider\AmbiguousDefinitionProvider.cs" />
+    <Compile Include="DataProvider\BatchTypeProvider.cs" />
+    <Compile Include="DataProvider\DocTypeProvider.cs" />
+    <Compile Include="DataProvider\LanguageProvider.cs" />
+    <Compile Include="DataProvider\LookupProvider.cs" />
+    <Compile Include="DataProvider\ObjectMapper.cs" />
+    <Compile Include="DataProvider\OneTimeBinding.cs" />
+    <Compile Include="DataProvider\PermissionProvider.cs" />
+    <Compile Include="DataProvider\ProviderBase.cs" />
+    <Compile Include="DataProvider\SearchQueryProvider.cs" />
+    <Compile Include="DataProvider\SecurityProvider.cs" />
+    <Compile Include="DataProvider\SettingProvider.cs" />
+    <Compile Include="DataProvider\UserGroupProvider.cs" />
+    <Compile Include="DataProvider\UserProvider.cs" />
+    <Compile Include="DataProvider\WorkflowProvider.cs" />
+    <Compile Include="DataProvider\WorkItemProvider.cs" />
+    <Compile Include="DocFieldMetaDataModel.cs" />
+    <Compile Include="DocTypeModel.cs" />
+    <Compile Include="DocumentFieldPermissionModel.cs" />
+    <Compile Include="DocumentFieldValueModel.cs" />
+    <Compile Include="DocumentModel.cs" />
+    <Compile Include="DocTypePermissionModel.cs" />
+    <Compile Include="FieldValueModel.cs" />
+    <Compile Include="FileFormatModel.cs" />
+    <Compile Include="FileTypeModel.cs" />
+    <Compile Include="FieldModel.cs" />
+    <Compile Include="LanguageModel.cs" />
+    <Compile Include="LineStyleModel.cs" />
+    <Compile Include="LookupConnectionModel.cs" />
+    <Compile Include="LookupInfoModel.cs" />
+    <Compile Include="LookupMapModel.cs" />
+    <Compile Include="MenuModel.cs" />
+    <Compile Include="OCRLanguageModel.cs" />
+    <Compile Include="OCRTemplateModel.cs" />
+    <Compile Include="OCRTemplatePageModel.cs" />
+    <Compile Include="OCRTemplateZoneModel.cs" />
+    <Compile Include="PageModel.cs" />
+    <Compile Include="PicklistModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadActionModel.cs" />
+    <Compile Include="RectangleVertexModel.cs" />
+    <Compile Include="SearchQueryExpressionModel.cs" />
+    <Compile Include="SearchQueryModel.cs" />
+    <Compile Include="SeparationActionModel.cs" />
+    <Compile Include="SettingModel.cs" />
+    <Compile Include="TableColumnModel.cs" />
+    <Compile Include="TableFieldValueModel.cs" />
+    <Compile Include="UserGroupModel.cs" />
+    <Compile Include="UserModel.cs" />
+    <Compile Include="WorkItemSearchResultModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="signAssemblyKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppHelper\AppHelper.csproj">
+      <Project>{3966C325-0164-47A7-B526-D19ECDF04180}</Project>
+      <Name>AppHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BarcodeDomain\BarcodeDomain.csproj">
+      <Project>{D09AB159-030C-4055-9D76-73865883F6DA}</Project>
+      <Name>BarcodeDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptureDomain\CaptureDomain.csproj">
+      <Project>{1FAFF4DB-A95F-44F8-BEE6-5D6903F37FDF}</Project>
+      <Name>CaptureDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LookupDomain\LookupDomain.csproj">
+      <Project>{225183EE-484D-466F-B539-770D45C36992}</Project>
+      <Name>LookupDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mvvm\Mvvm.csproj">
+      <Project>{81D27875-F5C9-423F-BD44-509D7A8F951C}</Project>
+      <Name>Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScriptEngine\ScriptEngine.csproj">
+      <Project>{767CD173-7724-4CAD-97F6-6671E6FD294E}</Project>
+      <Name>ScriptEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service.Contract\Service.Contract.csproj">
+      <Project>{CC2AE1F7-17EE-4FA5-A9BC-B3CC38526CAB}</Project>
+      <Name>Service.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{F5B8F368-604C-4CFD-95E6-6CB7F2BCB832}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.vi-VN.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Ecm.CaptureModel</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Ecm.CaptureModel</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release Obfuscated" ("%25ProgramFiles%25\RustemSoft\Skater .NET Obfuscator\skater.exe" -SOURCE="$(TargetPath)" -OUTPUT="$(TargetPath)" -KEY="$(ProjectDir)signAssemblyKey.snk" -CONCEALSTRINGS -FLOW -METHOD=0 -WRITELOG)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

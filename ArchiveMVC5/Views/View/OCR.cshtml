@@ -1,0 +1,104 @@
+﻿@model IEnumerable<ArchiveMVC5.Models.FieldValueModel>
+<script src="~/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+@if (Model != null)
+{
+
+    foreach (var fieldValue in Model)
+    {
+        var docType = ArchiveMVC5.Utility.Utilities.DocumentType(fieldValue.Field.DocTypeId);
+        var isDisable = !(docType.DocumentTypePermission.AllowedUpdateFieldValue);
+        var inputClass = "";
+        var validateClass = "";
+
+        if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Integer)
+        {
+            inputClass = "allownumericwithdecimal";
+        }
+        else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Decimal)
+        {
+            inputClass = "allownumericwithoutdecimal";
+        }
+        if (!fieldValue.Field.IsSystemField && fieldValue.Field.IsRequired)
+        {
+            validateClass = "validate";
+        }
+
+        if (!fieldValue.Field.IsSystemField ||
+            (fieldValue.Field.IsRestricted && docType.DocumentTypePermission.AllowedSeeRetrictedField))
+        {
+    <div class="from-group">
+        <label>@fieldValue.Field.Name</label>
+        @if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Picklist)
+        {
+            <select class="form-control input-sm @validateClass">
+                @if (fieldValue.PickListValues != null)
+                {
+                    foreach (var picklistValues in fieldValue.PickListValues)
+                    {
+                    <option @(fieldValue.Value == picklistValues ? "selected" : "")>@picklistValues</option>
+                    }
+                }
+            </select>
+        }
+        else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Table)
+        {
+            <input type="text" class="form-control input-sm table_field_value" value="Click here to display @fieldValue.Field.Name values"/>
+            <input type="hidden" value="@fieldValue.Field.DocTypeId" class="docTypeId"/>
+        }
+        else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Boolean)
+        {
+            <input type="checkbox" @(fieldValue.Value == "True" ? "checked" : "") class="@validateClass"/>
+        }
+        else if(fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Date)
+        {
+            var dateId = fieldValue.Field.Id + "dateValue";
+            
+            <input id="dateValue"  type='text' data-date-format='mm/dd/yyyy' class='form-control input-sm input-append date @validateClass' value="@fieldValue.Value" @(isDisable ? "disabled='disable'" : "")>
+            <script>
+                $(function () {
+                    var datepicker = $.fn.datepicker.noConflict();
+                    $.fn.bootstrapDP = datepicker;
+                    $("#@dateId").bootstrapDP();
+                });
+            </script>
+        }
+        else
+        {
+            <input type="text" value="@fieldValue.Value" @(isDisable ? "disabled='disable'" : "") class="form-control input-sm @inputClass @validateClass"/>
+        }
+        <input type="hidden" value="@fieldValue.Field.Id" class="id"/>
+    </div>
+        }
+    }
+}
+<!-- /.modal -->
+<div class="modal" id="tableViewDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" aria-label="Close" type="button" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Table values</h4>
+            </div>
+            <div class="modal-body">
+                <div id="tableFieldValue" class="table-responsive">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn bg-olive btn-sm" type="button" data-dismiss="modal">Close</button>
+                <button class="btn bg-olive btn-sm" type="button" id="btSaveTableValue">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    <input type="hidden" id="FieldId" />
+</div>
+
+
+@if (ViewData["ERROR"] != null)
+{
+    <script>
+        alert("OCR ERROR");
+        window.console.log(@ViewData["ERROR"]);
+    </script>
+}

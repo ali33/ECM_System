@@ -1,0 +1,47 @@
+﻿@model IList<ArchiveMVC.Models.UserModel>
+@{
+    ViewBag.Title = "ShowUser";
+}
+<div class="admin_sub_menu_content">
+    <div class="admin_sub_menu_items">
+    @{
+        foreach(var userItem in Model)
+        {
+            <div class="sub_menu_item user_container" id="@userItem.Id">
+                <div class="user_icon">
+                    @if(userItem.Picture != null){
+                        <img src="~/ArchiveAdmin/GetImageFromCacheByKey?Key=@userItem.Id.ToString()"/>
+                    }else{
+                        <img src="@Url.Content("~/Resources/icon_user_profile.png")"/>    
+                    }
+                </div>
+                <div class="user_info_container">
+                    <div class="user_infor">
+                        <div class="user_name" title="@userItem.Username"> @userItem.Username</div>
+                        <div class="full_name" title="@userItem.Fullname">@userItem.Fullname</div>
+                    </div>
+                    <div class="user_language">
+                        <div class="language_content" title="@userItem.Language.Name">@userItem.Language.Name</div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    </div>
+    <div class="admin_sub_menu_button">
+        <div class="add_button archive_admin_button_padding">
+            <button type="button" id="user_button_add" class="archive_button archive_admin_button">
+                <span>Add</span>
+                <img src="Images/button/appbar.add.32.png" />
+            </button>
+        </div>
+        <div class="delete_button">
+            <button type="button" id="user_button_delete" class="archive_button archive_admin_button">
+                <span>Delete</span>
+                <img src="Images/button/appbar.delete.32.png" />
+            </button>
+        </div>
+    </div>
+
+
+</div>

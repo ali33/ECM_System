@@ -1,0 +1,789 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Ecm.Domain" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Ecm.Domain" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="User">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ArchiveConnectionString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CaptureConnectionString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ClientHost" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FullName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="IsAdmin" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Language" nillable="true" type="tns:Language" />
+      <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Photo" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="Type" type="xs:int" />
+      <xs:element minOccurs="0" name="UserGroups" nillable="true" type="tns:ArrayOfUserGroup" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="User" nillable="true" type="tns:User" />
+  <xs:complexType name="Language">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Format" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Language" nillable="true" type="tns:Language" />
+  <xs:complexType name="ArrayOfUserGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserGroup" nillable="true" type="tns:UserGroup" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUserGroup" nillable="true" type="tns:ArrayOfUserGroup" />
+  <xs:complexType name="UserGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Type" type="xs:int" />
+      <xs:element minOccurs="0" name="Users" nillable="true" type="tns:ArrayOfUser" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserGroup" nillable="true" type="tns:UserGroup" />
+  <xs:complexType name="ArrayOfUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="User" nillable="true" type="tns:User" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUser" nillable="true" type="tns:ArrayOfUser" />
+  <xs:complexType name="ArrayOfDocumentType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DocumentType" nillable="true" type="tns:DocumentType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDocumentType" nillable="true" type="tns:ArrayOfDocumentType" />
+  <xs:complexType name="DocumentType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AnnotationPermission" nillable="true" type="tns:AnnotationPermission" />
+      <xs:element minOccurs="0" name="BarcodeConfigurations" nillable="true" type="tns:ArrayOfBarcodeConfiguration" />
+      <xs:element minOccurs="0" name="CreatedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DeletedFields" nillable="true" type="tns:ArrayOfFieldMetaData" />
+      <xs:element minOccurs="0" name="DocumentTypePermission" nillable="true" type="tns:DocumentTypePermission" />
+      <xs:element minOccurs="0" name="FieldMetaDatas" nillable="true" type="tns:ArrayOfFieldMetaData" />
+      <xs:element minOccurs="0" name="Icon" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="IsOutlook" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ModifiedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OCRTemplate" nillable="true" type="tns:OCRTemplate" />
+      <xs:element minOccurs="0" name="UniqueId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DocumentType" nillable="true" type="tns:DocumentType" />
+  <xs:complexType name="AnnotationPermission">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AllowedAddHighlight" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedAddRedaction" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedAddText" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedDeleteHighlight" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedDeleteRedaction" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedDeleteText" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedHideRedaction" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedSeeHighlight" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedSeeText" type="xs:boolean" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="UserGroupId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AnnotationPermission" nillable="true" type="tns:AnnotationPermission" />
+  <xs:complexType name="ArrayOfBarcodeConfiguration">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BarcodeConfiguration" nillable="true" type="tns:BarcodeConfiguration" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBarcodeConfiguration" nillable="true" type="tns:ArrayOfBarcodeConfiguration" />
+  <xs:complexType name="BarcodeConfiguration">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BarcodePosition" type="xs:int" />
+      <xs:element minOccurs="0" name="BarcodeType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DocumentTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="FieldMetaData" nillable="true" type="tns:FieldMetaData" />
+      <xs:element minOccurs="0" name="HasDoLookup" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="IsDocumentSeparator" type="xs:boolean" />
+      <xs:element minOccurs="0" name="MapValueToFieldId" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="RemoveSeparatorPage" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BarcodeConfiguration" nillable="true" type="tns:BarcodeConfiguration" />
+  <xs:complexType name="FieldMetaData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Children" nillable="true" type="tns:ArrayOfFieldMetaData" />
+      <xs:element minOccurs="0" name="DataType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DataTypeEnum" type="tns:FieldDataType" />
+      <xs:element minOccurs="0" name="DefautValue" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="DeleteChildIds" nillable="true" type="q1:ArrayOflong" />
+      <xs:element minOccurs="0" name="DeletedLookupMaps" nillable="true" type="tns:ArrayOfLookupMap" />
+      <xs:element minOccurs="0" name="DisplayOrder" type="xs:int" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="FieldUniqueId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="IsLookup" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRequired" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRestricted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsSystemField" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LookupInfo" nillable="true" type="tns:LookupInfo" />
+      <xs:element minOccurs="0" name="LookupMaps" nillable="true" type="tns:ArrayOfLookupMap" />
+      <xs:element minOccurs="0" name="MaxLength" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OCRTemplateZone" nillable="true" type="tns:OCRTemplateZone" />
+      <xs:element minOccurs="0" name="ParentFieldId" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Picklists" nillable="true" type="tns:ArrayOfPicklist" />
+      <xs:element minOccurs="0" name="UseCurrentDate" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FieldMetaData" nillable="true" type="tns:FieldMetaData" />
+  <xs:complexType name="ArrayOfFieldMetaData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FieldMetaData" nillable="true" type="tns:FieldMetaData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFieldMetaData" nillable="true" type="tns:ArrayOfFieldMetaData" />
+  <xs:simpleType name="FieldDataType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="String" />
+      <xs:enumeration value="Integer" />
+      <xs:enumeration value="Decimal" />
+      <xs:enumeration value="Picklist" />
+      <xs:enumeration value="Boolean" />
+      <xs:enumeration value="Date" />
+      <xs:enumeration value="Folder" />
+      <xs:enumeration value="Table" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FieldDataType" nillable="true" type="tns:FieldDataType" />
+  <xs:complexType name="ArrayOfLookupMap">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LookupMap" nillable="true" type="tns:LookupMap" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLookupMap" nillable="true" type="tns:ArrayOfLookupMap" />
+  <xs:complexType name="LookupMap">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DataColumn" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FieldId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LookupMap" nillable="true" type="tns:LookupMap" />
+  <xs:complexType name="LookupInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ConnectionString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DataProvider" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DatabaseName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FieldId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="LookupType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MaxLookupRow" type="xs:int" />
+      <xs:element minOccurs="0" name="MinPrefixLength" type="xs:int" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SourceName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SqlCommand" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LookupInfo" nillable="true" type="tns:LookupInfo" />
+  <xs:complexType name="OCRTemplateZone">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreatedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedOn" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FieldMetaDataId" type="xs:long" />
+      <xs:element minOccurs="0" name="Height" type="xs:double" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Left" type="xs:double" />
+      <xs:element minOccurs="0" name="ModifiedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedOn" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OCRTemplatePageId" type="xs:long" />
+      <xs:element minOccurs="0" name="Top" type="xs:double" />
+      <xs:element minOccurs="0" name="Width" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OCRTemplateZone" nillable="true" type="tns:OCRTemplateZone" />
+  <xs:complexType name="ArrayOfPicklist">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Picklist" nillable="true" type="tns:Picklist" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPicklist" nillable="true" type="tns:ArrayOfPicklist" />
+  <xs:complexType name="Picklist">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FieldId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Picklist" nillable="true" type="tns:Picklist" />
+  <xs:complexType name="DocumentTypePermission">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AllowedAppendPage" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedCapture" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedDeletePage" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedDownloadOffline" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedEmailDocument" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedExportFieldValue" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedHideAllAnnotation" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedReplacePage" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedRotatePage" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedSearch" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedSeeRetrictedField" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedUpdateFieldValue" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AlowedPrintDocument" type="xs:boolean" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="UserGroupId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DocumentTypePermission" nillable="true" type="tns:DocumentTypePermission" />
+  <xs:complexType name="OCRTemplate">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="FileExtension" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Language" nillable="true" type="tns:Language" />
+      <xs:element minOccurs="0" name="LanguageId" type="xs:long" />
+      <xs:element minOccurs="0" name="OCRTemplatePages" nillable="true" type="tns:ArrayOfOCRTemplatePage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OCRTemplate" nillable="true" type="tns:OCRTemplate" />
+  <xs:complexType name="ArrayOfOCRTemplatePage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OCRTemplatePage" nillable="true" type="tns:OCRTemplatePage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOCRTemplatePage" nillable="true" type="tns:ArrayOfOCRTemplatePage" />
+  <xs:complexType name="OCRTemplatePage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="DPI" type="xs:double" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="OCRTemplateId" type="xs:long" />
+      <xs:element minOccurs="0" name="OCRTemplateZones" nillable="true" type="tns:ArrayOfOCRTemplateZone" />
+      <xs:element minOccurs="0" name="PageIndex" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OCRTemplatePage" nillable="true" type="tns:OCRTemplatePage" />
+  <xs:complexType name="ArrayOfOCRTemplateZone">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OCRTemplateZone" nillable="true" type="tns:OCRTemplateZone" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOCRTemplateZone" nillable="true" type="tns:ArrayOfOCRTemplateZone" />
+  <xs:complexType name="ArrayOfDocument">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Document" nillable="true" type="tns:Document" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDocument" nillable="true" type="tns:ArrayOfDocument" />
+  <xs:complexType name="Document">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BinaryType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="DeletedPages" nillable="true" type="q2:ArrayOflong" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="DocumentType" nillable="true" type="tns:DocumentType" />
+      <xs:element minOccurs="0" name="EmbeddedPictures" nillable="true" type="tns:ArrayOfOutlookPicture" />
+      <xs:element minOccurs="0" name="FieldValues" nillable="true" type="tns:ArrayOfFieldValue" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="ModifiedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PageCount" type="xs:int" />
+      <xs:element minOccurs="0" name="Pages" nillable="true" type="tns:ArrayOfPage" />
+      <xs:element minOccurs="0" name="Version" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Document" nillable="true" type="tns:Document" />
+  <xs:complexType name="ArrayOfOutlookPicture">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OutlookPicture" nillable="true" type="tns:OutlookPicture" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOutlookPicture" nillable="true" type="tns:ArrayOfOutlookPicture" />
+  <xs:complexType name="OutlookPicture">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DocId" type="xs:long" />
+      <xs:element minOccurs="0" name="FileBinary" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="FileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OutlookPicture" nillable="true" type="tns:OutlookPicture" />
+  <xs:complexType name="ArrayOfFieldValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FieldValue" nillable="true" type="tns:FieldValue" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFieldValue" nillable="true" type="tns:ArrayOfFieldValue" />
+  <xs:complexType name="FieldValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DocId" type="xs:long" />
+      <xs:element minOccurs="0" name="FieldId" type="xs:long" />
+      <xs:element minOccurs="0" name="FieldMetaData" nillable="true" type="tns:FieldMetaData" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="TableFieldValue" nillable="true" type="tns:ArrayOfTableFieldValue" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FieldValue" nillable="true" type="tns:FieldValue" />
+  <xs:complexType name="ArrayOfTableFieldValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TableFieldValue" nillable="true" type="tns:TableFieldValue" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTableFieldValue" nillable="true" type="tns:ArrayOfTableFieldValue" />
+  <xs:complexType name="TableFieldValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DocId" type="xs:long" />
+      <xs:element minOccurs="0" name="Field" nillable="true" type="tns:FieldMetaData" />
+      <xs:element minOccurs="0" name="FieldId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="RowNumber" type="xs:int" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TableFieldValue" nillable="true" type="tns:TableFieldValue" />
+  <xs:complexType name="ArrayOfPage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Page" nillable="true" type="tns:Page" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPage" nillable="true" type="tns:ArrayOfPage" />
+  <xs:complexType name="Page">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Annotations" nillable="true" type="tns:ArrayOfAnnotation" />
+      <xs:element minOccurs="0" name="Content" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContentLanguageCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DocId" type="xs:long" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="FileBinary" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="FileExtention" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FileHash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Height" type="xs:double" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="ModifiedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OriginalFileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PageNumber" type="xs:int" />
+      <xs:element minOccurs="0" name="RotateAngle" type="xs:double" />
+      <xs:element minOccurs="0" name="Width" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Page" nillable="true" type="tns:Page" />
+  <xs:complexType name="ArrayOfAnnotation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Annotation" nillable="true" type="tns:Annotation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAnnotation" nillable="true" type="tns:ArrayOfAnnotation" />
+  <xs:complexType name="Annotation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Content" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedOn" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DocId" type="xs:long" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Height" type="xs:double" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Left" type="xs:double" />
+      <xs:element minOccurs="0" name="LineColor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LineEndAt" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LineStartAt" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LineStyle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LineWeight" type="xs:int" />
+      <xs:element minOccurs="0" name="ModifiedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedOn" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PageId" type="xs:long" />
+      <xs:element minOccurs="0" name="RotateAngle" type="xs:double" />
+      <xs:element minOccurs="0" name="Top" type="xs:double" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Width" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Annotation" nillable="true" type="tns:Annotation" />
+  <xs:complexType name="SearchQuery">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="DeletedSearchQueryExpressions" nillable="true" type="q3:ArrayOflong" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="DocumentType" nillable="true" type="tns:DocumentType" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SearchQueryExpressions" nillable="true" type="tns:ArrayOfSearchQueryExpression" />
+      <xs:element minOccurs="0" name="UserId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SearchQuery" nillable="true" type="tns:SearchQuery" />
+  <xs:complexType name="ArrayOfSearchQueryExpression">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SearchQueryExpression" nillable="true" type="tns:SearchQueryExpression" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSearchQueryExpression" nillable="true" type="tns:ArrayOfSearchQueryExpression" />
+  <xs:complexType name="SearchQueryExpression">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Condition" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FieldId" type="xs:long" />
+      <xs:element minOccurs="0" name="FieldMetaData" nillable="true" type="tns:FieldMetaData" />
+      <xs:element minOccurs="0" name="FieldUniqueId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="IsAdditionalField" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Operator" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SearchQueryId" type="xs:long" />
+      <xs:element minOccurs="0" name="Value1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Value2" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SearchQueryExpression" nillable="true" type="tns:SearchQueryExpression" />
+  <xs:complexType name="SearchResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DocumentType" nillable="true" type="tns:DocumentType" />
+      <xs:element minOccurs="0" name="Documents" nillable="true" type="tns:ArrayOfDocument" />
+      <xs:element minOccurs="0" name="HasMoreResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PageIndex" type="xs:int" />
+      <xs:element minOccurs="0" name="TotalCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SearchResult" nillable="true" type="tns:SearchResult" />
+  <xs:complexType name="ArrayOfSearchResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SearchResult" nillable="true" type="tns:SearchResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSearchResult" nillable="true" type="tns:ArrayOfSearchResult" />
+  <xs:complexType name="ArrayOfSearchQuery">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SearchQuery" nillable="true" type="tns:SearchQuery" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSearchQuery" nillable="true" type="tns:ArrayOfSearchQuery" />
+  <xs:complexType name="AuditPermission">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AllowedAudit" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedDeleteLog" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedRestoreDocument" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedViewLog" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowedViewReport" type="xs:boolean" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="UserGroupId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuditPermission" nillable="true" type="tns:AuditPermission" />
+  <xs:simpleType name="LookupDataSourceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Table" />
+      <xs:enumeration value="View" />
+      <xs:enumeration value="StoredProcedure" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LookupDataSourceType" nillable="true" type="tns:LookupDataSourceType" />
+  <xs:complexType name="Setting">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SearchResultPageSize" type="xs:int" />
+      <xs:element minOccurs="0" name="ServerWorkingFolder" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Setting" nillable="true" type="tns:Setting" />
+  <xs:complexType name="ActionLog">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActionName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="IpAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LoggedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ObjectId" type="xs:long" />
+      <xs:element minOccurs="0" name="ObjectType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="User" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ActionLog" nillable="true" type="tns:ActionLog" />
+  <xs:complexType name="ArrayOfActionLog">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ActionLog" nillable="true" type="tns:ActionLog" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfActionLog" nillable="true" type="tns:ArrayOfActionLog" />
+  <xs:simpleType name="ActionName">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GetUser" />
+      <xs:enumeration value="AddUser" />
+      <xs:enumeration value="UpdateUser" />
+      <xs:enumeration value="DeleteUser" />
+      <xs:enumeration value="ChangePassword" />
+      <xs:enumeration value="GetUserGroup" />
+      <xs:enumeration value="AddUserGroup" />
+      <xs:enumeration value="UpdateUserGroup" />
+      <xs:enumeration value="DeleteUserGroup" />
+      <xs:enumeration value="AddMemberShip" />
+      <xs:enumeration value="UpdateMembership" />
+      <xs:enumeration value="DeleteMemberShip" />
+      <xs:enumeration value="GetDocumentType" />
+      <xs:enumeration value="AddDocumentType" />
+      <xs:enumeration value="UpdateDocumentType" />
+      <xs:enumeration value="DeleteDocumentType" />
+      <xs:enumeration value="GetFieldMetaData" />
+      <xs:enumeration value="AddFieldMetaData" />
+      <xs:enumeration value="UpdateFieldMetaData" />
+      <xs:enumeration value="DeleteFieldMetaData" />
+      <xs:enumeration value="GetFieldValue" />
+      <xs:enumeration value="AddFieldValue" />
+      <xs:enumeration value="UpdateFieldValue" />
+      <xs:enumeration value="DeleteFieldValue" />
+      <xs:enumeration value="DoSearchDocument" />
+      <xs:enumeration value="DoGlobalSearchDocument" />
+      <xs:enumeration value="ViewDocument" />
+      <xs:enumeration value="GetDocument" />
+      <xs:enumeration value="AddDocument" />
+      <xs:enumeration value="UpdateDocument" />
+      <xs:enumeration value="DeleteDocument" />
+      <xs:enumeration value="ViewPage" />
+      <xs:enumeration value="ReplacePage" />
+      <xs:enumeration value="InsertPage" />
+      <xs:enumeration value="UpdatePage" />
+      <xs:enumeration value="RotatePage" />
+      <xs:enumeration value="DeletePage" />
+      <xs:enumeration value="AddAnnotation" />
+      <xs:enumeration value="UpdateAnnotation" />
+      <xs:enumeration value="DeleteAnnotation" />
+      <xs:enumeration value="SendEmail" />
+      <xs:enumeration value="Print" />
+      <xs:enumeration value="Login" />
+      <xs:enumeration value="Save" />
+      <xs:enumeration value="GetDocumentTypePermission" />
+      <xs:enumeration value="AddDocumentTypePermission" />
+      <xs:enumeration value="DeleteDocumentTypePermission" />
+      <xs:enumeration value="UpdateDocumentTypePermission" />
+      <xs:enumeration value="GetAnnotationPermission" />
+      <xs:enumeration value="AddAnnotationPermission" />
+      <xs:enumeration value="DeleteAnnotationPermission" />
+      <xs:enumeration value="UpdateAnnotationPermission" />
+      <xs:enumeration value="AddLookupMapping" />
+      <xs:enumeration value="UpdateLookupMapping" />
+      <xs:enumeration value="DeleteLookupMapping" />
+      <xs:enumeration value="AddLookupInfo" />
+      <xs:enumeration value="UpdateLookupInfo" />
+      <xs:enumeration value="DeleteLookupInfo" />
+      <xs:enumeration value="AddPicklist" />
+      <xs:enumeration value="UpdatePicklist" />
+      <xs:enumeration value="DeletePicklist" />
+      <xs:enumeration value="AddOCRTemplate" />
+      <xs:enumeration value="AddAmbiguousDefinition" />
+      <xs:enumeration value="UpdateAmbiguousDefinition" />
+      <xs:enumeration value="DeleteAmbiguousDefinition" />
+      <xs:enumeration value="GetAmbiguousDefinition" />
+      <xs:enumeration value="DeleteLanguage" />
+      <xs:enumeration value="UpdateLanguage" />
+      <xs:enumeration value="AddLanguage" />
+      <xs:enumeration value="AddBarcodeConfig" />
+      <xs:enumeration value="UpdateBarcodeConfig" />
+      <xs:enumeration value="DeleteBarcodeConfig" />
+      <xs:enumeration value="DeleteOCRTemplate" />
+      <xs:enumeration value="AddOCRTemplatePage" />
+      <xs:enumeration value="DeleteOCRTemplatePage" />
+      <xs:enumeration value="AddOCRTemplateZone" />
+      <xs:enumeration value="DeleteOCRTemplateZone" />
+      <xs:enumeration value="OpenDocument" />
+      <xs:enumeration value="DownloadDocument" />
+      <xs:enumeration value="CreateIndex" />
+      <xs:enumeration value="AddDocumentVersion" />
+      <xs:enumeration value="RestoreDocumentVersion" />
+      <xs:enumeration value="AddPageVersion" />
+      <xs:enumeration value="AddAnnotationVersion" />
+      <xs:enumeration value="AddFieldVersionValue" />
+      <xs:enumeration value="AddAuditPermission" />
+      <xs:enumeration value="DeleteAuditPermission" />
+      <xs:enumeration value="GetAuditPermission" />
+      <xs:enumeration value="UpdateAuditPermission" />
+      <xs:enumeration value="DeleteIndex" />
+      <xs:enumeration value="UpdateIndex" />
+      <xs:enumeration value="ExtractText" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ActionName" nillable="true" type="tns:ActionName" />
+  <xs:simpleType name="ObjectType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Document" />
+      <xs:enumeration value="Page" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ObjectType" nillable="true" type="tns:ObjectType" />
+  <xs:complexType name="ArrayOfLanguage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Language" nillable="true" type="tns:Language" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLanguage" nillable="true" type="tns:ArrayOfLanguage" />
+  <xs:complexType name="ArrayOfAmbiguousDefinition">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AmbiguousDefinition" nillable="true" type="tns:AmbiguousDefinition" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAmbiguousDefinition" nillable="true" type="tns:ArrayOfAmbiguousDefinition" />
+  <xs:complexType name="AmbiguousDefinition">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Language" nillable="true" type="tns:Language" />
+      <xs:element minOccurs="0" name="LanguageId" type="xs:long" />
+      <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Unicode" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AmbiguousDefinition" nillable="true" type="tns:AmbiguousDefinition" />
+  <xs:complexType name="ArrayOfDocumentVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DocumentVersion" nillable="true" type="tns:DocumentVersion" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDocumentVersion" nillable="true" type="tns:ArrayOfDocumentVersion" />
+  <xs:complexType name="DocumentVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AnnotationVersions" nillable="true" type="tns:ArrayOfAnnotationVersion" />
+      <xs:element minOccurs="0" name="BinaryType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ChangeAction" type="xs:int" />
+      <xs:element minOccurs="0" name="CreatedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DocId" type="xs:long" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="DocTypeVersionId" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="DocumentFieldVersions" nillable="true" type="tns:ArrayOfDocumentFieldVersion" />
+      <xs:element minOccurs="0" name="DocumentTypeVersion" nillable="true" type="tns:DocumentTypeVersion" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="ModifiedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PageCount" type="xs:int" />
+      <xs:element minOccurs="0" name="PageVersions" nillable="true" type="tns:ArrayOfPageVersion" />
+      <xs:element minOccurs="0" name="Version" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DocumentVersion" nillable="true" type="tns:DocumentVersion" />
+  <xs:complexType name="ArrayOfAnnotationVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AnnotationVersion" nillable="true" type="tns:AnnotationVersion" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAnnotationVersion" nillable="true" type="tns:ArrayOfAnnotationVersion" />
+  <xs:complexType name="AnnotationVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AnnotationId" type="xs:long" />
+      <xs:element minOccurs="0" name="Content" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedOn" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Height" type="xs:double" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Left" type="xs:double" />
+      <xs:element minOccurs="0" name="LineColor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LineEndAt" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LineStartAt" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LineStyle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LineWeight" type="xs:int" />
+      <xs:element minOccurs="0" name="ModifiedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedOn" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PageId" type="xs:long" />
+      <xs:element minOccurs="0" name="PageVersionId" type="xs:long" />
+      <xs:element minOccurs="0" name="RotateAngle" type="xs:double" />
+      <xs:element minOccurs="0" name="Top" type="xs:double" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Width" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AnnotationVersion" nillable="true" type="tns:AnnotationVersion" />
+  <xs:complexType name="ArrayOfDocumentFieldVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DocumentFieldVersion" nillable="true" type="tns:DocumentFieldVersion" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDocumentFieldVersion" nillable="true" type="tns:ArrayOfDocumentFieldVersion" />
+  <xs:complexType name="DocumentFieldVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DocId" type="xs:long" />
+      <xs:element minOccurs="0" name="DocVersionId" type="xs:long" />
+      <xs:element minOccurs="0" name="FieldId" type="xs:long" />
+      <xs:element minOccurs="0" name="FieldMetadataVersion" nillable="true" type="tns:FieldMetadataVersion" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DocumentFieldVersion" nillable="true" type="tns:DocumentFieldVersion" />
+  <xs:complexType name="FieldMetadataVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DataType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DataTypeEnum" type="tns:FieldDataType" />
+      <xs:element minOccurs="0" name="DefautValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DeletedLookupMaps" nillable="true" type="tns:ArrayOfLookupMap" />
+      <xs:element minOccurs="0" name="DeletedPicklists" nillable="true" type="tns:ArrayOfPicklist" />
+      <xs:element minOccurs="0" name="DisplayOrder" type="xs:int" />
+      <xs:element minOccurs="0" name="DocTypeId" type="xs:long" />
+      <xs:element minOccurs="0" name="FieldUniqueId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="IsLookup" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRequired" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRestricted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsSystemField" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LookupInfo" nillable="true" type="tns:LookupInfo" />
+      <xs:element minOccurs="0" name="LookupMaps" nillable="true" type="tns:ArrayOfLookupMap" />
+      <xs:element minOccurs="0" name="MaxLength" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ParentFieldId" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Picklists" nillable="true" type="tns:ArrayOfPicklist" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FieldMetadataVersion" nillable="true" type="tns:FieldMetadataVersion" />
+  <xs:complexType name="DocumentTypeVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreatedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FieldMetaDataVersions" nillable="true" type="tns:ArrayOfFieldMetadataVersion" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="IsOutlook" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ModifiedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DocumentTypeVersion" nillable="true" type="tns:DocumentTypeVersion" />
+  <xs:complexType name="ArrayOfFieldMetadataVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FieldMetadataVersion" nillable="true" type="tns:FieldMetadataVersion" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFieldMetadataVersion" nillable="true" type="tns:ArrayOfFieldMetadataVersion" />
+  <xs:complexType name="ArrayOfPageVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PageVersion" nillable="true" type="tns:PageVersion" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPageVersion" nillable="true" type="tns:ArrayOfPageVersion" />
+  <xs:complexType name="PageVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AnnotationVersions" nillable="true" type="tns:ArrayOfAnnotationVersion" />
+      <xs:element minOccurs="0" name="DocId" type="xs:long" />
+      <xs:element minOccurs="0" name="DocVersionId" type="xs:long" />
+      <xs:element minOccurs="0" name="FileBinary" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="FileExtention" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FileHash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Height" type="xs:double" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="PageId" type="xs:long" />
+      <xs:element minOccurs="0" name="PageNumber" type="xs:int" />
+      <xs:element minOccurs="0" name="RotateAngle" type="xs:double" />
+      <xs:element minOccurs="0" name="Width" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PageVersion" nillable="true" type="tns:PageVersion" />
+  <xs:complexType name="ArrayOfDocumentTypeVersion">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DocumentTypeVersion" nillable="true" type="tns:DocumentTypeVersion" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDocumentTypeVersion" nillable="true" type="tns:ArrayOfDocumentTypeVersion" />
+</xs:schema>

@@ -1,0 +1,33 @@
+﻿@model CaptureMVC.Models.CaptureBatchModel
+
+<li id="@Model.Id"
+    class="li-batch @(Model.Documents.Exists(h => h.Pages.Count > 0) ? string.Empty : "empty")"
+    data-type-id="@Model.TypeId">
+
+    <!--Batch info-->
+    <div class="item-content expand item-select">
+        <div class="item-icon"></div>
+        <div class="item-image batch"></div>
+        <div class="item-text">
+            <div class="item-title">@Model.Name</div>
+            <div class="type-name">@Model.TypeName</div>
+            <div>Create on:&nbsp;<span class="create-on">@CaptureMVC.Utility.Utilities.GetLongStringDate(Model.CreateDate)</span></div>
+            <div>Create by:&nbsp;<span class="create-by">@Model.CreateBy</span></div>
+        </div>
+    </div>
+
+    <!--Documents-->
+    <div class="item-children">
+        <ul class="tree-item ul-doc">
+            @if (Model.Documents != null)
+            {
+                var docIndex = 0;
+                foreach (var doc in Model.Documents)
+                {
+                    doc.DocNumber = docIndex++;
+                    @Html.Partial("_ThumbnailDoc", doc)
+                }
+            }
+        </ul>
+    </div>
+</li>

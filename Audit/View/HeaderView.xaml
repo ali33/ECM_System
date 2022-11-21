@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="Ecm.Audit.View.HeaderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Height="40" Width="Auto" HorizontalAlignment="Stretch">
+        <Border>
+            <Border.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Resources/Images/HeaderBackground.jpg"></ImageBrush>
+            </Border.Background>
+        </Border>
+        <Image Source="../Resources/Images/audit.png" Width="220" Height="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1"/>
+    </Grid>
+</UserControl>

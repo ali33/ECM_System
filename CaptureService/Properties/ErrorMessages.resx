@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApproveWorkItemsFail" xml:space="preserve">
+    <value>Approve work items failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="AuthenticateUserFail" xml:space="preserve">
+    <value>Authenticate user failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="AuthorizedUserFail" xml:space="preserve">
+    <value>{0} can't be authorized to use the system.</value>
+  </data>
+  <data name="ChangePasswordFail" xml:space="preserve">
+    <value>Change password failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DeleteBatchTypeFail" xml:space="preserve">
+    <value>Delete batch type failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DeleteUserFail" xml:space="preserve">
+    <value>Delete user failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DeleteUserGroupFail" xml:space="preserve">
+    <value>Delete user group failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DeleteWorkItemFail" xml:space="preserve">
+    <value>Delete work item failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetBatchTypeFail" xml:space="preserve">
+    <value>Get batch types failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetBatchTypePermissionFail" xml:space="preserve">
+    <value>Get permissions of batch type failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetLanguageDataFail" xml:space="preserve">
+    <value>Get language data failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetUserGroupsFail" xml:space="preserve">
+    <value>Get user groups failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetUsersFail" xml:space="preserve">
+    <value>Get users failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetWorkflowDataFail" xml:space="preserve">
+    <value>Get workflow data failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetWorkflowHumanStepPermissionsFail" xml:space="preserve">
+    <value>Get workflow human step permissions failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetWorkItemFail" xml:space="preserve">
+    <value>Get work item failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="InsertWorkItemFail" xml:space="preserve">
+    <value>Insert work item failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="RejectWorkItemsFail" xml:space="preserve">
+    <value>Reject work items failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="ResumeWorkItemsFail" xml:space="preserve">
+    <value>Resume work items failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveBatchTypeFail" xml:space="preserve">
+    <value>Save batch type failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveBatchTypePermissionFail" xml:space="preserve">
+    <value>Save permissions of batch type failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveUserFail" xml:space="preserve">
+    <value>Save user failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveUserGroupFail" xml:space="preserve">
+    <value>Save user group failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveWorkflowDefinitionFail" xml:space="preserve">
+    <value>Save workflow failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="UnknowUser" xml:space="preserve">
+    <value>Unknown Username or Incorrect Password</value>
+  </data>
+  <data name="UnLockWorkItemsFail" xml:space="preserve">
+    <value>Un-lock work items failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="UpdateWorkItemFail" xml:space="preserve">
+    <value>Update work item failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DeleteBarcodeConfigurationFail" xml:space="preserve">
+    <value>Delete bar code  configuration failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DeleteOCRTemplateFail" xml:space="preserve">
+    <value>Delete OCR template failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetBarcodeConfigurationFail" xml:space="preserve">
+    <value>Get barcode configuration failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveBarcodeConfigurationFail" xml:space="preserve">
+    <value>Save bar code  configuration failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveOCRTemplateFail" xml:space="preserve">
+    <value>Save OCR template failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetDatabaseNameFail" xml:space="preserve">
+    <value>Get database names failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetDataColumnNameFail" xml:space="preserve">
+    <value>Get data column failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetLookupDataFail" xml:space="preserve">
+    <value>Get lookup data failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetLookupDataParameterFail" xml:space="preserve">
+    <value>Get parameter failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetLookupDatasourceFail" xml:space="preserve">
+    <value>Get lookup data source failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="TestConnectionFail" xml:space="preserve">
+    <value>Test connection failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetBatchFail" xml:space="preserve">
+    <value>Get work item failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="RunAdvanceSearchWorkItemFail" xml:space="preserve">
+    <value>Run advance search failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetSaveQuery" xml:space="preserve">
+    <value>Get search query failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetSearchQuery" xml:space="preserve">
+    <value>Get search query failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveSearchQuery" xml:space="preserve">
+    <value>Save query failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DeleteAmbiguousDefinitionFail" xml:space="preserve">
+    <value>Save ambiguous definition failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetAmbiguousDefinitionFail" xml:space="preserve">
+    <value>Get ambiguous definition failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="SaveAmbiguousDefinitionFail" xml:space="preserve">
+    <value>Save ambiguous definition failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DelegateWorkItemFail" xml:space="preserve">
+    <value>Delegate work item(s) failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetCustonActivitySettingFail" xml:space="preserve">
+    <value>Get custom activity setting failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetDocTypeFail" xml:space="preserve">
+    <value>Get document type failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="DeleteActionLogFail" xml:space="preserve">
+    <value>Delete action logfailed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetActionLogFail" xml:space="preserve">
+    <value>Get action logfailed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetSettingFail" xml:space="preserve">
+    <value>Get setting failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="WriteSettingFail" xml:space="preserve">
+    <value>Save setting failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="ResetPasswordFail" xml:space="preserve">
+    <value>Reset password failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetDBSchemaFail" xml:space="preserve">
+    <value>Get database schema fail. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetColumnFail" xml:space="preserve">
+    <value>Get lookup column failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="GetParameterFail" xml:space="preserve">
+    <value>Get lookup stored parameter failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="UpdateLookupInfoFail" xml:space="preserve">
+    <value>Update lookup info fail. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="CanEditBatchTypeFieldFail" xml:space="preserve">
+    <value>Check can edit Batch type's field failed. Please contact your system administrator or review the log file.</value>
+  </data>
+  <data name="CanEditDocTypeFieldFail" xml:space="preserve">
+    <value>Check can edit Document type's field failed. Please contact your system administrator or review the log file.</value>
+  </data>
+</root>

@@ -1,0 +1,11 @@
+header > div.searchglobal .searchglobal_form {
+	width: 200px;
+}
+
+header > div.searchglobal .searchglobal_form input[type="text"] {
+	width: 150px;
+}
+
+.search_query.open table.query_search_button td:nth-of-type(5) {
+	width: 20px;
+}

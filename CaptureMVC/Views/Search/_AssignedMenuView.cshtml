@@ -1,0 +1,33 @@
+﻿@model  List<CaptureMVC.Models.AssignedMenuModel>
+
+<!-- Show batch type and assigned work item in left panel -->
+@foreach (var item in Model)
+{
+    // Title           
+    <div class="document_list" id="@item.BatchTypeId" >
+        <div class="icon">
+            @if (!string.IsNullOrWhiteSpace(item.BatchTypeIcon))
+            {
+                @*<img src="@Url.Action("GetIcon", "ImageProcessing")?key=@item.BatchTypeIconKey" />*@
+                <img src="@item.BatchTypeIcon" />
+            }
+        </div>
+        <div class="data">
+            <h4 class="data_title">@item.BatchTypeName</h4>
+        </div>
+    </div>
+    
+            //Count item
+    <div class="assigned_work_item_list" style="display: none;">
+        <ul>
+            @foreach (var workItem in item.Items)
+            {
+                <li class="assigned_work_item @(workItem.IsSelected ? "selected" : "")"
+                    data-status="@workItem.Status">
+                    @workItem.Name : <span>@workItem.Count</span>
+                </li>
+            }
+        </ul>
+    </div>
+}
+

@@ -1,0 +1,91 @@
+﻿@model ArchiveMVC5.Models.PagingModel
+
+<div class="mailbox-controls" id="paging" data-pageindex="@Model.PageIndex" data-pagesize="@Model.PageSize">
+    
+    <div class="col-md-1">
+        <div class="dropup cbo-pagesize" title="Page size" data-toggle="tooltip" data-placement="top">
+            <a aria-expanded="false" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                <span class="fa fa-hand-o-right"></span>
+                <span class="current-font" data-bind="label" id="pageSize">@(Model.PageSize == -1 ? "All":Model.PageSize.ToString())</span>
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-pagesize">
+                <li><a class="page_size">10</a></li>
+                <li><a class="page_size">20</a></li>
+                <li><a class="page_size">50</a></li>
+                <li><a class="page_size">100</a></li>
+                <li><a class="page_size">200</a></li>
+                <li class="divider"></li>
+                <li><a class="page_size">All</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="pull-right">
+            @{
+                var PageIndex = (Model.PageIndex + 1);
+                var ItemStart = (((PageIndex * Model.PageSize) - Model.PageSize) + 1);
+                var ItemEnd = ((ItemStart - 1) + Model.PageSize);
+                var Itemfinal = ((Model.TotalRows - Model.PageSize) + Model.PageSize);
+                Model.TotalPage = Model.TotalRows / Model.PageSize + 1;
+            }
+            <span class="label label-default" style="margin-right:10px;">
+                @if (@PageIndex == 1)
+                {
+                    @PageIndex
+                }
+                else
+                {
+                    @ItemStart
+                }
+
+                -
+
+                @if (@ItemEnd > Model.TotalRows)
+                {
+                    @Itemfinal
+                }
+                else
+                {
+                    @ItemEnd
+                }
+                /@Model.TotalRows 
+            </span>
+
+            @if (Model.TotalPage != null && Model.TotalPage != 1)
+            {
+
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    @if ((Model.PageIndex + 1) == 1)
+                    {
+                        <li class="disabled"><a><i class="fa fa-chevron-left"></i></a></li>
+                    }
+                    else
+                    {
+                        <li><a id="previous_button"><i class="fa fa-chevron-left"></i></a></li>
+                    }
+                    <li>
+                        @for (int i = 0; i < Model.TotalPage; i++)
+                        {
+                            if (i == Model.PageIndex)
+                            {
+                                <span>@(i + 1)</span>
+                            }
+                            else
+                            {
+                                <a id="@i" class="paging_item_button">@(i + 1)</a>
+                            }
+                        }
+                    </li>
+                    @if ((Model.PageIndex + 1) == Model.TotalPage)
+                    {
+                        <li class="disabled"><a><i class="fa fa-chevron-right"></i></a></li>
+                    }
+                    else
+                    {
+                        <li><a id="next_button"><i class="fa fa-chevron-right"></i></a></li>
+                    }
+
+                </ul>
+            }
+</div><!-- /.pull-right -->
+</div>

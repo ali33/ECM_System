@@ -1,0 +1,46 @@
+﻿@model ArchiveMVC5.Models.SearchModel
+@{
+    var Doctype = Model.ListDocType.Where(p => p.Id == Model.DocumentTypeId).FirstOrDefault();
+    
+    var idComboboxOperator = ArchiveMVC5.Utility.UniqueId.GetUniqueKey();
+    var idComboboxValue = ArchiveMVC5.Utility.UniqueId.GetUniqueKey();
+    }
+<div class="col-md-12 additionalCondition">
+    <div class="form-group col-md-2" style="margin-bottom: 1px !important;padding-left: 1px !important;">
+        <select id="Conjunction" class="form-control input-sm">
+            @foreach (Ecm.Domain.SearchConjunction dataType in Enum.GetValues(typeof(Ecm.Domain.SearchConjunction)))
+            {
+                <option value="@((int)dataType)">@dataType.ToString()</option>
+        }
+        </select>
+    </div>
+    <div class="form-group col-md-2" style="margin-bottom: 1px !important;padding-left: 1px !important;">
+        <select  id="FieldName" onchange="CreateComboboxOperator(this.value,'@idComboboxOperator','@(idComboboxValue)')" class="form-control input-sm">
+            @foreach (var item in Doctype.Fields)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+        <input type="hidden" value="@Model.DataTypeJson" id="fieldDataType" />
+    </div>
+    <div id="@(idComboboxOperator)" class="form-group col-md-2" style="margin-bottom: 1px !important;padding-left: 1px !important;">
+        <select id="Operator" onchange="CreateTextBoxValue(this.value,'@(Doctype.Fields.FirstOrDefault().Id)','@idComboboxValue')" class="form-control input-sm">
+            @{
+                var listOperator = ArchiveMVC5.Utility.GeneratorJson.GetOperatorFromType(Doctype.Fields.FirstOrDefault().DataType);
+            }
+            @foreach (var item1 in listOperator)
+            {                                
+                <option value="@((int)item1)">@item1</option>
+            }
+
+        </select>
+    </div>
+    <div id="@(idComboboxValue)" class="form-group col-md-5" style="margin-bottom: 1px !important;padding-left: 1px !important;">
+        @Html.Raw(ArchiveMVC5.Utility.GeneratorJson.GetComboBoxValue(Doctype.Fields.FirstOrDefault(), listOperator.First(), "", ""))
+    </div>
+    <div class="form-group col-md-1 delete-new" style="margin-bottom: 1px !important; padding-left:0px !important">
+        <a role="button" class="btn btn-xs btn-danger">
+            <i class="glyphicon glyphicon glyphicon glyphicon-trash"></i>
+        </a>
+    </div>
+    </div>

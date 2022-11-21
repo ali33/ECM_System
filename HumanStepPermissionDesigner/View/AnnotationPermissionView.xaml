@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Ecm.Workflow.Activities.HumanStepPermissionDesigner.View.AnnotationPermissionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Language="{UICulture}"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="150" d:DesignWidth="450">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Style.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>    
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Path=DocType.Name}" Style="{StaticResource DocTypeNameStyle}"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" FlowDirection="LeftToRight" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=tbHighLight}" Margin="5" Style="{StaticResource AnnotationHeaderText}"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanSee}" IsChecked="{Binding Path=AllowedSeeHighlight,Mode=TwoWay}" Command="{Binding Path=CheckCommand}" Grid.Column="1" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanAdd}" IsChecked="{Binding Path=AllowedAddHighlight,Mode=TwoWay}" Command="{Binding Path=CheckCommand}" Grid.Column="2" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanDelete}" IsChecked="{Binding Path=AllowedDeleteHighlight,Mode=TwoWay}" Command="{Binding Path=CheckCommand}" Grid.Column="3" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbAll}" IsChecked="{Binding Path=AllHighlight, Mode=TwoWay}" Grid.Column="4" Margin="5" Command="{Binding Path=CheckAllCommand}" CommandParameter="Highlight"/>
+            <TextBlock Text="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=tbRedaction}" Grid.Row="1" Margin="5" Style="{StaticResource AnnotationHeaderText}"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanHide}" IsChecked="{Binding Path=AllowedHideRedaction,Mode=TwoWay}" Command="{Binding Path=CheckCommand}" Grid.Row="1" Grid.Column="1" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanAdd}" IsChecked="{Binding Path=AllowedAddRedaction,Mode=TwoWay}" Command="{Binding Path=CheckCommand}" Grid.Row="1" Grid.Column="2" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanDelete}" IsChecked="{Binding Path=AllowedDeleteRedaction,Mode=TwoWay}" Command="{Binding Path=CheckCommand}" Grid.Row="1" Grid.Column="3" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbAll}" Grid.Row="1" Grid.Column="4" Margin="5" IsChecked="{Binding Path=AllRedaction, Mode=TwoWay}" Command="{Binding Path=CheckAllCommand}" CommandParameter="Redaction"/>
+            <TextBlock Text="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=tbText}" Grid.Row="2" Margin="5" Style="{StaticResource AnnotationHeaderText}"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanSee}" IsChecked="{Binding Path=AllowedSeeText,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"  Grid.Row="2" Grid.Column="1" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanAdd}" IsChecked="{Binding Path=AllowedAddText,Mode=TwoWay}" Command="{Binding Path=CheckCommand}" Grid.Row="2" Grid.Column="2" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbCanDelete}" IsChecked="{Binding Path=AllowedDeleteText,Mode=TwoWay}" Command="{Binding Path=CheckCommand}" Grid.Row="2" Grid.Column="3" Margin="5,5,15,5"/>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbAll}" Grid.Column="4" Grid.Row="2" Margin="5" IsChecked="{Binding Path=AllText, Mode=TwoWay}" Command="{Binding Path=CheckAllCommand}" CommandParameter="Text"/>
+        </Grid>
+    </Grid>
+</UserControl>

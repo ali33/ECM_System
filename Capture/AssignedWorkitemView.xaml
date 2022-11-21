@@ -1,0 +1,26 @@
+﻿<Page x:Class="Ecm.Capture.AssignedWorkitemView"
+      Language="{UICulture}"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:CustomControl="clr-namespace:Ecm.CustomControl;assembly=CustomControl"
+      xmlns:ContentViewer="clr-namespace:Ecm.CaptureViewer;assembly=CaptureViewer"
+      mc:Ignorable="d" Title="{Resx ResxName=Ecm.Capture.WorkitemView,Key=Title}">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid IsEnabled="{Binding Path=IsProcessing, Converter={StaticResource NegativeBoolConverter}}">
+            <ContentViewer:ViewerContainer x:Name="ViewerContainer"
+                                           HorizontalAlignment="Stretch" 
+                                           VerticalAlignment="Stretch" 
+                                           AppName="CloudCapture"
+                                           IsProcessing="{Binding Path=IsProcessing, Mode=TwoWay}"
+                                           IsChanged="{Binding Path=IsChanged, Mode=TwoWay}"
+                                           UserName="{Binding Path=UserName}"
+                                           BatchTypes="{Binding Path=BatchTypes}"
+                                           Comments="{Binding Path=Comments}"
+                                           Items="{Binding Path=Items}" 
+                                           DocViewerMode="WorkItem" />
+        </Grid>
+        <CustomControl:LoadingAnimation x:Name="WaitningControl" Margin="0,250,0,0"  Visibility="{Binding Path=IsProcessing,Converter={StaticResource VisibilityConverter}}"/>
+    </Grid>
+</Page>

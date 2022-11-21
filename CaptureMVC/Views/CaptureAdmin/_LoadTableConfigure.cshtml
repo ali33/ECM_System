@@ -1,0 +1,171 @@
+﻿@model  IList<Ecm.CaptureDomain.DocumentFieldMetaData>
+
+@{
+    ViewBag.Title = "LoadTableConfigure";
+    
+    foreach (var item in Model)
+    {
+        var id_td_delete = "class=table_td_delete";
+        var first_row = "";
+        if (item == Model.First())
+        {
+            id_td_delete = "id=first_delete_column";
+            first_row = "first_row";
+        }
+
+        switch (item.DataTypeEnum)
+        {
+            case (Ecm.CaptureDomain.FieldDataType.String):
+                {
+                    <tr class="table_configure_row first_row" id="@item.Id">
+                        <td class="id_td_delete">
+                            <button type="button" id="" class="btn-delele btn-primary">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </td>
+                        <td class="table_td_name">
+                            <input type="text" class="table_name_value" value="@item.Name">
+                        </td>
+                        <td class="table_td_type">
+                            <select class="table_data_type">
+                                <option value="String" selected>String</option>
+                                <option value="Integer">Integer</option>
+                                <option value="Decimal">Decimal</option>
+                                <option value="Date">Date</option>
+                            </select>
+                        </td>
+
+                        <td class="table_td_maxlength">
+                            <input type="text" class="table_maxlength" value="@item.MaxLength">
+                        </td>
+                        <td class="table_td_default_value">
+                            <input type="text" class="table_default_value" value="@item.DefaultValue">
+                            <div class="hidden dialog_table_checkbox table_use_current_date_contain">
+                                <input type="checkbox" class="table_check_use_current_date" value="false">
+                                <a>Use current date</a>
+                            </div>
+                        </td>
+                    </tr>
+                    break;
+                }
+            case (Ecm.CaptureDomain.FieldDataType.Decimal):
+                {
+                    <tr class="table_configure_row first_row" id="@item.Id">
+                        <td class="id_td_delete">
+                            <button type="button" id="" class="btn-delele btn-primary">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </td>
+                        <td class="table_td_name">
+                            <input type="text" class="table_name_value" value="@item.Name">
+                        </td>
+                        <td class="table_td_type">
+                            <select class="table_data_type">
+                                <option value="String">String</option>
+                                <option value="Integer">Integer</option>
+                                <option value="Decimal" selected>Decimal</option>
+                                <option value="Date">Date</option>
+                            </select>
+                        </td>
+
+                        <td class="table_td_maxlength">
+                            <input type="text" class="table_maxlength" value="@item.MaxLength" disabled>
+                        </td>
+                        <td class="table_td_default_value">
+                            <input type="text" class="table_default_value" value="@item.DefaultValue">
+                            <div class="hidden dialog_table_checkbox table_use_current_date_contain">
+                                <input type="checkbox" class="table_check_use_current_date" value="false">
+                                <a>Use current date</a>
+                            </div>
+                        </td>
+                    </tr>
+                    break;
+                }
+            case (Ecm.CaptureDomain.FieldDataType.Integer):
+                {
+                    <tr class="table_configure_row first_row" id="@item.Id">
+                        <td class="id_td_delete">
+                            <button type="button" id="" class="btn-delele btn-primary">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </td>
+                        <td class="table_td_name">
+                            <input type="text" class="table_name_value" value="@item.Name">
+                        </td>
+                        <td class="table_td_type">
+                            <select class="table_data_type">
+                                <option value="String">String</option>
+                                <option value="Integer" selected>Integer</option>
+                                <option value="Decimal">Decimal</option>
+                                <option value="Date">Date</option>
+                            </select>
+                        </td>
+
+                        <td class="table_td_maxlength">
+                            <input type="text" class="table_maxlength" value="@item.MaxLength" disabled>
+                        </td>
+                        <td class="table_td_default_value">
+                            <input type="text" class="table_default_value" value="@item.DefaultValue">
+                            <div class="hidden dialog_table_checkbox table_use_current_date_contain">
+                                <input type="checkbox" class="table_check_use_current_date" value="false">
+                                <a>Use current date</a>
+                            </div>
+                        </td>
+                    </tr>
+                    break;
+                }
+            case (Ecm.CaptureDomain.FieldDataType.Date):
+                {
+                    <tr class="table_configure_row first_row" id="@item.Id">
+                        <td class="id_td_delete">
+                            <button type="button" id="" class="btn-delele btn-primary">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </td>
+                        <td class="table_td_name">
+                            <input type="text" class="table_name_value" value="@item.Name">
+                        </td>
+                        <td class="table_td_type">
+                            <select class="table_data_type">
+                                <option value="String">String</option>
+                                <option value="Integer">Integer</option>
+                                <option value="Decimal">Decimal</option>
+                                <option value="Date" selected>Date</option>
+                            </select>
+                        </td>
+
+                        <td class="table_td_maxlength">
+                            <input type="text" class="table_maxlength" value="@item.MaxLength" disabled>
+                        </td>
+                        <td class="table_td_default_value">
+                            <input type="text" class="table_default_value hidden" size="10" value="@item.DefaultValue">
+
+                            @{
+
+                    if (item.UseCurrentDate == true)
+                    {
+                        <div class="dialog_table_checkbox table_use_current_date_contain">
+                            <input type="checkbox" class="table_check_use_current_date" value="true" checked>
+                            <a>Use current date</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="dialog_table_checkbox table_use_current_date_contain">
+                            <input type="checkbox" class="table_check_use_current_date" value="false">
+                            <a>Use current date</a>
+                        </div>
+                    }
+                            }
+
+                        </td>
+                    </tr>
+                    break;
+                }
+        }
+    }
+}
+
+
+
+

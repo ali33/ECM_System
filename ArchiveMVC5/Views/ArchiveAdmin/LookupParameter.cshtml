@@ -1,0 +1,10 @@
+﻿@model List<ArchiveMVC5.Models.ParameterModel>
+
+@foreach(ArchiveMVC5.Models.ParameterModel para in Model)
+{
+    <div class="form-group parameter_content">
+        <label class="label-control parameter_name">@para.ParameterName</label>
+        <input type="text" value="@para.ParameterValue"  class="form-control input-sm parameter_value"/> 
+        <input type="hidden" class="parameter_type" value="@para.ParameterType" />
+    </div>
+}

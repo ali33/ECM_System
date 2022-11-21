@@ -1,0 +1,93 @@
+﻿@using CaptureMVC.Models;
+@using CaptureMVC.Utility;
+@using Ecm.CaptureDomain;
+
+@model List<ConditionModel>
+
+@{
+    var htmlOptionConj = SearchUtils.GetOptionConjuction();
+    var htmlOptionOperatorTypeString = SearchUtils.GetOptionOperatorTypeString();
+    var htmlOptionOperatorTypeNumber = SearchUtils.GetOptionOperatorTypeNumber();
+    var htmlOptionOperatorTypeBoolean = SearchUtils.GetOptionOperatorTypeBoolean();
+    var htmlControlInput1Value = SearchUtils.GetControlInput1Value();
+    var htmlControlInput2Value = SearchUtils.GetControlInput2Value();
+    var htmlControlInputBoolean = SearchUtils.GetControlInputBoolean();
+    var firstField = Model.FirstOrDefault();
+    var emptyGuid = Guid.Empty;
+}
+
+@foreach (var item in Model)
+{
+    var idControlInputValue = UniqueId.GetUniqueKey();
+    
+    <div class="RowCondition new" id="@item.Id">
+        <!--Conjunction section-->
+        <div class="input-control select">
+            <select id="Conjunction" data-selected="@item.Conjunction">
+                @Html.Raw(htmlOptionConj);
+            </select>
+        </div>
+
+        <!--Field name-->
+        <div class="display_lable">
+            <span 
+                class="FieldName" 
+                id="@item.FieldId" 
+                data-data-type="@item.FieldDataType"
+                data-field-name="@item.FieldName">&nbsp;@item.FieldDisplay</span>
+        </div>
+
+        <!--Operator section-->
+        <div class="input-control select col_center">
+            <select id="Operator" 
+                    onchange="LoadSearchInput(this, '@item.FieldDataType', this.value)"
+                    data-selected="@item.SearchOperator">
+                @switch (item.FieldDataType)
+                {
+                    case FieldDataType.String:
+                    @Html.Raw(htmlOptionOperatorTypeString);
+                                                           break;
+                    case FieldDataType.Boolean:
+                    @Html.Raw(htmlOptionOperatorTypeBoolean);
+                                                            break;
+                    case FieldDataType.Integer:
+                    case FieldDataType.Decimal:
+                    case FieldDataType.Date:
+                    @Html.Raw(htmlOptionOperatorTypeNumber);
+                                                           break;
+                    default:
+                                                           break;
+                }
+            </select>
+        </div>
+
+        <!--Input section-->
+        <div class="search_input" data-value1="@item.Value1" data-value2="@item.Value2">
+            @switch (item.FieldDataType)
+            {
+                case FieldDataType.Boolean:
+                @Html.Raw(htmlControlInputBoolean)
+                    break;
+                case FieldDataType.Picklist:
+                case FieldDataType.Folder:
+                case FieldDataType.Table:
+                    break;
+                default:
+                    if (SearchOperator.InBetween == item.SearchOperator)
+                    {
+                @Html.Raw(htmlControlInput2Value)
+                    }
+                    else
+                    {
+                @Html.Raw(htmlControlInput1Value)
+                    }
+                    break;
+            }
+        </div>
+
+        <!-- Button x-->
+        <div>
+            <button class="delete-new">×</button>
+        </div>
+    </div>    
+}

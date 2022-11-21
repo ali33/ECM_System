@@ -1,0 +1,318 @@
+﻿@using CaptureMVC.Resources;
+@using CaptureMVC.Utility;
+@using CaptureMVC.Models;
+@using Ecm.CaptureDomain;
+@using System.Globalization;
+@using System.Xml;
+
+@model ViewBatchModel
+
+@{
+    ViewBag.Title = "View";
+}
+
+@section AddToHead
+{
+    <script>
+        // Section URL
+        var urlGetThumbnailRealImage = '@Url.Action("GetThumbnailRealImage", "View")';
+        var urlGetThumbnailRealImageCache = '@Url.Action("GetThumbnailRealImageCache", "View")';
+        var urlGetThumbnailRealImageInfo = '@Url.Action("GetThumbnailRealImageInfo", "View")';
+        var urlGetThumbnailRealImageInfoCache = '@Url.Action("GetThumbnailRealImageInfoCache", "View")';
+        var urlGetRealImage = '@Url.Action("GetRealImage", "View")';
+        var urlGetRealImageCache = '@Url.Action("GetRealImageCache", "View")';
+        var urlGetAnnotations = '@Url.Action("_GetAnnotations", "View")';
+        var urlGetNativeImage = '@Url.Action("GetNativeImage", "View")';
+        var urlGetNativeImageCache = '@Url.Action("GetNativeImageCache", "View")';
+        var urlOpenBatch = '@Url.Action("_OpenBatch", "View")';
+        var urlGetBatchIndex = '@Url.Action("_GetBatchIndex", "View")';
+        var urlGetDocIndex = '@Url.Action("_GetDocIndex", "View")';
+        var urlCamera = '@Url.Action("_Camera", "View")';
+        var urlScan = '@Url.Action("_Scan", "View")';
+        var urlScanUpload = '@Url.Action("_ScanUpload", "View")';
+        var urlGetComment = '@Url.Action("_GetComments", "View")';
+        var urlUpdateActiveBatch = '@Url.Action("_UpdateActiveBatch", "View")';
+        var urlSaveTempBatch = '@Url.Action("_SaveTempBatch", "View")';
+        var urlCloseBatches = '@Url.Action("_CloseBatches", "View")';
+        var urlSearch = '@Url.Action("Index", "Search")';
+
+        // Section title of control panel
+        var titleShowAnnos = '@Html.Raw(ControlPanelViewerResources.TitleShowAnnos)';
+        var titleHideAnnos = '@Html.Raw(ControlPanelViewerResources.TitleHideAnnos)';
+
+        // Message
+        var ecmTitleMessage = '@Html.Raw(Constant.TITLE_MESSAGE_DIALOG)';
+        var messageNoPermissionDeletePage = '@Html.Raw(BatchPermissionResources.NoPermissionDeletePage)';
+        var messageNoPermissionDeleteDoc = '@Html.Raw(BatchPermissionResources.NoPermissionDeleteDoc)';
+        var messageConfirmDeletePage = '@Html.Raw(CaptureResources.MessageConfirmDeletePage)';
+        var messageConfirmDeleteDoc = '@Html.Raw(CaptureResources.MessageConfirmDeleteDoc)';
+        var messageConfirmDeleteBatch = '@Html.Raw(CaptureResources.MessageConfirmDeleteBatch)';
+        var messageInvalidPositionPage = '@Html.Raw(CaptureResources.MessageInvalidPositionPage)';
+        var messageConfirmSave = '@Html.Raw(CaptureResources.MessageConfirmSave)';
+
+        // Item display name in context menu thumbnail
+        // Common batch
+        var menuThumbDelete = '@Html.Raw(MenuThumbResources.Delete)';
+        var menuThumbReject = '@Html.Raw(MenuThumbResources.Reject)';
+        var menuThumbUnReject = '@Html.Raw(MenuThumbResources.UnReject)';
+        var menuThumbSendLink = '@Html.Raw(MenuThumbResources.SendLink)';
+        var menuThumbSave = '@Html.Raw(MenuThumbResources.Save)';
+
+        // Common document
+        var menuThumbRenameContent = '@Html.Raw(MenuThumbResources.RenameContent)';
+        var menuThumbContentLanguageSetting = '@Html.Raw(MenuThumbResources.ContentLanguageSetting)';
+        var menuThumbAppend = '@Html.Raw(MenuThumbResources.Append)';
+
+        // Common page
+        var menuThumbReplace = '@Html.Raw(MenuThumbResources.Replace)';
+        var menuThumbInsertBefore = '@Html.Raw(MenuThumbResources.InsertBefore)';
+        var menuThumbInsertAfter = '@Html.Raw(MenuThumbResources.InsertAfter)';
+
+        // Common
+        var menuThumbScan = '@Html.Raw(MenuThumbResources.Scan)';
+        var menuThumbImportFile = '@Html.Raw(MenuThumbResources.ImportFile)';
+        var menuThumbCamera = '@Html.Raw(MenuThumbResources.Camera)';
+        var menuThumbRotateRight = '@Html.Raw(ControlPanelViewerResources.TitleRotateRight)';
+        var menuThumbRotateLeft = '@Html.Raw(ControlPanelViewerResources.TitleRotateLeft)';
+        var menuThumbIndex = '@Html.Raw(MenuThumbResources.Index)';
+
+        // Viewer
+        var menuViewerPrint = '@Html.Raw(ControlPanelViewerResources.TitlePrint)';
+        var menuViewerMail = '@Html.Raw(ControlPanelViewerResources.TitleSendMail)';
+        var menuViewerSave = '@Html.Raw(ControlPanelViewerResources.TitleSave)';
+        var menuViewerHide = '@Html.Raw(ControlPanelViewerResources.TitleHideAnnos)';
+        var menuViewerHighlight = '@Html.Raw(ControlPanelViewerResources.TitleAddHighlight)';
+        var menuViewerRedaction = '@Html.Raw(ControlPanelViewerResources.TitleAddRedaction)';
+        var menuViewerText = '@Html.Raw(ControlPanelViewerResources.TitleAddText)';
+        var menuViewerZoomIn = '@Html.Raw(ControlPanelViewerResources.TitleZoomIn)';
+        var menuViewerZoomOut = '@Html.Raw(ControlPanelViewerResources.TitleZoomOut)';
+        var menuViewerFitHeight = '@Html.Raw(ControlPanelViewerResources.TitleFitHeight)';
+        var menuViewerFitWidth = '@Html.Raw(ControlPanelViewerResources.TitleFitWidth)';
+        var menuViewerFitToViewer = '@Html.Raw(ControlPanelViewerResources.TitleFitToViewer)';
+        var menuViewerNavigationDown = '@Html.Raw(ControlPanelViewerResources.TitleNavigationDown)';
+        var menuViewerNavigationUp = '@Html.Raw(ControlPanelViewerResources.TitleNavigationUp)';
+
+        var iconViewerPrint = '@Url.Content("~/Images/ControlPanel/printer_select.png")';
+        var iconViewerMail = '@Url.Content("~/Images/ControlPanel/send_mail_select.png")';
+        var iconViewerSave = '@Url.Content("~/Images/ControlPanel/save_select.png")';
+        var iconViewerHide = '@Url.Content("~/Images/ControlPanel/hide_select.png")';
+        var iconViewerHighlight = '@Url.Content("~/Images/ControlPanel/hightlight_select.png")';
+        var iconViewerRedaction = '@Url.Content("~/Images/ControlPanel/redaction_select.png")';
+        var iconViewerText = '@Url.Content("~/Images/ControlPanel/comment_select.png")';
+        var iconViewerZoomIn = '@Url.Content("~/Images/ControlPanel/zoom_in_select.png")';
+        var iconViewerZoomOut = '@Url.Content("~/Images/ControlPanel/zoom_out_select.png")';
+        var iconViewerFitHeight = '@Url.Content("~/Images/ControlPanel/zoom_reset_select.png")';
+        var iconViewerFitWidth = '@Url.Content("~/Images/ControlPanel/zoom_reset_select.png")';
+        var iconViewerFitToViewer = '@Url.Content("~/Images/ControlPanel/zoom_reset_select.png")';
+        var iconViewerNavigationDown = '@Url.Content("~/Images/ControlPanel/navigation_down_select.png")';
+        var iconViewerNavigationUp = '@Url.Content("~/Images/ControlPanel/navigation_up_select.png")';
+
+        var firstOpenBatchId = '@Model.Id';
+
+        var imageRecycleBin = '@Url.Content("~/Images/recycle-bin.png")';
+
+        // Opened batches menu
+        var closeThis = '@Html.Raw(CaptureResources.MenuCloseThis)';
+        var closeOther = '@Html.Raw(CaptureResources.MenuCloseOther)';
+        var closeAll = '@Html.Raw(CaptureResources.MenuCloseAll)';
+        var iconDelete = '@Url.Content("~/Images/Menu/menu_delete_flat.png")';
+        var iconActiveBatch = '@Url.Content("~/Images/Menu/menu_open_flat.png")';
+
+        // Webcam
+        var swiffile = '@Url.Content("~/Scripts/Camera/jscam.swf")';
+    </script>
+
+    @Styles.Render("~/Content/UserGuide/xr_main.css")
+    @Styles.Render("~/Content/Annotations/annotation.css")
+    @Styles.Render("~/Content/Pages/View.css")
+
+    @Scripts.Render("~/Scripts/jquery.form.js")
+    @Scripts.Render("~/Scripts/Camera/jquery.webcam.js")
+    @Scripts.Render("~/Scripts/Pages/View.js")
+
+    @Scripts.Render("~/Plugin/jQuery-TE_v.1.4.0/jquery-te-1.4.0.js")
+    @Styles.Render("~/Plugin/jQuery-TE_v.1.4.0/jquery-te-1.4.0.css")
+}
+
+@section ViewTask 
+{
+    @Html.Action("_GetOpenedMenu")
+}
+
+<!-- Left bar menu -->
+<div id="panel-tabs">
+    <div id="panel-tabs-inner">
+        <span class="nav_resize"></span>
+        <div id="tab-thumbnails" class="leftbar_lable first active">
+            <img src="~/Images/LeftBar/TabThumbnails.png" />
+            <div class="rotate-90">@LeftBarResources.TabThumbnails</div>
+        </div>
+        <div id="tab-batch-indexes" class="leftbar_lable">
+            <img src="~/Images/LeftBar/TabBatchIndexes.png" />
+            <div class="rotate-90">@LeftBarResources.TabBatchIndexes</div>
+        </div>
+        <div id="tab-indexes" class="leftbar_lable">
+            <img src="~/Images/LeftBar/TabIndexes.png" />
+            <div class="rotate-90">@LeftBarResources.TabIndexes</div>
+        </div>
+        <div id="tab-comments" class="leftbar_lable last">
+            <img src="~/Images/LeftBar/TabComments.png" />
+            <div class="rotate-90">@LeftBarResources.TabComments</div>
+        </div>
+    </div>
+</div>
+
+<!-- Thumnail and viewer -->
+<div id="thumbnails-n-viewer">
+    <div id="thumbnails-groups">
+        <!-- Capture menu control -->
+        <div id="panel-captures">
+            <!-- Button scan, import, capture -->
+            <div id="panel-captures-left">
+                <div id="panel-captures-left-inner">
+                    <!--
+                    <div title="Scan" class="capture_header_feature scan_feature">
+                        <span class="bt_images"></span>
+                        <div class="span_show">
+                        </div>
+                    </div>
+                    <div title="Import document from file system" class="capture_header_feature upload_feature">
+                        <span class="bt_images"></span>
+                        <div class="span_show">
+                        </div>
+                    </div>
+                    <div title="Take a photo/video from camera" class="capture_header_feature webcam_feature">
+                        <span class="bt_images"></span>
+                        <div class="span_show">
+                        </div>
+                    </div>
+                    <div title="Options" class="capture_header_feature capture_option"></div>
+                    -->
+                </div>
+            </div>
+
+            <!-- Button setting, close -->
+            <div id="panel-captures-right">
+                <span class="nav_resize"></span>
+            </div>
+        </div>
+
+        <div id="thumbnails-n-prev-next">
+            <!-- Thumbnails images -->
+            <div id="panel-thumbnails">
+                <div id="panel-thumbnails-inner">
+                    <ul id="ul-thumb" class="tree-item ul-batch">
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Next and previous indexes -->
+            <div id="panel-prev-next">
+                <div id="panel-prev-next-inner">
+                    <input id="btn-prev" type="submit" name="Previous" value="@LeftBarResources.Previous" />
+                    <input id="btn-next" type="submit" name="Next" value="@LeftBarResources.Next" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Create and submit batch -->
+        <div id="panel-submit">
+            <div id="panel-submit-inner">
+                <input id="btn-save" type="submit" name="Save" value="@LeftBarResources.Save" />
+                <input id="btn-approve" type="submit" name="Approve" value="@LeftBarResources.Approve" />
+            </div>
+        </div>
+    </div>
+
+    <div id="panel-viewer-wrapper">
+        <!-- Total comment -->
+        <div id="panel-total-comment">
+            <div id="div-total-comments">
+                <span>0</span>
+            </div>
+        </div>
+
+        <!-- Document viewer -->
+        <div id="panel-viewer" >
+            @RenderPage("~/Views/Capture/UserGuide.cshtml")
+        </div>
+
+        <!-- Comment input -->
+        <div id="panel-comment-input">
+            <!-- Text area comment -->
+            <div id="panel-comment-input-textarea">
+                <div>
+                    <textarea id="input-comment" maxlength="5"></textarea>
+                </div>
+            </div>
+
+            <div id="panel-remains-save">
+                <div id="panel-remains-character">
+                    @LeftBarResources.RemainsCharater: <span>4000</span>
+                </div>
+                <div id="panel-remains-save-center"></div>
+                <div id="panel-save-comment">
+                    <input class="input-disable" id="btn-save-comment" type="submit" name="Save" value="@LeftBarResources.Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Right bar control menu -->
+<div id="panel-controls" data-doc-id="">
+    <ul class="menu_control">
+        <li id="control-print" class="menu_control_item" title="@ControlPanelViewerResources.TitlePrint"></li>
+        <li id="control-mail" class="menu_control_item" title="@ControlPanelViewerResources.TitleSendMail"></li>
+        <li id="control-save" class="menu_control_item" title="@ControlPanelViewerResources.TitleSave"></li>
+        <li id="control-pan" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitlePan"></li>
+        <li id="control-select" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitleSelect"></li>
+        <li id="control-hide" class="menu_control_item" title="@ControlPanelViewerResources.TitleHideAnnos"></li>
+        <li id="control-Highlight" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitleAddHighlight"></li>
+        <li id="control-Redaction" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitleAddRedaction"></li>
+        <li id="control-Text" class="menu_control_item control-2-state" title="@ControlPanelViewerResources.TitleAddText"></li>
+        <li id="control-zoom-in" class="menu_control_item" title="@ControlPanelViewerResources.TitleZoomIn"></li>
+        <li id="control-zoom-out" class="menu_control_item" title="@ControlPanelViewerResources.TitleZoomOut"></li>
+        <li id="control-fit" class="menu_control_item" title="@ControlPanelViewerResources.TitleFitToViewer"></li>
+        <li id="control-rotate-right" class="menu_control_item" title="@ControlPanelViewerResources.TitleRotateRight"></li>
+        <li id="control-rotate-left" class="menu_control_item" title="@ControlPanelViewerResources.TitleRotateLeft"></li>
+        <li id="control-navigation-up" class="menu_control_item" title="@ControlPanelViewerResources.TitleNavigationUp"></li>
+        <li id="control-navigation-down" class="menu_control_item" title="@ControlPanelViewerResources.TitleNavigationDown"></li>
+    </ul>
+</div>
+
+<!-- Upload control -->
+<div style="display: none;">
+    @using (Html.BeginForm("_Upload", "View", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-upload" }))
+    { 
+        <input id="btn-upload-browser" type="file" name="file" multiple="multiple" />
+        <input id="upload-page-id" type="hidden" name="PageId" value="" />
+        <input id="upload-doc-id" type="hidden" name="DocId" value="" />
+        <input id="upload-batch-id" type="hidden" name="BatchId" value="" />
+        <input id="upload-type" type="hidden" name="Type" value="" />
+        <input id="btn-upload" type="submit" name="Submit" value="Upload" />
+    }
+</div>
+
+<!-- Camera -->
+<div style="display: none;" id="camera"></div>
+
+<!-- ActiveX scanner for Chrome -->
+<object id="TwainXIE" name="TwainXIE" 
+  classid="clsid:1EFCF932-9826-4DF5-BB20-4ECBE8A47078"  
+  codebase="@Url.Content("~/OCX/TwainOcxInstaller.cab")"
+  width="0" height="0">
+</object>
+
+<!-- ActiveX scanner for IE -->
+<object id="TwainX" 
+  clsid="{1EFCF932-9826-4DF5-BB20-4ECBE8A47078}"  
+  codebaseurl = "@Url.Content("~/OCX/TwainOcxInstaller.cab")"
+  progid  ="TwainActiveX.TwainActiveX"
+  TYPE="application/x-itst-activex"
+  width="0" height="0"
+</object>
+
+<!-- Token scanner -->
+<input id="scan-token" type="hidden" name="scanToken" value="@ViewBag.ScanToken" />

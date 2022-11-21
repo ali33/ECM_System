@@ -1,0 +1,163 @@
+﻿@model CaptureMVC.Models.CaptureAdminModel
+@{
+    ViewBag.Title = "ShowPermissionProperties";
+}
+
+<div class="sub_properties_content">
+    <div class="sub_properties_between">
+        <div class="between_content">
+            <fieldset class="parent_fieldset document_height">
+                <legend class="permission_document_id" id="@Model.DocTypePermission.Id"><b>Document</b></legend>
+                <div>
+                    <table class="permission_table">
+                        <tr>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_capture" @{if(@Model.DocTypePermission.AllowedCapture){Write("checked");}}/>Capture<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_search" @{if (@Model.DocTypePermission.AllowedSearch) { Write("checked"); }}/>Search<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_update"@{if (@Model.DocTypePermission.AllowedUpdateFieldValue) { Write("checked"); }} />Update field value<br>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_view" @{if (@Model.DocTypePermission.AllowedSeeRetrictedField) { Write("checked"); }} />View restricted field<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_append" @{if (@Model.DocTypePermission.AllowedAppendPage) { Write("checked"); }}/>Append page<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_replace"@{if (@Model.DocTypePermission.AllowedReplacePage) { Write("checked"); }}/>Replace page<br>
+                            </td>
+                        </tr>
+              
+                        <tr>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_rotate" @{if (@Model.DocTypePermission.AllowedRotatePage) { Write("checked"); }}/>Rotate page<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_delete"@{if (@Model.DocTypePermission.AllowedDeletePage) { Write("checked"); }} />Delete page<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_hide"@{if (@Model.DocTypePermission.AllowedHideAllAnnotation) { Write("checked"); }} />Hide all annotations<br>
+                            </td>
+              
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_export" @{if (@Model.DocTypePermission.AllowedExportFieldValue) { Write("checked"); }}/>Export field value<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_document_send"@{if (@Model.DocTypePermission.AllowedEmailDocument) { Write("checked"); }}/>Send mail<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_docment_print" @{if (@Model.DocTypePermission.AlowedPrintDocument) { Write("checked"); }}/>Print<br>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </fieldset>
+            <fieldset class="parent_fieldset audit_height">
+                <legend class="permission_audit_id" id="@Model.AuditPermission.Id"><b>Audit</b></legend>
+                <div>
+                    <table class="permission_table">
+                        <tr>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit"@{if (@Model.AuditPermission.AllowedAudit) { Write("checked"); }} />Audit<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit_viewlog"@{if (@Model.AuditPermission.AllowedViewLog) { Write("checked"); }}/>View log<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit_delte"@{if (@Model.AuditPermission.AllowedDeleteLog) { Write("checked"); }}/>Delete log<br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit_view"@{if (@Model.AuditPermission.AllowedViewReport) { Write("checked"); }}/>View report<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_audit_restore"@{if (@Model.AuditPermission.AllowedRestoreDocument) { Write("checked"); }}/>Restore document<br>
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </fieldset>
+            <fieldset class="parent_fieldset annotation_height">
+                <legend class="permission_annotation_id" id="@Model.AnnotationPermission.Id"><b>Annotation</b></legend>
+                <div>
+
+                    <table class="permission_table">
+                        <tr>
+                            <td>
+                                <b>Redaction</b>
+                            </td>
+                            <td>
+                                <b>Hightlight</b>
+                            </td>
+                            <td>
+                                <b>Text</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_redaction_add"@{if (@Model.AnnotationPermission.AllowedAddRedaction) { Write("checked"); }} />Add <br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_highlight_add"@{if (@Model.AnnotationPermission.AllowedAddHighlight) { Write("checked"); }}  />Add<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_text_add"@{if (@Model.AnnotationPermission.AllowedAddText) { Write("checked"); }} />Add<br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_redaction_delete" @{if (@Model.AnnotationPermission.AllowedDeleteRedaction) { Write("checked"); }} />Delete<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_highlight_delete"@{if (@Model.AnnotationPermission.AllowedDeleteHighlight) { Write("checked"); }} />Delete<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_text_delete"@{if (@Model.AnnotationPermission.AllowedDeleteText) { Write("checked"); }} />Delete<br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_annotation_highlight_view"@{if (@Model.AnnotationPermission.AllowedSeeHighlight) { Write("checked"); }} />View<br>
+                            </td>
+                            <td>
+                                <input class="permission_checkbox" type="checkbox" value="true" id="permission_text_view"@{if (@Model.AnnotationPermission.AllowedSeeText) { Write("checked"); }} />View<br>
+                            </td>
+                        </tr>
+                    </table>
+
+                    
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="main_button">
+        <div class="save_button">
+            <button type="button" id="permission_button_save" class="archive_button archive_admin_button">
+                <span>Save</span>
+                <img src="Images/button/appbar.save.32.png" />
+            </button>
+        </div>
+        <div class="close_button">
+            <button type="button" id="permission_button_close" class="archive_button archive_admin_button">
+                <span>Close</span>
+                <img src="Images/button/appbar.cancel.png" />
+            </button>
+        </div>
+    </div>
+</div>    
+

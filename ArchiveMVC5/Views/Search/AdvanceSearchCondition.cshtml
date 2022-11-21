@@ -1,0 +1,44 @@
+﻿@model ArchiveMVC5.Models.SearchQueryModel
+@if (Model.DocumentType != null)
+{
+    foreach (var item in Model.DocumentType.Fields.Where(p => !p.IsSystemField))
+    {
+        var value1 =  Model.SearchQueryExpressions.FirstOrDefault(p=> p.Field.Id == item.Id) == null ? "" : Model.SearchQueryExpressions.FirstOrDefault(p=> p.Field.Id == item.Id).Value1;
+        var value2 =  Model.SearchQueryExpressions.FirstOrDefault(p=> p.Field.Id == item.Id) == null ? "" : Model.SearchQueryExpressions.FirstOrDefault(p=> p.Field.Id == item.Id).Value2;
+
+    <div class="col-md-12" data-fieldid="@item.Id">
+        <div class="form-group col-md-2" style="margin-bottom: 1px !important;padding-left: 1px !important;">
+            <select id="Conjunction" class="form-control input-sm">
+                @foreach (Ecm.Domain.SearchConjunction dataType in Enum.GetValues(typeof(Ecm.Domain.SearchConjunction)))
+                {
+                    <option value="@((int)dataType)">@dataType.ToString()</option>
+                }
+            </select>
+
+        </div>
+        <div class="form-group col-md-2" style="margin-bottom: 1px !important;padding-left: 1px !important;">
+            <span class="label-control input-sm" id="FieldName">@item.Name</span>
+            <input type="hidden" id="fieldDataType" value="@((int)item.DataType)" />
+        </div>
+        <div class="form-group col-md-2" style="margin-bottom: 1px !important;padding-left: 1px !important;">
+            <select class="form-control input-sm" id="Operator">
+                @{
+                var listOperator = ArchiveMVC5.Utility.GeneratorJson.GetOperatorFromType(item.DataType);
+
+                foreach (Ecm.Domain.SearchOperator oper in listOperator)
+                {
+                    <option value="@((int)oper)">@oper</option>
+                }
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-5" style="margin-bottom: 1px !important;padding-left: 1px !important;" id="@item.Id"> @*id="@idComboboxValue">*@
+            @Html.Raw(ArchiveMVC5.Utility.GeneratorJson.GetComboBoxValue(item, listOperator.FirstOrDefault(), value1, value2))
+        </div>
+        <div class="form-group col-md-1" style="margin-bottom: 1px !important; padding-left: 0px !important">
+            <span></span>
+        </div>
+    </div>
+    }
+}
+

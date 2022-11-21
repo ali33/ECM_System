@@ -1,0 +1,66 @@
+﻿@*@model ArchiveMVC.Controllers.ViewController.DocumentCaching*@
+@model ArchiveMVC.Models.DocumentModel
+
+@{
+    ViewBag.Title = "View";
+}
+@section AddToHead{
+    @RenderPage("~/Views/View/Header.cshtml")
+}
+@RenderPage("~/Views/View/FormUpload.cshtml")
+    <!-- body here -->
+@RenderPage("~/Views/View/Body.cshtml")
+
+<script>
+    //Page = "View";
+    global_Page = "View";
+    $('.button_mainbar').children().text("Save");
+    $(document).ready(function () {
+        console.log("PAGE VIEW");
+        @if (ViewData[ArchiveMVC.Models.Constant.KEY_PAGE_LIST] != null)
+        {
+            @:var js_docId = "@ViewData[ArchiveMVC.Models.Constant.KEY_DOCUMENT_ID]";
+            @:var js_pages = [];
+            foreach (var page in (List<dynamic>)ViewData[ArchiveMVC.Models.Constant.KEY_PAGE_LIST])
+            {
+                <text>
+                    var js_page = {};
+                    js_page.KeyCache = "@page.Info.KeyCache";
+                    js_page.FileType = "@page.Info.FileType";
+                    js_page.Resolution = "@page.Info.Resolution";
+                    js_page.RotateAngle = "@page.RotateAngle";
+                    js_page.PageWidth = "@page.Width";
+                    js_page.PageId = "@page.PageId";
+                    js_page.Annotations = [];
+                </text>
+                foreach (var ann in (List<ArchiveMVC.Models.AnnotationModel>)page.Annotations)
+                {
+                    <text>
+                        var js_annotation = {};
+                        js_annotation.left = "@ann.Left";
+                        js_annotation.top = "@ann.Top";
+                        js_annotation.width = "@ann.Width";
+                        js_annotation.height = "@ann.Height";
+                        js_annotation.type = "@ann.Type.ToString().ToLower()";
+                        js_annotation.content = "@ann.Content";
+                        js_annotation.id = "@ann.Id";
+                        js_page.Annotations.push(js_annotation);
+                    </text>
+                }
+                @:js_pages.push(js_page);
+                    }
+            <text>
+                var js_documentTypeName = "@ViewData[ArchiveMVC.Models.Constant.KEY_DOCUMENT_NAME]";
+                createDocument(js_pages, Options.Exist, js_docId, js_documentTypeName);
+                console.log(js_pages);
+                console.log("page");
+            </text>
+        }
+        @*@:var pages = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(listPage, Newtonsoft.Json.Formatting.Indented));
+        @:console.log(pages);
+        @:docTypeName = "@ViewData[ArchiveMVC.Models.Constant.KEY_DOCUMENT_NAME]";
+        @:createDocument(pages, Options.Exist, "@ViewData[ArchiveMVC.Models.Constant.KEY_DOCUMENT_ID]");*@
+    });
+    $(".main_menu").find(".main_menu_item").removeClass("active");
+    $(".main_menu").find(".main_menu_item.document_item").addClass("active");
+</script>

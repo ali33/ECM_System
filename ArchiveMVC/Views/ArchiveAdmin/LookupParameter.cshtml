@@ -1,0 +1,10 @@
+﻿@model List<ArchiveMVC.Models.ParameterModel>
+
+@foreach(ArchiveMVC.Models.ParameterModel para in Model)
+{
+    <div class="parameter_content">
+        <div class="dialog_label parameter_name">@para.ParameterName</div>
+        <input type="text" value="@para.ParameterValue"  class="archive_input dialog_input_short parameter_value"/> 
+        <input type="hidden" class="parameter_type" value="@para.ParameterType" />
+    </div>
+}

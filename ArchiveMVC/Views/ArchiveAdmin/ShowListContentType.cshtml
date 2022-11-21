@@ -1,0 +1,69 @@
+﻿@model ArchiveMVC.Models.ArchiveAdminModel
+@{
+    ViewBag.Title = "ContentTypes";
+}
+
+<div class="admin_sub_menu_content">
+    <div class="admin_sub_menu_items">
+        @{
+            foreach (var item in Model.ListDocType)
+            {
+                <div class="sub_menu_item content_type_item" >
+                    <div class="icon">
+                        @if(item.Value.Icon!=null){
+                        <img src="@Url.Action("GetIcon", "ImageProcessing")/?key=@item.Key"/>
+                        }else{
+                        <img src="#" style="opacity: 0"/>
+                        }
+                    </div>
+                    <div class="item_detail">
+                        <div class="sub_item_content row_content_type" title="@item.Value.Name"  id="@item.Value.Id">
+                            <div class="item_content_data">
+                                    @item.Value.Name
+                            </div>
+                        </div>
+                        <div class="configure">
+                            <div class="data">OCR template</div>
+                            <a href="@Url.Action("Configure","ArchiveAdmin")?id=@item.Value.Id" class="ocr_template" title="Ocr configure">
+                                <div class="icon">
+                                </div>         
+                            </a>
+                            @if (item.Value.HasOCRTemplateDefined)
+                                {
+                                <div class="delete_ocr" title="Delete Ocr template" data-id="@item.Value.Id" data-contenttype_name="@item.Value.Name"></div>
+                                }else{
+                                <div class="add_delete_ocr_icon" title="Delete Ocr template" data-id="@item.Value.Id" data-contenttype_name="@item.Value.Name"></div>    
+                            }
+                        </div>
+                        <div class="barcode">
+                            <div class="data">Barcode</div>
+                            <div class="icon barcode_config" title="Barcode configure" data-id="@item.Value.Id">
+                            </div>
+                            @if (item.Value.HasBarcodeConfigurations)
+                            {
+                                <div class="delete_barcode" title="Delete barcode" data-id="@item.Value.Id" data-contenttype_name="@item.Value.Name"></div>
+                            }else{
+                            <div class="add_delete_barcode_icon" title="Delete barcode" data-id="@item.Value.Id" data-contenttype_name="@item.Value.Name"></div>
+                            }
+                        </div>   
+                    </div>
+                </div>
+        }
+         }
+    </div>
+    <div class="admin_sub_menu_button">
+        <div class="add_button archive_admin_button_padding">
+            <button type="button" class="archive_button button_add_content archive_admin_button">
+                <span>Add</span>
+                <img src="Images/button/appbar.add.32.png" />
+            </button>
+        </div>
+        <div class="delete_button">
+            <button type="button" class="archive_button button_delete_content archive_admin_button">
+                <span>Delete</span>
+                <img src="Images/button/appbar.delete.32.png" />
+            </button>
+        </div>
+    </div>
+</div>
+

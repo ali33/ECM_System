@@ -1,0 +1,93 @@
+﻿@Scripts.Render("~/Scripts/ContextMenu/jquery.contextMenu.js")
+@Styles.Render("~/Content/Annotations/annotation.css")
+@Styles.Render("~/Scripts/Annotations/tip/tip-yellowsimple/tip-yellowsimple.css")
+@Scripts.Render("~/Scripts/load.js")
+@Scripts.Render("~/Scripts/multisortable.js")
+@Scripts.Render("~/Scripts/Pages/Capture.js")
+@Scripts.Render("~/Scripts/Pages/CaptureMenu.js")
+@Scripts.Render("~/Scripts/printThis.js")
+@Scripts.Render("~/Scripts/Annotations/annotation.V1.js")
+@Scripts.Render("~/Scripts/Pages/Thumb.js")
+@Scripts.Render("~/Scripts/Annotations/scrollTo.js")
+@Styles.Render("~/Content/UserGuide/xr_main.css")
+@Scripts.Render("~/Scripts/UserGuide/png.js")
+@Scripts.Render("~/Scripts/UserGuide/roe.js")
+@Scripts.Render("~/Scripts/Annotations/tip/jquery.poshytip.js")
+@Styles.Render("~/Scripts/Annotations/jquery-editable/css/jquery-editable.css")
+@Scripts.Render("~/Scripts/Annotations/jquery-editable/js/jquery-editable-poshytip.js")
+
+@Scripts.Render("~/Scripts/Camera/jquery.webcam.js")
+@Scripts.Render("~/plugins/webcam/scriptcam.js")
+@Scripts.Render("~/plugins/webcam/swfobject.js")
+@Scripts.Render("~/plugins/webcam/jwplayer/jwplayer.js")
+
+<style>
+    .ui-state-highlight {
+        width: 290px;
+        height: 96px;
+        border: 3px solid #F7BE81;
+    }
+
+    .demo-selected {
+        background: red;
+        cursor: move;
+    }
+
+    .selected {
+        border: 3px solid #F7BE81;
+    }
+</style>
+<script>
+    var
+        URL_RemoveRowIcon = '@Url.Content("~/Images/appbar.delete.png")',
+        URL_ScanIcon = '@Url.Content("~/Images/Scan-icon.png")',
+        URL_ImportIcon = '@Url.Content("~/Images/file-import-icon.png")',
+        URL_CameraIcon = '@Url.Content("~/Images/webcam.png")',
+        URL_PostImage = '@Url.Action("UploadFile", "ImageProcessing")',
+        URL_PostSingleImage = '@Url.Action("UpLoadFileSingle", "ImageProcessing")',
+        URL_LoadImage = '@Url.Action("ID", "ImageProcessing")',
+        URL_Get_Document = '@Url.Action("GetDocument", "View")',
+        URL_GetIcon = '@Url.Action("GetIcon", "ImageProcessing")',
+        URL_OCR = '@Url.Action("OCRDocument", "Capture")',
+        URL_CROPPED_IMAGE= '@Url.Action("GetCroppedImage", "ImageProcessing")',
+        URL_LoadTableValue = '@Url.Action("LoadTableFieldValue", "Capture")',
+        URL_Lookup = '@Url.Action("LookupData", "Capture")',
+        URL_Recycle = '@Url.Content("~/Images/recycle-bin.png")',
+        URL_PrintIcon = '@Url.Content("~/Images/button/control/printer_select.png")',
+        URL_MailIcon = '@Url.Content("~/Images/button/control/send_mail_select.png")',
+        URL_SaveIcon = '@Url.Content("~/Images/button/control/save_select.png")',
+        URL_HideIcon = '@Url.Content("~/Images/button/control/hide_select.png")',
+        URL_HighlightIcon = '@Url.Content("~/Images/button/control/hightlight_select.png")',
+        URL_RedactionIcon = '@Url.Content("~/Images/button/control/redaction_select.png")',
+        URL_NoteIcon = '@Url.Content("~/Images/button/control/comment_select.png")',
+        URL_RotateLeftIcon = '@Url.Content("~/Images/button/control/rotation_left_select.png")',
+        URL_RotateRightIcon = '@Url.Content("~/Images/button/control/rotation_right_select.png")',
+        URL_PreviousIcon = '@Url.Content("~/Images/button/control/navigation_up_select.png")',
+        URL_NextIcon = '@Url.Content("~/Images/button/control/navigation_down_select.png")',
+        URL_ZoomIn = '@Url.Content("~/Images/button/control/zoom_in_select.png")',
+        URL_ZoomOut = '@Url.Content("~/Images/button/control/zoom_out_select.png")',
+        URL_FitViewer = '@Url.Content("~/Images/button/control/zoom_reset_select.png")',
+        URL_Folder = '@Url.Content("~/Images/appbar.page.uncheck.png")',
+        URL_FolderLight = '@Url.Content("~/Images/appbar.page.uncheck.light.png")',
+        URL_Folder_OK = '@Url.Content("~/Images/appbar.page.check.png")',
+        URL_FolderLight_OK = '@Url.Content("~/Images/appbar.page.check.light.png")',
+        URL_Submit = '@Url.Action("Insert", "Capture")',
+        //Move to Index Layout
+        URL_Toolbar = '@Url.Action("LoadToolbar", "Capture")',
+        URL_AnnotationPermission = '@Url.Action("Annotations", "Permission")',
+        URL_DocumentTypePermission = '@Url.Action("DocumentType", "Permission")',
+        URL_Permission = '@Url.Action("CaptureDocumentTypes", "Permission")',
+        URL_Camera = '@Url.Content("~/Scripts/Camera/jscam.swf")',
+
+        global_Page = "Capture",
+
+        $content = $('.content'),
+        itemsCount = 0,
+        imagesSrc = [],
+        $pages = [],
+        settings = [],
+        URL_GetDocType = '@Url.Action("GetDocType", "Capture")',
+        currentId,
+        _linkCSS = '@Url.Content("~/Content/Annotations/annotation.css")';
+        docType = @Html.Raw(ArchiveMVC5.Utility.Utilities.DocumentTypeResultJson());
+</script>

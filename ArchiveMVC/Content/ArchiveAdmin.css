@@ -1,0 +1,1280 @@
+﻿/*Edit by Loc ngo*/
+/*Archive admin body*/
+section.body_archive_admin {
+    min-height: 500px;
+}
+
+
+section.body_archive_admin div.document_type {
+    height:100%;
+}
+
+/*Menu in the left of archive admin body*/
+section.body_archive_admin div.archive_admin_menu_bar {
+    height: 100%;
+    min-width: 280px;
+    background-color: rgb(236, 240, 241);
+}
+
+/*Archive admin content of archive admin body*/
+section.body_archive_admin div.archive_admin_container {
+    height: 100%;
+    width: 82%;
+    background: rgb(252, 255, 265);
+}
+
+/*Css for Content type*/
+.table_data_type {
+    width: 70px;
+}
+
+.row_content_type {
+    height: 20px;
+    width: 100%;
+    max-width: 170px !important;
+    overflow: hidden !important;
+}
+
+.td_lookup {
+    color: blue !important;
+}
+
+    .td_lookup:hover {
+        cursor: pointer;
+    }
+
+.dialog_textarea {
+    font-size: 13px !important;
+    width:100%;
+}
+
+.sub_item_content{
+    cursor: pointer;
+}
+
+.content_type_between {
+    height: 110px !important
+}
+
+.content_input_field {
+    min-width: 315px;
+}
+
+.table_td_delete:hover {
+    cursor: pointer;
+}
+
+#first_delete_column:hover {
+    cursor: pointer;
+}
+
+#picklist_value {
+    height: 300px;
+    width: 100%;
+    border: 1px rgba(214, 211, 211, 0.11) solid;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+}
+
+.tab_padding {
+    padding: 5px 0px 0px 0px !important;
+}
+
+.barcode_dialog_label {
+    width: 120px!important;
+}
+
+.ocr_template_tool {
+    height:520px; 
+    width: 4%;
+    min-width: 50px;
+    display: block;
+    float: right;
+    top: 0px;
+    position:relative;
+    margin-top:5px;
+}
+
+#ocr_thumbnail {
+    height:520px; 
+    width: 19%;
+    min-width: 100px;
+    display: block;
+    float: left;
+    top: 0px;
+    position:relative;
+    overflow: auto;
+    max-height:600px; 
+    background-color:white;
+    border: 2px solid #007F7F;
+    margin:1px 5px 2px 0px;
+}
+#ocr_thumbnail div.ocr_pages > li{
+	list-style: none;
+	line-height: 1.428571429;
+    margin:2px 0;
+}
+
+    #ocr_thumbnail div.ocr_pages > li > span.treeview_title{
+	    display: block;
+	    position: relative;
+	    padding-top: 10px;
+	    padding-bottom: 10px;
+	    /*margin: 2px;*/
+	    background-color: white; /*rgb(113, 183, 186);*/
+	    cursor: pointer;
+    }
+
+        #ocr_thumbnail div.ocr_pages > li > span.treeview_title.treeview_select.page {
+            background-color: rgba(51,102,102, 0.5);
+        }
+
+        #ocr_thumbnail div.ocr_pages > li > span.treeview_title a img {
+	        margin-left: 50px;
+	        margin-right: 5px;
+	        width: 60px;
+	        height: 60px;
+	        vertical-align: middle;
+	        -ms-interpolation-mode: bicubic;
+	        border-bottom: 2px solid #a19a9a;
+            border-right: 2px solid #a19a9a;
+        }
+
+    #ocr_thumbnail div.ocr_pages > li > span.treeview_title > a{
+        display: block;
+	    text-decoration: none;
+
+    }
+
+    #ocr_thumbnail div.ocr_pages > li > span.treeview_title > a > span {
+	    display: inline-block;
+	    vertical-align: middle;
+	    font-size: 16px;
+        color:#534d4d;
+    }
+
+    #ocr_thumbnail div.ocr_pages > li > span.treeview_title > a > span strong {
+        display:block;
+        font-size:36px;
+	    vertical-align: middle;
+        font-weight:600;
+    }
+
+    #ocr_thumbnail div.ocr_pages > li > span.treeview_title > a > span span+strong {
+        display:block;
+        font-size:36px;
+	    vertical-align: middle;
+        font-weight:600;
+    }
+
+#docViewer {
+    margin:2px 5px 2px 0px;
+    width: 75%;
+    min-width: 500px;
+    overflow: auto;
+    display: block;
+    float: left;
+    max-height:600px; 
+    border:2px #007F7F solid; 
+    height:520px; 
+    top: 0px;
+    position:relative;
+}
+    #docViewer > div.page {
+        border: 2px solid #aaaaaa;
+	    background-color: #004040;
+    }
+
+        #docViewer > div.page.select {
+            border: 2px solid rgb(255, 106, 0);
+        }
+
+.ocrtemplate_root {
+    height:100px;
+    width:98%;
+    border: 2px solid #aaaaaa;
+	background-color: #004040;
+}
+
+
+.ocrtemplate_root div.ocrtemplate_title {
+    font-size:1.2em;
+    font-weight:800;
+    color:#FFFFFF;
+    margin:15px 0px 0px 5px;
+}
+
+.ocrtemplate_root div.ocrdoctype {
+    font-size:1em;
+    font-weight:800;
+    color:#FFFFFF;
+    margin:5px 0px 0px 10px;
+}
+
+.ocrtemplate_root div.ocrimage {
+    width:auto;
+    height:auto;
+    position:relative;
+    float:left;
+    margin:10px 2px 2px 5px;
+}
+.ocrlanguagepanel {
+    float: right;
+    position: relative;
+    display: block;
+    margin: 10px 10px 5px 10px;
+}
+
+.ocr_label {
+    display: inline-block;
+    float: left;
+    margin-left: 15px;
+}
+
+.ocr_field {
+    display: inline-block;
+    margin-left: 20px;
+    width: 70%;
+    float: left;
+    margin: 2px 0px 0px 30px;
+}
+
+.ocr_template_panel {
+    width: 99%;
+    overflow: auto;
+    display: block;
+    float: left;
+    height:100%; 
+    margin:5px 2px 0px 15px; 
+    position:relative;
+}
+
+.ocrStatus {
+    float: left;
+    position: relative;
+    display: block;
+    margin: 10px 0px 15px 10px;
+}
+
+    .ocrStatus > div {
+        float:left;
+        width: 130px;
+    }
+    
+    .ocrStatus > div > span {
+        font-family:'Segoe UI';
+        font-size:0.8em;
+        font-weight:800;
+        float:left;
+        margin:5px;
+    }
+
+
+
+.ocrStatus > div > .red {
+    background-color:red;
+    margin:5px;
+    width:16px;
+    height:16px;
+    float:left;
+}
+.ocrStatus > div > .green {
+    background-color:green;
+    margin:5px;
+    width:16px;
+    height:16px;
+    float:left;
+}
+
+.ocrStatus > div > .brown {
+    background-color:brown;
+    margin:5px;
+    width:16px;
+    height:16px;
+        float:left;
+
+}
+/*Left content of Archive admin content*/
+/*Content*/
+/*UI of Content*/
+.admin_sub_menu div.admin_sub_menu_content {
+    height: 79%;
+    /*background: #E5E5E5;*/
+}
+
+.admin_sub_menu_content > div.archive_admin_title {
+    height: 75px;
+}
+
+.archive_admin_title div.title_data {
+    font-size: 20px;
+    padding: 23px;
+}
+
+.admin_sub_menu_content > div.archive_admin_content {
+    min-height: 300px;
+    overflow-y: auto;
+}
+
+.admin_sub_menu_content > div.archive_button_content {
+    height: auto;
+    min-height: 59px;
+    width: 240px;
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-top: solid 1px #aaaaaa;
+}
+
+.admin_sub_menu_content > div.archive_button_content_orc {
+    height: auto;
+    min-height: 87px;
+    width: 240px;
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.archive_button_content_orc > div.button_up {
+    height: 39px;
+    border-bottom: solid 1px #aaaaaa;
+}
+
+.archive_button_content_orc > div.button_down {
+    height: 34px;
+}
+
+/*End UI*/
+
+.right_column_container div.button_content_up {
+    width: 98%;
+    position: absolute;
+    bottom: 56px;
+}
+
+.button_content_up div.button_content {
+    width: 20%;
+    position: absolute;
+    left: 10px;
+    bottom: 7px;
+}
+
+.right_column_container div.button_content_down {
+    width: 92%;
+    position: absolute;
+    bottom: 10px;
+}
+
+.button_content_down div.button_content {
+    width: 20%;
+    position: absolute;
+    right: 15px;
+    bottom: 0px;
+}
+
+/*Between content of Archive admin content*/
+.between_and_right {
+    height: 100%;
+    width: 100%;
+    background: #F1F1F1;
+    font-size: 13px;
+}
+
+    .between_and_right .sub_properties_top {
+        padding: 20px 0px 0px 0px;
+        height: 60px;
+        min-width: 650px;
+    }
+
+    .between_and_right .parent_fieldset {
+        height: 120px;
+    
+        margin: 0px 0px 0px 15px;
+        width: 55%;
+        min-width: 530px;
+}
+
+.between_and_right_content 
+{
+    width: 100%;
+    height: 100%;
+    padding-left: 0px;
+}
+
+    .between_and_right_content div.button_content_down {
+        width: 95%;
+        position: absolute;
+        bottom: 5%;
+    }
+
+    .between_and_right_content div.button_content_down div.button_content{
+       width: 20%;
+        position: absolute;
+        right: -10%;
+        bottom: -195%;
+    }
+
+/*Right content of Archive admin content*/
+.archive_admin_container div.right_column_container {
+    height: 100%;
+    width: 72%;
+    display: inline-block;
+    position: absolute;
+    margin-right: 1%;
+    border-left: 1px solid #aaaaaa;
+}
+
+
+/*UI for propertis content*/
+
+.properties_content {
+    margin-left: 10px; 
+    height: 95%;  
+}
+
+.right_column_container_content {
+    height: 100%;
+}
+
+.right_column_container > div.right_column_container_content {
+    padding-left: 15px;
+    padding-right: 5px;
+}
+
+.right_column_container_content > div.right_properties_title {
+    height: 75px;
+}
+
+.right_properties_title > div.title_data {
+    font-size: 20px;
+    padding: 23px;
+}
+
+.right_column_container_content > div.right_properties_content {
+    min-height: 300px;
+    overflow-y: auto;
+}
+
+.right_column_container_content > div.right_properties_button {
+    height: auto;
+    min-height: 108px;
+    width: 100%;
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.right_properties_button > div.button_up {
+    height: 39px;
+    border-bottom: solid 1px #aaaaaa;
+}
+
+.button_up > div.sub_left_button {
+    width: 40%;
+    display: inline-block;
+    position: relative;
+    margin-left: 1%;
+}
+
+.button_up > div.sub_right_button {
+    height: 34%;
+    width: 55%;
+    display: inline-block;
+    position: relative;
+}
+
+.right_properties_button > div.button_down {
+    height: 39px;
+    margin-top: 2px;
+}
+
+.button_down > div.sub_left_button {
+    height: 34px;
+    width: 69%;
+    display: inline-block;
+    position: relative;
+}
+
+.button_down > div.sub_right_button {
+    width: 30%;
+    display: inline-block;
+    position: relative;
+}
+
+
+
+/*.icon 
+{
+    width :30px;
+    height: 65px;   
+    float :left;
+}*/
+.content_value 
+{
+    width: 194px;
+    height: 65px;
+    float: left;
+}
+/*Css for content type*/
+
+
+
+.change_content_icon 
+{
+    background: none !important;
+    color: black !important;
+}
+
+.admin_sub_menu_content table {
+    clear: both;
+}
+
+.content_choose_icon {
+    color: black !important;
+}
+
+.opacity_icon {
+    opacity: 0;
+}
+
+table.table_button {
+	position: relative;
+	width: 100%;
+	margin: 0px auto;
+	padding-left: 18px;
+	padding-right: 18px;
+}
+
+table.table_button ::selection {
+	background-color: transparent;
+}
+
+table.table_button td{
+	min-width: 10%;
+}
+
+.config_button {
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    width: 100px !important;
+    font-size: 13px !important;
+    padding: 0px 2px 0px 2px !important;
+}
+
+/*User Group*/
+.sub_item_content_full div.user_groups {
+    width: 180px !important;
+    color: white;
+    margin: 4px 0px 0px 10px !important;
+    max-width: 190px;  overflow: hidden;
+}
+
+.user_group_infor {
+    height: 95px !important;
+    margin: 10px 0px 15px 15px !important;
+}
+
+.user_group_fieldset {
+    width: 95% !important;
+    min-width: 540px !important;
+    margin-right:5px;
+}
+
+#usergroup_member {
+    width: 95%;
+    min-width: 530px;
+    height: 300px;
+    max-height: 300px;
+    padding: 5px;
+    border: 1px solid;
+    border-color: #E0E0E0;
+    background-color: white;
+    overflow: auto;
+}
+
+/*Archive admin button*/
+.archive_admin_button {
+    width: 105px;
+}
+
+.archive_admin_button_padding {
+    padding-right: 5% !important;
+}
+
+.properties_button {
+    height: 25px !important;
+    min-height: 25px !important;
+    width: 80px;
+}
+
+.hidden 
+{
+    clear: both;
+    display: none;
+}
+.add_new_column:hover 
+{
+    cursor:pointer;
+}
+
+.contain_table_look_data 
+{
+    height: 240px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+/*css for permission*/
+
+.permission_view_by_contenttype_button{
+    padding: 0 !important;
+}
+
+.permission_view_by_group_button{
+
+}
+
+.permission_button {
+    width: 120px !important;
+    padding: 0px !important;
+    font-size: 13px !important;
+    font-weight: bold;
+}
+
+.permission_button.selected {
+    background: #00BFBF;
+}
+
+.permission_button span{
+    padding-right: 0px !important;
+    text-align: center;
+}
+
+/*Permission menu*/
+.permission_menu_item span{
+    font-size: 1.2em;
+    font-weight: bold;
+    color:white;
+    margin:10px 0px 0px 10px;
+}
+
+.permission_menu_item  {
+    position:absolute;
+}
+
+.permission_menu_item:hover {
+    cursor: pointer;
+}
+
+/*Permission sub menu*/
+.permission_sub_menu {
+    position: relative;
+    display:block;
+}
+
+.permission_sub_menu div.permission_sub_menu_item {
+    height: 30px;
+    width: 90%;
+    margin: 3px 0px 0px 10px;
+    cursor: pointer;
+}
+        
+.permission_sub_menu_item > div.icon {
+    display: block;
+    position: absolute;
+    margin: 0px 0px 0px 5px;
+}
+
+.permission_sub_menu_item > div.icon img {
+    height: 30px;
+    width: 30px;
+}
+
+.permission_sub_menu_item > div.data {
+    display: block;
+    position: absolute;
+    margin: 6px 0px 0px 20px;
+    overflow: hidden;
+}
+
+.permission_sub_menu_item > div.data >div.data_content {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.permission_sub_menu div.permission_sub_menu_item:hover {
+    background: #CCCCCC;
+    border-radius: 7px;
+}
+
+.permission_sub_menu div.permission_sub_menu_item.selected {
+    background: #CCCCCC;
+    border-radius: 7px;
+}
+
+/*End permission sub menu*/
+
+
+.permission_table {
+    width: 100%;
+}
+
+.permission_table tr td {
+    width: 30%;
+}
+
+.document_height {
+    height: 110px !important;
+}
+
+.audit_height {
+    height: 65px !important;
+    margin-top: 10px;
+}
+
+.annotation_height {
+    height: 110px !important;
+    margin-top: 10px;
+}
+
+/*.permission_doctype_container, .permission_user_group_container
+{
+    width:300px;
+    height:150px;
+    
+}
+.permission_doctype_title, .permission_usergroup_title
+{
+    width:300px;
+    height:20px;
+    background:#B8B8B8 ;
+    padding:5px;
+}
+.permission_user_group, .permission_doctype
+{
+    width:250px;
+    height:20px;    
+    float:right;
+}
+
+*/
+
+/*end css for permission*/
+
+
+/* css for users */
+
+.user_container 
+{
+
+}
+
+.user_icon img{
+    margin: 0px 0px 0px 10px !important;
+}
+
+.user_container:hover
+ {
+    cursor: pointer;
+ }
+
+.user_infor 
+{
+    /*float: left;*/
+    width: 100% !important;
+    color: white;
+    position: relative;
+    margin: 8px 0px 0px 6px !important;
+}
+
+    .user_infor div.user_name {
+    position: absolute;
+    
+    height: 20px;
+    max-width: 110px;
+    overflow: hidden;
+}
+
+    .user_infor div.full_name {
+    position: absolute;
+    
+    font-size: 14px;
+    font-weight: bold;
+    margin: 20px 0px 0px 0px;
+    height: 20px;
+    max-width: 190px;
+    overflow: hidden;
+}
+
+.user_input_field {
+    min-width: 385px;
+}
+
+/*language for sub_menu in user*/
+.language_val
+{
+    height: 20px;
+    float: right;
+    margin: -10px 0px 0px 30px!important;
+}
+
+    .language_val div.language_content {
+    width: 72px;
+    float: right;
+    background: #E5E5E5;
+        
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    margin: 8px 4px 0px 0px;
+    border-radius: 4px;
+    padding-bottom: 2px;
+    position: relative;
+    max-width: 72px;
+    overflow: hidden;
+}
+
+.user_system_configuration {
+    height: 300px;
+    /* border-width: 0px !important; */
+}
+
+.user_system_configuration > div {
+    margin: 0px 0px 5px 0px;
+}
+
+.user_system_member_of {
+    height: 250px;
+}
+
+.left_content {
+    width: 45%;
+}
+
+.right_content {
+    width:45%;
+}
+
+.left_content fieldset {
+    width:95%;
+}
+
+.right_content fieldset {
+    width:95%;
+
+}
+
+.left_content fieldset div.languages {
+    float: left;
+    margin: 5px 0px 0px 20px;
+    height:230px;
+}
+
+.properties_bottom_content div.left_content div.languages select {
+    width: 150px;
+}
+
+.right_content div.member_button {
+    text-align: center;
+    margin: 5px 0px 0px 0px;
+}
+
+.properties_bottom_content div.right_content div.left_button {
+    display: inline-block;
+    padding: 0px 20px 0px 0px;
+}
+
+.properties_bottom_content div.right_content div.right_button {
+    display: inline-block;
+    padding: 0px 0px 0px 20px;
+}
+
+#user_list_member_of {
+    width: 95%;
+    max-width: 280px;
+    height: 230px;
+    max-height: 250px;
+    overflow: auto;
+    background-color: white;
+    padding: 10px;
+    border: solid 1px;
+    border-color: #D0D0D0;
+}
+
+.row_usergroup_area {
+    padding: 0px 0px 0px 10px;
+    margin: 0px 0px 2px 0px;
+}
+
+.row_usergroup_area:hover
+{
+    background-color:#E0E0E0;
+}
+
+.row_usergroup_area.selected {
+    background-color:#E0E0E0;
+}
+
+/*   end css for users */
+
+/*css for usergroup */
+.usergroup_container
+{
+
+}
+.usergroup_container:hover
+{
+    cursor: pointer;
+}
+
+.usergroup_user_row {
+    padding: 0px 0px 0px 10px;
+    margin: 0px 0px 2px 0px;
+}
+
+.usergroup_user_row:hover 
+{
+    background-color: #E0E0E0;
+}
+
+.usergroup_user_row.selected {
+    background-color: #E0E0E0;
+}
+/* end css for usergroup */
+
+/*css for setting*/
+/*Loc Ngo*/
+
+.setting_fieldset {
+    width: 95% !important;
+    height:100%;
+    padding: 0px 20px 15px 0px;
+    min-width: 630px !important;
+}
+
+.error_dialog_font {
+    font-family: "Segoe UI", sans-serif;
+}
+
+.setting_input_field {
+    width: 370px;
+    min-width: 370px;
+}
+
+.sub_item_content_full div.left_mapping {
+    height: 35px;
+    width: 75px !important;
+    color: white;
+    overflow: hidden;
+    margin: 10px 0px 0px 4px !important;
+    border-right: 1px white solid;
+    border-left: 1px white solid
+}
+
+.left_mapping div.left_mapping_content {
+    height: 35px;
+    overflow: hidden;
+    margin: 0px -24px 0px 8px;
+}
+
+.setting_configure_language_content {
+    height: 60px;
+    padding: 10px 0px 0px 0px;
+}
+
+    .setting_configure_language_content div.setting_languages {
+        float: right;
+        margin: 0px 20px 0px 0px;
+    }
+
+        .setting_configure_language_content div.setting_languages select {
+            width: 150px;
+        }
+
+.admin_sub_other div.mapping_content {
+    width: 71px;
+    float: left;
+    position: absolute;
+    padding-left: 4px;
+    margin: -22px 0px 0px 56px;
+    border-top: 1px white solid;
+    border-right: 1px white solid;
+    border-left: 1px white solid;
+}
+
+.admin_sub_other div.support_unicode_content {
+    float: left;
+    position: absolute;
+    margin: -22px 0px 0px 132px;
+    padding-left: 4px;
+    padding-right: 6px;
+    border-top: 1px white solid;
+}
+
+
+.sub_item_content_full div.right_unicode {
+    display: block;
+    float: left;
+    color: white;
+    margin: -26px 0px 0px 135px !important;
+}
+
+.textarea_content {
+    height: 85%;
+    margin-bottom: 20px;
+}
+
+.mapping_height {
+    height: 420px !important;
+    min-height: 400px;
+    margin: 0px 0px 0px 0px;
+}
+
+textarea {
+    height:100%;
+    width:95%;
+    border: none;
+}
+
+.mapping_container
+{
+    cursor: pointer;
+}
+/*
+.mapping_container:hover
+{
+    background: rgb(189, 195, 199);
+    color: white;
+}*/
+
+.show_content_type_icon {
+    height: 10%;
+    width: 100%;
+}
+
+    .show_content_type_icon div.icon {
+        display: inline-block;
+        width: 20%;
+    }
+
+    .show_content_type_icon div#lst_image_icon {
+        display: inline-block;
+        width: 60%;
+    }
+
+
+
+#cancel_icon {
+    display:none;
+}
+
+#sub_image_icon {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
+#image_icon {
+    height: 32px;
+    width: 32px;
+    margin: 10px
+}
+
+.image_icon_container {
+    height: 40px;
+    width: 40px;
+    margin: 0px 0px 10px 0px;
+    position:relative;
+    display:inline-block;
+    align-content:center;
+}
+/*Loc Ngo*/
+
+/*.input-control.text{
+    margin-top: 2px;
+    width: 98%;
+}
+
+.input-control.select {
+    margin-top: 2px;
+    width: 99%;
+}*/
+
+/*Dialog*/
+
+.dialog_label {
+    min-height: 20px;
+    margin-bottom:2px;
+}
+
+.dialog_input {
+    width: 400px !important;
+    height: 26px;
+    float: left;   
+    margin-left: 2px;
+    font-size: 13px !important;
+}
+
+.dialog_input_short {
+    width: 300px !important;
+    height: 26px;
+    float: left;   
+    margin-left: 2px;
+    font-size: 13px !important;
+}
+
+.dialog_select {
+    height: 26px;
+    width: 412px;
+    float: left;
+    margin-left: 2px;
+    font-size: 13px !important;
+}
+
+.dialog_button {
+    font-size: 13px !important;
+    float: right;
+    margin-right: 20px;
+    margin-top:10px;
+}
+
+.message_infor {
+    font-size: 18px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/*Dialog fieldset*/
+.dialog_fieldset {
+    width: 550px;
+    min-width: 500px;
+    border-color: rgba(214, 211, 211, 0.39);
+    border-width: 1px;
+    background: #FBFBFB;
+}
+    .dialog_fieldset > textarea.dialog_textarea {
+        height:60px;
+        width:100%;
+    }
+    
+    .dialog_fieldset > legend {
+        font-family: "Segoe UI", sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .dialog_fieldset > div.div_content {
+        font-size: 15px;
+        font-family: "Segoe UI", sans-serif;
+        height: 50px;
+        margin: 0px 0px 0px 0px;
+    }
+
+        .dialog_fieldset > div.div_content > div.div_content_other {
+            float: left;
+        }
+
+        .dialog_fieldset > div.div_content > div.div_content_button {
+            
+            float: left;
+        }
+
+        .dialog_fieldset > div.fieldset_data {
+            height: 90%;
+            overflow-y: auto;
+        }
+
+.dialog_content_icon {
+    display: none;
+}
+
+    .dialog_content_icon div.left_icon {
+        float: left;
+        height: 100px;
+        width: 150px;
+    }
+
+    .dialog_content_icon div.right_lst_icon {
+        float: left;
+        
+    }
+
+    .dialog_content_icon fieldset.icon_fieldset {
+        height: 100px;
+        width: 88px;
+        min-width: 85px;
+    }
+
+    .dialog_content_icon fieldset.lst_icon_fieldset {
+        width: 360px;
+    
+        min-width: 300px;
+}
+
+.dialog_table_input {
+    margin: 0px 0px 0px 0px !important;
+}
+
+.dialog_table_select {
+    margin: 0px 0px 0px 0px !important;
+}
+
+.dialog_table_icon {
+    margin: 5px 0px 0px 3px;
+    height: 16px;
+    width: 16px;
+}
+
+.dialog_table_checkbox {
+    margin: 5px 0px 0px 0px;
+    width: 142px;
+}
+
+    .dialog_table_checkbox > input {
+        float: left;
+    }
+
+    .dialog_table_checkbox > a {
+        float: left;
+    }
+
+.table_dialog_configuration > div.add_conlumn_button {
+    height: 25px;
+    width: 100%;
+}
+
+.table_dialog_configuration > div.table{
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+#table_configuration {
+
+}
+/*End dialog fieldset*/
+
+/*Change password*/
+.change_password_label {
+    width: 125px !important;
+}
+/*End change password*/
+
+.parameter_content {
+    font-size: 15px;
+    font-family: "Segoe UI", sans-serif;
+    height: 50px;
+    margin: 0px 0px 0px 0px;
+}
+
+.div_parameter {
+    height:100px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    max-height:120px;
+    float:left;
+}

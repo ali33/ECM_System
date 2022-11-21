@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ArchiveMVC5.Models.AmbiguousDefinitionModel>
+
+@{
+    ViewBag.Title = "ShowSettingConfigure";
+}
+@{
+    foreach (var item in Model)
+    {
+    <tr id="@item.Id">
+        <td>@item.Text</td>
+        @if (item.IsUnicode)
+        {
+            <td>Yes</td>
+        }
+        else
+        {
+            <td>No</td>
+        }
+        <td class="hidden" id="@item.LanguageId"></td>
+    </tr>
+    }
+}

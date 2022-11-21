@@ -1,0 +1,63 @@
+﻿@model Ecm.Model.DocumentModel
+
+@{
+    ViewBag.Title = "GetDoc";
+}
+
+
+<fieldset>
+    <legend>DocumentModel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DocVersionId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DocVersionId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PageCount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PageCount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Version)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Version)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatedBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedBy)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ModifiedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ModifiedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ModifiedBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ModifiedBy)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

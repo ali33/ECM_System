@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Ecm.Workflow.Activities.HumanStepPermissionDesigner.View.UserGroupPermissionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Language="{UICulture}"
+             xmlns:uv="clr-namespace:Ecm.Workflow.Activities.HumanStepPermissionDesigner.View">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="User group permissions" Margin="15,10,0,5" FontWeight="Bold"></TextBlock>
+        <Border Grid.Row="1" BorderBrush="#FF6593CF" BorderThickness="0,1,0,0"></Border>
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch" Margin="20,10,20,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="33*"></ColumnDefinition>
+                <ColumnDefinition Width="37*"></ColumnDefinition>
+                <ColumnDefinition Width="30*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbModifyDocument}" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0" IsChecked="{Binding Path=CanModifyDocument,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbModifyIndexes}" Grid.Row="0" Grid.Column="1" Margin="0,0,10,0" IsChecked="{Binding Path=CanModifyIndexes,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbDelete}" Grid.Row="0" Grid.Column="2" IsChecked="{Binding Path=CanDelete,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbAnnotate}" Grid.Row="1" Grid.Column="0" Margin="0,3,10,0" IsChecked="{Binding Path=CanAnnotate,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbPrint}" Grid.Row="1" Grid.Column="1" Margin="0,3,10,0" IsChecked="{Binding Path=CanPrint,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbEmail}" Grid.Row="1" Grid.Column="2" Margin="0,3,0,0" IsChecked="{Binding Path=CanEmail,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbSendLink}" Grid.Row="2" Grid.Column="0" Margin="0,3,10,0" IsChecked="{Binding Path=CanSendLink,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbDownloadFilesOnDemand}" Grid.Row="2" Grid.Column="1" Margin="0,3,10,0" IsChecked="{Binding Path=CanDownloadFilesOnDemand,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbReleaseLoosePage}" Grid.Row="2" Grid.Column="2" Margin="0,3,0,0" IsChecked="{Binding Path=CanReleaseLoosePage,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbReject}" Grid.Row="3" Grid.Column="0" Margin="0,3,10,0" IsChecked="{Binding Path=CanReject,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+            <CheckBox Content="{Resx ResxName=Ecm.Workflow.Activities.HumanStepPermissionDesigner.HumanStepPermissionView, Key=cbViewOtherItems}" Grid.Row="3" Grid.Column="1" Margin="0,3,10,0" IsChecked="{Binding Path=CanViewOtherItems,Mode=TwoWay}" Command="{Binding Path=CheckCommand}"></CheckBox>
+        </Grid>
+    </Grid>
+</UserControl>

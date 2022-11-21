@@ -1,0 +1,268 @@
+@using CaptureMVC.Utility
+@using CaptureMVC.Models
+@using Newtonsoft.Json
+@{
+    if (!ViewContext.RouteData.GetRequiredString("controller").Equals("Login")
+        && (Utilities.UserName == null || Utilities.Password == null))
+    {
+        var login = new LoginModel { ReturnUrl = Request.Url.AbsoluteUri };
+    <meta http-equiv="refresh" content="0;url='@Url.Action("Index", "Login", login)'" />        
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="image/x-ico" href="~/favicon.ico" rel="shortcut icon">
+    <link type="image/ico" href="~/favicon.ico" rel="icon">
+    @*<meta charset="utf-8" />*@
+    @*<meta name="viewport" content="width=device-width" />*@
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="icon" href="~/Images/EZECM_logo_mini.png">
+    <link rel="icon" href="~/Images/EZECM_logo_mini.png" type="image/png">
+    <link href="@Url.Content("~/Content/Pages/archive_ui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/ArchiveAdmin.css")" rel="stylesheet" type="text/css" />
+
+    @*@Styles.Render("~/Content/SelectionArea/imgareaselect-default.css")*@
+    @Styles.Render("~/Content/jQuery-UI/jquery.ui.all.css")
+    @Styles.Render("~/Content/MessageBox/MessageBox.css")
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.js")
+    @Scripts.Render("~/Scripts/SelectionArea/selectionarea.js")
+    @Scripts.Render("~/Scripts/resource.js")
+    @Scripts.Render("~/Scripts/Inno.js")
+    @Scripts.Render("~/Scripts/MessageBox.js")
+    @Scripts.Render("~/Scripts/InnoDialog.js")
+    @Scripts.Render("~/Scripts/InnoValidate.js")
+
+
+
+    @Scripts.Render("~/Scripts/browser-detect.js")
+
+    @Scripts.Render("~/Plugin/ContextMenu/jquery.contextMenu.js")
+    @Scripts.Render("~/Plugin/ContextMenu/jquery.ui.position.js")
+    @Styles.Render("~/Plugin/ContextMenu/jquery.contextMenu.css")
+
+    @Scripts.Render("~/Plugin/jQuery.alerts-1.1/jquery.alerts.js")
+    @Styles.Render("~/Plugin/jQuery.alerts-1.1/jquery.alerts.css")
+
+    <style>
+        #version {
+            font-size: 10px;
+            position: absolute;
+            left: 141px;
+            top: 36px;
+        }
+    </style>
+    @*@Scripts.Render("~/Scripts/Inno.ECM.js")*@
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+    <script>
+       @* @{
+            var settings = new JsonSerializerSettings();
+            settings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            if (Utilities.CaptureDocumentTypes != null && Utilities.UserName != null && Utilities.Password!=null)
+            {
+                <text>
+                var permission = { documentType: {}, annotation: {}};
+                permission.documentType = @Html.Raw(Utilities.DocumentTypeCapturePermissionJson());
+                permission.annotation = @Html.Raw(Utilities.DocumentTypeCapturePermissionJson());
+                </text>
+                //@:var docTypexx = @Html.Raw(Utilities.DocumentTypeResultJson());
+            }
+            
+            
+        }*@
+        var AppDomainAppVirtualPath = "@HttpRuntime.AppDomainAppVirtualPath";
+        var URL_SendMail = '@Url.Action("SendMail", "Capture")';
+        var URL_SaveLocal = '@Url.Action("SaveLocal", "Capture")';
+        var URL_Get = '@Url.Action("Get", "Capture")';
+    </script>
+
+    <meta name="description" content="ECM System" charset="utf-8" lang="en-us" />
+    <meta name="author" content="Innoria Solution" />
+</head>
+<body @*oncontextmenu="return false;"*@>
+    @* Neu page la Login thi khong can kiem tra username *@
+    @if (!ViewContext.RouteData.GetRequiredString("controller").Equals("Login"))
+    {
+@* Neu username khac rong (Da dang nhap) hoac la NO_USER thi khong hien thi thong tin dang nhap
+               nguoc lai thi chuyen ve trang Login
+            *@
+        if (!String.IsNullOrEmpty((string)Utilities.GetSession(Constant.UserName)))
+        {              
+        <!-- header here -->
+        <header class="archive_header">
+            <!-- logo -->
+            <div class="logo logo_content">
+            </div>
+            <!-- menu archive  -->
+            <div class="main_menu">
+                <div class="main_menu_content">
+                    <div class="main_menu_item search_item @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("Search") ? "active" : "")">
+                        <a href="@Url.Action("Index", "Search")">@CaptureMVC.Resources.MainMenuResources.Search</a>
+                    </div>
+
+                    <div class="main_menu_item capture_item @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("Capture") ? "active" : "")">
+                        <a href="@Url.Action("Index", "Capture")">@CaptureMVC.Resources.MainMenuResources.Capture</a>
+                    </div>
+
+                    @if (Utilities.IsAdmin)
+                    {
+                        <div class="main_menu_item archiveadmin_item @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("CaptureAdmin") ? "active" : "")">
+                            <a href="@Url.Action("Index", "CaptureAdmin")">@CaptureMVC.Resources.MainMenuResources.Admin</a>
+                        </div>
+                    }
+
+                    @RenderSection("ViewTask", false)
+
+                    <div class="main_menu_item help_item">
+                        <a href="#">@CaptureMVC.Resources.MainMenuResources.Help</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user_login">
+                @if (Session["KEY_CACHE_USER_PROFILE"] != null)
+                {
+                    <img src="~/ImageProcessing/GetIcon?key=@Session["KEY_CACHE_USER_PROFILE"]"/>
+                }
+                else
+                {
+                    <img src="@Url.Content("~/Resources/icon_user_profile.png")"/>
+                }
+                <ul class="accounts_menu">
+                    <li>
+                        <a href="#">@(Utilities.UserName)</a>
+                    </li>
+                    <li>
+                        <a id="change_password">@CaptureMVC.Resources.LoginResources.ChangePassword</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Logout", "Login")">@CaptureMVC.Resources.LoginResources.Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+        </header>
+        <!--Ket thuc header -->
+        }
+        else
+        {
+            var login = new LoginModel { ReturnUrl = Request.Url.AbsoluteUri };
+        <meta http-equiv="refresh" content="0;url='@Url.Action("Index", "Login", login)'" />
+        }
+    }
+
+
+
+    @RenderBody()
+    <div id="dialog_change_password" style="display: none;">
+        <fieldset class="dialog_fieldset" style="height: 50px">
+            <legend>@CaptureMVC.Resources.LoginResources.UserInformation</legend>
+            <div class="div_content">
+                <label class="dialog_label change_password_label">@CaptureMVC.Resources.LoginResources.Username</label>
+                <input type="text" class="archive_input dialog_input" value="@((String)Utilities.GetSession(Constant.UserName))" disabled="disabled">
+            </div>
+        </fieldset>
+
+        <fieldset class="dialog_fieldset" style="height: 125px;">
+            <legend>@CaptureMVC.Resources.LoginResources.ChangePassword</legend>
+            <div class="div_content">
+                <label class="dialog_label change_password_label">@CaptureMVC.Resources.LoginResources.CurrentPassword</label>
+                <input type="password" id="current_password" class="archive_input dialog_input" placeholder="@CaptureMVC.Resources.LoginResources.CurrentPassword">
+            </div>
+
+            <div class="div_content">
+                <label class="dialog_label change_password_label">@CaptureMVC.Resources.LoginResources.NewPassword</label>
+                <input type="password" id="new_password" class="archive_input dialog_input" placeholder="@CaptureMVC.Resources.LoginResources.NewPassword">
+            </div>
+
+            <div class="div_content">
+                <label class="dialog_label change_password_label">@CaptureMVC.Resources.LoginResources.ConfirmPassword</label>
+                <input type="password" id="confirm_password" class="archive_input dialog_input" placeholder="@CaptureMVC.Resources.LoginResources.ConfirmNewPassword">
+            </div>
+
+        </fieldset>
+    </div>
+
+    <script type="text/javascript">
+
+        var $current_pass = $("#current_password");
+        var $new_pass = $("#new_password");
+        var $confirm_pass = $("#confirm_password");
+
+        var ResetAllFields = function () {
+            $("#current_password").val("");
+            $("#new_password").val("");
+            $("#confirm_password").val("");
+        };
+
+        var URL_ChangePassword = "@Url.Action("ChangePassword", "Login")";
+
+        var data;
+        function ChangePassword() {
+            Inno.helper.post(
+                URL_ChangePassword,
+                JSON.stringify(data),
+                ChangePassword_Sucess,
+                ChangePassword_Error
+            );
+        };
+
+        function ChangePassword_Sucess(data) {
+            if (data == "Old_password_is_not_match") {
+                ErrorDialog($("#current_password"), "Current password is not match!");
+            }
+            if (data == "Change_password_success") {
+                ResetAllFields();
+                ErrorDialog("Password change success!");
+                $("#dialog_change_password").dialog("close");
+            }
+        };
+
+        function ChangePassword_Error(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR + "-" + textStatus + "-" + errorThrown);
+        };
+
+        var dialog_change_password_ok_function = function () {
+
+            if (CheckPassword($current_pass, "Current password", 0)) {
+                if (CheckPassword($new_pass, "New password", 6)) {
+                    if (CheckConfirmPassword($new_pass, $confirm_pass)) {
+                        data = {
+                            oldPassword: $current_pass.val(),
+                            newPassword: $new_pass.val()
+                        };
+                        ChangePassword();
+                    }
+                }
+            }
+        };
+
+        var dialog_change_password_cancel_function = function () {
+
+            ResetAllFields();
+            $(this).dialog('close');
+        };
+
+        $(document).on("click", "#change_password", function () {
+            $.innoDialog({
+                title: "@CaptureMVC.Resources.LoginResources.ChangePassword",
+                width: 580,
+                dialog_data: $('#dialog_change_password'),
+                type: 'Ok_Cancel',
+                Ok_Button: dialog_change_password_ok_function,
+                Cancel_Button: dialog_change_password_cancel_function
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>

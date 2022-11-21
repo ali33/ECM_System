@@ -1,0 +1,197 @@
+﻿
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Drag your mouse to draw a ractangle</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="contextMenu/jquery.contextMenu.css" />
+    <link rel="stylesheet" type="text/css" href="css/imgareaselect-default.css" />
+    
+    <script type="text/javascript" src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="contextMenu/jquery.contextMenu.js"></script>
+    <script type="text/javascript" src="scripts/selectionarea.js"></script>
+    <script type="text/javascript" src="contextMenu/jquery.ui.position.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <style>
+        /**
+         * Phải đặt position là relative để tránh xảy ra lỗi move, resize ra ngoài vùng
+         * 
+         */
+        #page{
+            border: 1px solid blue;
+            width: 780px;
+            height: 800px;
+            float: left;
+            display: block;
+            background: #E6E6E6;
+            overflow: auto;
+            position: relative;
+        }
+        #menu{
+            border: 1px solid blue;
+            width: 760px;
+            background: #E6E6E6;
+            height: 40px;
+            list-style: none;
+            z-index: 10;
+            /*display: none;*/
+        }
+        .barbutton{
+            width: 40px;
+            height: 40px;
+            display: block;
+            position: relative;
+            float: left;
+        }
+        .barbutton:hover{
+            display: block;
+            background: yellow;
+        }
+        .header{
+            border: 1px solid blue;
+            height: 100px;
+            width: 700px;
+            background: blue;
+            position: absolute; 
+        }
+        #wrap{
+            margin: 100px;
+        }
+        body{
+            margin: 0;
+        }
+        .focusbutton{
+            background: #6E6E6E;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $("#save").click(function(){
+                console.log(draw.getRectsAsJSON());
+                uriContent = "data:application/octet-stream;filename=filename.txt," + 
+                            encodeURIComponent(draw.getRectsAsJSON());
+                newWindow=window.open(uriContent, 'filename.txt');
+            });
+            
+            $("#load").click(function(){
+                draw.setRectsFromJSON(JSON.parse($("#jsoncontent").val()));
+                
+            });
+            $("#loadFile").change(readSingleFile);
+            function focus($t){
+                $(".focusbutton").removeClass("focusbutton");
+                $t.addClass("focusbutton");
+            }
+            $("#redaction").click(function(){
+                focus($(this));
+                draw.setGlobalType(0);
+                return false;
+             });
+            $("#highlight").click(function(){
+                focus($(this));
+                draw.setGlobalType(2);
+                return false;
+             });
+            $("#comment").click(function(){
+                focus($(this));
+                draw.setGlobalType(3);
+                return false;
+             });
+             $("#hide").click(function(){
+                draw.hideOrShow(); 
+                return false;
+             });
+            function readSingleFile(evt) {
+                var f = evt.target.files[0]; 
+                if (f) {
+                  var r = new FileReader();
+                  r.onload = function(e) { 
+                    var contents = e.target.result;
+                    var getRect = JSON.parse(contents);
+                    console.log(getRect);
+                    draw.setRectsFromJSON(getRect);
+                  };
+                  r.readAsText(f);
+                } else { 
+                  alert("Failed to load file");
+                }
+             }
+            var draw = $(".content").selectionArea();
+            draw.disable();
+            var a =['Chon 1','Chon 2','Chon 3','Chon 4','Chon 5'];
+            draw.setList(a);
+//            draw.showCombobox();
+//            draw.setGlobalType(0);
+            
+            $("#menu").draggable({ cursor: "move" });
+            $("#ro-clockwise").click(function(){
+                draw.rotateClockwise();
+                return false;
+            });
+            $("#rocounter-clockwise").click(function(){
+                draw.rotateCounterClockwise();
+                return false;
+            });
+            $("#zoomin").click(function(){
+//                $(".content").animate({ 'zoom': 1.2 }, 400);
+                draw.zoomIn();
+                return false;
+            });
+            $("#zoomout").click(function(){
+//                $(".content").animate({ 'zoom': 1 }, 400);
+                draw.zoomOut();
+                return false;
+            });
+            $("#fitviewer").click(function () {
+//                $(".content").animate({ 'zoom': 1 }, 400);
+                draw.fitviewer();
+                return false;
+            });
+            $("#pan").click(function(){
+                draw.pan();
+            });
+            $("#navleft").click(function(){
+                draw.hideCombobox();
+            });
+            $("#navright").click(function(){
+                draw.showCombobox();
+            });
+          });
+        $(window).load(function(){
+//            var myScroll = new IScroll('#page', { scrollX: true, freeScroll: true });
+        });        
+    </script>
+</head>
+<body>
+    <!--<div class ="header"></div>-->
+<div id="wrap">
+    <div id="menu">
+        <a href="#" class="barbutton" id="print"><img src="imgs/appbar.printer.png" alt="Print content" width="42"/></a>
+        <a href="#" class="barbutton" id="email"><img src="imgs/appbar.email.png" alt="Send mail content" width="42"/></a>
+        <a href="#" class="barbutton" id="save"><img src="imgs/appbar.save.png" alt="Save to local file" width="42"/></a>
+        <a href="#" class="barbutton" id="pan"><img src="imgs/appbar.cursor.hand.png" alt="Pan content" width="42"/></a>
+        <a href="#" class="barbutton" id="select"><img src="imgs/appbar.cursor.default.png" alt="Select content" width="42"/></a>
+        <a href="#" class="barbutton" id="hide"><img src="imgs/appbar.eye.hide.png" alt="Hide all annotation" width="42"/></a>
+        <a href="#" class="barbutton" id="highlight"><img src="imgs/appbar.draw.pencil.reflection.png" alt="High light" width="42"/></a>
+        <a href="#" class="barbutton" id="redaction"><img src="imgs/appbar.interface.textbox.png" alt="Redaction" width="42"/></a>
+        <a href="#" class="barbutton" id="comment"><img src="imgs/appbar.notification.png" alt="Comment" width="42"/></a>
+        <a href="#" class="barbutton" id="zoomin"><img src="imgs/appbar.magnify.add.png" alt="Zoom in" width="42"/></a>
+        <a href="#" class="barbutton" id="zoomout"><img src="imgs/appbar.magnify.minus.png" alt="Zoom out" width="42"/></a>
+        <a href="#" class="barbutton" id="zoom"><img src="imgs/appbar.magnify.png" alt="Zoom" width="42"/></a>
+        <a href="#" class="barbutton" id="rocounter-clockwise"><img src="imgs/appbar.transform.rotate.counterclockwise.png" alt="Rotate counter clockwise" width="42"/></a>
+        <a href="#" class="barbutton" id="ro-clockwise"><img src="imgs/appbar.transform.rotate.clockwise.png" alt="Rotate clockwise" width="42"/></a>
+        <a href="#" class="barbutton" id="navleft"><img src="imgs/appbar.arrow.left.png" alt="Navigation left" width="42"/></a>
+        <a href="#" class="barbutton" id="navright"><img src="imgs/appbar.arrow.right.png" alt="Navigation right" width="42"/></a>
+    </div>
+    <!--<div style="overflow: scroll; width: 700px;height: 800px;" >-->
+    <div id="page">
+        <img class="content" src="imgs/Invoice-0012a1.gif" />   
+    </div>
+    <!--</div>-->
+    <!--<textarea id='jsoncontent' style='float:left;height: 200px;'></textarea>-->
+    <!--<button id='load' style='clear: both;'>Set by JSON String</button>-->
+    <input type="file" id="loadFile">
+</div>
+</body>

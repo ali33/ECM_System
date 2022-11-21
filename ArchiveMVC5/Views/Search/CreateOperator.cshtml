@@ -1,0 +1,22 @@
+﻿@model ArchiveMVC5.Models.SearchModel
+@{
+    var Doctype = Model.ListDocType.Where(p => p.Id == Model.DocumentTypeId).FirstOrDefault();
+    var field = Doctype.Fields.Where(p => p.Id == Model.FieldID && p.DataType != Ecm.Domain.FieldDataType.Table && p.DataType != Ecm.Domain.FieldDataType.Folder).FirstOrDefault();
+    }
+
+    @if(field != null)
+    {
+ 
+            <select id="Operator" class="form-control input-sm" onchange="CreateTextBoxValue(this.value,'@(field.Id)','@(Model.ValueControlId)')">
+                @{
+                    var listOperator = ArchiveMVC5.Utility.GeneratorJson.GetOperatorFromType(field.DataType);
+                }
+                @foreach (var item1 in listOperator)
+                {                                
+                    <option value="@((int)item1)">@item1</option>
+                }  
+        
+            </select>  
+    }
+
+

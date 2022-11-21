@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="CloudECM FireFox Plugin for Win7" Language="1033" Version="1.0.0.0" Manufacturer="ECM Solutions, Inc" UpgradeCode="140c70ee-163d-460e-8d42-8a5ccddfdeb7">
+		<Package InstallerVersion="200" Compressed="yes" Description="CloudECM FireFox Plugin for Win7"
+             Comments="CloudECM FireFox Plugin for Win7 is registered by ECM Solutions Inc" Manufacturer="ECM Solutions Inc" />
+
+		<Media Id="1" Cabinet="CloudECMFireFoxPluginforWin7.cab" EmbedCab="yes" />
+
+    <Property Id="REGISTRY_KEY" Value="empty" />
+    <CustomAction Id="SetRegistryKeyFor32Bit" Return="check" Property="REGISTRY_KEY" Value="Software\MozillaPlugins\@microsoft.com/WPF,version=3.5" />
+    <CustomAction Id="SetRegistryKeyFor64Bit" Return="check" Property="REGISTRY_KEY" Value="Software\Wow6432Node\MozillaPlugins\@microsoft.com/WPF,version=3.5" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="WindowsFolder">
+        <Directory Id="MicrosoftDotNet" Name="Microsoft.NET">
+          <Directory Id="Framework" Name="Framework">
+            <Directory Id="Version35" Name="v3.5">
+              <Directory Id="WindowsPresentationFoundation" Name="Windows Presentation Foundation">
+                <Component Id="WPFFiles" Guid="0DCF2091-384E-45bc-A88E-D794FDFF2DAD">
+                  <File Id="NPWPF.dll" Source="wpf/NPWPF.dll"></File>
+                </Component>
+                <Directory Id="DotNetAssistantExtension" Name="DotNetAssistantExtension">
+                  <Component Id="DotNetAssistantExtensionFiles" Guid="8F615719-95AD-4c63-A9F5-210B5C3914D3">
+                    <File Id="chrome.manifest" Source="wpf/DotNetAssistantExtension/chrome.manifest"></File>
+                    <File Id="install.rdf" Source="wpf/DotNetAssistantExtension/install.rdf"></File>
+                    <File Id="MicrosoftDotNetFrameworkAssistant.xpi" Source="wpf/DotNetAssistantExtension/MicrosoftDotNetFrameworkAssistant.xpi"></File>
+                    <RemoveFolder Id="DotNetAssistantExtension" On="uninstall" />
+                  </Component>
+                  <Directory Id="chrome" Name="chrome">
+                    <Component Id="chromeFiles" Guid="3A5E17AE-E92C-4e48-832A-615AC258C70B">
+                      <File Id="chrome.jar" Source="wpf/DotNetAssistantExtension/chrome/chrome.jar"></File>
+                      <RemoveFolder Id="chrome" On="uninstall" />
+                    </Component>
+                  </Directory>
+                  <Directory Id="defaults" Name="defaults">
+                    <Directory Id="preferences" Name="preferences">
+                      <Component Id="preferencesFiles" Guid="9E550993-F88D-4793-B6A5-C3D4FFA4C4EE">
+                        <File Id="default.js" Source="wpf/DotNetAssistantExtension/defaults/preferences/defaults.js"></File>
+                        <RemoveFolder Id="preferences" On="uninstall" />
+                        <RemoveFolder Id="defaults" On="uninstall" />
+                      </Component>
+                    </Directory>
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+			</Directory>
+      <Component Id="RegisterFirefoxPluginIn" Guid="6A3F321B-4CC9-48e7-B5A9-63C0D78C7CD2">
+        <RegistryKey Action ="create" Id="RegisterFirefoxPluginIn" Key="[REGISTRY_KEY]" Root="HKLM">
+          <RegistryValue Name="Path" Value="[WindowsFolder]\Microsoft.NET\Framework\v3.5\Windows Presentation Foundation\NPWPF.dll" Action="write" Type="string"></RegistryValue>
+          <RegistryValue Name="Description" Value="Windows Presentation Foundation plug-in for Mozilla browsers" Action="write" Type="string"></RegistryValue>
+          <RegistryValue Name="GeckoVersion" Value="1.7.5" Action="write" Type="string"></RegistryValue>
+          <RegistryValue Name="ProductName" Value="Windows Presentation Foundation" Action="write" Type="string"></RegistryValue>
+          <RegistryValue Name="Vendor" Value="Microsoft Corp." Action="write" Type="string"></RegistryValue>
+          <RegistryValue Name="Version" Value="3.5" Action="write" Type="string"></RegistryValue>
+          <RegistryKey Action="create" Key="MimeTypes">
+            <RegistryKey Action="create" Key="application/x-ms-xbap">
+              <RegistryValue Name="Description" Value="XAML Browser Application (XBAP)" Action="write" Type="string"></RegistryValue>
+              <RegistryValue Name="Suffixes" Value="xbap" Action="write" Type="string"></RegistryValue>
+            </RegistryKey>
+            <RegistryKey Action="create" Key="application/xaml+xml">
+              <RegistryValue Name="Description" Value="XAML Document" Action="write" Type="string"></RegistryValue>
+              <RegistryValue Name="Suffixes" Value="xaml" Action="write" Type="string"></RegistryValue>
+            </RegistryKey>
+          </RegistryKey>
+          <RegistryKey Action="create" Key="Suffixes">
+            <RegistryValue Name="xbap" Value="" Action="write" Type="string"></RegistryValue>
+            <RegistryValue Name="xaml" Value="" Action="write" Type="string"></RegistryValue>
+          </RegistryKey>
+        </RegistryKey>
+      </Component>
+    </Directory>
+    <InstallExecuteSequence>
+      <Custom Action="SetRegistryKeyFor32Bit" After="InstallInitialize">NOT VersionNT64</Custom>
+      <Custom Action="SetRegistryKeyFor64Bit" After="InstallInitialize">VersionNT64</Custom>
+    </InstallExecuteSequence>
+
+    <Feature Id="ProductFeature" Title="FirefoxPluginWin7" Level="1">
+			<ComponentRef Id="WPFFiles" />
+      <ComponentRef Id="DotNetAssistantExtensionFiles" />
+      <ComponentRef Id="chromeFiles" />
+      <ComponentRef Id="preferencesFiles" />
+      <ComponentRef Id="RegisterFirefoxPluginIn" />
+    </Feature>
+    
+    <!--Add/Remove program information-->
+    <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
+    <Property Id="ARPPRODUCTICON" Value="eDoc.ico"  />
+    <Property Id="ARPCOMMENTS" Value="Thanks for choosing ECM Solutions"  />
+    <Property Id="ARPURLINFOABOUT" Value="http://www.edocpro.net"  />
+    <Property Id="ARPURLUPDATEINFO" Value="http://www.edocpro.net"  />
+    <Icon Id="eDoc.ico" SourceFile="eDoc.ico"/>
+  </Product>
+</Wix>

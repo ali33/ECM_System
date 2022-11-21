@@ -1,0 +1,30 @@
+﻿@model IList<Ecm.CaptureDomain.UserGroup>
+@{
+    ViewBag.Title = "LoadUserGroups";
+}
+
+<div class="left-container-child">
+    <div class="admin_sub_menu_items row">
+        @{
+            foreach (var userGroupItem in Model)
+            {
+                <div class="sub_menu_item usergroup_container well-nav well-nav-sl clearfix" id="@userGroupItem.Id">
+                    <div class="usergroup_infor">
+                        <div class="group_name" title="@userGroupItem.Name">@userGroupItem.Name</div>
+                        <div class="group_type" title="@userGroupItem.Type">@userGroupItem.Type</div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="row">
+        <button type="button" id="usergroup_button_add" class="btn btn-primary pull-left">
+            <span>Add</span>
+            <i class="glyphicon glyphicon-plus"></i>
+        </button>
+        <button type="button" id="usergroup_button_delete" class="btn btn-primary pull-right">
+            <span>Delete</span>
+            <i class="glyphicon glyphicon-trash"></i>
+        </button>
+    </div>
+</div>

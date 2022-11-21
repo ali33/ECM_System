@@ -1,0 +1,51 @@
+﻿@model  IList<Ecm.CaptureDomain.DocumentFieldMetaData>
+
+@{
+    ViewBag.Title = "LoadTableContentType";
+
+    if (Model != null && Model.Count > 0)
+    {
+            foreach (var item in Model)
+            {
+                //var id_td_delete = "class=table_td_delete";
+                //var first_row = "";
+                //if (item == Model.First())
+                //{
+                //    id_td_delete = "id=first_delete_column";
+                //    first_row = "first_row";
+                //}
+
+                <tr class="row_field" id="-1">
+                    <td class="td_field_name">@item.Name</td>
+                    <td class="td_data_type">@item.DataType</td>
+                    @if (item.IsRequired == true)
+                    {
+                    <td class="td_required">Yes</td>
+                    }
+                    else
+                    {
+                        <td class="td_required">No</td>
+                    }
+                   @if (item.IsRestricted == true)
+                    {
+                    <td class="td_restricted">Yes</td>
+                    }
+                   else
+                   {
+                    <td class="td_restricted">No</td>
+                   }
+                    @*<td class="td_haslookup">No</td>*@
+                    <td class="td_default_value">@item.DefaultValue</td>
+                    <td class="td_maxlength">@item.MaxLength</td>
+                    <td class="td_picklist hidden">@item.Picklists</td>
+                    <td class="td_valida_script hidden">@item.ValidationScript</td>
+                    <td class="td_valida_pattern hidden">@item.ValidationPattern</td>
+                </tr>
+            }
+    }
+}
+
+
+
+
+

@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNet.Identity
+@if (ArchiveMVC5.Utility.Utilities.LoginUser != null)
+{
+        @Html.AntiForgeryToken()
+        var user = ArchiveMVC5.Utility.Utilities.LoginUser;
+
+        <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="@Url.Action("GetLoginAccountPicture", "ImageProcessing")" class="user-image" alt="User Image" />
+                <span class="hidden-xs">@user.Fullname</span>
+            </a>
+            <ul class="dropdown-menu">
+                <!-- User image -->
+                <li class="user-header">
+                    <img src="@Url.Action("GetLoginAccountPicture", "ImageProcessing")" class="img-circle" alt="User Image" />
+                    <p>
+                        @user.Username
+                    </p>
+                    <p><strong>@user.Fullname - @(user.IsAdmin ? "Administrator":"Normal") </strong></p>
+                </li>
+                <!-- Menu Body -->
+                <li class="user-body">
+                    <div class="col-xs-12 text-center">
+                        <a href="@Url.Action("ChangePassword", "Account" )">Change your password</a>
+                    </div>
+                    @*<div class="col-xs-4 text-center">
+                        <a href="#">Sales</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <a href="#">Friends</a>
+                    </div>*@
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                    <div class="pull-left">
+                        <a href="#" class="btn bg-olive btn-flat"><i class="glyphicon glyphicon-user"></i> Profile </a>
+                    </div>
+                    <div class="pull-right">
+                        <a href="@Url.Action("Logout", "Account")" class="btn bg-olive btn-flat"><i class="glyphicon glyphicon-log-out"></i> Sign off </a>
+                    </div>
+                </li>
+            </ul>
+        </li>
+}
+else
+{
+    <li class="dropdown user user-menu">
+        <a href="@Url.Action("Login", "Account")">
+            <img src="~/Content/dist/img/user2-160x160.jpg" class="user-image" alt="User Image" />
+            <span class="hidden-xs">Log in</span>
+        </a>
+    </li>
+}

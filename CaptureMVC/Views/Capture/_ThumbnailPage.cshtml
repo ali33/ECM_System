@@ -1,0 +1,16 @@
+﻿@model CaptureMVC.Models.CapturePageModel
+
+<li id="@Model.Id" class="li-page" data-rotate-angle="0">
+    <div class="item-content">
+        <div class="item-image @(Model.IsImage ? "real-image" : "native-image") ">
+            <img src="@Model.ThumbFilePath" class="image-main rotate-0" />
+        </div>
+        <div class="item-text">
+            <div class="item-page-index">@Model.PageNumber</div>
+            @if (@Model.IsImage)
+            {
+                <div>@Model.Dpi dpi</div>
+            }
+        </div>
+    </div>
+</li>

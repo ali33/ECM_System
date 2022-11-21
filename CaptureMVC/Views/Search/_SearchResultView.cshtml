@@ -1,0 +1,131 @@
+﻿@using CaptureMVC.Models;
+@using CaptureMVC.Utility;
+@using CaptureMVC.Resources;
+@using System.Data;
+
+@model CaptureMVC.Models.SearchResultModel
+@{ 
+    bool boolItem;
+    int indexFistSystemColum = Model.DataResult.Columns.Count - 13; //Table have 13 system column
+}
+
+<div class="">
+    <div class="datagript_header">
+        <div>
+            <div class="split_span">
+                <span class="result_resize"></span>
+            </div>
+            <div>
+                <strong id="batch-type-name" class="name" data-index-activity-name="@Model.IndexActivityName" >@Model.BatchTypeName</strong>
+                <span>- </span>
+                <span class="count"><span class="count_display_doc">@Model.ResultCount</span>/
+                <span id="total-count" class="count_total_doc">@Model.TotalCount</span> @SearchResultResources.WorkItems</span>
+
+                @if (Model.HasMoreResult)
+                {
+                    <a id="has-more-result"
+                        data-batch-type-id ="@Model.BatchTypeId"
+                        data-page-index="@(Model.PageIndex + 1)"
+                        data-search-query-json="@Model.JsonSearchExpressions"
+                        class="@(Model.SearchByAdvance ? "search-advance" : "")">
+                        @SearchResultResources.MoreResult
+                    </a>
+                }
+                else
+                {
+                    <a id="has-more-result"
+                        style="display: none"
+                        data-batch-type-id ="@Model.BatchTypeId"
+                        data-page-index="@Model.PageIndex"
+                        data-search-query-json="@Model.JsonSearchExpressions"
+                        class="@(Model.SearchByAdvance ? "search-advance" : "")">
+                        @SearchResultResources.MoreResult
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="datagript_body">
+        @{
+            var UniqueKey = UniqueId.GetUniqueKey();
+            var columns = Model.DataResult.Columns;
+            var cssClass = string.Empty;
+        }
+
+        <table class="datagript_table tablesorter" id="@UniqueKey">
+            <thead>
+                <tr>
+                    <th>
+                        <input id="chk-all-batch-id" type="checkbox" title="Check all"></th>
+                    @for (int i = 3; i < columns.Count; i++)
+                    {         
+                        <th class="search-header">@columns[i].Caption</th>    
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in Model.DataResult.Rows)
+                {
+                    <tr class="row-work-item">
+                        <td>
+                            <input type="checkbox" value="@row[0]" class="chk-batch-id" 
+                                data-permission="@row[2]"
+                                data-status="@row[1]">
+                        </td>
+                        @for (int i = 3; i < columns.Count; i++)
+                        {
+                            if (columns[i].DataType == typeof(int) || columns[i].DataType == typeof(decimal))
+                            {
+                            <td class="search-row-number">@row[i]</td>
+                            }
+                            else if (columns[i].DataType == typeof(bool))
+                            {
+                            <td class="search-row-center">
+
+                                @if (bool.TryParse(row[i].ToString(), out boolItem))
+                                {
+                                    if (i < indexFistSystemColum)
+                                    {
+                                    @(boolItem ? CommonResources.True : CommonResources.False)
+                                    }
+                                    else
+                                    {
+                                    @(boolItem ? CommonResources.Yes : CommonResources.No)
+                                    }
+                                }
+                            </td>
+                            }
+                            else if (columns[i].DataType == typeof(DateTime))
+                            {
+                            <td class="search-row-date">@row[i]</td>
+                            }
+                            else
+                            {
+                            <td class="search-row">@row[i]</td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $("#@UniqueKey").tablesorter({
+        headers: {
+            // assign the secound column (we start counting zero)
+            0: {
+                // disable it by setting the property sorter to false
+                sorter: false
+            }
+        }
+    });
+
+    @*$("#@UniqueKey tbody").find("tr").live("dblclick", function () {
+        $("section.body").ecm_loading_show();
+        window.location = URL_EditDocID + $(this).find("input[type='checkbox']").val();
+
+    });*@
+
+</script>

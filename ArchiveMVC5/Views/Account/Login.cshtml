@@ -1,0 +1,87 @@
+﻿@model ArchiveMVC5.Models.LoginModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+
+@section AddToHead{
+        @*<link href="~/Content/ECM.css" rel="stylesheet" type="text/css">*@
+        @*<script type="application/javascript" language="javascript" src="Scripts/jquery-1.8.2.min.js" ></script>*@
+    <script>
+        $(document).ready(function () {
+            $('#username,#password').keyup(function (e) {
+                console.log(e);
+                if (e.which == 13)
+                    document.login.submit();
+                                    
+            });
+        });
+    </script>
+    @*Styles.Render("~/Content/Pages/login.css")*@
+}
+
+
+<div class="login-box-body">   
+    @using (Html.BeginForm("Action", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count > 0 || ViewBag.StatusMessage != null && ViewBag.StatusMessage != "")
+        {
+            <div class="callout callout-danger">
+                <h4>Notification!</h4>
+                @Html.ValidationSummary(true)
+                @ViewBag.StatusMessage
+            </div>
+        }
+        else
+        {
+            <p class="login-box-msg">Enter your user name and password</p>
+        }
+
+
+        <div class="form-group has-feedback">
+            @Html.TextBoxFor(m => m.UserName, new {autofocus="", @class = "form-control", @id = "username", @placeholder = "Username" })
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+
+        <div class="form-group has-feedback">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "pass", @placeholder = "Password" })
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        
+        <div class="row social-auth-links">
+            <div class="pull-left">
+                <div class="checkbox icheck">
+                    <label>
+                        <input type="checkbox"> Remember me?
+                    </label>
+                </div>
+            </div><!-- /.col -->
+            <div class="pull-right checkbox">
+                <a @*href="@Url.Action("ForgotPassword", "Account")"*@>Forgot your password?</a>
+            </div><!-- /.col -->
+        </div>
+
+    <div class="row social-auth-links">
+        <div class="col-xs-7"></div>
+        <div class="col-xs-5" style="padding-right:0px!important;">
+            <button type="submit" class="btn btn-block btn-primary btn-flat bg-olive"><i class="glyphicon glyphicon-log-in"></i> Login</button>
+        </div>
+    </div>
+        
+    if(Model.IsError)
+    {
+    <div class="row">
+        <div class="alert alert-danger alert-dismissable">
+            <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+            @Model.Message
+        </div>
+    </div>
+    }
+    }
+</div><!-- /.login-box-body -->
+

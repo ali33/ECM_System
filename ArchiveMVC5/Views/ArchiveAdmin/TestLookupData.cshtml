@@ -1,0 +1,26 @@
+﻿@model System.Data.DataTable
+
+@if(Model != null)
+{
+<table id="test_lookup_data_table" class="table">
+    <thead>
+        <tr>
+            @foreach (System.Data.DataColumn col in Model.Columns)
+            {
+                <th>@col.ColumnName</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+                @foreach (System.Data.DataColumn col in Model.Columns)
+                {
+                    <td>@row[col]</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+}

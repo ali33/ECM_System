@@ -1,0 +1,50 @@
+﻿@{
+    var annotationPermission = (ArchiveMVC.Models.AnnotationPermissionModel)ViewData[ArchiveMVC.Models.Constant.KEY_ANOTATION_PERMISSION];
+    var doctypePermission = (ArchiveMVC.Models.DocumentTypePermissionModel)ViewData[ArchiveMVC.Models.Constant.KEY_DOCTYPE_PERMISSION];
+}
+@*<div class="capture_content_menu">*@
+    <ul class="menu_control">
+        @if(doctypePermission != null && doctypePermission.AlowedPrintDocument)
+        {
+            <li class="menu_control_item control_print" title="Print"></li>
+        }
+        @if(doctypePermission != null && doctypePermission.AllowedEmailDocument)
+        {
+            <li class="menu_control_item control_mail" title="Sent mail"></li>
+        }
+        @if(doctypePermission != null && doctypePermission.AllowedDownloadOffline)
+        {
+            <li class="menu_control_item control_save" title="Save"></li>
+        }
+        <li class="menu_control_item control_pan" title="Pan"></li>
+        <li class="menu_control_item control_select" title="Select"></li>
+        @if (annotationPermission != null && annotationPermission.AllowedHideRedaction == true)
+        {
+             <li class="menu_control_item control_hide" title="Hide all annotation"></li>
+        }
+        @if (annotationPermission != null && annotationPermission.AllowedAddHighlight == true)
+        {
+             <li class="menu_control_item control_highlight" title="Add Hightlight"></li>
+        }
+        @if (annotationPermission != null && annotationPermission.AllowedAddRedaction == true)
+        {
+            <li class="menu_control_item control_redaction" title="Add Redaction"></li>
+        }
+        @if (annotationPermission != null && annotationPermission.AllowedAddText == true)
+        {
+            <li class="menu_control_item control_comment" title=" Add Text"></li>
+        }
+        <li class="menu_control_item control_zoomin" title="Zoom in"></li>
+        <li class="menu_control_item control_zoomout" title="Zoom out"></li>
+        <li class="menu_control_item control_fitwidth" title="Fit width"></li>
+        <li class="menu_control_item control_fitheight" title="Fit height"></li>
+        <li class="menu_control_item control_resetzoom fit_height" title="Fit to viewer"></li>
+        @if(doctypePermission!= null && doctypePermission.AllowedRotatePage)
+        {
+            <li class="menu_control_item control_rotationright" title="Rotation right"></li>
+            <li class="menu_control_item control_rotationleft" title="Rotation left"></li>
+        }
+        <li class="menu_control_item control_navigationup" title="Navigation up"></li>
+        <li class="menu_control_item control_navigationdown" title="Navigation down"></li>
+    </ul>
+@*</div>*@

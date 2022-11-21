@@ -1,0 +1,20 @@
+﻿@model ArchiveMVC5.Models.ArchiveAdminModel
+
+<div class="box no-padding">
+    <div class="box-header no-padding">
+        <input type="checkbox" data-off="<i class='ion ion-ios-people-outline'></i> By Usergroup" data-on="<i class='glyphicon glyphicon-list'></i> By Content Type" checked data-toggle="toggle" data-onstyle="success" data-offstyle="info" id="view_by_option">
+    </div>
+    <div class="box-body no-padding">
+        <div class="permissionMenuBar">
+            @if (Model.ViewByValue == 0)
+            {
+                @Html.Partial("ShowPermissionByContent", Model);
+            }
+            else
+            {
+                @Html.Partial("ShowPermissionByUserGroup", Model);
+            }
+        </div>
+
+    </div>
+</div>

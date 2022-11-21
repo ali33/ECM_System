@@ -1,0 +1,264 @@
+﻿@model  ArchiveMVC.Models.SearchModel
+@{
+    ViewBag.Title = "Search";
+   
+}
+
+@section AddToHead
+    {
+  
+    <!-- <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css"> 
+    <link href="~/Content/modern.css" rel="stylesheet" type="text/css">
+        -->
+    
+    <link href="@Url.Content("~/Content/datepicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/tablesorter/style.css")" rel="stylesheet" type="text/css" />
+    
+    <link href="@Url.Content("~/Content/ECM.css")" rel="stylesheet" type="text/css" />    
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tablesorter.min.js")"></script>
+    <script>
+        URL_MenuOpen = "@Url.Content("~/Images/appbar.book.open.png")";
+        URL_MenuPrint = "@Url.Content("~/Images/button/control/printer_select.png")";
+        URL_MenuEmail = "@Url.Content("~/Images/button/control/send_mail_select.png")";
+        URL_MenuDownload = "@Url.Content("~/Images/button/control/save_select.png")";
+        URL_MenuDelete = "@Url.Content("~/Images/appbar.delete.png")";
+    </script>
+    
+    <!--
+    <script type="text/javascript" src="@Url.Content("~/Scripts/calendar.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/moment_langs.js")"></script>
+        -->
+    <script type="text/javascript" src="@Url.Content("~/Scripts/popup.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/load.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/effect.js")"></script>
+    
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/Search.js")"></script>
+   @* @Scripts.Render("~/Scripts/ContextMenu/jquery.contextMenu.js")
+    @Scripts.Render("~/Scripts/ContextMenu/jquery.ui.position.js")*@
+    <script>
+        var firstIDDocType = "@Model.DocTypeIDFirst";
+        var URL_SaveQuery = "@Url.Action("SaveQuery", "Search")";
+        var URL_GetSaveQueryName = "@Url.Action("GetSaveQueryName", "Search")";
+        var URL_DeteleQuery = "@Url.Action("DeteleQuery", "Search")";
+        var URL_QueryExisted = "@Url.Action("QueryExisted", "Search")";
+        var URL_RunGlobalSearch = "@Url.Action("RunGlobalSearch", "Search")";
+        var URL_RunAdvanceSearch = "@Url.Action("RunAdvanceSearch", "Search")";
+        var URL_RunSearchDocumentType = "@Url.Action("RunSearchDocumentType", "Search")";
+        var URL_RunContentSearch = "@Url.Action("RunContentSearch", "Search")";
+        
+        var URL_CreateSearchQueries = "@Url.Action("CreateSearchQueries", "Search")";
+        var URL_AddMoreCondition = "@Url.Action("AddMoreCondition", "Search")";
+        var URL_CreateOperator = "@Url.Action("CreateOperator", "Search")";
+        var URL_CreateTextBoxValue = "@Url.Action("CreateTextBoxValue", "Search")";
+        var URL_CreateAdvanceSearchFromQuery = "@Url.Action("CreateAdvanceSearchFromQuery", "Search")";
+        var URL_Order = "@Url.Action("Order", "Search")";
+        
+        var URL_Insert = "@Url.Action("Delete", "Capture")";
+        
+        var URL_Test = "@Url.Action("xx", "Search")";
+        var CacheDocType = "@Html.Raw(Model.CacheDocType)";
+        
+        var URL_EditDocID = "@Url.Action("Index", "View")?id=";
+        @{
+                var sa= new  Dictionary<int, String>();
+                foreach (Ecm.Domain.FieldDataType dataType in Enum.GetValues(typeof(Ecm.Domain.FieldDataType)))
+                {
+                    sa.Add((int)dataType, dataType.ToString());
+                  
+                    
+                }
+            }
+       
+        var DataType = @Html.Raw(Model.DataTypeJson);
+        
+        var DataType_Item = @Html.Raw(Model.DataTypeItemJson);
+        var DocType = @Html.Raw(Model.DocTypeJson);
+        var Conjunction = @Html.Raw(Model.ConjunctionJson);
+        var QueryNameFirst = @Html.Raw(Model.QueryNameFirst);
+
+        
+    </script>
+    
+   
+}
+
+@*<h2>Search</h2>
+@using (Html.BeginForm("SearchByContent", "Search", FormMethod.Post))
+{
+  
+    @Html.ValidationSummary(true)
+    @Html.TextBox("keyword")
+    @Html.Hidden("docTypeId", 1);
+    <input type="submit" value="Search" />
+}
+*@
+
+
+
+    <!-- body here -->
+    <section class="body archive body_search">
+    <!-- documenttype nav -->
+		<div class="left_column document_type open">
+            <!-- nav resize button -->
+            @*<span class="nav_resize"></span>*@
+            <!-- document type header  -->
+        	<div class="document_type_header">
+                <span class="document_header_label">Content types</span>
+            </div>
+            <!-- document type content -->
+            <div class="document_type_content">
+                <!-- Hien thi cac content type ben left panel -->
+                
+                @foreach (var item in  Model.listDocumentTypeModel)
+                {                   
+                        <div class="document_list " id="@item.Value.Id" >
+                	    <div class="icon">
+                            @if(item.Value.Icon!=null){
+                    	        <img src="@Url.Action("GetIcon", "ImageProcessing")/?key=@item.Key" />
+                            }
+                        </div>
+                        <div class="data">
+                    	    <h4 class="data_title" >@item.Value.Name</h4>
+                        </div>
+                      </div>
+                }
+            </div>
+        </div>
+        <!--Ket thuc documenttype nav -->
+        <!-- search -->
+        <div class="right_column search">
+            <!-- Search Query -->
+            <div class="search_query open">
+            	<div class="form_query_search">
+                    
+                	@*<form>*@
+                         @*<table class="layout_table">
+                            <tbody>
+                                <!-- row -->
+                                
+                                <!-- row -->
+                            </tbody>
+                        </table>*@
+                    @*</form>*@
+                     @*<div class="query_search_button">*@
+                        <div class="layout_table">
+
+                        </div>
+                        <div class="query_search_button">
+                                <div>
+                                    <button type="button" class="action_button bt_add_conditions" >
+                                        <span>Add conditions</span>
+                                        <img src="@Url.Content("Images/button/appbar.add.32.png")">
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="button" class="action_button bt_reset_conditions" >
+                                        <span>Reset conditions</span>
+                                        <img src="@Url.Content("Images/button/appbar.reset.32.png")">
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="button" class="action_button bt_save_query" >
+                                        <span>Save query</span>
+                                         <img src="@Url.Content("Images/button/appbar.save.32.png")">
+                                    </button>
+                                    <!-- popup to enter a name for the query -->
+                                   <div class="popup">
+                                        <div class="title">
+                                            <span>Query name</span>
+                                        </div>
+                                        <form>
+                                            <div class="input-control text">
+                                                <input type="text" value="" class="query_name" autofocus/>
+                                               
+                                            </div>
+                                            <div>
+                                                 <p align="center" class="name_emptyorexits"></p>
+                                            </div>
+                                            <div class="submit-button inner">
+                                                <input value="Save" type="button" class="button savebutton" autofocus />
+                                                <input value="Cancel" type="button" class="button cancelbutton" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                        
+                                     <!-- Ket thu popup -->
+                                </div>
+                                <div>
+                                    <button type="button" class="action_button bt_delete_query" >
+                                        <span>Delete query</span>
+                                        <img src="@Url.Content("Images/button/appbar.delete.32.png")">
+                                    </button>
+                                      <!-- popup when click bt_delete_query -->                                 
+                                   <div class="popup">
+                                        <div class="title">
+                                            <span>Delete query</span>
+                                            <hr />
+                                        </div>
+                                        <form>
+                                            <div >
+                                                <p align="center">Do you want to delete this selected query</p>
+                                            </div>
+                                            <div class="submit-button inner">
+                                                <input value="Yes" type="button" class="button savebutton" autofocus />
+                                                <input value="No" type="button" class="button cancelbutton" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                        
+                                   
+                                     <!-- Ket thu popup bt_delete_query  -->
+                                </div>
+                                @*<td></td>*@
+                                <div>
+                                    <button type="button" class="action_button bt_search col_center" >
+                                        <span>Search</span>
+                                        <img src="@Url.Content("Images/button/appbar.magnify.32.png")">
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="button" class="action_button bt_search_content" >
+                                        <span>Search content...</span>
+                                        <img src="@Url.Content("Images/button/appbar.page.search.32.png")">
+                                    </button>
+                                    <!-- popup to content search -->
+
+                                    
+                                    <!-- popup to content search -->
+                                    <div class="popup search_by_content">
+                                        <div class="title">
+                                            <span>Search Content</span>
+                                            <span style="font-size: 0.8em; font-weight: 100; line-height: 2em;">Content text</span>
+                                        </div>
+                                        <form>
+                                            <div class="input-control text">
+                                                <textarea class="content_text" placeholder="Content..." autofocus></textarea>
+                                            </div>
+                                            <div class="submit-button inner">
+                                                <input value="Search" type="button" class="button savebutton" />
+                                                <input value="Cancel" type="button" class="button cancelbutton" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                      
+                                     <!-- popup to content search -->
+
+                                    
+                                </div>
+                            </div>
+                    @*</div>*@
+                </div>
+		        <span class="que_resize"></span>
+                <div class="bar"></div>
+            </div>
+            <div class="result_query">
+                <div class="datagript_result">
+                  
+                </div>
+        </div>
+    </div>
+</section>   <!-- Ket thuc section -->
+@*@RenderPage("../Shared/Menu.cshtml")*@

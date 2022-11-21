@@ -1,0 +1,15 @@
+﻿@model IList<Ecm.CaptureDomain.UserGroup>
+@{
+    ViewBag.Title = "ShowListUserGroup";
+}
+@* Search UserGroup  *@
+@{
+    foreach(var userGroupItem in Model)
+    {
+        <tr class="row_usergroup" id ="@userGroupItem.Id">
+            <td><input type="checkbox" class="user_checkbox_select_usergroup"></td>
+            <td class="td_usergroup_name">@userGroupItem.Name</td>
+        </tr>
+    }
+}
+

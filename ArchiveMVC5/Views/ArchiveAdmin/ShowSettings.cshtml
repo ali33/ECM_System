@@ -1,0 +1,125 @@
+﻿@model ArchiveMVC5.Models.SettingModel
+@{
+    ViewBag.Title = "ShowSettings";
+}
+<style>
+    .container {
+    padding-right: 1px !important;
+    padding-left: 1px !important;
+    width:100% !important;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4,.h4, h5, .h5 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+</style>
+<div class="sub_properties_content padding-3">
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h4>System settings</h4>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <label class="label-control">Number of rows per search result</label>
+                <input type="text" id="archive_admin_setting_numofrow" class="form-control input-sm" autofocus value="@Model.MaxSearchRows" placeholder="Max row will be return after run content search">
+            </div>
+            <div class="form-group">
+                <label class="label-control">Server working folder</label>
+                <input type="text" id="archive_admin_setting_server_folder" class="form-control input-sm" value="@Model.ServerWorkingFolder" placeholder="Enter the working follder name in server side">
+            </div>
+            <div class="btn-group pull-right">
+                <button type="button" id="archive_admin_setting_save" class="btn bg-olive btn-sm margin">
+                    <i class="glyphicon glyphicon-save"></i>
+                    <span>Save</span>
+                </button>
+            </div>
+            <div class="col-md-12 col-sm-12 padding-1 h60">
+                <div class="col-md-4 col-sm-4 padding-3">
+                    <div class="box box-success padding-1">
+                        <div class="box-header with-border padding-1">
+                            <h4>OCR auto correction</h4>
+                        </div>
+                        <div class="box-body padding-1">
+                                <div class="form-group">
+                                    <label class="label-control">Language</label>
+                                    <select class="form-control input-sm" id="select_languages">
+                                        @{
+                                            foreach (var item in Model.Languages)
+                                            {
+                                            <option value="@item.Id">@item.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <table class="table table-hover" id="autoCorrectionList">
+                                    <thead>
+                                        <tr>
+                                            <th>Mapping</th>
+                                            <th>Support unicode</th>
+                                            <th class="hidden"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in Model.OCRCorrections)
+                                            {
+                                            <tr id="@item.Id">
+                                                <td class="ocr_correction">@item.Text</td>
+                                                @if (item.IsUnicode)
+                                                {
+                                                    <td class="unicode">Yes</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="unicode">No</td>
+                                                }
+                                                <td class="hidden" id="@item.LanguageId"></td>
+                                            </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                        </div>
+                        <div class="box-footer">
+                            <div class="btn-group">
+                                <button type="button" id="add_ocr_correction" class="btn bg-olive btn-sm margin">
+                                    <i class="glyphicon glyphicon-plus" />
+                                    <span> Add </span>
+                                </button>
+                                <button type="button" id="delete_ocr_correction" class="btn bg-olive btn-sm margin">
+                                    <i class="glyphicon glyphicon-trash" />
+                                    <span> Delete </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8 padding-3">
+                    <div class="box box-success padding-1">
+                        <div class="box-header with-border padding-1">
+                            <h4>OCR auto correction detail</h4>
+                        </div>
+                        <div class="box-body padding-1">
+                            <div class="form-group">
+                                <textarea id="autoCorrectionDetail" rows="20" cols="50" style="height: 200px; width: 100%; overflow-x: auto;overflow-y:hidden"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" id="unicode_check" /><label for="unicode_check" class="label-control">Is unicode</label>
+                            </div>
+                        </div>
+                        <div class="box-footer padding-1">
+                            <div class="btn-group pull-right">
+                                <button type="button" id="save_ocr_correction" class="btn bg-olive btn-sm margin">
+                                    <i class="glyphicon glyphicon-save" />
+                                    <span> Save </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

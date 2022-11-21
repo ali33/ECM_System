@@ -1,0 +1,44 @@
+﻿@model ArchiveMVC5.Models.UserGroupModel
+@{
+    ViewBag.Title = "AddUserGroup";
+}
+<div class="sub_properties_content" style="padding-right:35px">
+    <div class="box box-success padding-1">
+        <div class="box-header with-border"><h4>User group properties</h4></div>
+        <div class="box-body">
+            <div class="form-group">
+                <label class="label-control">Group name</label>
+                <input type="text" id="usergroup_name" class="form-control input-sm" value="@Model.Name">
+            </div>
+            <div class="form-group">
+                <label class="label-control">Members</label>
+                <select multiple id="users_list" class="form-control" style="height:50%">
+
+                </select>
+            </div>
+            <div class="btn-group pull-right">
+                <button type="button" id="usergroup_button_adduser" class="btn bg-olive btn-sm margin">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add</span>
+                </button>
+                <button type="button" id="usergroup_button_deleteuser" class="btn bg-olive btn-sm margin">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Remove</span>
+                </button>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="btn-group pull-right">
+                <button type="button" id="usergroup_button_save" class="btn bg-olive margin">
+                    <i class="glyphicon glyphicon-save"></i>
+                    <span>Save</span>
+                </button>
+                <button type="button" id="usergroup_button_cancel" class="btn bg-olive margin">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    <span>Close</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

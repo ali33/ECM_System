@@ -1,0 +1,1436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Archive" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpBinding_IArchive_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsoma:OptimizedMimeSerialization xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Ecm.Domain" />
+      <xsd:import schemaLocation="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://tfs-pc/eDocServices/Archive.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System.Data" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IArchive_Ping_InputMessage">
+    <wsdl:part name="parameters" element="tns:Ping" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_Ping_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_WriteFileToServer_InputMessage">
+    <wsdl:part name="parameters" element="tns:WriteFileToServer" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_WriteFileToServer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:WriteFileToServerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_EncryptPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:EncryptPassword" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_EncryptPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EncryptPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_ChangePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePassword" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_ChangePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_ResetPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ResetPassword" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_ResetPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResetPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetCapturedDocumentTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCapturedDocumentTypes" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetCapturedDocumentTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCapturedDocumentTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentTypes" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentType" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveDocumentType_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDocumentType" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveDocumentType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDocumentTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteDocumentType_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDocumentType" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteDocumentType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDocumentTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveOCRTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveOCRTemplate" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveOCRTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveOCRTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteOCRTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteOCRTemplate" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteOCRTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteOCRTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetBarcodeConfigurations_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBarcodeConfigurations" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetBarcodeConfigurations_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBarcodeConfigurationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveBarcodeConfiguration_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBarcodeConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveBarcodeConfiguration_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBarcodeConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteBarcodeConfiguration_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBarcodeConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteBarcodeConfiguration_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBarcodeConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_ClearBarcodeConfigurations_InputMessage">
+    <wsdl:part name="parameters" element="tns:ClearBarcodeConfigurations" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_ClearBarcodeConfigurations_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ClearBarcodeConfigurationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteLookupInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLookupInfo" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteLookupInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLookupInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_InsertDocuments_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertDocuments" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_InsertDocuments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_UpdateDocuments_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateDocuments" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_UpdateDocuments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocument" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocuments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocuments" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocuments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_RunAdvanceSearch_InputMessage">
+    <wsdl:part name="parameters" element="tns:RunAdvanceSearch" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_RunAdvanceSearch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RunAdvanceSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_RunGlobalSearch_InputMessage">
+    <wsdl:part name="parameters" element="tns:RunGlobalSearch" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_RunGlobalSearch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RunGlobalSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDocument" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_RunContentSearch_InputMessage">
+    <wsdl:part name="parameters" element="tns:RunContentSearch" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_RunContentSearch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RunContentSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveQuery_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveQuery" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveQuery_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetSavedQueries_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSavedQueries" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetSavedQueries_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSavedQueriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_QueryExisted_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryExisted" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_QueryExisted_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryExistedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteQuery_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteQuery" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteQuery_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsers" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveUser" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUser" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetUserGroups_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserGroups" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetUserGroups_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveUserGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveUserGroup" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveUserGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveUserGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteUserGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserGroup" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteUserGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocTypesUnderPermissionConfiguration_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocTypesUnderPermissionConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocTypesUnderPermissionConfiguration_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocTypesUnderPermissionConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetUserGroupsUnderPermissionConfiguration_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserGroupsUnderPermissionConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetUserGroupsUnderPermissionConfiguration_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserGroupsUnderPermissionConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocTypePermission_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocTypePermission" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocTypePermission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocTypePermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SavePermission_InputMessage">
+    <wsdl:part name="parameters" element="tns:SavePermission" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SavePermission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SavePermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAnnotationPermission_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAnnotationPermission" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAnnotationPermission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAnnotationPermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAuditPermission_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuditPermission" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAuditPermission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuditPermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAuditPermissionByUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuditPermissionByUser" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAuditPermissionByUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuditPermissionByUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLookupData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLookupData" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLookupData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLookupDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDataSource_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataSource" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDataSource_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataSourceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetParameters_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetParameters" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetParameters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetColumns_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetColumns" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetColumns_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetColumnsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_TestConnection_InputMessage">
+    <wsdl:part name="parameters" element="tns:TestConnection" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_TestConnection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TestConnectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDatabaseNames_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDatabaseNames" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDatabaseNames_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDatabaseNamesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetSettings_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSettings" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetSettings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_WriteSetting_InputMessage">
+    <wsdl:part name="parameters" element="tns:WriteSetting" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_WriteSetting_OutputMessage">
+    <wsdl:part name="parameters" element="tns:WriteSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetActionLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActionLog" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetActionLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActionLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetActionLogs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActionLogs" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetActionLogs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActionLogsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetActionLogAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActionLogAll" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetActionLogAll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActionLogAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SearchActionLogs_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchActionLogs" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SearchActionLogs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchActionLogsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SearchActionLog1_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchActionLog1" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SearchActionLog1_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchActionLog1Response" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLog" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLogByDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLogByDocument" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLogByDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLogByDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_AddActionLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddActionLog" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_AddActionLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddActionLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLanguage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLanguage" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLanguage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLanguageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLanguages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLanguages" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLanguages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLanguagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAmbiguousDefinitions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAmbiguousDefinitions" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAmbiguousDefinitions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAmbiguousDefinitionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAllAmbiguousDefinitions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllAmbiguousDefinitions" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetAllAmbiguousDefinitions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllAmbiguousDefinitionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteAmbiguousDefinition_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAmbiguousDefinition" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_DeleteAmbiguousDefinition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAmbiguousDefinitionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveAmbiguousDefinition_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAmbiguousDefinition" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_SaveAmbiguousDefinition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAmbiguousDefinitionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentVersionsByExistingDoc_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentVersionsByExistingDoc" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentVersionsByExistingDoc_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentVersionsByExistingDocResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentVersionsByDeletedDocType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentVersionsByDeletedDocType" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentVersionsByDeletedDocType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentVersionsByDeletedDocTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentVersion_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentVersion" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentVersion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentTypeVersions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentTypeVersions" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentTypeVersions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentTypeVersionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentTypeVersion_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentTypeVersion" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDocumentTypeVersion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentTypeVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLatestDeletedDocumentVersion_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestDeletedDocumentVersion" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetLatestDeletedDocumentVersion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestDeletedDocumentVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetVersionOfDeletedDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetVersionOfDeletedDocument" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetVersionOfDeletedDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetVersionOfDeletedDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDeletedDocWithExistingDocType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDeletedDocWithExistingDocType" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_GetDeletedDocWithExistingDocType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDeletedDocWithExistingDocTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_Log_InputMessage">
+    <wsdl:part name="parameters" element="tns:Log" />
+  </wsdl:message>
+  <wsdl:message name="IArchive_Log_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LogResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IArchive">
+    <wsdl:operation name="Ping">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/Ping" message="tns:IArchive_Ping_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/PingResponse" message="tns:IArchive_Ping_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="WriteFileToServer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/WriteFileToServer" message="tns:IArchive_WriteFileToServer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/WriteFileToServerResponse" message="tns:IArchive_WriteFileToServer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EncryptPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/EncryptPassword" message="tns:IArchive_EncryptPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/EncryptPasswordResponse" message="tns:IArchive_EncryptPassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/Login" message="tns:IArchive_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/LoginResponse" message="tns:IArchive_Login_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/ChangePassword" message="tns:IArchive_ChangePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/ChangePasswordResponse" message="tns:IArchive_ChangePassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/ResetPassword" message="tns:IArchive_ResetPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/ResetPasswordResponse" message="tns:IArchive_ResetPassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCapturedDocumentTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetCapturedDocumentTypes" message="tns:IArchive_GetCapturedDocumentTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetCapturedDocumentTypesResponse" message="tns:IArchive_GetCapturedDocumentTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocumentTypes" message="tns:IArchive_GetDocumentTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentTypesResponse" message="tns:IArchive_GetDocumentTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocumentType" message="tns:IArchive_GetDocumentType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentTypeResponse" message="tns:IArchive_GetDocumentType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDocumentType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SaveDocumentType" message="tns:IArchive_SaveDocumentType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SaveDocumentTypeResponse" message="tns:IArchive_SaveDocumentType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDocumentType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteDocumentType" message="tns:IArchive_DeleteDocumentType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteDocumentTypeResponse" message="tns:IArchive_DeleteDocumentType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveOCRTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SaveOCRTemplate" message="tns:IArchive_SaveOCRTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SaveOCRTemplateResponse" message="tns:IArchive_SaveOCRTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOCRTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteOCRTemplate" message="tns:IArchive_DeleteOCRTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteOCRTemplateResponse" message="tns:IArchive_DeleteOCRTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBarcodeConfigurations">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetBarcodeConfigurations" message="tns:IArchive_GetBarcodeConfigurations_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetBarcodeConfigurationsResponse" message="tns:IArchive_GetBarcodeConfigurations_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBarcodeConfiguration">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SaveBarcodeConfiguration" message="tns:IArchive_SaveBarcodeConfiguration_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SaveBarcodeConfigurationResponse" message="tns:IArchive_SaveBarcodeConfiguration_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBarcodeConfiguration">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteBarcodeConfiguration" message="tns:IArchive_DeleteBarcodeConfiguration_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteBarcodeConfigurationResponse" message="tns:IArchive_DeleteBarcodeConfiguration_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ClearBarcodeConfigurations">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/ClearBarcodeConfigurations" message="tns:IArchive_ClearBarcodeConfigurations_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/ClearBarcodeConfigurationsResponse" message="tns:IArchive_ClearBarcodeConfigurations_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLookupInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteLookupInfo" message="tns:IArchive_DeleteLookupInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteLookupInfoResponse" message="tns:IArchive_DeleteLookupInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertDocuments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/InsertDocuments" message="tns:IArchive_InsertDocuments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/InsertDocumentsResponse" message="tns:IArchive_InsertDocuments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDocuments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/UpdateDocuments" message="tns:IArchive_UpdateDocuments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/UpdateDocumentsResponse" message="tns:IArchive_UpdateDocuments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocument" message="tns:IArchive_GetDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentResponse" message="tns:IArchive_GetDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocuments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocuments" message="tns:IArchive_GetDocuments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentsResponse" message="tns:IArchive_GetDocuments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RunAdvanceSearch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/RunAdvanceSearch" message="tns:IArchive_RunAdvanceSearch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/RunAdvanceSearchResponse" message="tns:IArchive_RunAdvanceSearch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RunGlobalSearch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/RunGlobalSearch" message="tns:IArchive_RunGlobalSearch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/RunGlobalSearchResponse" message="tns:IArchive_RunGlobalSearch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteDocument" message="tns:IArchive_DeleteDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteDocumentResponse" message="tns:IArchive_DeleteDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RunContentSearch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/RunContentSearch" message="tns:IArchive_RunContentSearch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/RunContentSearchResponse" message="tns:IArchive_RunContentSearch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveQuery">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SaveQuery" message="tns:IArchive_SaveQuery_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SaveQueryResponse" message="tns:IArchive_SaveQuery_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSavedQueries">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetSavedQueries" message="tns:IArchive_GetSavedQueries_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetSavedQueriesResponse" message="tns:IArchive_GetSavedQueries_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryExisted">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/QueryExisted" message="tns:IArchive_QueryExisted_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/QueryExistedResponse" message="tns:IArchive_QueryExisted_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteQuery">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteQuery" message="tns:IArchive_DeleteQuery_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteQueryResponse" message="tns:IArchive_DeleteQuery_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetUsers" message="tns:IArchive_GetUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetUsersResponse" message="tns:IArchive_GetUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SaveUser" message="tns:IArchive_SaveUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SaveUserResponse" message="tns:IArchive_SaveUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteUser" message="tns:IArchive_DeleteUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteUserResponse" message="tns:IArchive_DeleteUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroups">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetUserGroups" message="tns:IArchive_GetUserGroups_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetUserGroupsResponse" message="tns:IArchive_GetUserGroups_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveUserGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SaveUserGroup" message="tns:IArchive_SaveUserGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SaveUserGroupResponse" message="tns:IArchive_SaveUserGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUserGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteUserGroup" message="tns:IArchive_DeleteUserGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteUserGroupResponse" message="tns:IArchive_DeleteUserGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocTypesUnderPermissionConfiguration">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocTypesUnderPermissionConfiguration" message="tns:IArchive_GetDocTypesUnderPermissionConfiguration_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocTypesUnderPermissionConfigurationResponse" message="tns:IArchive_GetDocTypesUnderPermissionConfiguration_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupsUnderPermissionConfiguration">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetUserGroupsUnderPermissionConfiguration" message="tns:IArchive_GetUserGroupsUnderPermissionConfiguration_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetUserGroupsUnderPermissionConfigurationResponse" message="tns:IArchive_GetUserGroupsUnderPermissionConfiguration_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocTypePermission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocTypePermission" message="tns:IArchive_GetDocTypePermission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocTypePermissionResponse" message="tns:IArchive_GetDocTypePermission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SavePermission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SavePermission" message="tns:IArchive_SavePermission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SavePermissionResponse" message="tns:IArchive_SavePermission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAnnotationPermission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetAnnotationPermission" message="tns:IArchive_GetAnnotationPermission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetAnnotationPermissionResponse" message="tns:IArchive_GetAnnotationPermission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditPermission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetAuditPermission" message="tns:IArchive_GetAuditPermission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetAuditPermissionResponse" message="tns:IArchive_GetAuditPermission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditPermissionByUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetAuditPermissionByUser" message="tns:IArchive_GetAuditPermissionByUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetAuditPermissionByUserResponse" message="tns:IArchive_GetAuditPermissionByUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLookupData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetLookupData" message="tns:IArchive_GetLookupData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetLookupDataResponse" message="tns:IArchive_GetLookupData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDataSource">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDataSource" message="tns:IArchive_GetDataSource_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDataSourceResponse" message="tns:IArchive_GetDataSource_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetParameters">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetParameters" message="tns:IArchive_GetParameters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetParametersResponse" message="tns:IArchive_GetParameters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetColumns">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetColumns" message="tns:IArchive_GetColumns_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetColumnsResponse" message="tns:IArchive_GetColumns_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TestConnection">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/TestConnection" message="tns:IArchive_TestConnection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/TestConnectionResponse" message="tns:IArchive_TestConnection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDatabaseNames">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDatabaseNames" message="tns:IArchive_GetDatabaseNames_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDatabaseNamesResponse" message="tns:IArchive_GetDatabaseNames_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSettings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetSettings" message="tns:IArchive_GetSettings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetSettingsResponse" message="tns:IArchive_GetSettings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="WriteSetting">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/WriteSetting" message="tns:IArchive_WriteSetting_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/WriteSettingResponse" message="tns:IArchive_WriteSetting_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetActionLog" message="tns:IArchive_GetActionLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetActionLogResponse" message="tns:IArchive_GetActionLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLogs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetActionLogs" message="tns:IArchive_GetActionLogs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetActionLogsResponse" message="tns:IArchive_GetActionLogs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLogAll">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetActionLogAll" message="tns:IArchive_GetActionLogAll_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetActionLogAllResponse" message="tns:IArchive_GetActionLogAll_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchActionLogs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SearchActionLogs" message="tns:IArchive_SearchActionLogs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SearchActionLogsResponse" message="tns:IArchive_SearchActionLogs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchActionLog1">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SearchActionLog1" message="tns:IArchive_SearchActionLog1_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SearchActionLog1Response" message="tns:IArchive_SearchActionLog1_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteLog" message="tns:IArchive_DeleteLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteLogResponse" message="tns:IArchive_DeleteLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLogByDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetLogByDocument" message="tns:IArchive_GetLogByDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetLogByDocumentResponse" message="tns:IArchive_GetLogByDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddActionLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/AddActionLog" message="tns:IArchive_AddActionLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/AddActionLogResponse" message="tns:IArchive_AddActionLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetLanguage" message="tns:IArchive_GetLanguage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetLanguageResponse" message="tns:IArchive_GetLanguage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguages">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetLanguages" message="tns:IArchive_GetLanguages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetLanguagesResponse" message="tns:IArchive_GetLanguages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAmbiguousDefinitions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetAmbiguousDefinitions" message="tns:IArchive_GetAmbiguousDefinitions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetAmbiguousDefinitionsResponse" message="tns:IArchive_GetAmbiguousDefinitions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAmbiguousDefinitions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetAllAmbiguousDefinitions" message="tns:IArchive_GetAllAmbiguousDefinitions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetAllAmbiguousDefinitionsResponse" message="tns:IArchive_GetAllAmbiguousDefinitions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAmbiguousDefinition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/DeleteAmbiguousDefinition" message="tns:IArchive_DeleteAmbiguousDefinition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/DeleteAmbiguousDefinitionResponse" message="tns:IArchive_DeleteAmbiguousDefinition_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAmbiguousDefinition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/SaveAmbiguousDefinition" message="tns:IArchive_SaveAmbiguousDefinition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/SaveAmbiguousDefinitionResponse" message="tns:IArchive_SaveAmbiguousDefinition_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentVersionsByExistingDoc">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocumentVersionsByExistingDoc" message="tns:IArchive_GetDocumentVersionsByExistingDoc_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentVersionsByExistingDocResponse" message="tns:IArchive_GetDocumentVersionsByExistingDoc_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentVersionsByDeletedDocType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocumentVersionsByDeletedDocType" message="tns:IArchive_GetDocumentVersionsByDeletedDocType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentVersionsByDeletedDocTypeResponse" message="tns:IArchive_GetDocumentVersionsByDeletedDocType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentVersion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocumentVersion" message="tns:IArchive_GetDocumentVersion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentVersionResponse" message="tns:IArchive_GetDocumentVersion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentTypeVersions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocumentTypeVersions" message="tns:IArchive_GetDocumentTypeVersions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentTypeVersionsResponse" message="tns:IArchive_GetDocumentTypeVersions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentTypeVersion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDocumentTypeVersion" message="tns:IArchive_GetDocumentTypeVersion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDocumentTypeVersionResponse" message="tns:IArchive_GetDocumentTypeVersion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestDeletedDocumentVersion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetLatestDeletedDocumentVersion" message="tns:IArchive_GetLatestDeletedDocumentVersion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetLatestDeletedDocumentVersionResponse" message="tns:IArchive_GetLatestDeletedDocumentVersion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVersionOfDeletedDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetVersionOfDeletedDocument" message="tns:IArchive_GetVersionOfDeletedDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetVersionOfDeletedDocumentResponse" message="tns:IArchive_GetVersionOfDeletedDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDeletedDocWithExistingDocType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/GetDeletedDocWithExistingDocType" message="tns:IArchive_GetDeletedDocWithExistingDocType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/GetDeletedDocWithExistingDocTypeResponse" message="tns:IArchive_GetDeletedDocWithExistingDocType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Log">
+      <wsdl:input wsaw:Action="http://tempuri.org/IArchive/Log" message="tns:IArchive_Log_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IArchive/LogResponse" message="tns:IArchive_Log_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IArchive" type="tns:IArchive">
+    <wsp:PolicyReference URI="#BasicHttpBinding_IArchive_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Ping">
+      <soap:operation soapAction="http://tempuri.org/IArchive/Ping" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteFileToServer">
+      <soap:operation soapAction="http://tempuri.org/IArchive/WriteFileToServer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EncryptPassword">
+      <soap:operation soapAction="http://tempuri.org/IArchive/EncryptPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/IArchive/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <soap:operation soapAction="http://tempuri.org/IArchive/ChangePassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <soap:operation soapAction="http://tempuri.org/IArchive/ResetPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCapturedDocumentTypes">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetCapturedDocumentTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentTypes">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocumentTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentType">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocumentType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDocumentType">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SaveDocumentType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDocumentType">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteDocumentType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveOCRTemplate">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SaveOCRTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOCRTemplate">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteOCRTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBarcodeConfigurations">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetBarcodeConfigurations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBarcodeConfiguration">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SaveBarcodeConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBarcodeConfiguration">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteBarcodeConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ClearBarcodeConfigurations">
+      <soap:operation soapAction="http://tempuri.org/IArchive/ClearBarcodeConfigurations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLookupInfo">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteLookupInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertDocuments">
+      <soap:operation soapAction="http://tempuri.org/IArchive/InsertDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDocuments">
+      <soap:operation soapAction="http://tempuri.org/IArchive/UpdateDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocument">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocuments">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunAdvanceSearch">
+      <soap:operation soapAction="http://tempuri.org/IArchive/RunAdvanceSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunGlobalSearch">
+      <soap:operation soapAction="http://tempuri.org/IArchive/RunGlobalSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDocument">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunContentSearch">
+      <soap:operation soapAction="http://tempuri.org/IArchive/RunContentSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveQuery">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SaveQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSavedQueries">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetSavedQueries" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryExisted">
+      <soap:operation soapAction="http://tempuri.org/IArchive/QueryExisted" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteQuery">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveUser">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SaveUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroups">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetUserGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveUserGroup">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SaveUserGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUserGroup">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteUserGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocTypesUnderPermissionConfiguration">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocTypesUnderPermissionConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupsUnderPermissionConfiguration">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetUserGroupsUnderPermissionConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocTypePermission">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocTypePermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePermission">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SavePermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAnnotationPermission">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetAnnotationPermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditPermission">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetAuditPermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditPermissionByUser">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetAuditPermissionByUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLookupData">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetLookupData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataSource">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDataSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetParameters">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetColumns">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetColumns" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestConnection">
+      <soap:operation soapAction="http://tempuri.org/IArchive/TestConnection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDatabaseNames">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDatabaseNames" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSettings">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteSetting">
+      <soap:operation soapAction="http://tempuri.org/IArchive/WriteSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLog">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetActionLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLogs">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetActionLogs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLogAll">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetActionLogAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchActionLogs">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SearchActionLogs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchActionLog1">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SearchActionLog1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLog">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLogByDocument">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetLogByDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddActionLog">
+      <soap:operation soapAction="http://tempuri.org/IArchive/AddActionLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguage">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetLanguage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguages">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetLanguages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAmbiguousDefinitions">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetAmbiguousDefinitions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAmbiguousDefinitions">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetAllAmbiguousDefinitions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAmbiguousDefinition">
+      <soap:operation soapAction="http://tempuri.org/IArchive/DeleteAmbiguousDefinition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAmbiguousDefinition">
+      <soap:operation soapAction="http://tempuri.org/IArchive/SaveAmbiguousDefinition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentVersionsByExistingDoc">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocumentVersionsByExistingDoc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentVersionsByDeletedDocType">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocumentVersionsByDeletedDocType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentVersion">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocumentVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentTypeVersions">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocumentTypeVersions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentTypeVersion">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDocumentTypeVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestDeletedDocumentVersion">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetLatestDeletedDocumentVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVersionOfDeletedDocument">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetVersionOfDeletedDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeletedDocWithExistingDocType">
+      <soap:operation soapAction="http://tempuri.org/IArchive/GetDeletedDocWithExistingDocType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Log">
+      <soap:operation soapAction="http://tempuri.org/IArchive/Log" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Archive">
+    <wsdl:port name="BasicHttpBinding_IArchive" binding="tns:BasicHttpBinding_IArchive">
+      <soap:address location="http://tfs-pc/eDocServices/Archive.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

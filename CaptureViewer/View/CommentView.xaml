@@ -1,0 +1,133 @@
+﻿<UserControl x:Class="Ecm.CaptureViewer.CommentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:cct="clr-namespace:Ecm.CaptureViewer.Controls"
+             Name="myComment">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/CaptureViewer;component/Themes/Style.xaml"></ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Height="Auto" ClipToBounds="True">
+        <Grid.Resources>
+            <Style x:Key="BorderMessage" TargetType="{x:Type Border}">
+                <Setter Property="BorderBrush" Value="#cccccc"></Setter>
+                <Setter Property="BorderThickness" Value="0,1,1,1"></Setter>
+                <Setter Property="CornerRadius" Value="0"></Setter>
+                <Setter Property="ClipToBounds" Value="False"></Setter>
+                <Setter Property="Margin" Value="0,5,5,5"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+                <Setter Property="MinHeight" Value="40"></Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Stretch" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Width="Auto" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Path=TotalMessage, ElementName=myComment}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="7,0,0,0"></TextBlock>
+                <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=txtComments}" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Name="pnlContent" Margin="0,0,0,7">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Border Style="{DynamicResource SeparatorBar}"></Border>
+            <ScrollViewer x:Name="scrollViewer" Grid.Row="1" FocusVisualStyle="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Path=Comments, ElementName=myComment}" FocusVisualStyle="{x:Null}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid MinHeight="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"></ColumnDefinition>
+                                    <ColumnDefinition Width="12"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Vertical" Grid.Row="0"  Grid.Column="0" Margin="7,0,0,0">
+                                    <TextBlock Text="{Binding Path=CreatedBy, Mode=OneWay}" TextWrapping="Wrap" Style="{StaticResource CommandTitleStyle}"></TextBlock>
+                                    <TextBlock Text="{Binding Path=CreatedDate, Mode=OneWay, Converter={StaticResource LongDateTimeConverter}}" TextWrapping="Wrap" Foreground="Gray" Style="{StaticResource CommandTitleStyle}"></TextBlock>
+                                </StackPanel>
+                                <Grid Margin="0,5,0,5" Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="32"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Path Data="M 12 0 L 12 10 L 0 22 L 12 32" Stroke="#cccccc" StrokeThickness="1"></Path>
+                                    <Polygon Points="12,10 0,22 12,32 12,10">
+                                        <Polygon.Fill>
+                                            <SolidColorBrush Color="White"/>
+                                        </Polygon.Fill>
+                                    </Polygon>
+                                    <Path Grid.Row="1" Data="M 12 32 L 12 31" Stroke="#cccccc" StrokeThickness="1" Stretch="UniformToFill" HorizontalAlignment="Right"></Path>
+                                </Grid>
+                                <Border Grid.Row="0"  Grid.Column="2" Style="{StaticResource BorderMessage}" Background="White">
+                                    <cct:CommentTool EnableConvertUrl="True" XamlContent="{Binding Path=Note, Mode=OneWay}" Margin="4,4,4,4" VerticalAlignment="Stretch" AllowTextSelection="True" ShowReadOnlyMode="True" HorizontalAlignment="Stretch" NewMinHeight="0"></cct:CommentTool>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Border Style="{DynamicResource SeparatorBar}" Grid.Row="2" Visibility="{Binding Path=HasMessage, Converter={StaticResource BoolVisibilityConverter}, ElementName=myComment}"></Border>
+            <Grid Grid.Row="3" HorizontalAlignment="Stretch" Visibility="{Binding Path=AllowAddComment, Converter={StaticResource BoolVisibilityConverter}, ElementName=myComment}" Height="200">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <cct:CommentTool x:Name="customText" HorizontalAlignment="Stretch" Grid.Column="1" Margin="0,0,0,0"
+                                    VerticalAlignment="Stretch"
+                                    SelectedColor="Black" ToolbarBackground="Transparent" EnableConvertUrl="True"
+                                    HideToolbarMode="False" EnableDropShadow="True"
+                                    MaxTextLength="4000"
+                                    XamlContent="{Binding Path=NewMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ElementName=myComment}">
+                </cct:CommentTool>
+                <Grid Grid.Column="2" Margin="12,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Resx ResxName=Ecm.CaptureViewer.ViewerContainer,Key=txtRemains}" VerticalAlignment="Bottom" Margin="0,0,0.243,156" />
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=RemainChars, ElementName=myComment, Mode=TwoWay}" VerticalAlignment="Top" />
+                    <Button IsDefault="False" 
+                            Grid.Row="1" 
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2" 
+                            Name="btnSaveButton">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="80" Height="Auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/save.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureViewer.CommentView,Key=btnSave.Text}" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

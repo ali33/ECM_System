@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "OCRConfigure";
+}
+
+@model  Ecm.CaptureDomain.DocumentType
+@{
+    ViewBag.Title = "OCRTemplateConfigure";
+}
+@RenderPage("~/Views/Capture/FormUpload.cshtml")
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/effect.js")"></script>
+@*<script type="text/javascript" src="~/Scripts/Pages/CaptureAdminBatchTypes.js"></script>*@
+<script type="text/javascript" src="@Url.Content("~/Scripts/Pages/OcrTemplateMenu.js")"></script>
+<link href="@Url.Content("~/Content/Pages/archive_ui.css")" rel="stylesheet" type="text/css" />
+<div class="ocrtemplate-wrapper">
+    <section class="ocrtemplate-content">
+        <article class="left-ocrtemplate">
+            @if (Model.OCRTemplate != null)
+            {
+                <div class="ocr_template" data-id="@Model.OCRTemplate.DocTypeId">
+                    @if (Model.OCRTemplate.OCRTemplatePages != null)
+                    {
+                        foreach (var p in Model.OCRTemplate.OCRTemplatePages)
+                        {
+                            var f = CaptureMVC.Utility.CacheFileResult.CacheImage(p.Binary, "image/jpeg", string.Empty);
+                            var dpi = (int)p.DPI;
+                            var pageWidth = p.Width;
+                            var pageHeight = p.Height;
+                            var rotateAngle = p.RotateAngle;
+
+                            <div class="ocr_template_page" data-id="@f.KeyCache" data-dpi="@dpi"
+                                 data-width="@pageWidth" data-height="@pageHeight" data-rotateangle="@rotateAngle">
+                                @if (p.OCRTemplateZones != null)
+                                {
+                                    foreach (var oz in p.OCRTemplateZones)
+                                    {
+                                        var left = CaptureMVC.Utility.ProcessImages.ToPixel(oz.Left, p.DPI);
+                                        var top = CaptureMVC.Utility.ProcessImages.ToPixel(oz.Top, p.DPI);
+                                        var width = CaptureMVC.Utility.ProcessImages.ToPixel(oz.Width, p.DPI);
+                                        var height = CaptureMVC.Utility.ProcessImages.ToPixel(oz.Height, p.DPI);
+                                        var field = Model.Fields.SingleOrDefault(z => z.Id == oz.FieldMetaDataId);
+                                        <div class="ocr_template_zone" data-id="@oz.FieldMetaDataId"
+                                             data-left="@left"
+                                             data-top="@top"
+                                             data-width="@width"
+                                             data-height="@height"
+                                             data-name="@field.Name">
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            <div id="ocr_thumbnail">
+                <input class="doc_type_id" value="@Model.Id.ToString()" type="hidden" />
+                <div class="ocrtemplate_root">
+                    <div class="ocrimage"><img src="/Images/appbar.cabinet.files.png" alt="" /></div>
+                    <div class="ocrtemplate_title">OCR Template</div>
+                    <div class="ocrdoctype">Content Type: @Model.Name</div>
+                </div>
+                <div class="ocr_pages">
+
+                </div>
+            </div>
+
+            <div id="docViewer">
+
+            </div>
+
+        </article>
+        <article class="main-ocrtemplate clearfix">
+
+            <div class="ocr_viewer">
+                <div id="#panel-viewer-ocrtemplate">
+                    
+                </div>
+            </div>
+
+        </article>
+        <article class="toolbar-ocrtemplate clearfix">
+            <ul class="menu_control">
+                <li id="pan" class="menu_control_item control_pan tooltip" rel="tooltip" title="Pan"></li>
+                <li id="draw" class="menu_control_item control_highlight tooltip" rel="tooltip" title="Draw"></li>
+                <li id="zoom_in" class="menu_control_item control_zoomin tooltip" rel="tooltip" title="Zoom in"></li>
+                <li id="zoom_out" class="menu_control_item control_zoomout tooltip" rel="tooltip" title="Zoom out"></li>
+                <li id="rotate_left" class="menu_control_item control_rotationleft tooltip" rel="tooltip" title="Rotate left"></li>
+                <li id="rotate_right" class="menu_control_item control_rotationright tooltip" rel="tooltip" title="Rotate right"></li>
+            </ul>
+        </article>
+    </section>
+    <section class="ocrtemplate-button">
+        <div class="row row-xs-6 pull-left ocrStatus">
+            <div>
+                <div class="red"></div>
+                <span>Field Duplicated</span>
+            </div>
+            <div>
+                <div class="brown"></div>
+                <span>No mapping field</span>
+            </div>
+            <div>
+                <div class="green"></div>
+                <span>Valid</span>
+            </div>
+        </div>
+        <div class="row row-xs-6 pull-right">
+            <div class="ocrlanguagepanel span4">
+                <select name="language" class="archive_select ocr_language">
+                    @{
+                        var lstLanguages = (List<Ecm.CaptureDomain.Language>)ViewData["Languages"];
+                        foreach (var item in lstLanguages)
+                        {
+                            if (Model.OCRTemplate != null)
+                            {
+                                if (item.Id.Equals(Model.OCRTemplate.Language.Id))
+                                {
+                                    <option value="@item.Id" selected="selected">@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="span2-50">
+                <button type="button" id="button_save_ocr" class="btn btn-primary pull-left">
+                    <span>Save</span>
+                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                </button>
+                <button type="button" id="button_cancel_ocr" class="btn btn-primary pull-right">
+                    <span>Close</span>
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+</div>

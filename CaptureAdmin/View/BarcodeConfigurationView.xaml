@@ -1,0 +1,237 @@
+﻿<UserControl x:Class="Ecm.CaptureAdmin.View.BarcodeConfigurationView"
+             Language="{UICulture}"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cc="clr-namespace:Ecm.CustomControl;assembly=CustomControl">
+    <!--<UserControl.Resources>
+        <ResourceDictionary Source="/Ecm.Workflow.Activities.BarcodeExecutorDesigner;component/Resources/Silver.xaml"></ResourceDictionary>
+    </UserControl.Resources>-->
+    <!--<UserControl.CommandBindings>
+        <CommandBinding Command="cmd:CommandExecutionHelper.SaveCommand" CanExecute="CanExecuteSave" Executed="ExecuteSave" />
+        <CommandBinding Command="cmd:CommandExecutionHelper.CancelCommand" CanExecute="CanExecuteCancel" Executed="ExecuteCancel" />
+    </UserControl.CommandBindings>-->
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
+        <Grid.Resources>
+            <Style x:Key="SeparationActionItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="ReadActionItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+                <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"></Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0" BorderBrush="Gray">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=tbSeparationActionHeader}" Grid.Row="0" Style="{StaticResource DisplayViewHelperText}" Margin="15,0,0,0"></TextBlock>
+                <cc:SortableListView Grid.Row="1" x:Name="lvwSeparation" SelectionMode="Single" Margin="20,0,20,0"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     ItemsSource="{Binding Path=CurrentBarcodeConfiguration.SeparationActions, Mode=TwoWay, NotifyOnTargetUpdated=True}"
+                                     SelectedItem="{Binding Path=SelectedSeparationAction,Mode=TwoWay, NotifyOnTargetUpdated=True}" 
+                                     ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                     ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                     ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                     ItemContainerStyle="{StaticResource SeparationActionItemStyle}"
+                                     cc:AutoResizeListView.Active="True">
+                    <cc:SortableListView.View>
+                        <GridView  KeyboardNavigation.TabNavigation="Continue">
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colBarcodeType}" Width="80" DisplayMemberBinding="{Binding Path=BarcodeType}" SortPropertyName="BarcodeType" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colPosition}" Width="90" SortPropertyName="BarcodePositionInDocText">
+                                <cc:SortableGridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=BarcodePositionInDocText}" HorizontalAlignment="Right" Padding="0,0,10,0" />
+                                    </DataTemplate>
+                                </cc:SortableGridViewColumn.CellTemplate>
+                            </cc:SortableGridViewColumn>
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colStartWith}" Width="70" DisplayMemberBinding="{Binding Path=StartsWith}" SortPropertyName="StartsWith" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colSpecify}" Width="160" DisplayMemberBinding="{Binding Path=HasSpecifyDocumentType, Converter={StaticResource YesNoConverter}}" SortPropertyName="HasSpecifyDocumentType" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colContentType}" Width="65" DisplayMemberBinding="{Binding Path=DocTypeName}" SortPropertyName="DocTypeName" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colRemoveSeparator}" Width="140" DisplayMemberBinding="{Binding Path=RemoveSeparatorPage, Converter={StaticResource YesNoConverter}}" SortPropertyName="RemoveSeparatorPage" />
+                        </GridView>
+                    </cc:SortableListView.View>
+                </cc:SortableListView>
+                <StackPanel Grid.Row="2" Margin="20,14,20,4" Orientation="Horizontal" HorizontalAlignment="Left" Background="Transparent">
+                    <Button Width="90" Height="Auto" Margin="0,0,20,0" Command="{Binding Path=AddSeparationActionCommand}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/add.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=btnAdd}" x:Name="btnAddSeparator" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                    <Button Width="90" Height="Auto" Margin="0,0,20,0" Command="{Binding Path=EditSeparationActionCommand}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/edit.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=btnEdit}" x:Name="btnEditSeparator" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                    <Button Width="90" Height="Auto" Command="{Binding Path=DeleteSeparationActionCommand}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/delete.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=btnDelete}" x:Name="btnDeleteSeparator" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+                <Border Style="{StaticResource Separator}" Grid.Row="3"/>
+                <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=tbDataActionHeader}" Grid.Row="4" Style="{StaticResource DisplayViewHelperText}" Margin="15,5,0,0"></TextBlock>
+                <cc:SortableListView Grid.Row="5" x:Name="lvwDataExtraction" SelectionMode="Single" Margin="20,0,20,0"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     ItemsSource="{Binding Path=CurrentBarcodeConfiguration.ReadActions, Mode=TwoWay, NotifyOnTargetUpdated=True}"
+                                     SelectedItem="{Binding Path=SelectedReadAction,Mode=TwoWay, NotifyOnTargetUpdated=True}" 
+                                     ColumnHeaderSortedAscendingTemplate="GridHeaderTemplateArrowUp"
+                                     ColumnHeaderSortedDescendingTemplate="GridHeaderTemplateArrowDown"
+                                     ColumnHeaderNotSortedTemplate="GridHeaderTemplateTransparent"
+                                     ItemContainerStyle="{StaticResource ReadActionItemStyle}"
+                                     cc:AutoResizeListView.Active="True">
+                    <cc:SortableListView.View>
+                        <GridView KeyboardNavigation.TabNavigation="Continue">
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colBarcodeType}" Width="80" DisplayMemberBinding="{Binding Path=BarcodeType}" SortPropertyName="BarcodeType" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colPosition}" Width="90" SortPropertyName="BarcodePositionInDoc">
+                                <cc:SortableGridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=BarcodePositionInDoc}" HorizontalAlignment="Right" Padding="0,0,10,0" />
+                                    </DataTemplate>
+                                </cc:SortableGridViewColumn.CellTemplate>
+                            </cc:SortableGridViewColumn>
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colStartWith}" Width="70" DisplayMemberBinding="{Binding Path=StartsWith}" SortPropertyName="StartsWith" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colSeparatorChar}" Width="90" DisplayMemberBinding="{Binding Path=Separator}" SortPropertyName="Separator" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colBatchOrDoc}" Width="145" DisplayMemberBinding="{Binding Path=TargetTypeName}" SortPropertyName="TargetTypeName" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colCopyValueToField}" Width="200" DisplayMemberBinding="{Binding Path=CopyValueToFieldName}" SortPropertyName="CopyValueToFieldName" />
+                            <cc:SortableGridViewColumn Header="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=colOverwrite}" Width="220" DisplayMemberBinding="{Binding Path=OverwriteFieldValue, Converter={StaticResource YesNoConverter}}" SortPropertyName="OverwriteFieldValue" />
+                        </GridView>
+                    </cc:SortableListView.View>
+                </cc:SortableListView>
+                <StackPanel Grid.Row="6" Margin="20,14,20,5" Orientation="Horizontal" HorizontalAlignment="Left" Background="Transparent">
+                    <Button Width="90" Height="Auto" Margin="0,0,20,0" Command="{Binding Path=AddReadActionCommand}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/add.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=btnAdd}" x:Name="btnAddRead" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                    <Button  Width="90" Height="Auto" Margin="0,0,20,0" Command="{Binding Path=EditReadActionCommand}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/edit.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=btnEdit}" x:Name="btnEditRead" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                    <Button  Width="90" Height="Auto" Command="{Binding Path=DeleteReadActionCommand}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/delete.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=btnDelete}" x:Name="btnDeleteRead" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Border BorderBrush="#FF6593CF" BorderThickness="0,1,0,0" Grid.Row="1" x:Name="pnlNavigationButton" HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" Margin="20,10,0,6" Orientation="Horizontal" HorizontalAlignment="Right" Background="Transparent">
+                    <Button Width="90" Height="Auto" Margin="0,0,20,0" IsCancel="False" IsDefault="True" Command="{Binding Path=SaveCommand}" Click="Button_Click">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/ok.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=btnSave}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                    <Button Width="90" Height="Auto" Margin="0,0,20,0" IsCancel="True" Click="Cancel_Click">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="25">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../Resources/Images/cancel.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                                    <TextBlock Text="{Resx ResxName=Ecm.CaptureAdmin.BarcodeConfigurationView,Key=btnCancel}" x:Name="btnCancel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource ButtonTextStyle}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

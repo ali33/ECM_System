@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:Ecm.Admin.ViewModel"
+                    xmlns:v="clr-namespace:Ecm.Admin.View">
+    <DataTemplate DataType="{x:Type vm:UserViewModel}">
+        <v:UserView x:Name="UserViewData"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:UserGroupViewModel}">
+        <v:UserGroupView x:Name="UserGroupViewData"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:DocumentTypeViewModel}">
+        <v:DocumentTypeView x:Name="DocumentTypeView"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:PermissionViewModel}">
+        <v:PermissionView x:Name="PermissionView"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SettingViewModel}">
+        <v:SettingView x:Name="SettingView"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:AboutViewModel}">
+        <v:AboutView x:Name="AboutView"/>
+    </DataTemplate>
+    <!--<DataTemplate DataType="{x:Type vm:ConfigOCRTemplateViewModel}">
+        <v:ConfigOCRTemplateView x:Name="ConfigOCRTemplateView"/>
+    </DataTemplate>-->
+    <DataTemplate DataType="{x:Type vm:ConfigBarcodeViewModel}">
+        <v:ConfigBarcodeView x:Name="ConfigBarcodeView"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:AmbiguousDefinitionViewModel}">
+        <v:AmbiguousDefinitionView x:Name="AmbiguousDefinitionView"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:HelpViewModel}">
+        <v:HelpView x:Name="HelpView"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SupportViewModel}">
+        <v:SupportInfoView x:Name="SupportView"/>
+    </DataTemplate>
+    
+</ResourceDictionary>

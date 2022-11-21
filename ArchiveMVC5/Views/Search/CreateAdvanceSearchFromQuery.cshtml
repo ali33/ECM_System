@@ -1,0 +1,62 @@
+﻿@model ArchiveMVC5.Models.SearchModel
+@{
+
+    var _script = "";
+}
+
+       @* @foreach (var item in Model.ListQueryModel.Where(p=>p.Id == Model.QueryId ).FirstOrDefault().SearchQueryExpressions.Where(p=>p.Field != null).Select(p=>p)) *@
+        @foreach (var item in Model.ListQueryModel.Where(p => p.Id == Model.QueryId).FirstOrDefault().SearchQueryExpressions.Where(p => p.Field != null).Select(p => p))
+        {
+           
+            var idComboboxValue = ArchiveMVC5.Utility.UniqueId.GetUniqueKey();
+            <div id="RowCondition" value="@item.Id">
+                <div>
+                    <div class="input-control select">                       
+                        <select id="Conjunction">
+                            @foreach (Ecm.Domain.SearchConjunction dataType in Enum.GetValues(typeof(Ecm.Domain.SearchConjunction)))
+                            {
+                                
+                                <option value="@((int)dataType)" @(item.Condition==dataType?"selected":"")>@dataType.ToString()</option>
+                            }  
+                            
+                           
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="display_lable">
+                       <span id="FieldName" value="@(item.Field.Id)">@item.Field.Name</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-control select">
+                        <select id="Operator" onchange="CreateTextBoxValue(this.value,'@(item.Field.Id)','@idComboboxValue')">
+                            @{
+                                if(item.Field.DataType == Ecm.Domain.FieldDataType.Date)
+                                {
+                                    _script += "$('[id=\"" + idComboboxValue + "\"]').find('input').datepicker();";
+                                }
+                                var listOperator = ArchiveMVC5.Utility.GeneratorJson.GetOperatorFromType(item.Field.DataType);
+                            }
+                            @foreach (var item1 in listOperator)
+                            {                                
+                                <option value="@((int)item1)" @(item.Operator==item1?"selected":"")>@item1</option>
+                            }  
+                            
+                        </select>
+
+                    </div>
+                </div>
+                <div id="@idComboboxValue" class="search_input">
+                    @Html.Raw(ArchiveMVC5.Utility.GeneratorJson.GetComboBoxValue(item.Field.DataType, item.Operator, item.Value1, item.Value2))
+                </div>
+                <div>
+                </div>
+            </div>    
+        }
+        
+        
+    
+<script>
+    @Html.Raw(_script);
+</script>

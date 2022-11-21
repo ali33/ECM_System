@@ -1,0 +1,50 @@
+﻿@model CaptureMVC.Models.CaptureAdminModel
+@{
+    ViewBag.Title = "ShowPermission";
+}
+
+<div class="left-container-child">
+
+    <div class="row">
+        <div class="col-md-7">
+            <div id="permission_contenttype" class="tab_nav" data-value="bycontent">
+                <span>By Content Type</span>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div id="permission_usergroup" class="tab_nav" data-value="byusergroup">
+                <span>By Group</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row admin_sub_menu_items">
+        @{
+            var userNumber = 1;
+            foreach (var docTypeItem in Model.ListBatchTypeModel)
+            {
+                <div class="sub_menu_item" id="@docTypeItem.Id" title="@docTypeItem.Name">
+                    <div class="permission_menu_item">
+                        <span>@docTypeItem.Name</span>
+                    </div>
+                </div>
+                <div class="permission_sub_menu" style="display:none">
+                    @{
+                foreach (var userGroupItem in Model.ListUserGroup)
+                {
+                    <div class="permission_sub_menu_item sub_menu_item_by_content_type" id="@userGroupItem.Id">
+                        <div class="content data">
+                            <div class="data_content" title="@userGroupItem.Name">
+                                @userGroupItem.Name
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                    }
+                </div>
+                userNumber++;
+            }
+        }
+    </div>
+</div>

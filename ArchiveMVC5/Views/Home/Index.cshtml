@@ -1,0 +1,22 @@
+﻿<script>
+    
+
+</script>
+@using (Html.BeginForm("UpLoadFile", "ImageProcessing", FormMethod.Post, new { enctype = "multipart/form-data", id = "formUpload" }))
+{
+    @Html.ValidationSummary(true)
+    
+        <div class="editor-field">
+         <input type="file" name="file" id="file" />
+  
+        <p>
+            <input type="submit" value="Create" onclick="uploadFile();" />
+            <br />
+             <span id="uploadProgress" style="background-color:yellow;font-size:20px;width:200px;height:150px;display:none;">Please wait ....</span>
+        </p>
+            <img src="" />
+        
+ </div>
+}
+
+<div></div>

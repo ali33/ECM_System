@@ -1,0 +1,118 @@
+﻿@using Ecm.CaptureDomain;
+@using CaptureMVC.Models;
+
+@model ViewGetAnnotationsModel
+
+@foreach (var anno in Model.Annotations.OrderBy(h => h.CreatedOn))
+{
+    var width = (int)anno.Width;
+    var height = (int)anno.Height;
+    var annoStyle = string.Format(Constant.ANNO_STYLE_TEMPLATE, width, height, (int)anno.Left, (int)anno.Top);
+    var newClass = anno.Id == Guid.Empty ? "new" : string.Empty;
+
+    switch (anno.Type)
+    {
+        case Constant.ANNO_TYPE_HIGHLIGHT:
+        case Constant.ANNO_TYPE_REDACTION:
+    <div id="@anno.Id" class="anno @anno.Type @newClass" style="@annoStyle" data-rotate-angle="0"></div>
+            break;
+
+        case Constant.ANNO_TYPE_TEXT:
+
+            var rotateAngle = CaptureMVC.Utility.Utilities.GetRotateAngle((int)anno.RotateAngle);
+
+            string axis;
+            string transformOrigin;
+            string rotateClass;
+
+            if (rotateAngle == 90)
+            {
+                axis = ((width - 2) / 2).ToString() + "px";
+                transformOrigin = string.Format(Constant.TRANSFORM_ORIGIN_TEMPLATE, axis, axis);
+                rotateClass = "rotate-90";
+                width = (int)Math.Round(anno.Height);
+                height = (int)Math.Round(anno.Width);
+            }
+            else if (rotateAngle == 270)
+            {
+                axis = ((height - 2) / 2).ToString() + "px";
+                transformOrigin = string.Format(Constant.TRANSFORM_ORIGIN_TEMPLATE, axis, axis);
+                rotateClass = "rotate-270";
+                width = (int)Math.Round(anno.Height);
+                height = (int)Math.Round(anno.Width);
+            }
+            else
+            {
+                transformOrigin = string.Empty;
+                if (rotateAngle == 180)
+                {
+                    rotateClass = "rotate-180";
+                }
+                else
+                {
+                    rotateClass = string.Empty;
+                }
+                width = (int)Math.Round(anno.Width);
+                height = (int)Math.Round(anno.Height);
+            }
+            
+    <div id="@anno.Id" class="anno @anno.Type @newClass" style="@annoStyle" data-rotate-angle="@rotateAngle">
+        <div class="anno-text-inner @rotateClass" 
+            style="width: @(width - 2)px; height: @(height - 2)px; @transformOrigin">
+                @{
+                var xmlDoc = new System.Xml.XmlDocument();
+                xmlDoc.LoadXml(anno.Content);
+
+                var root = xmlDoc.DocumentElement;
+                var rootColor = root.Attributes["Foreground"] == null
+                                ? "rgb(0, 0, 0)"
+                                : "rgb(" + Convert.ToInt32(root.Attributes["Foreground"].Value.Substring(3, 2), 16)
+                                         + ", "
+                                         + Convert.ToInt32(root.Attributes["Foreground"].Value.Substring(5, 2), 16)
+                                         + ", "
+                                         + Convert.ToInt32(root.Attributes["Foreground"].Value.Substring(7, 2), 16)
+                                         + ")";
+                var rootFontSize = root.Attributes["FontSize"] == null ? "12px"
+                                                                       : root.Attributes["FontSize"].Value + "px";
+                var rootFontWeight = root.Attributes["FontWeight"] == null
+                                     ? "normal" : root.Attributes["FontWeight"].Value.ToLower();
+                var rootFontStyle = root.Attributes["FontStyle"] == null
+                                    ? "normal" : root.Attributes["FontStyle"].Value.ToLower();
+                                    }
+                @foreach (System.Xml.XmlNode paragraph in root.ChildNodes)
+                {
+                    foreach (System.Xml.XmlNode run in paragraph.ChildNodes)
+                    {
+                        var color = run.Attributes["Foreground"] == null
+                                    ? rootColor
+                                    : "rgb(" + Convert.ToInt32(run.Attributes["Foreground"].Value.Substring(3, 2), 16)
+                                             + ", "
+                                             + Convert.ToInt32(run.Attributes["Foreground"].Value.Substring(5, 2), 16)
+                                             + ", "
+                                             + Convert.ToInt32(run.Attributes["Foreground"].Value.Substring(7, 2), 16)
+                                             + ")";
+                        var fontSize = run.Attributes["FontSize"] == null ? rootFontSize
+                                                                          : run.Attributes["FontSize"].Value + "px";
+                        var fontWeight = run.Attributes["FontWeight"] == null ? rootFontWeight
+                                                                              : run.Attributes["FontWeight"]
+                                                                                   .Value.ToLower();
+                        var fontStyle = run.Attributes["FontStyle"] == null ? rootFontStyle
+                                                                            : run.Attributes["FontStyle"]
+                                                                                 .Value.ToLower();
+                        var textDecorations = run.Attributes["TextDecorations"] == null
+                                              ? "italic"
+                                              : run.Attributes["TextDecorations"].Value.ToLower();
+                        var textStyle = string.Format(Constant.TEXT_STYLE_TEMPLATE,
+                                                      color, fontSize, fontWeight, fontStyle, textDecorations);
+<span style="@textStyle">@run.InnerText</span>
+                    }
+<br />
+                }
+        </div>
+    </div>
+            break;
+
+        default:
+            break;
+    }
+}

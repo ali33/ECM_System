@@ -1,0 +1,180 @@
+﻿@using CaptureMVC.Models;
+@using CaptureMVC.Utility;
+@using Ecm.CaptureDomain;
+@using System.Text;
+
+@model List<ConditionModel>
+
+@{
+    var htmlOptionConj = SearchUtils.GetOptionConjuction();
+    var htmlOptionOperatorTypeString = SearchUtils.GetOptionOperatorTypeString();
+    var htmlOptionOperatorTypeNumber = SearchUtils.GetOptionOperatorTypeNumber();
+    var htmlOptionOperatorTypeBoolean = SearchUtils.GetOptionOperatorTypeBoolean();
+    var htmlControlInput1Value = SearchUtils.GetControlInput1Value();
+    var htmlControlInput2Value = SearchUtils.GetControlInput2Value();
+    var htmlControlInputBoolean = SearchUtils.GetControlInputBoolean();
+    var firstField = Model.FirstOrDefault();
+    var emptyGuid = Guid.Empty;
+}
+
+<!--Template section-->
+<div id="template-input-1-value" style="display: none;">
+    @Html.Raw(htmlControlInput1Value)
+</div>
+<div id="template-input-2-value" style="display: none;">
+    @Html.Raw(htmlControlInput2Value)
+</div>
+<div id="template-input-boolean" style="display: none;">
+    @Html.Raw(htmlControlInputBoolean)
+</div>
+<div id="template-operator-string" style="display: none;">
+    <select id="Operator" onchange="">
+        @Html.Raw(htmlOptionOperatorTypeString);
+    </select>
+</div>
+<div id="template-operator-number" style="display: none;">
+    <select id="Operator" onchange="">
+        @Html.Raw(htmlOptionOperatorTypeNumber);
+    </select>
+</div>
+<div id="template-operator-boolean" style="display: none;">
+    <select id="Operator" onchange="">
+        @Html.Raw(htmlOptionOperatorTypeBoolean);
+    </select>
+</div>
+<!--Template added condition-->
+<div id="template-added-condition" style="display: none;">
+    <div class="RowCondition new" id="@Guid.Empty">
+        <!--Conjunction section-->
+        <div class="input-control select">
+            <select id="Conjunction">
+                @Html.Raw(htmlOptionConj);
+            </select>
+        </div>
+
+        <!--Field name-->
+        <div class="input-control select">
+            <select id="FieldName" onchange="LoadSearchOperatorAndInput(this)">
+                @foreach (var item in Model)
+                {
+                    <option value="@item.FieldId" 
+                        data-data-type="@item.FieldDataType"
+                        data-field-name="@item.FieldName">
+                        @item.FieldDisplay
+                    </option>
+                }
+            </select>
+        </div>
+
+        <!--Operator section-->
+        <div class="input-control select col_center">
+            <select id="Operator" 
+                        onchange="LoadSearchInput(this, '@firstField.FieldDataType', this.value)">
+                @switch (firstField.FieldDataType)
+                {
+                    case FieldDataType.String:
+                    @Html.Raw(htmlOptionOperatorTypeString);
+                                                           break;
+                    case FieldDataType.Boolean:
+                    @Html.Raw(htmlOptionOperatorTypeBoolean);
+                                                            break;
+                    case FieldDataType.Integer:
+                    case FieldDataType.Decimal:
+                    case FieldDataType.Date:
+                    @Html.Raw(htmlOptionOperatorTypeNumber);
+                                                           break;
+                    default:
+                                                           break;
+                }
+            </select>
+        </div>
+
+        <!--Input section-->
+        <div class="search_input">
+            @switch (firstField.FieldDataType)
+            {
+                case FieldDataType.Boolean:
+                @Html.Raw(htmlControlInputBoolean)
+                    break;
+                case FieldDataType.Picklist:
+                case FieldDataType.Folder:
+                case FieldDataType.Table:
+                    break;
+                default:
+                @Html.Raw(htmlControlInput1Value)
+                    break;
+            }
+        </div>
+
+        <!-- Button x-->
+        <div>
+            <button class="delete-new">×</button>
+        </div>
+    </div>
+</div>
+
+@foreach (var item in Model.Where(h => !h.IsSystemField))
+{        
+    <div class="RowCondition new" id="@emptyGuid">
+        <!--Conjunction section-->
+        <div class="input-control select">
+            <select id="Conjunction">
+                @Html.Raw(htmlOptionConj);
+            </select>
+        </div>
+
+        <!--Field name-->
+        <div class="display_lable">
+            <span 
+                class="FieldName" 
+                id="@item.FieldId" 
+                data-data-type="@item.FieldDataType"
+                data-field-name="@item.FieldName">&nbsp;@item.FieldDisplay</span>
+        </div>
+
+        <!--Operator section-->
+        <div class="input-control select col_center">
+            <select id="Operator" 
+                        onchange="LoadSearchInput(this, '@item.FieldDataType', this.value)">
+                @switch (item.FieldDataType)
+                {
+                    case FieldDataType.String:
+                    @Html.Raw(htmlOptionOperatorTypeString);
+                                                           break;
+                    case FieldDataType.Boolean:
+                    @Html.Raw(htmlOptionOperatorTypeBoolean);
+                                                            break;
+                    case FieldDataType.Integer:
+                    case FieldDataType.Decimal:
+                    case FieldDataType.Date:
+                    @Html.Raw(htmlOptionOperatorTypeNumber);
+                                                           break;
+                    default:
+                                                           break;
+                }
+            </select>
+        </div>
+
+        <!--Input section-->
+        <div class="search_input">
+            @switch (item.FieldDataType)
+            {
+                case FieldDataType.Boolean:
+                @Html.Raw(htmlControlInputBoolean)
+                    break;
+                case FieldDataType.Picklist:
+                case FieldDataType.Folder:
+                case FieldDataType.Table:
+                    break;
+                default:
+                @Html.Raw(htmlControlInput1Value)
+                    break;
+            }
+        </div>
+
+        <!-- Button x-->
+        <div>
+            <button class="delete-new">×</button>
+        </div>
+    </div>    
+}

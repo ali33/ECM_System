@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ArchiveMVC.Models.FieldValueModel>
+
+@if(Model != null){
+
+    foreach(var fieldValue in Model){
+        var docType = ArchiveMVC.Utility.Utilities.DocumentType(fieldValue.Field.DocTypeId);
+        var isDisable = !(docType.DocumentTypePermission.AllowedUpdateFieldValue);
+        var inputClass ="";
+
+        if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Date)
+        {
+            inputClass = "date";
+        }
+        else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Integer)
+        {
+            inputClass = "allownumericwithdecimal";
+        }
+        else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Decimal)
+        {
+            inputClass = "allownumericwithoutdecimal";
+        }
+        
+        if (!fieldValue.Field.IsSystemField || 
+            (fieldValue.Field.IsRestricted && docType.DocumentTypePermission.AllowedSeeRetrictedField))
+        {
+            <div class="@(fieldValue.Field.IsRequired ?  "content_fields mandatory " : "content_fields ")">
+                <div class="content_lables"><span>@fieldValue.Field.Name</span></div>
+                <div class="content_fields_input input-control @((fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Picklist || 
+                        fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Boolean || fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Table) ? "select":"text")
+                        @(!String.IsNullOrEmpty(fieldValue.Value) ? "hasvalue":"")
+                    @(isDisable ? "disable" : "")">
+                    @if(fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Picklist){
+                        <select style="width:150px">
+                            @if(fieldValue.PickListValues != null)
+                            {
+                                foreach(var picklistValues in fieldValue.PickListValues)
+                                {
+                                    <option @(fieldValue.Value == picklistValues ? "selected" :"")>@picklistValues</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else if (fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Table)
+                    {
+                        <input type="text" class="table_field_value" value="Click here to display @fieldValue.Field.Name values"/>
+                        <input type="hidden" value="@fieldValue.Field.DocTypeId" class="docTypeId"/>
+                    }
+                    else if(fieldValue.Field.DataType == Ecm.Domain.FieldDataType.Boolean)
+                    {
+                        <input type="checkbox" @(fieldValue.Value == "True" ? "checked":"")/>
+                    }
+                    else
+                    {
+                        <input type="text" value="@fieldValue.Value" @(isDisable ? "disabled='disable'" : "") class="@inputClass"/>
+                        if(docType.DocumentTypePermission.AllowedUpdateFieldValue)
+                        {
+                            <button class="close" tabindex="-1">×</button>
+                        }
+                    }
+                    <input type="hidden" value="@fieldValue.Field.Id" class="id"/>
+                </div>
+            </div>
+        }
+    }
+}
+
+<div id="tableFieldValue" style="display:none">
+
+</div>
+
+@if (ViewData["ERROR"] != null)
+{
+    <script>
+        alert("OCR ERROR");
+        window.console.log(@ViewData["ERROR"]);
+    </script>
+}

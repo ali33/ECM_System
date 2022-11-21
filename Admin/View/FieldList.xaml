@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Ecm.Admin.View.FieldList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Converter="clr-namespace:Ecm.Admin.Converter">
+    <UserControl.Resources>
+        <Style x:Key="ItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
+        </Style>
+        <DataTemplate x:Key="listBoxTemplate">
+            <DockPanel>
+                <TextBlock Text="{Binding Path=GroupName}"></TextBlock>
+            </DockPanel>
+        </DataTemplate>
+        <Converter:YesNoConverter x:Key="YesNoConverter"/>
+        <DataTemplate x:Key="LookupCellTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource GridCellLinkButton}" Content="Configure" x:Name="btnConfigureLookup"  Visibility="{Binding Path=DataType, Converter={StaticResource HasLookupConverter}}"/>
+                <Button Style="{StaticResource GridCellLinkButton}" Content=" | Clear" x:Name="btnDeleteLookup" Click="btnDeleteLookup_Click"
+                        Visibility="{Binding Path=IsLookup, Converter={StaticResource VisibilityConverter}}"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <ListView x:Name="lvField"
+                              HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Stretch" 
+                              Grid.Row="2" 
+                              Grid.ColumnSpan="2"
+                              ItemsSource="{Binding Path=Children,Mode=TwoWay}"
+                              ItemContainerStyle="{StaticResource ItemStyle}"
+                              SelectionChanged="lvField_SelectionChanged"
+                              MouseDoubleClick="lvField_MouseDoubleClick"
+                              SelectedItem="{Binding Path=SelectedField,Mode=TwoWay}"
+                              Grid.Column="0">
+        <ListView.View>
+            <GridView>
+                <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Path=Name}"/>
+                <GridViewColumn Header="Data type" Width="100" DisplayMemberBinding="{Binding Path=DataType}"/>
+                <GridViewColumn Header="Required" Width="100" DisplayMemberBinding="{Binding Path=IsRequired, Converter={StaticResource YesNoConverter}}"/>
+                <GridViewColumn Header="Restricted" Width="100" DisplayMemberBinding="{Binding Path=IsRestricted,Converter={StaticResource YesNoConverter}}"/>
+                <GridViewColumn Header="Default value" Width="100" DisplayMemberBinding="{Binding Path=DefaultValue}"/>
+                <GridViewColumn Header="Max length" Width="Auto" DisplayMemberBinding="{Binding Path=DefaultValue}"/>
+                <GridViewColumn Header="Has lookup" Width="80" DisplayMemberBinding="{Binding Path=IsLookup, Converter={StaticResource YesNoConverter}}"/>
+                <GridViewColumn Header="Lookup" CellTemplate="{StaticResource LookupCellTemplate}" Width="Auto"/>
+            </GridView>
+        </ListView.View>
+    </ListView>
+</UserControl>

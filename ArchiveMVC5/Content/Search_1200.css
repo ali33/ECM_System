@@ -1,0 +1,33 @@
+/* header */
+
+header > .logo {
+	width: 160px;
+}
+
+header > .menu_archive {
+	left: 220px;
+}
+
+header > div.searchglobal {
+	left: 718px;
+}
+
+/* section body archive */
+
+.search_query.open table.query_search_button td:nth-of-type(5) {
+	width: 60px;
+}
+
+.search_query.open table.query_search_button .action_button span {
+	padding-right: 0;
+}
+
+.search_query.open table.query_search_button .action_button img {
+	display: none;
+}
+
+@media (max-width:1000px){ 
+	.search_query.open table.query_search_button .action_button {
+		min-width: 105px;
+	}
+}

@@ -1,0 +1,25 @@
+﻿@using CaptureMVC.Models;
+@using CaptureMVC.Resources;
+
+@model List<SavedQueryModel>
+
+<!--Query section-->
+<div class="SelectQueryName" id="RowComboBoxQueries">
+    <div class="display_lable">
+        <div>&nbsp;@QueryResources.Queries</div>
+    </div>
+    <div class="input-control select">
+        <select id="selectqueryname" onchange="LoadSavedCondition(this.value)">
+            <option value="-1">--- @QueryResources.SelectQuery ---</option>
+            @{
+                foreach (var item in Model)
+                {
+                <option value="@item.Id">@item.Name</option>        
+                }
+            }
+        </select>
+    </div>
+</div>
+
+<!--Condition section-->
+@Html.Action("_LoadDefaultCondition", (Guid)ViewBag.BatchTypeId)

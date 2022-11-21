@@ -1,0 +1,73 @@
+﻿@model ArchiveMVC5.Models.SearchResultModel
+@{
+    var UniqueKey = ArchiveMVC5.Utility.UniqueId.GetUniqueKey();
+}
+<div class="@UniqueKey">
+    <strong class="name">@Model.DocumentTypeName</strong>
+    <span> - </span>
+    <span class="count">
+        <span class="count_display">@Model.Paging.PageSize</span>/
+        <span class="count_total">@Model.TotalCount</span> doc(s) found
+    </span>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover" id="advance_search_result" data-sortcolumn="@Model.Paging.SortColumnName" data-sortdirection="@Model.Paging.SortDirection">
+        <thead>
+            <tr>
+                @{
+                    List<string> listColumn = new List<string>();
+                }
+                @foreach (var item in Model.DataResult.Columns)
+                {
+                    var name = "";
+                    var id = "";
+                    switch (item.ToString())
+                    {
+                        case ArchiveMVC5.Models.Common.COLUMN_VERSION:
+                        case ArchiveMVC5.Models.Common.COLUMN_DOCUMENT_ID:
+                        case ArchiveMVC5.Models.Common.COLUMN_DOCUMENT:
+                        case ArchiveMVC5.Models.Common.COLUMN_DOCUMENT_TYPE_ID:
+                        case ArchiveMVC5.Models.Common.COLUMN_DOCUMENT_VERSION_ID:
+                        case ArchiveMVC5.Models.Common.COLUMN_CHECKED:
+                        case ArchiveMVC5.Models.Common.COLUMN_SELECTED:
+                            break;
+                        default:
+                            listColumn.Add(item.ToString());
+                            name = item.ToString();                                
+                    <th class="sortable" id="@name.Replace(" ","")" data-sortcolumn="@name" data-sortdir="">@name</th>    
+                            break;
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.TotalCount == 0)
+            {
+                <tr>
+                    <td colspan="12">
+                        <div class="callout callout-danger" style="margin-bottom:0px;">
+                            <h4><i class="icon fa fa-info-circle"></i> No data found !</h4>
+                            <p>Please check search condition again.</p>
+                        </div>
+                    </td>
+                </tr>
+
+            }
+            else
+            {
+                foreach (System.Data.DataRow row in Model.DataResult.Rows)
+                {
+                    <tr id="@row[ArchiveMVC5.Models.Common.COLUMN_DOCUMENT_ID]">
+                        @foreach (string celName in listColumn)
+                        {
+                            <td>@row[celName].ToString()</td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="box-footer">
+    @Html.Partial("_PagingLayout", Model.Paging)
+</div>

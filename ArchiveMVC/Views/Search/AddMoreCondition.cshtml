@@ -1,0 +1,75 @@
+﻿@model ArchiveMVC.Models.SearchModel
+@{
+    var Doctype = Model.ListDocType.Where(p => p.Id == Model.DocumentTypeId).FirstOrDefault();
+    
+    var idComboboxOperator = ArchiveMVC.Utility.UniqueId.GetUniqueKey();
+    var idComboboxValue = ArchiveMVC.Utility.UniqueId.GetUniqueKey();
+    }
+ <div class="new" id="RowCondition">
+                <div>
+                    <div class="input-control select">                       
+                         
+                        <select id="Conjunction">
+                            @foreach (Ecm.Domain.SearchConjunction dataType in Enum.GetValues(typeof(Ecm.Domain.SearchConjunction)))
+                            {
+                                
+                                <option value="@((int)dataType)">@dataType.ToString()</option>
+                            }  
+                            
+                           
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-control select">
+                        <select  id="FieldName" onchange="CreateComboboxOperator(this.value,'@idComboboxOperator','@(idComboboxValue)')">
+                        @foreach (var item in Doctype.Fields)
+                            {
+                               
+                               /*if (item.IsSystemField)
+                                {
+                                    var name = "";
+                                    switch (item.Name)
+                                    {
+                                        case "Created on":
+                                            name = "Created date";
+                                            break;
+                                        case "Modified on":
+                                            name = "Modified date";
+                                            break;
+                                        default:
+                                            name = @item.Name;
+                                            break;
+                                    }
+                                    <option value="@(item.Id)">@name</option>
+                                }
+                                else  
+                                {
+                                   <option value="@(item.Id)">@item.Name</option>
+                                }*/
+                                <option value="@(item.Id)">@item.Name</option>
+                               
+                            }  
+                            </select>
+                    </div>
+                </div>
+                <div id="@(idComboboxOperator)">
+                    <div class="input-control select col_center">
+                        <select id="Operator" onchange="CreateTextBoxValue(this.value,'@(Doctype.Fields.FirstOrDefault().Id)','@idComboboxValue')">
+                            @{
+                                var listOperator = ArchiveMVC.Utility.GeneratorJson.GetOperatorFromType(Doctype.Fields.FirstOrDefault().DataType);
+                            }
+                            @foreach (var item1 in listOperator)
+                            {                                
+                                <option value="@((int)item1)">@item1</option>
+                            }  
+                            
+                        </select>
+
+                    </div>
+                </div>
+                <div id="@(idComboboxValue)" class="search_input">
+                    @Html.Raw(ArchiveMVC.Utility.GeneratorJson.GetComboBoxValue(Doctype.Fields.FirstOrDefault().DataType, listOperator.First(),"",""))
+                </div>
+                <div><button class="delete-new">×</button></div>
+            </div>    

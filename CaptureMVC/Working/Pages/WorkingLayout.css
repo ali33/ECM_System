@@ -1,0 +1,29 @@
+﻿.ui-layout-pane {
+    /*border-width: 0;*/
+    /*padding: 0;*/
+}
+
+/* Master logo */
+#master-logo {
+    font: 0/0 a;
+}
+
+    #master-logo:before { /* create a full-height inline block pseudo=element */
+        content: ' ';
+        display: inline-block;
+        vertical-align: middle; /* vertical alignment of the inline element */
+        height: 100%;
+    }
+
+#ecm-logo {
+    height: 36px;
+    /*margin: 5px;*/
+    display: inline-block;
+    vertical-align: middle; /* vertical alignment of the inline element */
+}
+/* End Master logo*/
+
+/* Master menu */
+.menu-wraper {
+    /*display: inline-block;*/
+}

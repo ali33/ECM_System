@@ -1,0 +1,620 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D6227043-522B-44F3-AD20-CAB08A80E31D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ecm.CaptureViewer</RootNamespace>
+    <AssemblyName>CaptureViewer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Obfuscated|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release Obfuscated\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signAssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PdfSharp-WPF">
+      <HintPath>..\Lib\PdfSharp-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit">
+      <HintPath>..\Lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit">
+      <HintPath>..\Lib\WPFToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContentNameInputResouces.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContentNameInputResouces.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentNameInputResouces.vi-VN.Designer.cs">
+      <DependentUpon>ContentNameInputResouces.vi-VN.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Helper\ExportFileHelper.cs" />
+    <Compile Include="View\ContentNameInput.xaml.cs">
+      <DependentUpon>ContentNameInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RangeSelector.xaml.cs">
+      <DependentUpon>RangeSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BatchTypeSelection.xaml.cs">
+      <DependentUpon>BatchTypeSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CommentView.xaml.cs">
+      <DependentUpon>CommentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AnnotationDesigner.cs" />
+    <Compile Include="Controls\AnnotationControl.cs" />
+    <Compile Include="Controls\ArrowWithLine.cs" />
+    <Compile Include="Controls\ArrowBase.cs" />
+    <Compile Include="Controls\ArrowWithMultipleLine.cs" />
+    <Compile Include="Controls\CommentTool.xaml.cs">
+      <DependentUpon>CommentTool.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DragAdorner.cs" />
+    <Compile Include="Controls\CanvasElement.cs" />
+    <Compile Include="Controls\DrawCanvas.cs" />
+    <Compile Include="Controls\MoveThumb.cs" />
+    <Compile Include="Controls\ResizeAndMoveAdorner.cs" />
+    <Compile Include="Controls\ResizeAndMoveChrome.cs" />
+    <Compile Include="Controls\ResizeThumb.cs" />
+    <Compile Include="Controls\TextTool.xaml.cs">
+      <DependentUpon>TextTool.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SeparateControls.cs" />
+    <Compile Include="Converter\Converter.cs" />
+    <Compile Include="View\DialogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DialogViewer.designer.cs">
+      <DependentUpon>DialogViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DocThumbnail.xaml.cs">
+      <DependentUpon>DocThumbnail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extension\FieldEditorTemplateSelector.cs" />
+    <Compile Include="Extension\TreeViewItemExtension.cs" />
+    <Compile Include="Helper\ActionLogHelper.cs" />
+    <Compile Include="Helper\BarcodeHelper.cs" />
+    <Compile Include="Helper\CameraManager.cs" />
+    <Compile Include="Helper\CollectGarbageHelper.cs" />
+    <Compile Include="Helper\ContentItemManager.cs" />
+    <Compile Include="Helper\ContextMenuManager.cs" />
+    <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\DownloadFileHelper.cs" />
+    <Compile Include="Helper\DrawingHelper.cs" />
+    <Compile Include="Helper\ImageViewerCommandManager.cs" />
+    <Compile Include="Helper\SendMailHelper.cs" />
+    <Compile Include="Helper\FileSystemImportManager.cs" />
+    <Compile Include="Helper\OCRHelper.cs" />
+    <Compile Include="Helper\PermissionManager.cs" />
+    <Compile Include="Helper\PrintHelper.cs" />
+    <Compile Include="Helper\PanToolHelper.cs" />
+    <Compile Include="Helper\RecoveryHelper.cs" />
+    <Compile Include="Helper\RotationToolHelper.cs" />
+    <Compile Include="Helper\ScanningManager.cs" />
+    <Compile Include="Helper\SelectionToolHelper.cs" />
+    <Compile Include="Helper\ThumbnailViewCommand.cs" />
+    <Compile Include="Helper\Thumbnail.cs" />
+    <Compile Include="Helper\ThumbnailSelector.cs" />
+    <Compile Include="Helper\ToolbarCommand.cs" />
+    <Compile Include="View\ImageViewer.xaml.cs">
+      <DependentUpon>ImageViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\IndexViewer.xaml.cs">
+      <DependentUpon>IndexViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MediaPlayer.xaml.cs">
+      <DependentUpon>MediaPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ArrowEnds.cs" />
+    <Compile Include="Model\ContentItem.cs" />
+    <Compile Include="Model\ContentItemType.cs" />
+    <Compile Include="Model\EmailFileNameOption.cs" />
+    <Compile Include="Model\EventHandlers.cs" />
+    <Compile Include="Model\ImportParameter.cs" />
+    <Compile Include="Model\InputAction.cs" />
+    <Compile Include="Model\RecoveryBatch.cs" />
+    <Compile Include="Model\RecoveryDoc.cs" />
+    <Compile Include="Model\RecoveryPage.cs" />
+    <Compile Include="Model\SingleItemList.cs" />
+    <Compile Include="Model\ViewerMode.cs" />
+    <Compile Include="Model\ContentViewerPermission.cs" />
+    <Compile Include="View\NativeViewer.xaml.cs">
+      <DependentUpon>NativeViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="View\SendMailOptionView.xaml.cs" />
+    <Compile Include="View\TableColumnPopupView.xaml.cs">
+      <DependentUpon>TableColumnPopupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TableColumnView.xaml.cs">
+      <DependentUpon>TableColumnView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TextViewer.xaml.cs">
+      <DependentUpon>TextViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ViewerContainer.xaml.cs">
+      <DependentUpon>ViewerContainer.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppHelper\AppHelper.csproj">
+      <Project>{3966C325-0164-47A7-B526-D19ECDF04180}</Project>
+      <Name>AppHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BarcodeDomain\BarcodeDomain.csproj">
+      <Project>{D09AB159-030C-4055-9D76-73865883F6DA}</Project>
+      <Name>BarcodeDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CameraLib\CameraLib.csproj">
+      <Project>{d52b4439-f803-4eb7-a478-1e958014529a}</Project>
+      <Name>CameraLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptureBarcodeProcessing\CaptureBarcodeProcessing.csproj">
+      <Project>{927EE68C-D5D8-47BC-ABCE-B0AC07252BC5}</Project>
+      <Name>CaptureBarcodeProcessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptureDomain\CaptureDomain.csproj">
+      <Project>{1FAFF4DB-A95F-44F8-BEE6-5D6903F37FDF}</Project>
+      <Name>CaptureDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptureModel\CaptureModel.csproj">
+      <Project>{55C752B0-1E69-4E06-AB1B-7B5ACC566051}</Project>
+      <Name>CaptureModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomControl\CustomControl.csproj">
+      <Project>{DAD3886B-C8C6-463A-A07D-ED08C85F8D08}</Project>
+      <Name>CustomControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{E3D700D5-BDFB-4777-8E9C-53E8F943AC58}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mvvm\Mvvm.csproj">
+      <Project>{81D27875-F5C9-423F-BD44-509D7A8F951C}</Project>
+      <Name>Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ocr\Ocr.csproj">
+      <Project>{20F71DE2-1D3B-462C-BFF9-8DBBE61F3CBF}</Project>
+      <Name>Ocr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{F5B8F368-604C-4CFD-95E6-6CB7F2BCB832}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BatchTypeSelection.resx">
+      <LastGenOutput>ViewerContainer.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BatchTypeSelection.vi-VN.resx">
+      <LastGenOutput>ViewerContainer.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommentView.resx">
+      <LastGenOutput>ViewerContainer.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommentView.vi-VN.resx">
+      <LastGenOutput>ViewerContainer.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContentNameInputResouces.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContentNameInputResouces.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContentNameInputResouces.vi-VN.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContentNameInputResouces.vi-VN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DialogViewer.resx">
+      <DependentUpon>DialogViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PageRange.resx">
+      <LastGenOutput>ViewerContainer.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PageRange.vi-VN.resx">
+      <LastGenOutput>ViewerContainer.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewerContainer.resx">
+      <LastGenOutput>ViewerContainer.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewerContainer.vi-VN.resx">
+      <LastGenOutput>ViewerContainer.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\ContentNameInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\RangeSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BatchTypeSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CommentTool.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\TextTool.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="OCRData\tessdata.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\NativeViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MediaPlayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\IndexViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ImageViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DocThumbnail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SendMailOptionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TableColumnPopupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TableColumnView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TextViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ViewerContainer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CommentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Include="Resources\accept.png" />
+    <Page Include="Themes\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\DatePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\addtext.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\batch_collasped.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\batch_expanded.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Bold.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\both_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\capture_screen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\doc_collasped.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\doc_expanded.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\draw.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fit-height.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fit-width.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fixtowindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FontColor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\grab.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\hand.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\handtool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hideannotation.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\highlight.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\html.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\import.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\index_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Italic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\left_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\line-color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\line-style.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\line-weight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\media.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\mute.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\no_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\playerpreview.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ppt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\redaction.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\reject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\right_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rotateleft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rotateright.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\scanner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\selection.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\thumbnail_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Underline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\unknow-page.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\unknow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\unmute.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\webcam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\word.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\xml.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\xps.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\zip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\zoomin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\zoomout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="signAssemblyKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\add.png" />
+    <Resource Include="Resources\cancel.png" />
+    <Resource Include="Resources\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\comments.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rtf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\delete16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BarcodeClientUtils\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release Obfuscated" ("%25ProgramFiles%25\RustemSoft\Skater .NET Obfuscator\skater.exe" -SOURCE="$(TargetPath)" -OUTPUT="$(TargetPath)" -KEY="$(ProjectDir)signAssemblyKey.snk" -CONCEALSTRINGS -FLOW -METHOD=0 -WRITELOG)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

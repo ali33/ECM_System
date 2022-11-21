@@ -1,0 +1,181 @@
+﻿@model ArchiveMVC.Models.SearchResultModel
+@if(Model!=null){
+<div class="">
+        <div class="datagript_header">
+            <div>
+                <div class="split_span">
+                    <span class="result_resize"></span>
+                </div>
+                <div>
+                    <strong class="name">@Model.DocumentTypeName</strong>
+                    <span> - </span>
+                    <span class="count"><span class="count_display_doc">0</span>/
+                        <span class="count_total_doc">@Model.TotalCount</span> doc(s) found</span>
+                    @if(Model.ResultCount < Model.TotalCount){ 
+                        <a href="#" id="hasMoreResult"
+                            data-hasmore="" 
+                            data-pageindex="">Has more result</a>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="datagript_body">
+            @{            var UniqueKey = ArchiveMVC.Utility.UniqueId.GetUniqueKey();
+              }
+            <table class="datagript_table tablesorter" id="@UniqueKey">
+                <thead>
+                <tr>
+                    @if(Model.ResultCount > 0)
+                    {
+                        <th><input type="checkbox" title="Check all"></th>
+                    }
+                    @{
+                        List<string> listColumn = new List<string>();
+                    }
+                    @foreach (var item in Model.DataResult.Columns)
+                    {
+                        var name="";
+                        switch (item.ToString())
+                        {
+                            case ArchiveMVC.Models.Common.COLUMN_CHECKED:
+                            case ArchiveMVC.Models.Common.COLUMN_SELECTED:
+
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_PAGE_COUNT:
+                                listColumn.Add(item.ToString());
+                                name = "Page Count";                                
+                                <th class="" >@name</th>    
+                                break;
+
+                            case ArchiveMVC.Models.Common.COLUMN_MODIFIED_ON:
+                                listColumn.Add(item.ToString());
+                                name = "Modified Date";
+                                <th class="">@name</th>    
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_MODIFIED_BY:
+                                listColumn.Add(item.ToString());
+                                name = "Modified By";                                
+                                <th class="">@name</th>    
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_CREATED_ON:
+                                listColumn.Add(item.ToString());
+                                name = "Create Date";                                
+                                <th class="">@name</th>    
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_CREATED_BY:
+                                listColumn.Add(item.ToString());
+                                name = "Create By";                                
+                                <th class="">@name</th>    
+                                break;
+                            case ArchiveMVC.Models.Common.COLUMN_VERSION:
+                            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_ID:
+                            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT:
+                            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_TYPE_ID:
+                            case ArchiveMVC.Models.Common.COLUMN_DOCUMENT_VERSION_ID:
+                                break;
+                            default:
+                                listColumn.Add(item.ToString());
+                                name = item.ToString();                                
+                                <th class="">@name</th>    
+                                break;
+                        }
+                        
+                        
+                        }
+                </tr>
+                </thead>
+                <tbody>                    
+                    @RenderPage("RowsSearchResult.cshtml", Model)
+                </tbody>
+            </table>
+            <!--
+            <div class="div_pagination">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a href="#"  data-pages="1">1</a></li>
+                    <li><a href="#" data-pages="2">2</a></li>
+                    <li><a href="#"  data-pages="3">3</a></li>
+                    <li><a href="#"  data-pages="4">4</a></li>
+                    <li><a href="#"  data-pages="5">5</a></li>
+                    <li><a href="#"  data-pages="6">7</a></li>
+                    <li><a href="#"  data-pages="7">&raquo;</a></li>
+                </ul>
+            </div>
+            -->
+        </div>
+    </div>
+
+<script>
+    $("#@UniqueKey").tablesorter({
+        headers: {
+            // assign the secound column (we start counting zero)
+            0: {
+                // disable it by setting the property sorter to false
+                sorter: false
+            }
+        }
+    });
+
+    @*$("#@UniqueKey").find(":checkbox[title='Check all']").change(function (e) {
+        if ($(this).is(":checked")) {
+            // Check all checkbox in this datagript table.
+            $(this).parents("#@UniqueKey").find(":checkbox").attr("checked", true);
+        } else {
+            // Uncheck all checkbox in this datagript table.
+            $(this).parents("#@UniqueKey").find(":checkbox").attr("checked", false);
+        }
+    });
+    $("#@UniqueKey").find(":checkbox:not([title='Check all'])").change(function (e) {
+        if ($(this).is(":checked")) {
+            var checkall = true;
+            // Uncheck check all checkbox
+            $(this).parents("#@UniqueKey").find(":checkbox:not([title='Check all'])").each(function (index, element) {
+                if ($(this).is(":not(:checked)")) {
+                    checkall = false;
+                }
+            });
+            if (checkall) {
+                // Check check all checkbox
+                $(this).parents("#@UniqueKey").find(":checkbox[title='Check all']").attr("checked", true);
+            }
+        } else {
+            // Uncheck check all checkbox
+            $(".datagript_table").find(":checkbox[title='Check all']").attr("checked", false);
+        }
+    });*@
+
+    $("#@UniqueKey tbody").find("tr").live("dblclick", function () {
+        $("section.body").ecm_loading_show();
+        //window.open(URL_EditDocID  + $(this).find("input[type='checkbox']").val(), "_blank");
+        
+        window.location = URL_EditDocID + $(this).find("input[type='checkbox']").val();
+        //$("body").ecm_loading_show();
+        //$.get(URL_EditDocID + $(this).find("input[type='checkbox']").val() + "&partal=true", function (data) {
+        //    $("section.body").html(data);
+        //    $("body").ecm_loading_hide();
+        //});
+    });
+
+    $('#hasMoreResult').click(function () {
+        if ($(this).data('hasmore')) {
+            var pageIndex = parseInt($(this).data('pageindex')) + 1;
+            $('.datagript_result').ecm_loading_show();
+
+            JsonHelper.helper.post(
+               URL_RunSearchDocumentType,
+               JSON.stringify({ docType: '@Model.DocumentType.Id', pageIndex: pageIndex }),
+               function (data) {
+                   $("#@UniqueKey tbody").append(data);
+                   $('.datagript_result').ecm_loading_hide();
+                   var resultCount = parseInt($('.count span.count_display_doc').text());
+                   var totalCount = parseInt($('.count span.count_total_doc').text());
+
+                   if (resultCount >= totalCount)
+                       $('#hasMoreResult').remove();
+               },
+               Search_Error);
+           }
+    });
+
+</script>
+}

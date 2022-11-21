@@ -1,0 +1,189 @@
+﻿@model  IList<ArchiveMVC5.Models.TableColumnModel>
+@{
+    ViewBag.Title = "LoadTableConfigure";
+}
+@{
+    
+    foreach (var item in Model)
+    {
+        //var id_td_delete = "class=table_td_delete";
+        //var first_row = "";
+        //if (item == Model.First())
+        //{
+        //    id_td_delete = "id=first_delete_column";
+        //    first_row = "first_row";
+        //}
+        var isRequired = "";
+        var isRestricted = "";
+        
+        if(item.IsRequired)
+        {
+            isRequired = "checked";
+        }
+        
+        if(item.IsRestricted)
+        {
+            isRestricted = "checked";
+        }
+        
+        switch (item.DataType)
+        {
+            case (Ecm.Domain.FieldDataType.String):
+                {
+    <tr class="table_configure_row first_row" id="@item.FieldId">
+        <td class="id_td_delete">
+            <i class="dialog_table_icon glyphicon glyphicon-trash large hand"></i>
+        </td>
+        <td class="table_td_name">
+            <input type="text" class="form-control input-sm table_name_value" value="@item.ColumnName">
+        </td>
+        <td class="table_td_type">
+            <select class="form-control input-sm table_data_type">
+                <option value="String" selected>String</option>
+                <option value="Integer">Integer</option>
+                <option value="Decimal">Decimal</option>
+                <option value="Date">Date</option>
+            </select>
+        </td>
+        <td class="table_td_maxlength">
+            <input type="text" class="form-control input-sm table_maxlength" value="@item.MaxLength">
+        </td>
+        <td class="table_td_required">
+            <input type="checkbox" class="table_check_required" @isRequired/>
+        </td>
+        <td class="table_td_restricted">
+            <input type="checkbox" class="table_check_restricted" @isRestricted/>
+        </td>
+        <td class="table_td_default_value">
+            <input type="text" class="form-control input-sm table_default_value" value="@item.DefaultValue">
+            <input type="checkbox" class="table_check_use_current_date" value="false" style="display: none">
+            <a class="table_check_use_current_date" style="display: none">Use current date</a>
+        </td>
+    </tr>
+                    break;
+                }
+            case (Ecm.Domain.FieldDataType.Decimal):
+                {
+    <tr class="table_configure_row first_row" id="@item.FieldId">
+        <td class="id_td_delete">
+            <i class="dialog_table_icon glyphicon glyphicon-trash large hand"></i>
+        </td>
+        <td class="table_td_name">
+            <input type="text" class="form-control input-sm table_name_value" value="@item.ColumnName">
+        </td>
+        <td class="table_td_type">
+            <select class="form-control input-sm table_data_type">
+                <option value="String">String</option>
+                <option value="Integer">Integer</option>
+                <option value="Decimal" selected>Decimal</option>
+                <option value="Date">Date</option>
+            </select>
+        </td>
+        <td class="table_td_maxlength">
+            <input type="text" class="form-control input-sm table_maxlength" value="@item.MaxLength" disabled>
+        </td>
+        <td class="table_td_required">
+            <input type="checkbox" class="table_check_required" @isRequired/>
+        </td>
+        <td class="table_td_restricted">
+            <input type="checkbox" class="table_check_restricted" @isRestricted/>
+        </td>
+        <td class="table_td_default_value">
+            <input type="text" class="form-control input-sm table_default_value allownumericwithdecimal" value="@item.DefaultValue">
+            <input type="checkbox" class="table_check_use_current_date" value="false" style="display:none">
+            <a class="table_check_use_current_date" style="display:none">Use current date</a>
+        </td>
+    </tr>
+                    break;
+                }
+            case (Ecm.Domain.FieldDataType.Integer):
+                {
+    <tr class="table_configure_row first_row" id="@item.FieldId">
+        <td class="id_td_delete">
+            <i class="dialog_table_icon glyphicon glyphicon-trash large hand"></i>
+        </td>
+        <td class="table_td_name">
+            <input type="text" class="form-control input-sm table_name_value" value="@item.ColumnName">
+        </td>
+        <td class="table_td_type">
+            <select class="form-control input-sm table_data_type">
+                <option value="String">String</option>
+                <option value="Integer" selected>Integer</option>
+                <option value="Decimal">Decimal</option>
+                <option value="Date">Date</option>
+            </select>
+        </td>
+        <td class="table_td_maxlength">
+            <input type="text" class="form-control input-sm table_maxlength" value="@item.MaxLength" disabled>
+        </td>
+        <td class="table_td_required">
+            <input type="checkbox" class="table_check_required" @isRequired/>
+        </td>
+        <td class="table_td_restricted">
+            <input type="checkbox" class="table_check_restricted" @isRestricted/>
+        </td>
+        <td class="table_td_default_value">
+            <input type="text" class="form-control input-sm table_default_value allownumericwithoutdecimal" value="@item.DefaultValue">
+            <input type="checkbox" class="table_check_use_current_date" value="false" style="display: none">
+            <a class="table_check_use_current_date" style="display: none">Use current date</a>
+        </td>
+    </tr>
+                    break;
+                }
+            case (Ecm.Domain.FieldDataType.Date):
+                {
+    <tr class="table_configure_row first_row" id="@item.FieldId">
+        <td class="id_td_delete">
+                                        <i class="dialog_table_icon glyphicon glyphicon-trash large hand"></i>
+        </td>
+        <td class="table_td_name">
+            <input type="text" class="form-control input-sm table_name_value" value="@item.ColumnName">
+        </td>
+        <td class="table_td_type">
+            <select class="form-control input-sm  table_data_type">
+                <option value="String">String</option>
+                <option value="Integer">Integer</option>
+                <option value="Decimal">Decimal</option>
+                <option value="Date" selected>Date</option>
+            </select>
+        </td>
+        <td class="table_td_maxlength">
+            <input type="text" class="form-control input-sm  table_maxlength" value="@item.MaxLength" disabled>
+        </td>
+        <td class="table_td_required">
+            <input type="checkbox" class="table_check_required" @isRequired/>
+        </td>
+        <td class="table_td_restricted">
+            <input type="checkbox" class="table_check_restricted" @isRestricted/>
+        </td>
+        <td class="table_td_default_value">
+            <input type="text" class="form-control input-sm table_default_value" size="10" value="@item.DefaultValue"  style="display: none">
+
+            @{
+                                      
+                    if (item.UseCurrentDate == true)
+                    {
+                <input type="checkbox" class="table_check_use_current_date" value="true" checked>
+                <a class="table_check_use_current_date">Use current date</a>          
+                    }
+                    else
+                    {
+                <input type="checkbox" class="table_check_use_current_date" value="false">
+                <a>Use current date</a>
+                    }
+            }
+
+        </td>
+    </tr>
+                    break;
+                }
+        }
+
+
+
+    }    
+}
+
+
+
+

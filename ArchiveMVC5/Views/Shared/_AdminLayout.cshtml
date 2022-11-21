@@ -1,0 +1,432 @@
+@using ArchiveMVC5.Utility
+@using ArchiveMVC5.Models
+@using ArchiveMVC5.Models.DataProvider
+@using Newtonsoft.Json
+
+@model  ArchiveMVC5.Models.SearchModel
+@{
+    if (!ViewContext.RouteData.GetRequiredString("controller").Equals("Login")
+        && (Utilities.UserName == null || Utilities.Password == null))
+    {
+        var login = new LoginModel { ReturnUrl = Request.Url.AbsoluteUri };
+        <meta http-equiv="refresh" content="0;url='@Url.Action("Index", "Login", login)'" />
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <title>@ViewBag.Title</title>
+
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-ico">
+    <link rel="icon" href="~/favicon.ico" type="image/ico">
+    <link href="@Url.Content("~/Content/ContextMenu/jquery.contextMenu.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/MessageBox/MessageBox.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Pages/archive_ui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/ArchiveAdmin.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/plugins/datatables/dataTables.bootstrap.css")" rel="stylesheet" type="text/css" />
+
+    @Styles.Render("~/plugins/css")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/jquery-2.1.4.js")
+
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.js")
+    @Scripts.Render("~/Scripts/ContextMenu.js")
+    @Scripts.Render("~/Scripts/SelectionArea/selectionarea.js")
+    @Scripts.Render("~/Scripts/resource.js")
+    @Scripts.Render("~/Scripts/JsonHelper.js")
+    @Scripts.Render("~/Scripts/MessageBox.js")
+    @Scripts.Render("~/Scripts/EcmDialog.js")
+
+    @Scripts.Render("~/Scripts/EcmValidate.js")
+    @Scripts.Render("~/plugins/datatables/jquery.dataTables.js")
+    @Scripts.Render("~/plugins/datatables/dataTables.fixedColumns.js")
+    @Scripts.Render("~/plugins/datatables/dataTables.bootstrap.js")
+    @Scripts.Render("~/plugins/datatables/dataTables.tableTools.js")
+
+    @Scripts.Render("~/bundles/plugins")
+     @Scripts.Render("~/bundles/scripts") 
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        #version {
+            font-size: 10px;
+            position: absolute;
+            left: 141px;
+            top: 36px;
+        }
+    </style>
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+    <script>
+        var AppDomainAppVirtualPath = "@HttpRuntime.AppDomainAppVirtualPath";
+        var URL_SendMail = '@Url.Action("SendMail", "Capture")';
+        var URL_SaveLocal = '@Url.Action("SaveLocal", "Capture")';
+        var URL_Get = '@Url.Action("Get", "Capture")';
+        var URL_CACHE_CAPTURE = '@Url.Action("PersitCaptureDocument", "Capture")';
+    </script>
+
+    <meta name="description" content="ECM System" charset="utf-8" lang="en-us" />
+    <meta name="author" content="MIA Solutions" />
+</head>
+
+<body class="fixed skin-green sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="@Url.Action("Index", "Search")" class="logo">
+                <div class="pull-left image">
+                    <img height="36px" src="~/Images/archive_logo.png" class="img-rounded" alt="Archive" id="test" />
+                </div>
+            </a>
+            <!-- Sidebar toggle button-->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="pull-left">
+                    <ul class="nav navbar-nav">
+                        <li class="@Html.Raw(ViewContext.RouteData.Values["controller"].Equals("Search") ? "active" : "")"><a href="@Url.Action("Index", "Search")">Search</a></li>
+                        <li class="@Html.Raw(ViewContext.RouteData.Values["controller"].Equals("Capture") ? "active" : "")"><a href="@Url.Action("Index", "Capture")">Capture</a></li>
+                        <li class="@Html.Raw(ViewContext.RouteData.Values["controller"].Equals("ArchiveAdmin") ? "active" : "")"><a href="@Url.Action("Index", "ArchiveAdmin")">Administation</a></li>
+                        @if(Utilities.OpenedDocuments.Count > 0)
+                        {
+                            <li class="dropdown @Html.Raw(ViewContext.RouteData.Values["controller"].Equals("View") ? "active" : "")">
+                                <a class="dropdown-toggle" aria-expanded="false" href="#" data-toggle="dropdown">Contents <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" style="width: 350px;">
+                                    @if (Utilities.OpenedDocuments.Count > 1)
+                                    {
+                                        <li><a href="@Url.Action("CloseAllContentItem", "View")">Close all contents</a></li>
+                                        <li><a href="@Url.Action("CloseOtherContentItem", "View")">Close other contents</a></li>
+                                        <li class="divider"></li>
+                                    }
+                                    @foreach (var doc in Utilities.OpenedDocuments)
+                                    {
+                                        <li>
+                                            <div class="col-md-12  margin-3">
+                                                <div class="col-md-1">
+                                                    <a href="@Url.Action("CloseContentItem", "View")?id=@doc.Id">
+                                                        <i title="Remove selected content" class="glyphicon glyphicon-remove hand removeRowImg"></i></a>
+                                                </div>
+                                                @if (Utilities.OpenningDocument.Id == doc.Id)
+                                                {
+                                                    <div class="col-md-9"><strong>@(doc.DocumentType.Name  +"-"+ doc.CreatedBy +"-"+doc.CreatedDate)</strong></div>
+                                                    <div class="col-md-1"><i class="glyphicon glyphicon-folder-open" title="Opened"></i></div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-md-9"><a href="@Url.Action("Index", "View")?id=@doc.Id"><strong>@(doc.DocumentType.Name + "-" + doc.CreatedBy + "-" + doc.CreatedDate)</strong></a></div>
+                                                    <div class="col-md-1"><i class="glyphicon glyphicon-folder-close" title="Inactive"></i></div>
+                                                }
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                                
+                            </li>
+                        }
+                    else
+                    {
+                            <li class="@Html.Raw(ViewContext.RouteData.Values["controller"].Equals("View") ? "active" : "")"></li>
+                    }
+                    </ul>
+                </div>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        @Html.Partial("_LoginPartial")
+                        @Html.Partial("_HelpPartial")
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu admin-menu">
+                    <li id="content_types">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-briefcase large"></i>
+                            <span class="hastooltip"> Content Types </span>
+                        </a>
+                    </li>
+                    <li id="permissions">
+                        <a href="#">
+                            <i class="fa fa-shield large"></i>
+                            <span class="hastooltip"> Permission </span>
+                        </a>
+                    </li>
+                    <li id="users">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-user large"></i>
+                            <span class="hastooltip"> Users </span>
+                        </a>
+                    </li>
+                    <li id="user_groups">
+                        <a href="#">
+                            <i class="fa fa-users large"></i>
+                            <span class="hastooltip"> User groups </span>
+                        </a>
+                    </li>
+                    <li id="settings">
+                        <a href="#">
+                            <i class="fa fa-cogs large"></i>
+                            <span class="hastooltip"> Settings </span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            @RenderBody()         
+        </div><!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0
+            </div>
+            <strong>Copyright &copy; @DateTime.Now.Year - <a href="http://miasolutioninc.com">MIA Solutions</a>.</strong> All rights reserved.
+        </footer>
+
+    </div><!-- ./wrapper -->  
+   
+    @RenderSection("scripts", required: false)
+    @Html.RenderScripts()
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <div id="dialog_change_password" style="display:none;">
+        <fieldset class="dialog_fieldset" style="height: 50px">
+            <legend>User information</legend>
+            <div class="div_content">
+                <label class="dialog_label change_password_label">User name</label>
+                <input type="text" class="archive_input dialog_input" value="@((String)Utilities.GetSession(Constant.UserName))" disabled="disabled">
+            </div>
+        </fieldset>
+
+        <fieldset class="dialog_fieldset" style="height: 125px;">
+            <legend>Change password</legend>
+            <div class="div_content">
+                <label class="dialog_label change_password_label">Current password</label>
+                <input type="password" id="current_password" class="archive_input dialog_input" placeholder="Current password">
+            </div>    
+        
+            <div class="div_content">
+                <label class="dialog_label change_password_label">New password</label>
+                <input type="password" id="new_password" class="archive_input dialog_input" placeholder="New password">
+            </div> 
+        
+            <div class="div_content">
+                <label class="dialog_label change_password_label">Confirm password</label>
+                <input type="password" id="confirm_password" class="archive_input dialog_input" placeholder="Confirm new password">
+            </div> 
+
+        </fieldset>
+    </div>
+@*    <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none" >
+    <li><a tabindex="-1" href="#">Action</a></li>
+    <li><a tabindex="-1" href="#">Another action</a></li>
+    <li><a tabindex="-1" href="#">Something else here</a></li>
+    <li class="divider"></li>
+    <li><a tabindex="-1" href="#">Separated link</a></li>
+</ul>*@
+    <script type="text/javascript">
+
+        var $current_pass = $("#current_password");
+        var $new_pass = $("#new_password");
+        var $confirm_pass = $("#confirm_password");
+
+        var ResetAllFields = function(){
+            $("#current_password").val("");
+            $("#new_password").val("");
+            $("#confirm_password").val("");
+        };
+
+        var URL_ChangePassword = "@Url.Action("ChangePassword", "Login")";
+
+        var data;
+        function ChangePassword(){
+            JsonHelper.helper.post(
+                URL_ChangePassword,
+                JSON.stringify(data),
+                ChangePassword_Sucess,
+                ChangePassword_Error
+            );
+        };
+
+        function ChangePassword_Sucess(data){
+            if(data=="Old_password_is_not_match"){
+                ErrorDialog($("#current_password"), "Current password is not match!");
+            }
+            if(data=="Change_password_success"){
+                ResetAllFields();
+                ErrorDialog("Password change success!");
+                $("#dialog_change_password").dialog("close");
+            }
+        };
+
+        function ChangePassword_Error(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR + "-" + textStatus + "-" + errorThrown);
+        };
+
+        var dialog_change_password_ok_function = function(){
+            
+            if(CheckPassword($current_pass, "Current password", 0)){
+                if(CheckPassword($new_pass, "New password", 6)){
+                    if(CheckConfirmPassword($new_pass, $confirm_pass)){
+                        data = {
+                            oldPassword: $current_pass.val(),
+                            newPassword: $new_pass.val()
+                        };
+                        ChangePassword();
+                    }
+                }
+            }
+        };
+
+        var dialog_change_password_cancel_function = function(){
+            
+            ResetAllFields();
+            $(this).dialog('close');
+        };
+
+        $(document).on("click", "#change_password", function(){
+            $.EcmDialog({
+                title: "Change password",
+                width: 580,
+                dialog_data: $('#dialog_change_password'),
+                type: 'Ok_Cancel',
+                Ok_Button: dialog_change_password_ok_function,
+                Cancel_Button: dialog_change_password_cancel_function
+            });
+        });
+
+        $(document).on('click', '.main_menu_item.search_item', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.document_menu li', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.main_menu_item.archiveadmin_item', function () {
+            PersitCapturedData();
+        });
+
+        $(document).on('click', '.main_menu_item.capture_item', function () {
+            PersitCapturedData();
+        });
+
+        function PersitCapturedData()
+        {
+            var docElements = $('.treeview_second > li');
+
+            if (docElements && docElements.length > 0) {
+                data = GetDocumentData(docElements);
+
+                if(data!=undefined)
+                {
+
+                    $.ajax({
+                        url: URL_CACHE_CAPTURE,
+                        async: false,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR + "-" + textStatus + "-" + errorThrown);
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            if (data.Code == 1 && global_Page == "Capture") {
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        function GetDocumentData(docElements) {
+            var data = { Documents: [] };
+            //var docElements = $('.treeview_second > li');
+            for (i = 0; i < docElements.length; i++) {
+                var docTypeId = $(docElements[i]).children('.docTypeId').val();
+                var id = $(docElements[i]).data('doc-id');
+
+                if(id != undefined)
+                {
+                    return undefined;
+                }
+
+                var tempid = $(docElements[i]).data('temp_id');
+                var pageElements = $(docElements[i]).find('.treeview_three > li');
+                var fieldValueElements = $(docElements[i]).find('div.fieldValues > div.fieldValueElement');
+
+                data.Documents[i] = {
+                    DocumentTypeId: docTypeId,
+                    DocumentId: id,
+                    Pages: [], FieldValues: [], TempId:tempid
+                };
+
+                for (j = 0; j < pageElements.length; j++) {
+                    var _ImgKey = $(pageElements[j]).children('span.treeview_title').attr('id');
+                    var _LangCode = $(pageElements[j]).find('.language').val();
+                    var _PageId = $(pageElements[j]).data('page-id');
+                    var _annotations = {};
+                    var angle = 0;
+                    if (draws[_ImgKey] != undefined) {
+                        _annotations = draws[_ImgKey].getAnnotations();
+                        angle = draws[_ImgKey].rotateAngle();
+                    }
+                    data.Documents[i].Pages[j] = {
+                        ImgKey: _ImgKey, Annotations: _annotations, LanguageCode: _LangCode,
+                        PageWidth: $("#page_" + _ImgKey).width(), PageHeight: $("#page_" + _ImgKey).height(),
+                        RotateAngle: angle * -1,
+                        PageId: _PageId
+                    };
+                }
+
+                for (k = 0; k < fieldValueElements.length - 1; k++) {
+                    var _Id = $(fieldValueElements[k]).attr('data-field_id');
+                    var _Value = $(fieldValueElements[k]).val();
+
+                    if (_Id) {
+                        data.Documents[i].FieldValues[k] = { Id: _Id.toString(), Value: _Value, TableFieldValues: [] };
+                    }
+
+                    var $tableValues = $(fieldValueElements[k]).find('div.tableFieldValue > div.rowIndex');
+
+                    if ($tableValues != undefined && $tableValues.length > 0) {
+
+                        $.each($tableValues, function (n) {
+                            var rowIndex = $(this).data('row_id');
+                            var $tableFieldEement = $(this).find("input[type=hidden]");
+
+                            $.each($tableFieldEement, function (m) {
+                                var tableValue = $(this).val();
+                                var tableValueId = $(this).data('column_id');
+
+                                data.Documents[i].FieldValues[k].TableFieldValues.push({ FieldId: tableValueId, RowIndex: rowIndex, Value: tableValue });
+                            });
+                        });
+                    }
+
+                }
+            }
+
+            return data;
+        }
+
+
+    </script>
+
+</body>
+            <!-- /.modal -->
+</html>
+
+

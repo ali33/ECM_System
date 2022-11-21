@@ -1,0 +1,97 @@
+﻿@using CaptureMVC.Utility
+@using CaptureMVC.Models
+@using Newtonsoft.Json
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+
+    <style>
+        /*.ui-layout-pane {
+            border: 0;
+            padding: 0;
+        }*/
+    </style>
+
+    <!--Css-->
+    <link href="~/Working/jquery-ui-1.11.4/jquery-ui.min.css" rel="stylesheet">
+    <link href="~/Working/jquery-layout-1.4.0/layout-default-latest.css" rel="stylesheet">
+    <link href="~/Working/Pages/WorkingLayout.css" rel="stylesheet">
+
+    <!--Javascript-->
+    <script src="~/Working/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+    <script src="~/Working/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <script src="~/Working/jquery-layout-1.4.0/jquery.layout-latest.js"></script>
+    <script src="~/Working/Pages/WorkingLayout.js"></script>
+
+    <!--Optional section head of child page-->
+    @RenderSection("AddToHead", required: false)
+
+</head>
+
+<body>
+
+    <div id="master-header" class="ui-layout-north">
+
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content asdf</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content asdf</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+
+        @*<div id="master-logo" class="ui-layout-west">
+        <img id="ecm-logo" src="~/Images/Capture.png" alt="ECM Capture Logo" />
+    </div>
+    <div id="master-menu" class="ui-layout-center">
+        <img id="ecm-logo" src="~/Images/Capture.png" alt="ECM Capture Logo" />
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content asdf</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content asdf</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+        <div class="menu-wraper">
+            <a href="https://google.com.vn">content</a>
+        </div>
+    </div>
+    <div class="ui-layout-east">
+        <img style="height:10px" src="~/Images/Capture.png" alt="ECM Capture Logo" />
+        asdfasdf fasd f
+    </div>*@
+
+    </div>
+    <div id="main-center" class="ui-layout-center">
+        @RenderBody()
+    </div>
+</body>
+
+</html>

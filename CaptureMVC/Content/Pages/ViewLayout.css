@@ -1,0 +1,36 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+}
+
+
+
+
+#capture-header {
+
+}
+
+#header-logo {
+    background-image: url('/Images/ViewLayout/logo.png');
+    background-repeat: no-repeat;
+    background-size: auto 36px;
+    background-position: 5px center;
+}
+
+#header-menu {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#header-menu > .menu-item {
+    font-size: 18px;
+    font-style: normal;
+    text-align: center;
+    color: #999999;
+    display: inline-block;
+    border-bottom: 1px solid transparent;
+    font-family: 'Source Sans Pro', sans-serif;
+    vertical-align:middle;
+    line-height:normal;
+}

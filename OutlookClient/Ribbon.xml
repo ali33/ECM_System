@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+    <ribbon>
+        <tabs>
+            <!--<tab idMso="TabNewMailMessage" label="Message">
+                <group id="Archive" label="Archive">
+                    <button id="btnSendToArchive" 
+                            onAction="btnSendToArchive_Click" 
+                            label="Send to Archive" 
+                            size="large" 
+                            getImage="GetImage"
+                            tag="SendToArchive"/>
+                </group>
+            </tab>          
+            <tab idMso="TabReadMessage" label="Message">
+            <group id="ArchiveGroup" label="Archive">
+              <button id="btnSendToArchive1" 
+                      label="Send to Archive"
+                      size="large" 
+                      tag="SendToArchive" 
+                      onAction="btnSendToArchive_Click" 
+                      getImage="GetImage"/>
+            </group>
+          </tab>
+
+-->
+          <tab idMso="TabAddIns" label="Ecm Archive">
+            <group id="group1" label="Archive">
+              <button id="btnSendToArchive2"
+                      label="Send to Archive" 
+                      size="large" 
+                      tag="SendToArchive"
+                      onAction="btnSendToArchive2_Click"
+                      getImage="GetImage" />
+            </group>
+          </tab>
+        </tabs>
+    </ribbon>
+</customUI>

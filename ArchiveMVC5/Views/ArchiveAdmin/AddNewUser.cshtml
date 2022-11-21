@@ -1,0 +1,111 @@
+﻿@model ArchiveMVC5.Models.ArchiveAdminModel
+@Scripts.Render("~/Scripts/jquery.form.js")
+@{
+    ViewBag.Title = "AddNewUser";
+}
+
+<div class="sub_properties_content">
+    <div class="box box-success padding-1">
+        <div class="box-header with-border">
+            <h4>User properties</h4>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12 col-sm-12">
+                <div class="col-md-2 col-sm-2">
+                    <div class="user-image">
+                        <i id="profile_pic" class="fa fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="upload-image-icon glyphicon glyphicon-camera hand" id="edit_picture"></div>
+                    </div>
+                    <form id="user_form" method="post" enctype="multipart/form-data">
+                        <div>
+                            <input type="file" name="srcPicture" id="profile_pic_upload" style="display:none" />
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-10 col-sm-10">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ArchiveUserModel.Username, new { @class = "label-control" })<span class="required">*</span>
+                        @Html.TextBoxFor(m => m.ArchiveUserModel.Username, new {id="user_name", @class = "form-control input-sm validate", @placeholder = "Enter username"})
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ArchiveUserModel.Password, new { @class = "label-control" })<span class="required">*</span>
+                        @Html.PasswordFor(m => m.ArchiveUserModel.Password, new {id="user_password", @class = "form-control input-sm validate", @placeholder = "Enter password"})
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ArchiveUserModel.Fullname, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.ArchiveUserModel.Fullname, new {id="user_full_name",  @class = "form-control input-sm", @placeholder = "Enter full name" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ArchiveUserModel.EmailAddress, new { @class = "label-control" })<span class="required">*</span>
+                        @Html.TextBoxFor(m => m.ArchiveUserModel.EmailAddress, new {id="user_email_address", @class = "form-control input-sm validate", @placeholder = "Enter email address" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success padding-1">
+        <div class="box-header">
+            <h4>Configuration</h4>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12 col-sm-12">
+                <div class=" col-md-6 col-sm-6">
+                    @{
+                        <div class="form-group">
+                            <input type="checkbox" id="user_is_admin" /><label for="user_is_admin"> Is Admin? </label>
+                        </div>
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ArchiveUserModel.Language, new { @class = "label-control" })
+                        <select id="user_select_language" class="form-control input-sm">
+                            @{
+                                foreach (var languageItem in Model.ListLanguages)
+                                {
+                                    <option id="@languageItem.Id" value="@languageItem.Name">@languageItem.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class=" col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label class="label-control">Member of</label>
+                        <select multiple class="form-control" id="user_list_member_of">
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" id="user_button_add_group" class="btn bg-olive btn-sm margin">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span> Add  </span>
+                        </button>
+                        <button type="button" id="user_button_delete_usergroup" class="btn bg-olive btn-sm margin">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            <span> Remove </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box padding-1">
+        <div class="box-footer">
+            <div class="btn-group pull-right">
+                <button type="button" id="user_button_save" class="btn bg-olive margin">
+                    <i class="glyphicon glyphicon-save"></i>
+                    <span> Save  </span>
+                </button>
+                <button type="button" id="user_button_cancel" class="btn bg-olive  margin">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    <span> Close  </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#user_name").focus();
+</script>

@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnCreateBatch" xml:space="preserve">
+    <value>Create batch</value>
+  </data>
+  <data name="btnSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="mnAppend" xml:space="preserve">
+    <value>Append</value>
+  </data>
+  <data name="mnCamera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="mnChangeBatchType" xml:space="preserve">
+    <value>Change batch type</value>
+  </data>
+  <data name="mnChangeContentType" xml:space="preserve">
+    <value>Change Content Type</value>
+  </data>
+  <data name="mnChooseDefaultCamara" xml:space="preserve">
+    <value>Choose default camera</value>
+  </data>
+  <data name="mnChooseDefaultMicroPhone" xml:space="preserve">
+    <value>Choose default microphone</value>
+  </data>
+  <data name="mnChooseDefaultScanner" xml:space="preserve">
+    <value>Choose default scanner</value>
+  </data>
+  <data name="mnClassifyLater" xml:space="preserve">
+    <value>Classify later</value>
+  </data>
+  <data name="mnCombine" xml:space="preserve">
+    <value>Combine</value>
+  </data>
+  <data name="mnDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="mnFileImport" xml:space="preserve">
+    <value>Import file</value>
+  </data>
+  <data name="mnImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="mnIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="mnInsertAfter" xml:space="preserve">
+    <value>Insert after</value>
+  </data>
+  <data name="mnInsertBefore" xml:space="preserve">
+    <value>Insert before</value>
+  </data>
+  <data name="mnNewDocument" xml:space="preserve">
+    <value>New document</value>
+  </data>
+  <data name="mnNewDocumentFromHere" xml:space="preserve">
+    <value>New document starting here</value>
+  </data>
+  <data name="mnNewDocumentFromSelectedPage" xml:space="preserve">
+    <value>New document from selected pages</value>
+  </data>
+  <data name="mnReject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="mnReplace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="mnRotateLeft" xml:space="preserve">
+    <value>Rotate left</value>
+  </data>
+  <data name="mnRotateRight" xml:space="preserve">
+    <value>Rotate right</value>
+  </data>
+  <data name="mnScan" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="mnSendLink" xml:space="preserve">
+    <value>Send link</value>
+  </data>
+  <data name="mnShowScannerDialog" xml:space="preserve">
+    <value>Show scanner dialog before scanning</value>
+  </data>
+  <data name="mnSubmit" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="mnUnreject" xml:space="preserve">
+    <value>Unreject</value>
+  </data>
+  <data name="tbBatchIndexs" xml:space="preserve">
+    <value>Batch indexes</value>
+  </data>
+  <data name="tbIndexs" xml:space="preserve">
+    <value>Indexs</value>
+  </data>
+  <data name="tbIntroduction" xml:space="preserve">
+    <value>How to Submit Documents</value>
+  </data>
+  <data name="tbThumbnails" xml:space="preserve">
+    <value>Thumbnails</value>
+  </data>
+  <data name="ttAddOcrZone" xml:space="preserve">
+    <value>Add OCR zone</value>
+  </data>
+  <data name="ttCamera" xml:space="preserve">
+    <value>Take a photo/video from camera</value>
+  </data>
+  <data name="ttFitToViewer" xml:space="preserve">
+    <value>Fit to viewer</value>
+  </data>
+  <data name="ttHideAll" xml:space="preserve">
+    <value>Hide all annotations</value>
+  </data>
+  <data name="ttHighlight" xml:space="preserve">
+    <value>Add highlight</value>
+  </data>
+  <data name="ttImport" xml:space="preserve">
+    <value>Import document from file system</value>
+  </data>
+  <data name="ttMail" xml:space="preserve">
+    <value>Mail</value>
+  </data>
+  <data name="ttNextPage" xml:space="preserve">
+    <value>Next page</value>
+  </data>
+  <data name="ttOptions" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ttPan" xml:space="preserve">
+    <value>Pan</value>
+  </data>
+  <data name="ttPreviousPage" xml:space="preserve">
+    <value>Previous page</value>
+  </data>
+  <data name="ttPrint" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="ttRedaction" xml:space="preserve">
+    <value>Add redaction</value>
+  </data>
+  <data name="ttRotateLeft" xml:space="preserve">
+    <value>Rotate left</value>
+  </data>
+  <data name="ttRotateRight" xml:space="preserve">
+    <value>Rotate right</value>
+  </data>
+  <data name="ttSaveAs" xml:space="preserve">
+    <value>Save as</value>
+  </data>
+  <data name="ttScan" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="ttSelect" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="ttText" xml:space="preserve">
+    <value>Add text</value>
+  </data>
+  <data name="ttZoomIn" xml:space="preserve">
+    <value>Zoom in</value>
+  </data>
+  <data name="ttZoomOut" xml:space="preserve">
+    <value>Zoom out</value>
+  </data>
+  <data name="uiBatchIndex" xml:space="preserve">
+    <value>Batch indexes</value>
+  </data>
+  <data name="uiDocIndex" xml:space="preserve">
+    <value>ContentModel indexes</value>
+  </data>
+</root>

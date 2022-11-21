@@ -1,0 +1,107 @@
+﻿@model CaptureMVC.Models.CaptureAdminModel
+@Scripts.Render("~/Scripts/jquery.form.js")
+@{
+    ViewBag.Title = "AddNewUser";
+}
+<div class="sub_properties_content container-fluid">
+    <div class="row">
+        <fieldset>
+            <legend>General Information</legend>
+            <div class="col-md-2">
+                <div class="profile-avatar">
+                    <img id="profile_pic" src="@Url.Content("~/Resources/icon_user_profile.png")" data-keycache="" />
+                    <div id="edit_picture" class="change_img">Change</div>
+                    <form id="user_form" method="post">
+                        <div>
+                            <input type="file" name="srcPicture" id="profile_pic_upload" class="hidden" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-10 form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="name">User name</label>
+                    <div class="controls">
+                        <input type="text" id="user_name" class="form-control">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="name">Full name</label>
+                    <div class="controls">
+                        <input type="text" id="user_full_name" class="form-control">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="name">Password</label>
+                    <div class="controls">
+                        <input type="password" id="user_password" class="form-control">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="name">Email</label>
+                    <div class="controls">
+                        <input type="text" id="user_email_address" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="row">
+        <fieldset>
+            <legend>System</legend>
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>Configuration</legend>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="user_is_admin" />Is admin</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="apply_capture_system" />Apply this user to Capture system</label>
+                    </div>
+                    <div class="control-group">
+                        Language
+                        <select id="user_select_language" class="selectpicker span2">
+                            @{
+                                foreach (var languageItem in Model.ListLanguages)
+                                {
+                                    <option id="@languageItem.Id" value="@languageItem.Name">@languageItem.Name</option>
+                                }
+                            }
+                        </select>
+                        <br /><br /><br /><br />
+                    </div>
+                </fieldset>
+
+            </div>
+            <div class="col-md-6">
+                <fieldset>
+                    <legend class="sub_legend">Member of</legend>
+                    <div id="user_list_member_of" class="well-while"></div>
+                    <div class="span2">
+                        <button type="button" id="user_button_add_group" class="btn-small btn-primary pull-left">
+                            <span>Add</span>
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                        <button type="button" id="user_button_delete_usergroup" class="btn-small btn-primary pull-right">
+                            <span>Delete</span>
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                    </div>
+                </fieldset>
+            </div>
+        </fieldset>
+    </div>
+    <div class="panel-button row">
+        <div class="span3 pull-right">
+            <button type="button" id="user_button_save" class="btn btn-primary pull-left">
+                <span>Save</span>
+                <i class="glyphicon glyphicon-floppy-disk"></i>
+            </button>
+            <button type="button" id="user_button_cancel" class="btn btn-primary pull-right">
+                <span>Close</span>
+                <i class="glyphicon glyphicon-ban-circle"></i>
+            </button>
+        </div>
+    </div>
+</div>
+

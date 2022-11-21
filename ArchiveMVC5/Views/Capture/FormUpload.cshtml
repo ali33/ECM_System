@@ -1,0 +1,20 @@
+﻿@*@Scripts.Render("~/Scripts/jquery-1.10.1.js")*@
+@Scripts.Render("~/Scripts/jquery.form.js")
+<script type="text/javascript">
+    $(function () {
+        //$('#filePath').click(function () {
+        //    $('#filePath').focus().click();
+        //});        
+    });
+		</script>
+<div style="width:0;height:0;visibility:hidden">
+    @using (Html.BeginForm("UpLoadFile", "ImageProcessing", FormMethod.Post,
+                    new { enctype = "multipart/form-data", id = "formUpload", name = "formUpload" }))
+    {
+	    @*<input type="text" readonly="readonly" id="txtFilePath" size="50">
+	    <input type="text" name="docTypeId" value="1">
+	    <button type="button" id="filePath">Select a file</button>
+	    <button type="button" id="btnUpload">upload</button>*@
+	    <input type="file" name="fileUploads" id="filePath" style="opacity: 1;" multiple="multiple">
+    }
+</div>

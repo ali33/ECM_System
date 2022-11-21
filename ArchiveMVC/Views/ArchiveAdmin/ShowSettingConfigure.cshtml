@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ArchiveMVC.Models.AmbiguousDefinitionModel>
+
+@{
+    ViewBag.Title = "ShowSettingConfigure";
+}
+<script type="text/javascript">
+    var mapping_count = 0;
+</script>
+
+@foreach(var item in Model){
+    <script type="text/javascript">
+        mapping_count++;
+    </script>
+    var contain = item.Text.Contains("\r\n");
+    <div class="sub_menu_item user_item mapping_container" data-id="@item.Id">
+        <div class="icon">
+            <img src="@Url.Content("~/Images/archive_admin_icon/appbar.dial.svg")" />
+        </div>
+
+        <div class="sub_item_content_full">
+            <div class="item_left_content left_mapping">
+                <div class="left_mapping_content">
+                    @if (contain) 
+                    {
+                        var result = item.Text.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach(var tmp in result)
+                            {
+                                <@tmp<br />
+                            }
+                    }
+                    else
+                    {
+                        var result = item.Text.Split(new String[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var tmp in result)
+                            {
+                                @tmp<br />
+                            }
+                    }
+                </div>
+            </div>
+
+            <div class="item_right_content right_unicode">
+                @if (item.IsUnicode == true)
+                {
+                    <div>Yes</div>
+                }
+                else
+                {
+                    <div>No</div>
+                }
+            </div>
+        </div>
+
+    </div>
+}
