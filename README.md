@@ -1,6 +1,8 @@
 # Source code of Enterprise Content Management system
-Resources : WPF, WF, WCF
-.NET Framework 4.5 or later
-Database MS SQL Server 2012 or later
-Lucene search service
-Dapper
+- Client : WPF and ASP.NET MVC Web Application
+- Workflow: Window Workflow Foundation
+- Web Services API: WCF
+-.NET Framework 4.5 or later
+- Database MS SQL Server 2012 or later
+- Search Services: Lucene search service
+- Data Access: Dapper
