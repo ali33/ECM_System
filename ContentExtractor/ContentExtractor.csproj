@@ -96,27 +96,27 @@
   <ItemGroup>
     <Reference Include="cli_basetypes, Version=1.0.19.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ThirdParty\cli_basetypes.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\OpenOffice_4.1.15_SDK\sdk\cli\cli_basetypes.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="cli_cppuhelper, Version=1.0.22.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ThirdParty\cli_cppuhelper.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\OpenOffice_4.1.15_SDK\sdk\cli\cli_cppuhelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="cli_oootypes, Version=1.0.8.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ThirdParty\cli_oootypes.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\OpenOffice_4.1.15_SDK\sdk\cli\cli_oootypes.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="cli_ure, Version=1.0.22.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ThirdParty\cli_ure.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\OpenOffice_4.1.15_SDK\sdk\cli\cli_ure.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="cli_uretypes, Version=1.0.8.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ThirdParty\cli_uretypes.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\OpenOffice_4.1.15_SDK\sdk\cli\cli_uretypes.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
